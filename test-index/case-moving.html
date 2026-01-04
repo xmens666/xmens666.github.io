@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>案例展示 - 大力搬家 | ZenCode</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Noto Sans SC', 'sans-serif'],
+                    },
+                    colors: {
+                        'brand-blue': '#2563EB',
+                        'trust-navy': '#1E3A8A',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-800" x-data="{ lang: 'zh' }">
+
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <a href="../solutions.html" class="flex items-center gap-2 font-bold text-xl text-slate-900">
+                    <span class="text-blue-600">&larr;</span> ZenCode<span class="text-slate-400">.jp</span>
+                </a>
+                <div class="flex gap-4 text-sm font-medium">
+                    <a href="../solutions.html"
+                        class="px-4 py-2 bg-slate-900 text-white rounded-full text-xs transition hover:bg-slate-800">
+                        返回列表
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="relative pt-32 pb-20 overflow-hidden bg-slate-50 min-h-screen flex items-center">
+        <div class="absolute top-0 right-0 w-1/2 h-full bg-blue-50/50 skew-x-12 transform origin-top-right z-0"></div>
+        <div class="absolute bottom-20 left-20 w-32 h-32 border-4 border-blue-200 rounded-full opacity-50 z-0"></div>
+
+        <div
+            class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
+
+            <div class="space-y-8">
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-bold tracking-wider uppercase">
+                    LOGISTICS & TRANSPORT
+                </div>
+
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900 leading-tight flex flex-col gap-4">
+                    <span>告别微信反复扯皮</span>
+                    <span class="text-blue-600">标准化报价</span>才是信任的开始
+                </h1>
+
+                <p class="text-slate-500 text-lg leading-relaxed">
+                    **客户背景**：东京老牌华人搬家团队“大力搬家”。拥有5台卡车，但每天客服要在微信上花4小时回复“从新宿搬到上野多少钱？”这种重复问题。<br><br>
+                    **ZenCode 方案**：开发“自助估价+预约”系统。用户输入距离和楼层，系统按后台设定公式自动报价。同意价格后直接支付定金锁定档期。
+                </p>
+
+                <ul class="space-y-4 text-slate-600">
+                    <li class="flex items-center gap-3">
+                        <div
+                            class="w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xs">
+                            ✓</div>
+                        <span>客服工作量减少 <b>80%</b></span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <div
+                            class="w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xs">
+                            ✓</div>
+                        <span>空驶率降低，排班更满</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <div
+                            class="w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xs">
+                            ✓</div>
+                        <span>定金制度，杜绝客户临时鸽子</span>
+                    </li>
+                </ul>
+
+                <button
+                    class="px-8 py-3 rounded bg-slate-900 text-white font-bold hover:bg-blue-600 transition shadow-lg">
+                    为我的车队定制
+                </button>
+            </div>
+
+            <div class="relative flex justify-center lg:justify-end" x-data="{ step: 1, floor: 2, distance: 15 }">
+                <div
+                    class="relative w-[320px] h-[640px] bg-white rounded-[40px] border-[8px] border-slate-200 shadow-2xl overflow-hidden z-10">
+
+                    <div class="bg-blue-600 p-6 pt-12 text-white shadow-md z-20 relative">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="font-bold text-lg">大力搬家</span>
+                            <span class="text-xs bg-blue-500 px-2 py-1 rounded">东京全境</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs opacity-80">
+                            <div class="w-6 h-6 rounded-full border border-white flex items-center justify-center"
+                                :class="step >= 1 ? 'bg-white text-blue-600' : ''">1</div>
+                            <div class="h-px w-8 bg-white/50"></div>
+                            <div class="w-6 h-6 rounded-full border border-white flex items-center justify-center"
+                                :class="step >= 2 ? 'bg-white text-blue-600' : ''">2</div>
+                            <div class="h-px w-8 bg-white/50"></div>
+                            <div class="w-6 h-6 rounded-full border border-white flex items-center justify-center"
+                                :class="step >= 3 ? 'bg-white text-blue-600' : ''">3</div>
+                        </div>
+                    </div>
+
+                    <div x-show="step === 1" class="p-6 space-y-6 h-full bg-slate-50 transition"
+                        x-transition:enter="transition ease-out duration-300 transform"
+                        x-transition:enter-start="opacity-0 translate-x-10"
+                        x-transition:enter-end="opacity-100 translate-x-0">
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+                            <label class="text-xs text-slate-400 block mb-2 font-bold">从哪里搬？(出发地)</label>
+                            <div class="flex items-center gap-2 border-b border-slate-100 pb-2">
+                                <span class="text-green-500">●</span>
+                                <span class="text-slate-700 font-medium">新宿区高田马场 2-14</span>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+                            <label class="text-xs text-slate-400 block mb-2 font-bold">搬到哪里？(目的地)</label>
+                            <div class="flex items-center gap-2 border-b border-slate-100 pb-2">
+                                <span class="text-red-500">●</span>
+                                <span class="text-slate-700 font-medium">埼玉县川口市西川口</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-sm mb-2">
+                                <span class="text-slate-500">预估距离</span>
+                                <span class="font-bold text-blue-600" x-text="distance + ' km'"></span>
+                            </div>
+                            <input type="range" min="1" max="50" x-model="distance"
+                                class="w-full accent-blue-600 h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
+                        </div>
+
+                        <button @click="step = 2"
+                            class="w-full py-3 bg-blue-600 text-white rounded-lg font-bold shadow-lg shadow-blue-500/30 mt-8">下一步：物品信息</button>
+                    </div>
+
+                    <div x-show="step === 2" style="display: none;" class="p-6 space-y-6 h-full bg-slate-50"
+                        x-transition:enter="transition ease-out duration-300 transform"
+                        x-transition:enter-start="opacity-0 translate-x-10"
+                        x-transition:enter-end="opacity-100 translate-x-0">
+
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+                            <label class="text-xs text-slate-400 block mb-3 font-bold">楼层情况</label>
+                            <div class="flex justify-between gap-2">
+                                <button class="flex-1 py-2 border rounded-lg text-sm"
+                                    :class="floor===0 ? 'border-blue-500 bg-blue-50 text-blue-600' : 'border-slate-200'"
+                                    @click="floor=0">电梯</button>
+                                <button class="flex-1 py-2 border rounded-lg text-sm"
+                                    :class="floor===2 ? 'border-blue-500 bg-blue-50 text-blue-600' : 'border-slate-200'"
+                                    @click="floor=2">2楼无梯</button>
+                                <button class="flex-1 py-2 border rounded-lg text-sm"
+                                    :class="floor===3 ? 'border-blue-500 bg-blue-50 text-blue-600' : 'border-slate-200'"
+                                    @click="floor=3">3楼+</button>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+                            <label class="text-xs text-slate-400 block mb-3 font-bold">大型家电</label>
+                            <div class="space-y-3">
+                                <label class="flex items-center gap-3 p-2 hover:bg-slate-50 rounded cursor-pointer">
+                                    <input type="checkbox" class="w-4 h-4 accent-blue-600" checked>
+                                    <span class="text-sm">冰箱 (单门/双门)</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-2 hover:bg-slate-50 rounded cursor-pointer">
+                                    <input type="checkbox" class="w-4 h-4 accent-blue-600">
+                                    <span class="text-sm">洗衣机</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-2 hover:bg-slate-50 rounded cursor-pointer">
+                                    <input type="checkbox" class="w-4 h-4 accent-blue-600" checked>
+                                    <span class="text-sm">双人床 / 床垫</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3 mt-8">
+                            <button @click="step = 1"
+                                class="flex-1 py-3 bg-slate-200 text-slate-600 rounded-lg font-bold">上一步</button>
+                            <button @click="step = 3"
+                                class="flex-1 py-3 bg-blue-600 text-white rounded-lg font-bold shadow-lg shadow-blue-500/30">查看报价</button>
+                        </div>
+                    </div>
+
+                    <div x-show="step === 3" style="display: none;"
+                        class="p-6 h-full bg-slate-50 flex flex-col items-center justify-center text-center"
+                        x-transition:enter="transition ease-out duration-300 transform"
+                        x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100">
+
+                        <div
+                            class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-3xl mb-4">
+                            🚚
+                        </div>
+                        <h3 class="text-slate-500 text-sm mb-2">预估费用 (含高速费)</h3>
+                        <div class="text-4xl font-black text-slate-900 mb-8 tracking-tight">
+                            ¥<span x-text="15000 + (distance * 200) + (floor * 2000)"></span>
+                        </div>
+
+                        <div
+                            class="w-full bg-white rounded-xl p-4 text-left text-sm space-y-2 mb-8 border border-slate-100 shadow-sm">
+                            <div class="flex justify-between"><span
+                                    class="text-slate-400">基础出车费</span><span>¥15,000</span></div>
+                            <div class="flex justify-between"><span class="text-slate-400">距离费</span><span
+                                    x-text="'¥' + (distance * 200)"></span></div>
+                            <div class="flex justify-between"><span class="text-slate-400">楼层作业费</span><span
+                                    x-text="'¥' + (floor * 2000)"></span></div>
+                        </div>
+
+                        <button @click="alert('演示结束')"
+                            class="w-full py-4 bg-green-500 text-white rounded-xl font-bold shadow-xl shadow-green-500/30 animate-pulse">
+                            预约此价格
+                        </button>
+                        <button @click="step=1" class="text-slate-400 text-xs mt-4 underline">重新计算</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>

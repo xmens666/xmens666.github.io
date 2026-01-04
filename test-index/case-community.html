@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>案例展示 - 邻里邦 | ZenCode</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Noto+Sans+SC:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Nunito', 'Noto Sans SC', 'sans-serif'],
+                    },
+                    colors: {
+                        'pop-yellow': '#FFD23F',
+                        'pop-blue': '#3BCEAC',
+                        'pop-purple': '#540D6E',
+                        'pop-bg': '#F0F3FA',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+
+<body class="bg-pop-bg text-gray-800">
+
+    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between h-20 items-center">
+            <a href="../solutions.html" class="flex items-center gap-2 font-black text-xl tracking-tight text-pop-purple">
+                ZenCode<span class="text-pop-blue">.jp</span>
+            </a>
+            <button
+                class="px-4 py-2 bg-pop-purple text-white rounded-full font-bold text-xs shadow-lg shadow-pop-purple/30 hover:scale-105 transition">
+                Start Community
+            </button>
+        </div>
+    </nav>
+
+    <section class="relative pt-32 pb-20 overflow-hidden min-h-screen flex items-center">
+        <div class="absolute top-20 left-10 text-6xl animate-bounce" style="animation-duration: 3s">👋</div>
+        <div class="absolute bottom-20 right-20 text-6xl animate-bounce" style="animation-duration: 4s">🍜</div>
+        <div class="absolute top-1/3 right-10 text-4xl animate-bounce" style="animation-duration: 2.5s">🎸</div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center z-10">
+
+            <div class="space-y-8">
+                <div class="inline-flex gap-2">
+                    <span class="bg-pop-yellow px-3 py-1 rounded-full text-xs font-bold text-gray-800">Community</span>
+                    <span class="bg-pop-blue px-3 py-1 rounded-full text-xs font-bold text-white">Marketplace</span>
+                </div>
+
+                <h1 class="text-4xl md:text-6xl font-black text-gray-900 leading-tight flex flex-col gap-4">
+                    <span>把“老乡群”变成</span>
+                    <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-pop-purple to-pop-blue">高活跃生活平台</span>
+                </h1>
+
+                <p class="text-gray-500 text-lg leading-relaxed">
+                    **客户背景**：拥有50个500人微信群的“日本生活通”。群里虽然热闹，但广告满天飞，有价值的信息无法沉淀，变现只能靠发广告。<br><br>
+                    **ZenCode 方案**：打造社区+闲置交易APP。发帖求助有积分，闲置买卖有担保。让用户从“潜水党”变成“内容创作者”。
+                </p>
+
+                <div class="flex gap-4">
+                    <div class="flex -space-x-4">
+                        <img class="w-10 h-10 rounded-full border-2 border-white" src="https://i.pravatar.cc/100?img=1"
+                            alt="">
+                        <img class="w-10 h-10 rounded-full border-2 border-white" src="https://i.pravatar.cc/100?img=2"
+                            alt="">
+                        <img class="w-10 h-10 rounded-full border-2 border-white" src="https://i.pravatar.cc/100?img=3"
+                            alt="">
+                        <div
+                            class="w-10 h-10 rounded-full border-2 border-white bg-gray-200 flex items-center justify-center text-xs font-bold text-gray-500">
+                            +2k</div>
+                    </div>
+                    <div class="flex items-center text-sm font-bold text-gray-600">
+                        日活用户
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative flex justify-center lg:justify-end">
+                <div
+                    class="relative w-[320px] h-[640px] bg-gray-50 rounded-[40px] border-[8px] border-white shadow-[0_20px_60px_-15px_rgba(84,13,110,0.3)] overflow-hidden z-10 flex flex-col">
+
+                    <div class="px-4 pt-10 pb-2 bg-white sticky top-0 z-20 shadow-sm">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="font-black text-xl text-gray-800">邻里邦</h2>
+                            <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">🔔</div>
+                        </div>
+                        <div class="flex gap-4 text-sm font-bold text-gray-400">
+                            <span class="text-pop-purple border-b-2 border-pop-purple pb-1">推荐</span>
+                            <span>二手</span>
+                            <span>求职</span>
+                            <span>房产</span>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 overflow-y-auto p-3 space-y-3 no-scrollbar">
+
+                        <div class="bg-white p-3 rounded-2xl shadow-sm">
+                            <div class="flex gap-3 mb-2">
+                                <img src="https://i.pravatar.cc/100?img=5" class="w-8 h-8 rounded-full">
+                                <div>
+                                    <div class="text-xs font-bold">东京小林</div>
+                                    <div class="text-[10px] text-gray-400">10分钟前 · 新宿区</div>
+                                </div>
+                            </div>
+                            <p class="text-sm font-bold mb-2">回国出闲置！PS5 99新 带两个手柄🎮</p>
+                            <div class="rounded-xl overflow-hidden h-32 bg-gray-200 mb-2 relative">
+                                <img src="https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?q=80&w=400&auto=format&fit=crop"
+                                    class="w-full h-full object-cover">
+                                <div
+                                    class="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded font-bold">
+                                    ¥45,000</div>
+                            </div>
+                            <div class="flex justify-between items-center text-gray-500 text-xs">
+                                <span>🔥 23人想要</span>
+                                <button class="bg-pop-yellow text-black px-3 py-1 rounded-full font-bold">我想要</button>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-3 rounded-2xl shadow-sm border-l-4 border-pop-blue">
+                            <div class="flex gap-2 items-center mb-2">
+                                <span
+                                    class="bg-blue-100 text-pop-blue text-[10px] font-bold px-2 py-0.5 rounded">求助</span>
+                                <span class="text-xs font-bold text-gray-700">有人知道这就诊卡怎么填吗？</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mb-2">第一次去日本医院，日语不太好，求大神指点...</p>
+                            <div class="flex gap-2 mt-2">
+                                <div class="bg-gray-50 px-2 py-1 rounded text-[10px] text-gray-500">💬 12 评论</div>
+                                <div class="bg-gray-50 px-2 py-1 rounded text-[10px] text-gray-500">👍 5 赞</div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="bg-gradient-to-r from-pop-purple to-indigo-600 p-3 rounded-2xl shadow-sm text-white">
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="text-xs font-bold opacity-80">高薪招聘</div>
+                                <span class="bg-white/20 px-2 py-0.5 rounded text-[10px]">急招</span>
+                            </div>
+                            <h3 class="font-bold text-lg mb-1">池袋中华物产店 店长候补</h3>
+                            <div class="text-2xl font-black mb-2">35万<span
+                                    class="text-xs font-normal opacity-80">/月+提成</span></div>
+                            <div class="flex gap-2">
+                                <span class="text-[10px] bg-white/10 px-2 py-1 rounded">签证支援</span>
+                                <span class="text-[10px] bg-white/10 px-2 py-1 rounded">交通费全包</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2">
+                        <button
+                            class="bg-black text-white px-6 py-3 rounded-full shadow-xl font-bold flex items-center gap-2 hover:scale-105 transition">
+                            <span class="text-xl">+</span> 发布
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+
+</html>

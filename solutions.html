@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>行业解决方案库 - ZenCode</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Outfit:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Noto Sans SC', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        'brand-black': '#0a0a0a', // 更深邃的黑
+                        'card-dark': '#121212',   // 卡片背景色
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+
+        /* 隐藏滚动条 */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Glass Morphism Nav Buttons */
+        .glass-nav-btn {
+            padding: 0.4em 0.9em;
+            font-size: 13px;
+            font-weight: 500;
+            border-radius: 8px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .glass-nav-green { background: rgba(0, 255, 163, 0.1); color: #00FFA3; }
+        .glass-nav-green:hover { background: rgba(0, 255, 163, 0.25); box-shadow: 0 0 20px rgba(0, 255, 163, 0.3); border-color: rgba(0, 255, 163, 0.4); }
+        .glass-nav-blue { background: rgba(0, 194, 255, 0.1); color: #00C2FF; }
+        .glass-nav-blue:hover { background: rgba(0, 194, 255, 0.25); box-shadow: 0 0 20px rgba(0, 194, 255, 0.3); border-color: rgba(0, 194, 255, 0.4); }
+        .glass-nav-purple { background: rgba(189, 0, 255, 0.1); color: #BD00FF; }
+        .glass-nav-purple:hover { background: rgba(189, 0, 255, 0.25); box-shadow: 0 0 20px rgba(189, 0, 255, 0.3); border-color: rgba(189, 0, 255, 0.4); }
+        .glass-nav-orange { background: rgba(255, 107, 0, 0.1); color: #FF6B00; }
+        .glass-nav-orange:hover { background: rgba(255, 107, 0, 0.25); box-shadow: 0 0 20px rgba(255, 107, 0, 0.3); border-color: rgba(255, 107, 0, 0.4); }
+        .glass-nav-pink { background: rgba(255, 0, 128, 0.1); color: #FF0080; }
+        .glass-nav-pink:hover { background: rgba(255, 0, 128, 0.25); box-shadow: 0 0 20px rgba(255, 0, 128, 0.3); border-color: rgba(255, 0, 128, 0.4); }
+    </style>
+</head>
+
+<body class="bg-brand-black text-slate-200 selection:bg-blue-500 selection:text-white" x-data="{ 
+        lang: 'zh', 
+        filter: 'all',
+        cases: [
+            { 
+                id: 1, 
+                title: '蜀味·私厨', 
+                cat: 'food', 
+                desc: '扫码点餐、外卖配送范围自动计算、会员储值系统。', 
+                url: 'test-index/case-restaurant.html', 
+                icon: '🍜',
+                // 颜色配置：橙色
+                styles: {
+                    border: 'hover:border-orange-500/50',
+                    iconBg: 'bg-orange-500/10',
+                    iconText: 'text-orange-500',
+                    iconHoverBg: 'group-hover:bg-orange-500',
+                    text: 'text-orange-500'
+                }
+            },
+            { 
+                id: 2, 
+                title: '大力搬家', 
+                cat: 'service', 
+                desc: '自动距离估价、楼层费用计算、预约排期管理。', 
+                url: 'test-index/case-moving.html', 
+                icon: '🚚',
+                // 颜色配置：蓝色
+                styles: {
+                    border: 'hover:border-blue-500/50',
+                    iconBg: 'bg-blue-500/10',
+                    iconText: 'text-blue-500',
+                    iconHoverBg: 'group-hover:bg-blue-500',
+                    text: 'text-blue-500'
+                }
+            },
+            { 
+                id: 3, 
+                title: '樱花优选', 
+                cat: 'retail', 
+                desc: '跨境电商系统、秒杀倒计时、实时汇率计算。', 
+                url: 'test-index/case-beauty.html', 
+                icon: '🛍️',
+                // 颜色配置：粉色
+                styles: {
+                    border: 'hover:border-pink-500/50',
+                    iconBg: 'bg-pink-500/10',
+                    iconText: 'text-pink-500',
+                    iconHoverBg: 'group-hover:bg-pink-500',
+                    text: 'text-pink-500'
+                }
+            },
+            { 
+                id: 4, 
+                title: '富士行', 
+                cat: 'service', 
+                desc: '行程定制拖拽、高端车型360°展示、多语言切换。', 
+                url: 'test-index/case-travel.html', 
+                icon: '🗻',
+                // 颜色配置：金色/黄色
+                styles: {
+                    border: 'hover:border-yellow-500/50',
+                    iconBg: 'bg-yellow-500/10',
+                    iconText: 'text-yellow-500',
+                    iconHoverBg: 'group-hover:bg-yellow-500',
+                    text: 'text-yellow-500'
+                }
+            },
+            { 
+                id: 5, 
+                title: '安居东京', 
+                cat: 'pro', 
+                desc: '地图找房功能、VR看房集成、条件筛选匹配。', 
+                url: 'test-index/case-realestate.html', 
+                icon: '🏢',
+                // 颜色配置：靛蓝
+                styles: {
+                    border: 'hover:border-indigo-500/50',
+                    iconBg: 'bg-indigo-500/10',
+                    iconText: 'text-indigo-500',
+                    iconHoverBg: 'group-hover:bg-indigo-500',
+                    text: 'text-indigo-500'
+                }
+            },
+            { 
+                id: 6, 
+                title: '极速车行', 
+                cat: 'retail', 
+                desc: '贷款计算器、实时库存同步、车况透明公示。', 
+                url: 'test-index/case-cars.html', 
+                icon: '🏎️',
+                // 颜色配置：荧光绿
+                styles: {
+                    border: 'hover:border-green-400/50',
+                    iconBg: 'bg-green-400/10',
+                    iconText: 'text-green-400',
+                    iconHoverBg: 'group-hover:bg-green-400',
+                    text: 'text-green-400'
+                }
+            },
+            { 
+                id: 7, 
+                title: 'NaLi Beauty', 
+                cat: 'service', 
+                desc: '画廊式选款、技师排班预约、会员管理系统。', 
+                url: 'test-index/case-beauty.html', 
+                icon: '💅',
+                // 颜色配置：玫瑰红
+                styles: {
+                    border: 'hover:border-rose-400/50',
+                    iconBg: 'bg-rose-400/10',
+                    iconText: 'text-rose-400',
+                    iconHoverBg: 'group-hover:bg-rose-400',
+                    text: 'text-rose-400'
+                }
+            },
+            { 
+                id: 8, 
+                title: '快修哥', 
+                cat: 'tech', 
+                desc: '维修进度实时追踪、故障代码自查、透明报价。', 
+                url: 'test-index/case-repair.html', 
+                icon: '🔧',
+                // 颜色配置：翠绿
+                styles: {
+                    border: 'hover:border-emerald-400/50',
+                    iconBg: 'bg-emerald-400/10',
+                    iconText: 'text-emerald-400',
+                    iconHoverBg: 'group-hover:bg-emerald-400',
+                    text: 'text-emerald-400'
+                }
+            },
+            { 
+                id: 9, 
+                title: '稳拿法务', 
+                cat: 'pro', 
+                desc: '签证成功率评估、办案流程可视化、资料云存储。', 
+                url: 'test-index/case-legal.html', 
+                icon: '⚖️',
+                // 颜色配置：灰色/银色
+                styles: {
+                    border: 'hover:border-slate-300/50',
+                    iconBg: 'bg-slate-300/10',
+                    iconText: 'text-slate-300',
+                    iconHoverBg: 'group-hover:bg-slate-300',
+                    text: 'text-slate-300'
+                }
+            },
+            { 
+                id: 10, 
+                title: '邻里邦', 
+                cat: 'tech', 
+                desc: '闲置物品交易、招聘求职版块、社区论坛功能。', 
+                url: 'test-index/case-community.html', 
+                icon: '💬',
+                // 颜色配置：紫色
+                styles: {
+                    border: 'hover:border-purple-500/50',
+                    iconBg: 'bg-purple-500/10',
+                    iconText: 'text-purple-500',
+                    iconHoverBg: 'group-hover:bg-purple-500',
+                    text: 'text-purple-500'
+                }
+            }
+        ]
+    }">
+
+    <nav
+        class="fixed w-full z-50 bg-brand-black/90 backdrop-blur-md border-b border-white/5 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <a href="index.html" class="flex items-center gap-2 group">
+                    <span class="text-blue-500 font-bold text-2xl font-heading tracking-tight">&lt;</span>
+                    <span
+                        class="text-white font-bold text-2xl font-heading tracking-tight group-hover:text-blue-500 transition">ZenCode</span>
+                    <span class="text-white/30 font-light">.jp</span>
+                </a>
+
+                <div class="hidden md:flex items-center gap-2">
+                    <a href="pricing.html" class="glass-nav-btn glass-nav-green">服务定价</a>
+                    <a href="techstack.html" class="glass-nav-btn glass-nav-blue">技术栈</a>
+                    <a href="cases.html" class="glass-nav-btn glass-nav-purple">成功案例</a>
+                    <a href="experience/experience.html" class="glass-nav-btn glass-nav-orange">小程序演示</a>
+                    <a href="about.html" class="glass-nav-btn glass-nav-pink">关于我们</a>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <a href="index.html#contact"
+                        class="bg-white text-black px-5 py-2 rounded-full font-bold text-sm hover:bg-slate-200 transition">
+                        联系我们
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="relative pt-40 pb-20 px-4 text-center overflow-hidden">
+        <div
+            class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-blue-900/20 rounded-full blur-[120px] pointer-events-none">
+        </div>
+
+        <div class="relative z-10 max-w-4xl mx-auto">
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 font-heading tracking-tight flex flex-col gap-4">
+                <span>拒绝“通用模板”</span>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+                    为每个行业注入数字灵魂
+                </span>
+            </h1>
+            <p class="text-slate-400 max-w-2xl mx-auto text-lg font-light leading-relaxed">
+                我们深入研究不同行业的商业逻辑，从餐饮的翻台率到车行的库存周转。<br>
+                ZenCode 提供的不仅仅是软件，而是经过验证的行业盈利模型。
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-32">
+
+        <div class="flex flex-wrap justify-center gap-3 mb-16">
+            <button @click="filter = 'all'"
+                :class="filter === 'all' ? 'bg-white text-black' : 'bg-white/5 text-slate-400 hover:bg-white/10'"
+                class="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 border border-white/5">
+                All
+            </button>
+            <button @click="filter = 'food'"
+                :class="filter === 'food' ? 'bg-orange-500 text-white' : 'bg-white/5 text-slate-400 hover:text-orange-500 hover:bg-orange-500/10'"
+                class="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 border border-white/5">
+                餐饮美食
+            </button>
+            <button @click="filter = 'retail'"
+                :class="filter === 'retail' ? 'bg-pink-500 text-white' : 'bg-white/5 text-slate-400 hover:text-pink-500 hover:bg-pink-500/10'"
+                class="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 border border-white/5">
+                零售电商
+            </button>
+            <button @click="filter = 'service'"
+                :class="filter === 'service' ? 'bg-blue-500 text-white' : 'bg-white/5 text-slate-400 hover:text-blue-500 hover:bg-blue-500/10'"
+                class="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 border border-white/5">
+                生活服务
+            </button>
+            <button @click="filter = 'pro'"
+                :class="filter === 'pro' ? 'bg-indigo-500 text-white' : 'bg-white/5 text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10'"
+                class="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 border border-white/5">
+                专业咨询
+            </button>
+            <button @click="filter = 'tech'"
+                :class="filter === 'tech' ? 'bg-emerald-500 text-white' : 'bg-white/5 text-slate-400 hover:text-emerald-500 hover:bg-emerald-500/10'"
+                class="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 border border-white/5">
+                平台技术
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <template x-for="item in cases" :key="item.id">
+                <a :href="item.url" x-show="filter === 'all' || filter === item.cat"
+                    x-transition:enter="transition ease-out duration-500"
+                    x-transition:enter-start="opacity-0 transform scale-95"
+                    x-transition:enter-end="opacity-100 transform scale-100"
+                    class="group block bg-card-dark border border-white/5 rounded-2xl p-8 transition duration-500 hover:-translate-y-1"
+                    :class="item.styles.border">
+
+                    <div class="w-14 h-14 rounded-xl flex items-center justify-center text-2xl mb-6 transition duration-300 border border-white/5"
+                        :class="[item.styles.iconBg, item.styles.iconText, item.styles.iconHoverBg, 'group-hover:text-white']">
+                        <span x-text="item.icon"></span>
+                    </div>
+
+                    <h3 class="text-xl font-bold text-white mb-3" x-text="item.title"></h3>
+                    <p class="text-slate-400 text-sm mb-6 leading-relaxed" x-text="item.desc"></p>
+
+                    <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider opacity-80 group-hover:opacity-100 transition transform group-hover:translate-x-2"
+                        :class="item.styles.text">
+                        <span>查看案例</span>
+                        <span class="text-lg leading-none">&rarr;</span>
+                    </div>
+                </a>
+            </template>
+        </div>
+
+        <div
+            class="mt-24 bg-card-dark border border-white/10 rounded-2xl p-10 text-center relative overflow-hidden group">
+            <div
+                class="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-blue-600/10 opacity-0 group-hover:opacity-100 transition duration-700">
+            </div>
+
+            <div class="relative z-10">
+                <h2 class="text-2xl font-bold text-white mb-4">没找到您的行业？</h2>
+                <p class="text-slate-400 mb-8 max-w-lg mx-auto">
+                    别担心，我们擅长定制开发。告诉我们您的需求，我们为您量身打造第 11 个成功案例。
+                </p>
+                <a href="index.html#contact"
+                    class="inline-block px-8 py-3 bg-white text-black font-bold rounded hover:bg-slate-200 transition shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                    预约免费咨询
+                </a>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="py-8 bg-brand-black border-t border-white/5 text-center text-xs text-slate-600">
+        &copy; 2026 ZenCode.jp All Rights Reserved.
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>案例展示 - 安居东京 | ZenCode</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Noto Sans SC', 'sans-serif'] },
+                    colors: {
+                        'corp-blue': '#3B82F6',
+                        'corp-dark': '#1E293B',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+
+<body class="bg-white text-slate-800" x-data="{ view: 'map' }">
+
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between h-20 items-center">
+            <a href="../solutions.html" class="flex items-center gap-2 font-bold text-xl text-slate-900">
+                <span class="text-indigo-600">&larr;</span> ZenCode<span class="text-slate-400">.jp</span>
+            </a>
+            <a href="../solutions.html"
+                class="px-4 py-2 bg-slate-100 text-slate-600 hover:bg-slate-200 rounded-lg text-xs font-bold transition">返回案例库</a>
+        </div>
+    </nav>
+
+    <section class="relative pt-32 pb-20 overflow-hidden">
+        <div class="absolute bottom-0 left-0 right-0 h-64 bg-slate-50 clip-path-polygon opacity-50 z-0"></div>
+        <div class="absolute top-20 right-20 w-96 h-96 bg-indigo-100 rounded-full blur-3xl opacity-50"></div>
+
+        <div
+            class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center z-10 relative">
+
+            <div class="space-y-8">
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 border border-indigo-100 text-indigo-600 rounded text-xs font-bold tracking-wider uppercase">
+                    REAL ESTATE TECH
+                </div>
+
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900 leading-tight flex flex-col gap-4">
+                    <span>房源信息多而不乱</span>
+                    <span class="text-indigo-600">地图找房</span>让成交快人一步
+                </h1>
+
+                <p class="text-slate-500 text-lg leading-relaxed">
+                    **客户背景**：不动产中介“安居东京”。手握大量房源，但还在用微信发长图。客户想找“离高田马场车站徒步10分钟内”的房子，销售找房找半天，客户体验差。<br><br>
+                    **ZenCode 方案**：开发地图找房APP。集成 Google Maps API，支持“画圈找房”、“条件筛选（南向/宠物/二楼以上）”。支持 VR 看房链接跳转。
+                </p>
+
+                <div class="bg-slate-50 rounded-xl p-6 border border-slate-200">
+                    <h4 class="font-bold text-slate-700 mb-4 flex items-center gap-2">
+                        <span class="w-2 h-2 bg-indigo-500 rounded-full"></span> 核心功能展示
+                    </h4>
+                    <ul class="space-y-3 text-sm text-slate-600">
+                        <li class="flex justify-between border-b border-slate-200 pb-2">
+                            <span>🗺️ 地图可视化</span>
+                            <span class="text-indigo-600 font-bold">定位精准</span>
+                        </li>
+                        <li class="flex justify-between border-b border-slate-200 pb-2">
+                            <span>🕶️ VR / 视频看房</span>
+                            <span class="text-indigo-600 font-bold">沉浸体验</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span>🤖 CRM 客户管理</span>
+                            <span class="text-indigo-600 font-bold">需求自动匹配</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="relative flex justify-center lg:justify-end">
+                <div
+                    class="relative w-[320px] h-[640px] bg-white rounded-[40px] border-[8px] border-slate-800 shadow-2xl overflow-hidden z-10 flex flex-col">
+
+                    <div
+                        class="absolute top-0 left-0 w-full z-30 pt-10 px-4 bg-gradient-to-b from-white/90 to-transparent pb-4">
+                        <div class="bg-white shadow-lg rounded-lg flex items-center p-2 border border-slate-100">
+                            <span class="text-slate-400 pl-2">🔍</span>
+                            <input type="text" placeholder="输入车站名、地名..."
+                                class="w-full text-xs p-2 outline-none text-slate-700">
+                        </div>
+                        <div class="flex gap-2 mt-2 overflow-x-auto no-scrollbar">
+                            <button
+                                class="bg-indigo-600 text-white text-[10px] px-3 py-1 rounded-full whitespace-nowrap shadow-md">1R/1K</button>
+                            <button
+                                class="bg-white text-slate-600 text-[10px] px-3 py-1 rounded-full whitespace-nowrap shadow border border-slate-100">租金↓</button>
+                            <button
+                                class="bg-white text-slate-600 text-[10px] px-3 py-1 rounded-full whitespace-nowrap shadow border border-slate-100">离车站近</button>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 bg-slate-100 relative overflow-hidden group">
+                        <div
+                            class="absolute inset-0 bg-slate-200 opacity-50 grid grid-cols-6 grid-rows-12 gap-1 pointer-events-none">
+                            <div class="col-span-1 row-span-2 bg-white"></div>
+                            <div class="col-span-2 row-span-1 bg-white ml-4"></div>
+                        </div>
+                        <div class="absolute top-1/2 left-0 w-full h-4 bg-white transform -rotate-12"></div>
+                        <div class="absolute top-0 left-1/3 h-full w-3 bg-white"></div>
+
+                        <div
+                            class="absolute top-1/3 left-1/4 animate-bounce hover:scale-110 transition cursor-pointer z-10">
+                            <div
+                                class="bg-indigo-600 text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg border border-white">
+                                8.5万
+                                <div
+                                    class="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-indigo-600 rotate-45">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="absolute bottom-1/3 right-1/3 hover:scale-110 transition cursor-pointer z-10">
+                            <div
+                                class="bg-slate-700 text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg border border-white opacity-80">
+                                12.8万
+                                <div
+                                    class="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-slate-700 rotate-45">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="absolute top-1/4 right-10 hover:scale-110 transition cursor-pointer z-10">
+                            <div
+                                class="bg-slate-700 text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg border border-white opacity-80">
+                                7.2万
+                                <div
+                                    class="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-slate-700 rotate-45">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="absolute bottom-0 w-full bg-white rounded-t-2xl shadow-[0_-5px_20px_rgba(0,0,0,0.1)] p-4 z-40 transition-transform duration-300">
+                        <div class="w-10 h-1 bg-slate-200 rounded-full mx-auto mb-3"></div>
+
+                        <div class="flex gap-3">
+                            <div class="w-24 h-24 bg-slate-200 rounded-lg shrink-0 overflow-hidden relative">
+                                <span
+                                    class="absolute top-0 left-0 bg-indigo-600 text-white text-[8px] px-1.5 py-0.5">VR看房</span>
+                                <div
+                                    class="absolute inset-0 flex items-center justify-center text-[8px] text-slate-400">
+                                    室内图</div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-bold text-slate-800 text-sm mb-1">新宿 Grand Tower 20F</h3>
+                                <p class="text-xs text-slate-500 mb-2">山手线 新宿站 徒步5分</p>
+                                <div class="flex flex-wrap gap-1 mb-2">
+                                    <span class="text-[8px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">南向</span>
+                                    <span class="text-[8px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">电梯</span>
+                                    <span
+                                        class="text-[8px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">宠物可</span>
+                                </div>
+                                <div class="flex justify-between items-end">
+                                    <div class="text-indigo-600 font-bold text-lg">8.5<span class="text-xs">万/月</span>
+                                    </div>
+                                    <button
+                                        class="bg-indigo-50 text-indigo-600 text-xs px-3 py-1.5 rounded font-bold">详情</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-white border-t border-slate-100 py-3 px-6 flex justify-between text-[10px] text-slate-400 z-50">
+                        <div class="flex flex-col items-center text-indigo-600">
+                            <span class="text-lg">🗺️</span>
+                            <span>找房</span>
+                        </div>
+                        <div class="flex flex-col items-center hover:text-indigo-600">
+                            <span class="text-lg">❤️</span>
+                            <span>收藏</span>
+                        </div>
+                        <div class="flex flex-col items-center hover:text-indigo-600">
+                            <span class="text-lg">💬</span>
+                            <span>消息</span>
+                        </div>
+                        <div class="flex flex-col items-center hover:text-indigo-600">
+                            <span class="text-lg">👤</span>
+                            <span>我的</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+
+</html>

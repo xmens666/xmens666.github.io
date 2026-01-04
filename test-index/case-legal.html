@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>案例展示 - 稳拿法务 | ZenCode</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Noto Sans SC', 'sans-serif'],
+                        serif: ['Noto Serif SC', 'serif'],
+                    },
+                    colors: {
+                        'legal-navy': '#0f172a',
+                        'legal-paper': '#f8f5f2',
+                        'legal-gold': '#b49b67',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* 模拟公章效果 */
+        .stamp-box {
+            border: 3px solid #b91c1c;
+            color: #b91c1c;
+            mask-image: url('https://www.transparenttextures.com/patterns/dust.png');
+        }
+    </style>
+</head>
+
+<body class="bg-legal-paper text-legal-navy" x-data="{ step: 1 }">
+
+    <nav class="fixed w-full z-50 bg-legal-paper/95 border-b border-legal-navy/10 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between h-20 items-center">
+            <a href="../solutions.html" class="flex items-center gap-2 font-serif font-bold text-xl text-legal-navy">
+                <span
+                    class="w-8 h-8 bg-legal-navy text-legal-paper flex items-center justify-center rounded-sm text-sm">法</span>
+                ZenCode<span class="text-legal-navy/50 font-sans font-normal text-sm">.jp</span>
+            </a>
+            <a href="../solutions.html"
+                class="text-legal-navy font-serif text-sm border-b border-legal-navy pb-0.5 hover:opacity-70 transition">返回案例库</a>
+        </div>
+    </nav>
+
+    <section class="relative pt-32 pb-20 overflow-hidden min-h-screen flex items-center">
+        <div
+            class="absolute top-0 right-0 w-1/3 h-full opacity-5 overflow-hidden pointer-events-none font-serif text-xs leading-loose select-none">
+            第四条 行政書士は、正当な理由がなく、その業務上取り扱つた事項について知り得た秘密を漏らしてはならない。行政書士でなくなつた後も、また同様とする。<br><br>
+            第一条 この法律は、行政書士の制度を定め、その業務の適正を図ることにより、行政に関する手続の円滑な実施に寄与し、あわせて国民の利便に資することを目的とする。
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center z-10">
+
+            <div class="space-y-10">
+                <div class="flex items-center gap-4">
+                    <div class="h-px w-12 bg-legal-navy"></div>
+                    <span class="text-legal-navy font-serif font-bold tracking-widest text-sm">LEGAL SERVICE</span>
+                </div>
+
+                <h1 class="text-4xl md:text-5xl font-serif font-black text-legal-navy leading-tight flex flex-col gap-4">
+                    <span>用数据与专业</span>
+                    <span class="text-legal-gold">量化您的签证许可率</span>
+                </h1>
+
+                <p class="text-slate-600 text-lg leading-relaxed font-light text-justify">
+                    **客户背景**：新宿某行政书士事务所。业务主要是经营管理签证。客户经常问“我这个条件能下签吗？”。传统方式是靠书士凭经验口头说，缺乏说服力。<br><br>
+                    **ZenCode 方案**：开发签证AI评估系统。内置入管局审查基准逻辑，用户输入学历、资金、经历，系统自动生成《许可概率评估报告书》，专业度瞬间拉满。
+                </p>
+
+                <div class="border-t border-b border-legal-navy/10 py-6 grid grid-cols-2 gap-8">
+                    <div>
+                        <div class="text-3xl font-serif font-bold text-legal-navy mb-1">98.5%</div>
+                        <div class="text-xs text-slate-500 uppercase tracking-widest">Client Satisfaction</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-serif font-bold text-legal-navy mb-1">24h</div>
+                        <div class="text-xs text-slate-500 uppercase tracking-widest">Document Delivery</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative flex justify-center lg:justify-end">
+                <div
+                    class="relative w-[320px] h-[640px] bg-white rounded-[2px] border border-gray-200 shadow-[0_20px_40px_rgba(0,0,0,0.1)] overflow-hidden z-10 flex flex-col">
+
+                    <div class="bg-legal-navy text-white p-6 pt-10 text-center">
+                        <div
+                            class="w-10 h-10 border-2 border-white rounded-full mx-auto mb-2 flex items-center justify-center font-serif text-lg">
+                            ⚖️</div>
+                        <h2 class="font-serif text-lg tracking-widest">稳拿法务</h2>
+                        <p class="text-[10px] opacity-70 mt-1 uppercase">Immigration Lawyer Office</p>
+                    </div>
+
+                    <div class="flex-1 bg-white p-6 relative">
+                        <div
+                            class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')] opacity-50 pointer-events-none">
+                        </div>
+
+                        <div class="relative z-10">
+
+                            <div class="text-center mb-6">
+                                <h3 class="font-serif font-bold text-lg border-b-2 border-legal-navy inline-block pb-1">
+                                    签证资格简易评估</h3>
+                                <p class="text-[10px] text-gray-500 mt-2">Evaluation Form v2.0</p>
+                            </div>
+
+                            <div x-show="step === 1" class="space-y-4">
+                                <div>
+                                    <label
+                                        class="block text-xs font-bold text-legal-navy mb-1 font-serif">申请签证类型</label>
+                                    <select
+                                        class="w-full border-b border-gray-300 py-2 text-sm bg-transparent outline-none rounded-none">
+                                        <option>经营管理签证 (Business)</option>
+                                        <option>高度人才签证 (HSP)</option>
+                                        <option>永住许可 (PR)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-legal-navy mb-1 font-serif">资本金准备
+                                        (万円)</label>
+                                    <input type="number" placeholder="500"
+                                        class="w-full border-b border-gray-300 py-2 text-sm bg-transparent outline-none">
+                                </div>
+                                <button @click="step = 2"
+                                    class="w-full bg-legal-navy text-white font-serif py-3 mt-8 hover:bg-legal-navy/90 transition">
+                                    下一步 / Next
+                                </button>
+                            </div>
+
+                            <div x-show="step === 2" style="display: none;" class="text-center pt-4">
+                                <div class="text-xs text-gray-500 mb-2 font-serif">根据目前数据评估，您的许可概率为：</div>
+
+                                <div class="relative w-32 h-32 mx-auto mb-6 flex items-center justify-center">
+                                    <svg class="w-full h-full transform -rotate-90">
+                                        <circle cx="64" cy="64" r="60" stroke="#f3f4f6" stroke-width="8"
+                                            fill="transparent" />
+                                        <circle cx="64" cy="64" r="60" stroke="#b49b67" stroke-width="8"
+                                            fill="transparent" stroke-dasharray="377" stroke-dashoffset="30"
+                                            stroke-linecap="round" />
+                                    </svg>
+                                    <div
+                                        class="absolute inset-0 flex items-center justify-center text-3xl font-serif font-bold text-legal-navy">
+                                        A<span class="text-sm align-top">+</span>
+                                    </div>
+                                </div>
+
+                                <div class="bg-gray-50 p-4 text-left border border-gray-200 mb-6">
+                                    <h4 class="font-bold text-xs mb-2">专家建议：</h4>
+                                    <p class="text-[10px] text-gray-600 leading-relaxed">
+                                        您的资本金充足，办公场所条件符合要求。建议重点完善《事业计划书》中关于第3年黑字化的预测数据。
+                                    </p>
+                                </div>
+
+                                <div
+                                    class="absolute bottom-20 right-0 transform rotate-[-20deg] opacity-0 animate-[fade-in_0.5s_ease-out_0.5s_forwards]">
+                                    <div
+                                        class="stamp-box w-24 h-24 rounded-full flex items-center justify-center text-xs font-bold border-4 border-red-700 text-red-700">
+                                        <div class="text-center leading-tight">
+                                            评估<br>合格<br>稳拿
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button @click="step = 1" class="text-xs underline text-gray-400">重新评估</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+
+</html>

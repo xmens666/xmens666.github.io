@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZenCode - Visual Lab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        html,
+        body {
+            overflow-x: hidden;
+            width: 100%;
+            min-height: 100vh;
+            background: #0f1011;
+            /* 稍微深一点的背景，更显高级 */
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Back Button Style */
+        .back-btn {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            z-index: 50;
+            color: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 24px;
+            border-radius: 99px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.2);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateX(5px);
+        }
+
+        #wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #canvas {
+            z-index: 1;
+        }
+
+        #canvasbg {
+            z-index: -10;
+            filter: blur(3px);
+            opacity: 0.6;
+        }
+
+        .content-layer {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+        }
+
+        .card {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Tech Text Style */
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+    </style>
+</head>
+
+<body>
+
+    <a href="index.html" class="back-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5" />
+            <path d="M12 19l-7-7 7-7" />
+        </svg>
+        Back to Home
+    </a>
+
+    <div id="wrapper">
+        <canvas id="canvas"></canvas>
+        <canvas id="canvasbg"></canvas>
+    </div>
+
+    <div class="content-layer min-h-screen flex flex-col items-center justify-center p-8 py-24">
+        <div class="max-w-7xl w-full">
+            <div class="mb-20 text-center">
+                <div
+                    class="inline-block px-3 py-1 mb-4 border border-blue-500/30 rounded-full text-xs font-mono text-blue-400 tracking-[0.2em] uppercase bg-blue-900/10 backdrop-blur-sm">
+                    Visual Lab v2.0
+                </div>
+                <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 drop-shadow-2xl tracking-tight">
+                    Visual Experiments
+                </h1>
+                <p class="text-neutral-400 text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed">
+                    探索代码与美学的边界。<br>
+                    <span class="text-sm opacity-60">Exploring the boundaries of code and aesthetics.</span>
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <a href="zencode-demo.html"
+                    class="card group relative h-96 rounded-[2rem] overflow-hidden cursor-pointer block">
+                    <div
+                        class="absolute inset-0 flex items-center justify-center opacity-40 group-hover:opacity-100 transition duration-700">
+                        <div class="w-40 h-40 bg-blue-600 blur-[100px] rounded-full group-hover:bg-blue-500"></div>
+                    </div>
+                    <div class="absolute bottom-0 left-0 p-10 w-full">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_10px_#60a5fa]"></span>
+                            <span class="text-xs font-mono text-blue-300 uppercase tracking-widest">Core Identity</span>
+                        </div>
+                        <h2 class="text-3xl font-bold text-white mb-2">ZenCode Origin</h2>
+                        <p class="text-neutral-400 text-sm">粒子重组与品牌交互。<br>Interactive Particle System.</p>
+                    </div>
+                </a>
+
+                <a href="matrix.html"
+                    class="card group relative h-96 rounded-[2rem] overflow-hidden cursor-pointer block">
+                    <div
+                        class="absolute inset-0 flex items-center justify-center opacity-30 group-hover:opacity-80 transition duration-700">
+                        <div class="w-full h-full bg-gradient-to-t from-green-900/40 to-transparent"></div>
+                    </div>
+                    <div class="absolute bottom-0 left-0 p-10 w-full">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_10px_#22c55e]"></span>
+                            <span class="text-xs font-mono text-green-400 uppercase tracking-widest">Simulation</span>
+                        </div>
+                        <h2 class="text-3xl font-bold text-white mb-2">The Matrix</h2>
+                        <p class="text-neutral-400 text-sm">赛博朋克数字雨。<br>Digital Rain Simulation.</p>
+                    </div>
+                </a>
+
+                <a href="galaxy.html"
+                    class="card group relative h-96 rounded-[2rem] overflow-hidden cursor-pointer block">
+                    <div
+                        class="absolute inset-0 flex items-center justify-center opacity-30 group-hover:opacity-80 transition duration-700">
+                        <div class="w-40 h-40 bg-red-600 blur-[100px] rounded-full group-hover:bg-red-500"></div>
+                    </div>
+                    <div class="absolute bottom-0 left-0 p-10 w-full">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_10px_#ef4444]"></span>
+                            <span class="text-xs font-mono text-red-400 uppercase tracking-widest">CSS Physics</span>
+                        </div>
+                        <h2 class="text-3xl font-bold text-white mb-2">Orbital Flow</h2>
+                        <p class="text-neutral-400 text-sm">星际引力轨道模拟。<br>Solar System Animation.</p>
+                    </div>
+                </a>
+
+                <a href="wormhole.html"
+                    class="card group relative h-96 rounded-[2rem] overflow-hidden cursor-pointer block">
+                    <div
+                        class="absolute inset-0 flex items-center justify-center opacity-30 group-hover:opacity-80 transition duration-700">
+                        <div class="w-40 h-40 bg-cyan-600 blur-[100px] rounded-full group-hover:bg-cyan-500"></div>
+                    </div>
+                    <div class="absolute bottom-0 left-0 p-10 w-full">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_10px_#22d3ee]"></span>
+                            <span class="text-xs font-mono text-cyan-400 uppercase tracking-widest">3D Dimension</span>
+                        </div>
+                        <h2 class="text-3xl font-bold text-white mb-2">Dimensional Rift</h2>
+                        <p class="text-neutral-400 text-sm">时空折叠与视差特效。<br>3D Parallax & Slider.</p>
+                    </div>
+                </a>
+
+                <a href="globe.html"
+                    class="card group relative h-96 rounded-[2rem] overflow-hidden cursor-pointer block md:col-span-2">
+                    <div
+                        class="absolute inset-0 flex items-center justify-center opacity-30 group-hover:opacity-80 transition duration-700">
+                        <div class="w-full h-full bg-gradient-to-r from-blue-900/40 via-transparent to-transparent">
+                        </div>
+                        <div class="absolute right-20 top-20 w-40 h-40 bg-indigo-600 blur-[120px] rounded-full"></div>
+                    </div>
+                    <div class="absolute bottom-0 left-0 p-10 w-full">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="w-2 h-2 rounded-full bg-indigo-400 shadow-[0_0_10px_#818cf8]"></span>
+                            <span class="text-xs font-mono text-indigo-400 uppercase tracking-widest">WebGL Data</span>
+                        </div>
+                        <h2 class="text-3xl font-bold text-white mb-2">Global Nexus</h2>
+                        <p class="text-neutral-400 text-sm">实时全球节点可视化。<br>Real-time Node Visualization.</p>
+                    </div>
+                </a>
+
+            </div>
+
+            <div class="mt-24 border-t border-white/5 pt-8 text-center">
+                <p class="text-neutral-600 text-xs font-mono tracking-widest">
+                    // SYSTEM STATUS: OPTIMAL
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // Setup Canvases
+        const canvas = document.getElementById('canvas');
+        const canvasbg = document.getElementById('canvasbg');
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            canvasbg.width = window.innerWidth;
+            canvasbg.height = window.innerHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        // --- Background Animation Logic ---
+        var radMin = 5,
+            radMax = 125,
+            filledCircle = 60,
+            concentricCircle = 30,
+            radThreshold = 25;
+        var speedMin = 0.3,
+            speedMax = 2.5;
+        var maxOpacity = 0.6;
+        var colors = ['52,168,83', '117,95,147', '199,108,23', '194,62,55', '0,172,212', '120,120,120'],
+            bgColors = ['52,168,83', '117,95,147', '199,108,23', '194,62,55', '0,172,212', '120,120,120'],
+            circleBorder = 10,
+            backgroundLine = bgColors[0];
+        var backgroundMlt = 0.85;
+        var linkDist = Math.min(canvas.width, canvas.height) / 2.4;
+        var lineBorder = 2.5;
+        var maxCircles = 12,
+            points = [],
+            pointsBack = [];
+
+        var circleExp = 1,
+            circleExpMax = 1.003,
+            circleExpMin = 0.997,
+            circleExpSp = 0.00004,
+            circlePulse = false;
+
+        window.addEventListener('resize', () => {
+            linkDist = Math.min(canvas.width, canvas.height) / 2.4;
+        });
+
+        function Circle(background) {
+            this.background = background || false;
+            this.x = randRange(-canvas.width / 2, canvas.width / 2);
+            this.y = randRange(-canvas.height / 2, canvas.height / 2);
+            this.radius = background ? hyperRange(radMin, radMax) * backgroundMlt : hyperRange(radMin, radMax);
+            this.filled = this.radius < radThreshold ? (randint(0, 100) > filledCircle ? false : 'full') : (randint(0, 100) > concentricCircle ? false : 'concentric');
+            this.color = background ? bgColors[randint(0, bgColors.length - 1)] : colors[randint(0, colors.length - 1)];
+            this.borderColor = background ? bgColors[randint(0, bgColors.length - 1)] : colors[randint(0, colors.length - 1)];
+            this.opacity = 0.05;
+            this.speed = background ? randRange(speedMin, speedMax) / backgroundMlt : randRange(speedMin, speedMax);
+            this.speedAngle = Math.random() * 2 * Math.PI;
+            this.speedx = Math.cos(this.speedAngle) * this.speed;
+            this.speedy = Math.sin(this.speedAngle) * this.speed;
+            var spacex = Math.abs((this.x - (this.speedx < 0 ? -1 : 1) * (canvas.width / 2 + this.radius)) / this.speedx),
+                spacey = Math.abs((this.y - (this.speedy < 0 ? -1 : 1) * (canvas.height / 2 + this.radius)) / this.speedy);
+            this.ttl = Math.min(spacex, spacey);
+        }
+
+        Circle.prototype.init = function () { Circle.call(this, this.background); };
+        function randint(a, b) { return Math.floor(Math.random() * (b - a + 1) + a); }
+        function randRange(a, b) { return Math.random() * (b - a) + a; }
+        function hyperRange(a, b) { return Math.random() * Math.random() * Math.random() * (b - a) + a; }
+
+        function drawCircle(ctx, circle) {
+            var radius = circle.background ? (circle.radius *= circleExp) : (circle.radius /= circleExp);
+            ctx.beginPath();
+            ctx.arc(circle.x, circle.y, radius * circleExp, 0, 2 * Math.PI, false);
+            ctx.lineWidth = Math.max(1, (circleBorder * (radMin - circle.radius)) / (radMin - radMax));
+            ctx.strokeStyle = ['rgba(', circle.borderColor, ',', circle.opacity, ')'].join('');
+            if (circle.filled == 'full') {
+                ctx.fillStyle = ['rgba(', circle.borderColor, ',', circle.background ? circle.opacity * 0.8 : circle.opacity, ')'].join('');
+                ctx.fill();
+                ctx.lineWidth = 0;
+                ctx.strokeStyle = ['rgba(', circle.borderColor, ',', 0, ')'].join('');
+            }
+            ctx.stroke();
+            if (circle.filled == 'concentric') {
+                ctx.beginPath();
+                ctx.arc(circle.x, circle.y, radius / 2, 0, 2 * Math.PI, false);
+                ctx.lineWidth = Math.max(1, (circleBorder * (radMin - circle.radius)) / (radMin - radMax));
+                ctx.strokeStyle = ['rgba(', circle.color, ',', circle.opacity, ')'].join('');
+                ctx.stroke();
+            }
+            circle.x += circle.speedx;
+            circle.y += circle.speedy;
+            if (circle.opacity < (circle.background ? maxOpacity : 1)) circle.opacity += 0.01;
+            circle.ttl--;
+        }
+
+        function init() {
+            for (var i = 0; i < maxCircles * 2; i++) points.push(new Circle());
+            for (var i = 0; i < maxCircles; i++) pointsBack.push(new Circle(true));
+            window.requestAnimationFrame(draw);
+        }
+
+        function draw() {
+            if (circlePulse) {
+                if (circleExp < circleExpMin || circleExp > circleExpMax) circleExpSp *= -1;
+                circleExp += circleExpSp;
+            }
+            var ctxfr = document.getElementById('canvas').getContext('2d');
+            var ctxbg = document.getElementById('canvasbg').getContext('2d');
+            ctxfr.globalCompositeOperation = 'destination-over';
+            ctxfr.clearRect(0, 0, canvas.width, canvas.height);
+            ctxbg.globalCompositeOperation = 'destination-over';
+            ctxbg.clearRect(0, 0, canvas.width, canvas.height);
+            ctxfr.save();
+            ctxfr.translate(canvas.width / 2, canvas.height / 2);
+            ctxbg.save();
+            ctxbg.translate(canvas.width / 2, canvas.height / 2);
+
+            function renderPoints(ctx, arr) {
+                for (var i = 0; i < arr.length; i++) {
+                    var circle = arr[i];
+                    if (circle.ttl < -20) arr[i].init(arr[i].background);
+                    drawCircle(ctx, circle);
+                }
+                for (var i = 0; i < arr.length - 1; i++) {
+                    for (var j = i + 1; j < arr.length; j++) {
+                        var deltax = arr[i].x - arr[j].x;
+                        var deltay = arr[i].y - arr[j].y;
+                        var dist = Math.pow(Math.pow(deltax, 2) + Math.pow(deltay, 2), 0.5);
+                        if (dist <= arr[i].radius + arr[j].radius) continue;
+                        if (dist < linkDist) {
+                            var xi = (arr[i].x < arr[j].x ? 1 : -1) * Math.abs((arr[i].radius * deltax) / dist);
+                            var yi = (arr[i].y < arr[j].y ? 1 : -1) * Math.abs((arr[i].radius * deltay) / dist);
+                            var xj = (arr[i].x < arr[j].x ? -1 : 1) * Math.abs((arr[j].radius * deltax) / dist);
+                            var yj = (arr[i].y < arr[j].y ? -1 : 1) * Math.abs((arr[j].radius * deltay) / dist);
+                            ctx.beginPath();
+                            ctx.moveTo(arr[i].x + xi, arr[i].y + yi);
+                            ctx.lineTo(arr[j].x + xj, arr[j].y + yj);
+                            ctx.strokeStyle = ['rgba(', arr[i].borderColor, ',', Math.min(arr[i].opacity, arr[j].opacity) * ((linkDist - dist) / linkDist), ')'].join('');
+                            ctx.lineWidth = (arr[i].background ? lineBorder * backgroundMlt : lineBorder) * ((linkDist - dist) / linkDist);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+            renderPoints(ctxfr, points);
+            renderPoints(ctxbg, pointsBack);
+            ctxfr.restore();
+            ctxbg.restore();
+            window.requestAnimationFrame(draw);
+        }
+        init();
+    </script>
+</body>
+
+</html>

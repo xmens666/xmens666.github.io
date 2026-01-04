@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全场景行业定价 - ZenCode Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Outfit:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Noto Sans SC', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        'brand-green': '#0a1f1a',
+                        'card-glass': 'rgba(10, 31, 26, 0.6)',
+                        'accent-green': '#00FFA3',
+                        'accent-purple': '#BD00FF',
+                        'accent-blue': '#00C2FF',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+
+        /* Particles container */
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: linear-gradient(135deg, #0a1f1a 0%, #0d2922 50%, #061510 100%);
+        }
+
+        /* 滚动条隐藏 */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* 卡片光效 */
+        .glass-card {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 确保内容在particles之上 */
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Glass Morphism Nav Buttons */
+        .glass-nav-btn {
+            padding: 0.5em 1em;
+            font-size: 15px;
+            font-weight: 500;
+            border-radius: 8px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            /* 默认淡蓝色 */
+            background: rgba(0, 194, 255, 0.1);
+            color: #00C2FF;
+        }
+        .glass-nav-green:hover {
+            background: rgba(0, 255, 163, 0.25);
+            box-shadow: 0 0 20px rgba(0, 255, 163, 0.3);
+            border-color: rgba(0, 255, 163, 0.4);
+            color: #00FFA3;
+        }
+        .glass-nav-blue:hover {
+            background: rgba(0, 194, 255, 0.25);
+            box-shadow: 0 0 20px rgba(0, 194, 255, 0.3);
+            border-color: rgba(0, 194, 255, 0.4);
+            color: #00C2FF;
+        }
+        .glass-nav-purple:hover {
+            background: rgba(189, 0, 255, 0.25);
+            box-shadow: 0 0 20px rgba(189, 0, 255, 0.3);
+            border-color: rgba(189, 0, 255, 0.4);
+            color: #BD00FF;
+        }
+        .glass-nav-orange:hover {
+            background: rgba(255, 107, 0, 0.25);
+            box-shadow: 0 0 20px rgba(255, 107, 0, 0.3);
+            border-color: rgba(255, 107, 0, 0.4);
+            color: #FF6B00;
+        }
+        .glass-nav-pink:hover {
+            background: rgba(255, 0, 128, 0.25);
+            box-shadow: 0 0 20px rgba(255, 0, 128, 0.3);
+            border-color: rgba(255, 0, 128, 0.4);
+            color: #FF0080;
+        }
+        .glass-nav-active {
+            background: rgba(0, 255, 163, 0.2) !important;
+            border-color: rgba(0, 255, 163, 0.5) !important;
+            color: #00FFA3 !important;
+        }
+    </style>
+</head>
+
+<body class="bg-brand-green text-slate-200 selection:bg-accent-green selection:text-black font-sans" x-data="{
+        filter: 'all',
+        packages: [
+            // === AI & 效率工具 (新增) ===
+            {
+                id: 101, title: 'AI 智能客服机器人', cat: 'ai', price: '45.0', unit: '万円',
+                desc: '基于 ChatGPT 训练的企业专属客服。自动回答 90% 的常见问题，支持多语言切换。',
+                features: ['私有知识库训练', '7x24小时自动回复', '转接人工功能', '对话记录分析'],
+                icon: '🤖', badge: 'NEW',
+                color: 'text-accent-purple', border: 'hover:border-accent-purple/50'
+            },
+            {
+                id: 102, title: '企业自动化工作流', cat: 'ai', price: '30.0', unit: '万円起',
+                desc: '连接您的各类软件（Line, Slack, Gmail）。实现发票自动归档、客户自动录入。',
+                features: ['Zapier/Make集成', '自动发票OCR识别', 'CRM数据同步', '每日报表推送'],
+                icon: '⚡', badge: 'HOT',
+                color: 'text-yellow-400', border: 'hover:border-yellow-400/50'
+            },
+
+            // === 行业应用 App/SaaS ===
+            {
+                id: 1, title: '餐饮点单系统', cat: 'app', price: '68.0', unit: '万円',
+                desc: '彻底取代昂贵的 UberEats。包含扫码点餐、后厨打印、外卖配送范围计算。',
+                features: ['微信/Line小程序', '云打印机对接', '多语言菜单', '会员储值功能'],
+                icon: '🍜', badge: 'HOT',
+                color: 'text-orange-500', border: 'hover:border-orange-500/50'
+            },
+            {
+                id: 2, title: '美业/诊所预约', cat: 'app', price: '78.0', unit: '万円',
+                desc: '美容/牙科/整骨院专用。可视化排班、病历管理、术后自动关怀提醒。',
+                features: ['技师/医生指名', '电子病历/卡', 'No-show 预警', 'Line 预约提醒'],
+                icon: '💅', badge: '',
+                color: 'text-pink-500', border: 'hover:border-pink-500/50'
+            },
+            {
+                id: 103, title: '健身/瑜伽馆管理', cat: 'app', price: '85.0', unit: '万円',
+                desc: '支持团课预约、私教排课。结合智能门禁硬件，实现24小时无人值守模式。',
+                features: ['课程日历', '会员卡/次卡管理', 'QR扫码入场', '私教分润计算'],
+                icon: '🧘', badge: 'NEW',
+                color: 'text-teal-400', border: 'hover:border-teal-400/50'
+            },
+            {
+                id: 3, title: '旅游包车/地接', cat: 'app', price: '88.0', unit: '万円',
+                desc: '高端地接社必备。行程拖拽定制、车辆3D展示、司机调度后台。',
+                features: ['行程规划器', '询价单PDF生成', '车辆库存管理', '司机接单App'],
+                icon: '🗻', badge: '',
+                color: 'text-blue-500', border: 'hover:border-blue-500/50'
+            },
+            {
+                id: 104, title: '民宿/酒店 PMS', cat: 'app', price: '120.0', unit: '万円',
+                desc: '中小酒店/民宿专用。房态管理、OTA渠道直连（Booking/Airbnb）、保洁排班。',
+                features: ['渠道房态同步', '自助入住平板', '护照扫描上传', '智能门锁联动'],
+                icon: '🏨', badge: 'NEW',
+                color: 'text-indigo-400', border: 'hover:border-indigo-400/50'
+            },
+
+            // === 电商与平台 ===
+            {
+                id: 4, title: '跨境电商商城', cat: 'platform', price: '98.0', unit: '万円',
+                desc: '支持直邮/保税仓模式。实时汇率计算、秒杀倒计时、三级分销裂变。',
+                features: ['Stripe/支付宝支付', '物流追踪API', '分销裂变系统', '多币种结算'],
+                icon: '🛍️', badge: '',
+                color: 'text-purple-500', border: 'hover:border-purple-500/50'
+            },
+            {
+                id: 8, title: '二手车库存 ERP', cat: 'platform', price: '150.0', unit: '万円~',
+                desc: '车行专用 ERP。贷款计算器、车况检测报告生成、多店库存调拨。',
+                features: ['古物台账生成', '车检提醒', '进销存管理', '多店权限控制'],
+                icon: '🏎️', badge: '',
+                color: 'text-red-500', border: 'hover:border-red-500/50'
+            },
+            {
+                id: 9, title: '不动产找房平台', cat: 'platform', price: '280.0', unit: '万円~',
+                desc: '类似 Suumo 的垂直平台。地图找房、VR 看房集成、复杂的筛选算法。',
+                features: ['地图找房', 'VR/全景看房', '房源爬虫工具', '经纪人后台'],
+                icon: '🏠', badge: '',
+                color: 'text-emerald-500', border: 'hover:border-emerald-500/50'
+            },
+             {
+                id: 105, title: '求职招聘平台', cat: 'platform', price: '180.0', unit: '万円',
+                desc: '针对特定行业（如IT/护理）的招聘站。包含简历解析、在线聊天、面试安排。',
+                features: ['简历在线预览', '企业主后台', '职位推荐算法', '站内直聊'],
+                icon: '💼', badge: '',
+                color: 'text-sky-500', border: 'hover:border-sky-500/50'
+            },
+
+            // === 基础 Web 建设 ===
+            {
+                id: 6, title: '企业品牌官网', cat: 'web', price: '25.0', unit: '万円',
+                desc: '在日企业的数字名片。响应式设计，适配手机/电脑，SEO 基础优化。',
+                features: ['高端UI设计', 'SEO基础配置', '询盘表单', 'CMS内容管理'],
+                icon: '🏢', badge: '',
+                color: 'text-slate-300', border: 'hover:border-slate-300/50'
+            },
+            {
+                id: 7, title: '广告落地页 (LP)', cat: 'web', price: '12.0', unit: '万円',
+                desc: '专为广告投放设计。高转化率单页，适合展会、单一产品推广。',
+                features: ['A/B测试支持', '极速加载优化', '转化埋点', '动效设计'],
+                icon: '📑', badge: '',
+                color: 'text-cyan-400', border: 'hover:border-cyan-400/50'
+            },
+            {
+                id: 106, title: 'SEO/MEO 优化包', cat: 'web', price: '5.0', unit: '万円/月',
+                desc: '非开发类服务。提升 Google 排名，优化 Google Map 店铺展示。',
+                features: ['关键词挖掘', '外链建设', 'Google商家优化', '月度数据报告'],
+                icon: '📈', badge: '',
+                color: 'text-lime-400', border: 'hover:border-lime-400/50'
+            }
+        ]
+    }">
+
+    <!-- Particles.js container -->
+    <div id="particles-js"></div>
+
+    <!-- Content wrapper -->
+    <div class="content-wrapper">
+        <nav class="fixed w-full z-50 bg-brand-green/80 backdrop-blur-xl border-b border-white/5">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-20 items-center">
+                    <a href="index.html" class="flex items-center gap-2 group">
+                        <span class="text-accent-green font-bold text-2xl font-heading tracking-tight">&lt;</span>
+                        <span
+                            class="text-white font-bold text-2xl font-heading tracking-tight group-hover:text-accent-green transition">ZenCode</span>
+                        <span class="text-white/30 font-light">Pro</span>
+                    </a>
+                    <div class="hidden md:flex items-center gap-2 ml-auto mr-6">
+                        <a href="index.html" class="glass-nav-btn glass-nav-blue">首页</a>
+                        <a href="pricing.html" class="glass-nav-btn glass-nav-green glass-nav-active">服务定价</a>
+                        <a href="techstack.html" class="glass-nav-btn glass-nav-blue">技术栈</a>
+                        <a href="cases.html" class="glass-nav-btn glass-nav-purple">成功案例</a>
+                        <a href="experience/experience.html" class="glass-nav-btn glass-nav-orange">小程序演示</a>
+                        <a href="about.html" class="glass-nav-btn glass-nav-pink">关于我们</a>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <a href="#contact"
+                            class="bg-white text-black px-6 py-2 rounded-full font-bold text-sm hover:bg-accent-green hover:shadow-[0_0_15px_rgba(0,255,163,0.4)] transition duration-300">
+                            免费咨询
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <header
+            class="relative pt-32 pb-20 px-4 text-center overflow-hidden min-h-[500px] flex flex-col items-center justify-center">
+            <div class="relative z-10 max-w-4xl mx-auto">
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 border border-accent-green/30 rounded-full text-xs font-mono text-accent-green mb-6 bg-accent-green/5 backdrop-blur-sm">
+                    <span class="w-2 h-2 rounded-full bg-accent-green animate-pulse"></span>
+                    2026 全新报价单 · 拒绝隐形消费
+                </div>
+
+                <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 font-heading tracking-tight leading-tight">
+                    全源码交付的
+                    <span
+                        class="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-accent-green via-teal-200 to-accent-blue">
+                        极致性价比
+                    </span>
+                </h1>
+
+                <p class="text-slate-400 max-w-xl mx-auto text-lg font-light leading-relaxed">
+                    无论是初创公司的 MVP，还是大型企业的 ERP。<br>
+                    ZenCode 提供日本市场 <span class="text-white font-bold border-b border-accent-green">1/3 的价格</span>，交付 <span
+                        class="text-white font-bold border-b border-accent-green">3 倍的质量</span>。
+                </p>
+            </div>
+        </header>
+
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-32">
+
+            <div
+                class="flex flex-wrap justify-center gap-2 mb-12 sticky top-24 z-40 py-4 bg-brand-green/50 backdrop-blur-sm rounded-2xl border border-white/5 lg:w-fit lg:mx-auto lg:px-8">
+                <button @click="filter = 'all'"
+                    :class="filter === 'all' ? 'bg-white text-black' : 'text-slate-400 hover:text-white bg-white/5'"
+                    class="px-5 py-2 rounded-full text-sm font-bold transition-all">全部</button>
+                <button @click="filter = 'app'"
+                    :class="filter === 'app' ? 'bg-white text-black' : 'text-slate-400 hover:text-white bg-white/5'"
+                    class="px-5 py-2 rounded-full text-sm font-bold transition-all">行业系统</button>
+                <button @click="filter = 'platform'"
+                    :class="filter === 'platform' ? 'bg-white text-black' : 'text-slate-400 hover:text-white bg-white/5'"
+                    class="px-5 py-2 rounded-full text-sm font-bold transition-all">大型平台</button>
+                <button @click="filter = 'ai'"
+                    :class="filter === 'ai' ? 'bg-white text-black' : 'text-slate-400 hover:text-white bg-white/5'"
+                    class="px-5 py-2 rounded-full text-sm font-bold transition-all flex items-center gap-1"><span
+                        class="text-xs">✨</span> AI & 效率</button>
+                <button @click="filter = 'web'"
+                    :class="filter === 'web' ? 'bg-white text-black' : 'text-slate-400 hover:text-white bg-white/5'"
+                    class="px-5 py-2 rounded-full text-sm font-bold transition-all">官网建设</button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <template x-for="item in packages" :key="item.id">
+                    <div x-show="filter === 'all' || filter === item.cat"
+                        x-transition:enter="transition ease-out duration-300"
+                        x-transition:enter-start="opacity-0 transform scale-95"
+                        x-transition:enter-end="opacity-100 transform scale-100"
+                        class="group relative glass-card bg-card-glass border border-white/10 rounded-2xl p-7 transition duration-300 hover:-translate-y-2 flex flex-col h-full"
+                        :class="item.border">
+
+                        <div x-show="item.badge"
+                            class="absolute -top-3 -right-3 px-3 py-1 rounded-full text-xs font-bold shadow-lg"
+                            :class="item.badge === 'HOT' ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white' : 'bg-gradient-to-r from-accent-green to-teal-500 text-black'">
+                            <span x-text="item.badge"></span>
+                        </div>
+
+                        <div class="flex justify-between items-start mb-5">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl bg-white/5 border border-white/5 transition duration-300 group-hover:scale-110"
+                                :class="item.color">
+                                <span x-text="item.icon"></span>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-heading font-bold text-3xl text-white tracking-tight">
+                                    <span class="text-lg align-top text-slate-500 mr-0.5">¥</span><span
+                                        x-text="item.price"></span>
+                                </div>
+                                <div class="text-xs text-slate-500" x-text="item.unit"></div>
+                            </div>
+                        </div>
+
+                        <h3 class="text-xl font-bold text-white mb-2" x-text="item.title"></h3>
+                        <p class="text-slate-400 text-sm mb-6 leading-relaxed line-clamp-3" x-text="item.desc"></p>
+
+                        <div class="mt-auto space-y-3 pt-6 border-t border-dashed border-white/10">
+                            <template x-for="feature in item.features">
+                                <div class="flex items-center gap-2 text-xs text-slate-300">
+                                    <svg class="w-3.5 h-3.5 shrink-0" :class="item.color" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    <span x-text="feature"></span>
+                                </div>
+                            </template>
+                        </div>
+
+                        <button
+                            class="mt-6 w-full py-2.5 rounded-lg border border-white/10 text-sm font-bold text-slate-300 hover:bg-white hover:text-black transition duration-300">
+                            查看详情
+                        </button>
+                    </div>
+                </template>
+            </div>
+
+        </main>
+
+        <section class="border-t border-white/5 bg-white/[0.02] py-20">
+            <div class="max-w-5xl mx-auto px-4">
+                <h2 class="text-3xl font-bold text-white text-center mb-12">服务等级对比</h2>
+                <div class="overflow-x-auto rounded-xl border border-white/10">
+                    <table class="w-full text-left text-sm text-slate-400">
+                        <thead class="bg-white/5 text-white uppercase font-bold text-xs">
+                            <tr>
+                                <th class="px-6 py-4">功能项目</th>
+                                <th class="px-6 py-4 text-center text-slate-300">基础官网 (Web)</th>
+                                <th class="px-6 py-4 text-center text-accent-green">行业应用 (App)</th>
+                                <th class="px-6 py-4 text-center text-accent-purple">定制平台 (Platform)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5">
+                            <tr class="hover:bg-white/[0.02]">
+                                <td class="px-6 py-4 font-medium text-white">源码交付</td>
+                                <td class="px-6 py-4 text-center">✅ 100%</td>
+                                <td class="px-6 py-4 text-center">✅ 100%</td>
+                                <td class="px-6 py-4 text-center">✅ 100%</td>
+                            </tr>
+                            <tr class="hover:bg-white/[0.02]">
+                                <td class="px-6 py-4 font-medium text-white">开发周期</td>
+                                <td class="px-6 py-4 text-center">1-2 周</td>
+                                <td class="px-6 py-4 text-center">1-1.5 个月</td>
+                                <td class="px-6 py-4 text-center">2-4 个月</td>
+                            </tr>
+                            <tr class="hover:bg-white/[0.02]">
+                                <td class="px-6 py-4 font-medium text-white">售后质保</td>
+                                <td class="px-6 py-4 text-center">1 个月</td>
+                                <td class="px-6 py-4 text-center">3 个月</td>
+                                <td class="px-6 py-4 text-center">6 个月</td>
+                            </tr>
+                            <tr class="hover:bg-white/[0.02]">
+                                <td class="px-6 py-4 font-medium text-white">管理后台 (CMS)</td>
+                                <td class="px-6 py-4 text-center">基础内容编辑</td>
+                                <td class="px-6 py-4 text-center">全功能业务后台</td>
+                                <td class="px-6 py-4 text-center">SaaS级多租户后台</td>
+                            </tr>
+                            <tr class="hover:bg-white/[0.02]">
+                                <td class="px-6 py-4 font-medium text-white">API 对接</td>
+                                <td class="px-6 py-4 text-center">-</td>
+                                <td class="px-6 py-4 text-center">支付/地图/短信</td>
+                                <td class="px-6 py-4 text-center">无限 (ERP/银行/AI)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <footer class="py-20 text-center relative overflow-hidden" id="contact">
+            <div class="absolute inset-0 bg-gradient-to-t from-accent-green/10 to-transparent pointer-events-none"></div>
+            <div class="relative z-10 px-4">
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">准备好开始了吗？</h2>
+                <p class="text-slate-400 mb-8 text-lg">现在咨询，获取您的免费技术评估报告和报价方案。</p>
+                <button
+                    class="bg-accent-green text-black text-lg px-10 py-4 rounded-full font-bold hover:scale-105 hover:shadow-[0_0_30px_rgba(0,255,163,0.5)] transition duration-300">
+                    立即联系我们
+                </button>
+                <p class="mt-8 text-slate-600 text-xs">&copy; 2026 ZenCode Pro. All Rights Reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Particles.js -->
+    <script src="js/particles/particles.min.js"></script>
+    <script>
+        particlesJS('particles-js', {
+            "particles": {
+                "number": {
+                    "value": 60,
+                    "density": {
+                        "enable": true,
+                        "value_area": 900
+                    }
+                },
+                "color": {
+                    "value": ["#00FFA3", "#00C2FF", "#BD00FF"]
+                },
+                "shape": {
+                    "type": "circle"
+                },
+                "opacity": {
+                    "value": 0.4,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 2,
+                        "size_min": 0.5,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#00FFA3",
+                    "opacity": 0.2,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 1.5,
+                    "direction": "none",
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 140,
+                        "line_linked": {
+                            "opacity": 0.5
+                        }
+                    },
+                    "push": {
+                        "particles_nb": 3
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZenCode - Comparison</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        neutral: {
+                            100: '#f5f5f5',
+                            200: '#e5e5e5',
+                            800: '#262626',
+                            900: '#171717',
+                            950: '#0a0a0a',
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-glow': 'pulse-glow 4s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        'pulse-glow': {
+                            '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+                            '50%': { opacity: '0.8', transform: 'scale(1.2)' },
+                        },
+                        'wiggle': {
+                            '0%, 100%': { transform: 'translateX(0)' },
+                            '25%': { transform: 'translateX(-2px)' },
+                            '75%': { transform: 'translateX(2px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Babel -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            background-color: #050505;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            perspective: 1200px;
+            /* Global perspective for the mouse tilt */
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            z-index: 50;
+            color: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-family: sans-serif;
+            font-size: 14px;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-color: #fff;
+        }
+
+        /* Star/Dust particles background */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(1px 1px at 20px 30px, #fff, rgba(0, 0, 0, 0)),
+                radial-gradient(1px 1px at 40px 70px, #ccc, rgba(0, 0, 0, 0)),
+                radial-gradient(1px 1px at 50px 160px, #ddd, rgba(0, 0, 0, 0)),
+                radial-gradient(2px 2px at 90px 40px, #fff, rgba(0, 0, 0, 0)),
+                radial-gradient(2px 2px at 130px 80px, #fff, rgba(0, 0, 0, 0));
+            background-size: 200px 200px;
+            opacity: 0.3;
+            z-index: -1;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="gallery.html" class="back-btn">← Back to Gallery</a>
+    <div class="stars"></div>
+
+    <div id="root" class="w-full h-full flex items-center justify-center"></div>
+
+    <script type="text/babel">
+        const { useState, useRef, useEffect, useCallback } = React;
+
+        const HandleIcon = () => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5 text-neutral-800 animate-wiggle">
+                <path d="m9 18-6-6 6-6"></path>
+                <path d="m15 6 6 6-6 6"></path>
+            </svg>
+        );
+
+        const Compare = ({
+            firstImage,
+            secondImage,
+            className,
+            firstImageClassName,
+            secondImageClassname,
+            initialSliderPercentage = 50,
+            slideMode = "drag",
+        }) => {
+            const [sliderXPercent, setSliderXPercent] = useState(initialSliderPercentage);
+            const [isDragging, setIsDragging] = useState(false);
+            const sliderRef = useRef(null);
+
+            const handleMouseDown = useCallback(() => setIsDragging(true), []);
+            const handleMouseUp = useCallback(() => setIsDragging(false), []);
+
+            const handleMouseMove = useCallback((e) => {
+                if (!isDragging && slideMode === "drag") return;
+
+                if (sliderRef.current) {
+                    const rect = sliderRef.current.getBoundingClientRect();
+                    const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+                    const percent = (x / rect.width) * 100;
+                    setSliderXPercent(percent);
+                }
+            }, [isDragging, slideMode]);
+
+            useEffect(() => {
+                if (slideMode === "drag") {
+                    document.addEventListener("mousemove", handleMouseMove);
+                    document.addEventListener("mouseup", handleMouseUp);
+                    return () => {
+                        document.removeEventListener("mousemove", handleMouseMove);
+                        document.removeEventListener("mouseup", handleMouseUp);
+                    };
+                }
+            }, [handleMouseMove, handleMouseUp, slideMode]);
+
+            return (
+                <div
+                    ref={sliderRef}
+                    className={`relative overflow-hidden select-none cursor-ew-resize ${className}`}
+                    onMouseMove={handleMouseMove}
+                    onMouseDown={handleMouseDown}
+                    onTouchStart={handleMouseDown}
+                    onTouchEnd={handleMouseUp}
+                >
+                    <img
+                        src={secondImage}
+                        alt="second"
+                        className={`absolute inset-0 h-full w-full select-none ${secondImageClassname}`}
+                    />
+                    <div
+                        className="absolute inset-0 h-full w-full select-none overflow-hidden"
+                        style={{ clipPath: `inset(0 ${100 - sliderXPercent}% 0 0)` }}
+                    >
+                        <img
+                            src={firstImage}
+                            alt="first"
+                            className={`absolute inset-0 h-full w-full select-none ${firstImageClassName}`}
+                        />
+                    </div>
+
+                    {/* Glowing Separator Line */}
+                    <div
+                        className="absolute top-0 bottom-0 w-0.5 bg-white cursor-ew-resize z-20 shadow-[0_0_20px_rgba(255,255,255,0.8)]"
+                        style={{ left: `${sliderXPercent}%` }}
+                    >
+                        {/* Glow Effect Layer */}
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-white/20 rounded-full blur-xl animate-pulse-glow pointer-events-none"></div>
+
+                        {/* Interactive Handle */}
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white w-10 h-10 rounded-full flex items-center justify-center shadow-[0_0_25px_rgba(255,255,255,0.8)] transition-transform hover:scale-110 group">
+                            <HandleIcon />
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const CompareDemo = () => {
+            // Parallax State
+            const [rotate, setRotate] = useState({ x: 0, y: 0 });
+
+            const handleMouseMove = (e) => {
+                const { clientX, clientY } = e;
+                const { innerWidth, innerHeight } = window;
+                // Calculate percentage from center
+                const xPct = (clientX / innerWidth) - 0.5;
+                const yPct = (clientY / innerHeight) - 0.5;
+
+                // Max rotation degrees
+                const maxRot = 15;
+
+                // Invert y for intuitive tilt
+                setRotate({
+                    x: -yPct * maxRot,
+                    y: xPct * maxRot
+                });
+            };
+
+            const resetTilt = () => {
+                setRotate({ x: 0, y: 0 });
+            }
+
+            return (
+                <div
+                    className="w-full h-full flex items-center justify-center overflow-hidden"
+                    onMouseMove={handleMouseMove}
+                    onMouseLeave={resetTilt}
+                >
+                    {/* Ambient Glow Background */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-purple-900/40 rounded-full blur-[120px] animate-pulse-glow z-0 pointer-events-none"></div>
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-blue-900/30 rounded-full blur-[100px] animate-pulse-glow z-0 pointer-events-none" style={{ animationDelay: '1s' }}></div>
+
+                    {/* 3D Container with Float Animation */}
+                    <div className="relative z-10 animate-float"
+                        style={{
+                            perspective: "1000px",
+                            transformStyle: "preserve-3d"
+                        }}
+                    >
+                        {/* Tilt Wrapper */}
+                        <div
+                            style={{
+                                transform: `rotateX(${15 + rotate.x}deg) rotateY(${rotate.y}deg) rotateZ(0deg)`,
+                                transition: "transform 0.1s ease-out"
+                            }}
+                            className="relative mx-auto h-[450px] w-[800px] rounded-[2rem] border border-white/10 bg-neutral-900 shadow-2xl backdrop-blur-xl"
+                        >
+                            {/* Device Bezel / Inner Border Shine */}
+                            <div className="absolute inset-0 rounded-[2rem] border border-white/5 pointer-events-none"></div>
+                            <div className="absolute inset-[1px] rounded-[1.9rem] border border-white/10 pointer-events-none"></div>
+
+                            {/* Header / Top Bar */}
+                            <div className="h-10 px-6 flex items-center justify-between border-b border-white/5">
+                                <div className="flex space-x-2">
+                                    <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
+                                    <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                                    <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
+                                </div>
+                                <div className="text-[10px] font-mono text-white/30 tracking-widest uppercase">
+                                    ZenCode_Theme_Experiment_v2.0
+                                </div>
+                                <div className="w-10"></div>
+                            </div>
+
+                            {/* Main Content Area */}
+                            <div className="relative h-[calc(100%-40px)] w-full overflow-hidden rounded-b-[2rem] bg-black">
+                                <Compare
+                                    firstImage="https://assets.aceternity.com/notes-dark.png"
+                                    secondImage="https://assets.aceternity.com/linear-dark.png"
+                                    firstImageClassName="object-cover object-left-top w-full h-full opacity-80"
+                                    secondImageClassname="object-cover object-left-top w-full h-full"
+                                    className="h-full w-full"
+                                    slideMode="hover"
+                                />
+
+                                {/* Screen Gloss Reflection */}
+                                <div className="absolute inset-0 bg-gradient-to-tr from-white/5 via-transparent to-transparent pointer-events-none rounded-b-[2rem]"></div>
+
+                                {/* Scanline Overlay (Optional for tech feel) */}
+                                <div className="absolute inset-0 bg-[url('https://media.giphy.com/media/xT9IgN8AKhp77L149q/giphy.gif')] opacity-[0.02] pointer-events-none mix-blend-overlay"></div>
+                            </div>
+
+                            {/* Glossy Edge Highlight (Top Left) */}
+                            <div className="absolute -inset-px rounded-[2rem] bg-gradient-to-br from-white/20 via-transparent to-transparent opacity-50 pointer-events-none"></div>
+
+                        </div>
+
+                        {/* 3D Reflection/Shadow on floor */}
+                        <div
+                            className="absolute -bottom-24 left-1/2 -translate-x-1/2 w-[700px] h-[30px] bg-black/60 blur-xl rounded-[100%] transition-transform duration-100 ease-out"
+                            style={{
+                                transform: `translateX(-50%) rotateX(60deg) scale(${1 - (rotate.x / 50)})`
+                            }}
+                        ></div>
+                    </div>
+                </div>
+            );
+        };
+
+        const App = () => {
+            return (
+                <CompareDemo />
+            )
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+
+</html>

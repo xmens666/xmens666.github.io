@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZenCode - 懂生意的技术合伙人</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="//unpkg.com/globe.gl"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"></script>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* Flip Nav Buttons */
+        .flip-nav-btn {
+            height: 52px;
+            min-width: 100px;
+            padding: 0 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease-in-out;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flip-nav-btn:hover {
+            box-shadow: 0 0 30px currentColor;
+            transform: translateY(-2px);
+        }
+
+        .flip-nav-btn::before,
+        .flip-nav-btn::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .flip-nav-btn::before {
+            transform: translateY(0) scale(1);
+        }
+
+        .flip-nav-btn::after {
+            transform: translateY(52px);
+        }
+
+        .flip-nav-btn:hover::before {
+            transform: translateY(-42px) scale(0.8) rotate(10deg);
+            opacity: 0;
+        }
+
+        .flip-nav-btn:hover::after {
+            transform: translateY(0) scale(1.05);
+        }
+
+        /* 默认状态：所有按钮使用淡蓝色 */
+        .flip-nav-btn::before { background: rgba(0, 194, 255, 0.15); color: #00C2FF; }
+        .flip-nav-btn { color: #00C2FF; }
+
+        /* Green - 服务定价 (hover时变绿) */
+        .flip-green::after { background: #00FFA3; color: #000; }
+        .flip-green:hover { color: #00FFA3; }
+
+        /* Blue - 技术栈 / 首页 (hover时保持蓝) */
+        .flip-blue::after { background: #00C2FF; color: #000; }
+        .flip-blue:hover { color: #00C2FF; }
+
+        /* Purple - 成功案例 (hover时变紫) */
+        .flip-purple::after { background: #BD00FF; color: #fff; }
+        .flip-purple:hover { color: #BD00FF; }
+
+        /* Orange - 小程序演示 (hover时变橙) */
+        .flip-orange::after { background: #FF6B00; color: #fff; }
+        .flip-orange:hover { color: #FF6B00; }
+
+        /* Pink - 关于我们 (hover时变粉) */
+        .flip-pink::after { background: #FF0080; color: #fff; }
+        .flip-pink:hover { color: #FF0080; }
+
+        /* Dynamic Capsule Navigation Styles */
+        .capsule-nav-link {
+            padding: 8px 14px;
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.7);
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            text-decoration: none;
+        }
+
+        .capsule-nav-link:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .capsule-nav-link.capsule-active {
+            color: #22d3ee;
+            background: rgba(34, 211, 238, 0.15);
+        }
+
+        /* Capsule container spring animation */
+        .capsule-container {
+            will-change: width;
+        }
+
+        /* Add subtle bounce effect on hover */
+        .group:hover .capsule-container {
+            animation: capsule-expand 0.7s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+
+        @keyframes capsule-expand {
+            0% { width: 120px; }
+            60% { width: 540px; }
+            80% { width: 510px; }
+            100% { width: 520px; }
+        }
+    </style>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Noto Sans SC', 'Inter', 'sans-serif'],
+                        serif: ['Noto Serif SC', 'serif'],
+                        heading: ['Outfit', 'Noto Sans SC', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-glow': 'pulse-glow 4s ease-in-out infinite',
+                        'wiggle': 'wiggle 1s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        'pulse-glow': {
+                            '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+                            '50%': { opacity: '0.8', transform: 'scale(1.2)' },
+                        },
+                        'wiggle': {
+                            '0%, 100%': { transform: 'translateX(0)' },
+                            '25%': { transform: 'translateX(-2px)' },
+                            '75%': { transform: 'translateX(2px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+    (function () {
+        var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+        s1.async = true;
+        s1.src = 'https://embed.tawk.to/695a13d84cd6f0197d100eb3/1je3tr1ao';
+        s1.charset = 'UTF-8';
+        s1.setAttribute('crossorigin', '*');
+        s0.parentNode.insertBefore(s1, s0);
+    })();
+</script>
+<!--End of Tawk.to Script-->
+<body class="bg-slate-50 text-slate-800" x-data="{ lang: 'zh', scrolled: false }"
+    @scroll.window="scrolled = (window.pageYOffset > 50)">
+
+    <!-- Navigation Bar -->
+    <nav :class="scrolled ? 'nav-scrolled' : 'bg-transparent nav-transparent'"
+        class="fixed w-full z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <!-- Logo (保持不动) -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="#" class="flex items-center gap-3 group">
+                        <img src="logo.png" alt="ZenCode Logo"
+                            class="h-8 w-auto object-contain transition-transform duration-300 group-hover:scale-110">
+                        <span :class="scrolled ? 'text-blue-600' : 'text-white'"
+                            class="font-bold text-2xl nav-text transition-colors duration-300 font-heading tracking-tight">
+                            ZenCode<span :class="scrolled ? 'text-slate-900' : 'text-white/80'">.jp</span>
+                        </span>
+                    </a>
+                </div>
+
+                <!-- 灵动胶囊导航 (只包含6个按钮) -->
+                <div class="hidden md:flex items-center absolute left-1/2 -translate-x-1/2">
+                    <div class="group relative flex items-center justify-center">
+                        <!-- Glow Effect -->
+                        <div class="absolute inset-0 bg-cyan-400/20 rounded-full blur-xl transition-all duration-500 opacity-0 group-hover:opacity-60 group-hover:scale-110"></div>
+
+                        <!-- Main Capsule Container -->
+                        <div class="capsule-container relative bg-black/60 backdrop-blur-xl border border-white/10 shadow-2xl rounded-full transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]
+                                    w-[120px] h-[46px] group-hover:w-[520px] overflow-hidden flex items-center justify-center">
+
+                            <!-- Collapsed State: MENU with pulsing dot -->
+                            <div class="absolute inset-0 flex items-center justify-center transition-opacity duration-300 group-hover:opacity-0 pointer-events-none">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                                    <span class="font-bold text-white tracking-widest text-xs">MENU</span>
+                                </div>
+                            </div>
+
+                            <!-- Expanded State: Navigation Links Only -->
+                            <div class="flex items-center gap-1 px-4 opacity-0 translate-y-2 transition-all duration-500 delay-100 group-hover:opacity-100 group-hover:translate-y-0 group-hover:delay-75">
+                                <a href="index.html" class="capsule-nav-link capsule-active">首页</a>
+                                <a href="pricing.html" class="capsule-nav-link">服务定价</a>
+                                <a href="techstack.html" class="capsule-nav-link">技术栈</a>
+                                <a href="cases.html" class="capsule-nav-link">成功案例</a>
+                                <a href="experience/experience.html" class="capsule-nav-link">小程序演示</a>
+                                <a href="about.html" class="capsule-nav-link">关于我们</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side: Language Toggle + CTA (保持不动) -->
+                <div class="flex items-center gap-4">
+                    <button @click="lang = lang === 'zh' ? 'en' : 'zh'"
+                        :class="scrolled ? 'text-slate-600 hover:text-blue-600' : 'text-white/80 hover:text-white'"
+                        class="font-mono text-sm font-medium transition-colors">
+                        <span x-text="lang === 'zh' ? 'EN' : '中'"></span>
+                    </button>
+
+                    <a href="#"
+                        :class="scrolled ? 'bg-blue-600 text-white shadow-blue-500/20' : 'bg-white/10 text-white border border-white/20 hover:bg-white/20'"
+                        class="px-5 py-2.5 rounded-lg font-medium transition shadow-lg backdrop-blur-sm">
+                        <span x-text="lang === 'zh' ? '免费咨询方案' : 'Free Consultation'"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="relative bg-neutral-950 min-h-screen flex items-center overflow-hidden group" x-data="{ 
+            activeSlide: 0, 
+            slides: [0, 1, 2, 3],
+            timer: null,
+            startAutoPlay() {
+                this.timer = setInterval(() => {
+                    this.next();
+                }, 8000);
+            },
+            stopAutoPlay() {
+                clearInterval(this.timer);
+            },
+            next() {
+                this.activeSlide = (this.activeSlide + 1) % this.slides.length;
+                this.dispatchSlideChange();
+            },
+            prev() {
+                this.activeSlide = (this.activeSlide - 1 + this.slides.length) % this.slides.length;
+                this.dispatchSlideChange();
+            },
+            goTo(index) {
+                this.activeSlide = index;
+                this.dispatchSlideChange();
+            },
+            dispatchSlideChange() {
+                document.dispatchEvent(new CustomEvent('slideChange', { detail: { slideIndex: this.activeSlide } }));
+            }
+        }" x-init="startAutoPlay()" @mouseenter="stopAutoPlay()" @mouseleave="startAutoPlay()">
+
+        <div x-show="activeSlide === 0" x-transition:enter="transition ease-out duration-1000"
+            x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="transition ease-in duration-1000" x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-105"
+            class="absolute inset-0 w-full h-full bg-black overflow-hidden">
+
+            <div id="hero-vortex-root" class="absolute inset-0 w-full h-full z-0"></div>
+            <div
+                class="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black z-0 pointer-events-none">
+            </div>
+
+            <script src="js/hero-vortex.js" type="text/babel"></script>
+
+            <div
+                class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full pt-20 pb-24">
+                <div class="text-center lg:text-left z-20">
+                    <div
+                        class="inline-block px-3 py-1 border border-purple-500/30 rounded-full text-xs font-medium text-purple-400 mb-6 tracking-[0.2em] uppercase font-mono bg-purple-500/10 backdrop-blur-sm">
+                        <span x-text="lang === 'zh' ? '生意做大了，该有自己的“地盘”了' : 'SCALE YOUR BUSINESS WITH ASSETS'"></span>
+                    </div>
+                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white flex flex-col gap-4 mb-6 font-heading">
+                        <span class="whitespace-nowrap" x-text="lang === 'zh' ? '从“朋友圈生意”' : 'From Social Media'"></span>
+
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 font-zen whitespace-nowrap"
+                            x-text="lang === 'zh' ? '跨越到“自属品牌”' : 'To Brand Empire'"></span>
+                    </h1>
+                    <p class="text-sm text-slate-400 mb-8 leading-relaxed max-w-xl mx-auto lg:mx-0 font-light">
+                        <span x-show="lang === 'zh'">别让客户关系只停留在通讯工具中。让我们为您打造 专属的独立 APP 与官网，以系统化的方式承载服务、品牌与信任，让您的业务像成熟企业一样稳定运转。</span>
+                        <span x-show="lang === 'en'" style="display: none;">Don't let your customers just sit in WeChat
+                            contacts. We build your exclusive App and Website, operating professionally like major
+                            Japanese enterprises.</span>
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
+                        <a href="cases.html"
+                            class="px-8 py-4 rounded-full bg-white text-black font-bold hover:bg-slate-200 transition shadow-[0_0_20px_rgba(255,255,255,0.3)] inline-block">
+                            <span x-text="lang === 'zh' ? '查看成功案例' : 'View Case Studies'"></span>
+                        </a>
+
+                        <a href="#contact"
+                            class="px-8 py-4 rounded-full border border-slate-700 text-slate-300 font-medium hover:border-white hover:text-white transition">
+                            <span x-text="lang === 'zh' ? '免费咨询方案' : 'Get Proposal'"></span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="relative h-[400px] lg:h-[600px] w-full flex items-center justify-center">
+                    <canvas id="canvas1"></canvas>
+                    <div id="loading" class="absolute text-blue-500 font-mono text-sm animate-pulse">
+                        <span x-text="lang === 'zh' ? '品牌资产构建中...' : 'BUILDING ASSETS...'"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div x-show="activeSlide === 1" x-cloak x-transition:enter="transition ease-out duration-1000"
+            x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="transition ease-in duration-1000" x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-105"
+            class="absolute inset-0 w-full h-full bg-[#0a0a0a] overflow-hidden">
+
+            <div
+                class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-900/20 via-[#0a0a0a] to-[#0a0a0a] z-0">
+            </div>
+
+            <div
+                class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full pt-20 pb-24">
+                <div class="text-center lg:text-left z-20 order-2 lg:order-1">
+                    <div
+                        class="inline-block px-3 py-1 border border-blue-500/30 rounded-full text-xs font-medium text-blue-400 mb-6 tracking-[0.2em] uppercase font-mono bg-blue-500/10 backdrop-blur-sm">
+                        <span x-text="lang === 'zh' ? '核心品牌资产' : 'CORE BRAND ASSET'"></span>
+                    </div>
+
+                    <h2 class="text-white text-4xl md:text-5xl lg:text-7xl font-bold font-heading tracking-tight mb-6 whitespace-nowrap">
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 font-zen"
+                            x-html="lang === 'zh' ? '原生 APP 定制开发' : 'Native APP<br>Development'"></span>
+                    </h2>
+
+                    <p
+                        class="text-slate-400 text-sm md:text-sm max-w-2xl font-light leading-relaxed mx-auto lg:mx-0 mb-8">
+                        <span
+                            x-html="lang === 'zh' ? '不仅仅是软件，更是您企业的数字名片。上架 Apple Store 和 Google Play，建立绝对的<b>品牌信任度与用户粘性</b>。让您的服务图标，永久驻留在客户的手机屏幕上。' : 'More than software, it\'s your digital identity. Listed on App Store & Google Play for ultimate brand trust and retention. Keep your service icon on customers\' screens forever.'"></span>
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-left max-w-2xl mx-auto lg:mx-0">
+                        <div class="bg-white/5 border border-white/10 rounded-xl p-4 backdrop-blur-sm">
+                            <div class="text-blue-400 text-xl mb-2">⚡️</div>
+                            <h4 class="text-white font-bold mb-1" x-text="lang === 'zh' ? '极致性能' : 'Peak Performance'">
+                            </h4>
+                            <p class="text-slate-400 text-sm"
+                                x-text="lang === 'zh' ? '秒开、流畅、稳定，提供最佳用户体验。' : 'Instant load, smooth, stable. Best UX.'">
+                            </p>
+                        </div>
+                        <div class="bg-white/5 border border-white/10 rounded-xl p-4 backdrop-blur-sm">
+                            <div class="text-blue-400 text-xl mb-2">🔔</div>
+                            <h4 class="text-white font-bold mb-1" x-text="lang === 'zh' ? '精准触达' : 'Precise Reach'">
+                            </h4>
+                            <p class="text-slate-400 text-sm"
+                                x-text="lang === 'zh' ? '利用推送通知，随时唤醒沉睡用户。' : 'Wake up dormant users with push notifications.'">
+                            </p>
+                        </div>
+                        <div class="bg-white/5 border border-white/10 rounded-xl p-4 backdrop-blur-sm">
+                            <div class="text-blue-400 text-xl mb-2">🔒</div>
+                            <h4 class="text-white font-bold mb-1" x-text="lang === 'zh' ? '私有数据' : 'Private Data'">
+                            </h4>
+                            <p class="text-slate-400 text-sm"
+                                x-text="lang === 'zh' ? '完全掌握用户数据，不再受制于第三方平台。' : 'Full control of user data, independent of platforms.'">
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-10 flex gap-4 pointer-events-auto justify-center lg:justify-start">
+                        <button
+                            class="px-8 py-3 rounded-full bg-blue-600 text-white font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-500/30">
+                            <span x-text="lang === 'zh' ? '咨询 APP 开发' : 'Inquire App Dev'"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <div
+                    class="relative h-[400px] lg:h-[600px] w-full flex items-center justify-center lg:justify-end order-1 lg:order-2 perspective-1000">
+                    <div class="relative z-10 animate-float">
+                        <div
+                            class="absolute -inset-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-[40px] blur-3xl opacity-30 animate-pulse-glow">
+                        </div>
+                        <img src="img/app_mockup_placeholder.png" alt="APP Mockup"
+                            class="relative z-20 max-h-[500px] object-contain drop-shadow-2xl transform rotate-[-5deg] hover:rotate-0 transition duration-500">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div x-show="activeSlide === 2" x-cloak x-transition:enter="transition ease-out duration-1000"
+            x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="transition ease-in duration-1000" x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-105"
+            class="absolute inset-0 w-full h-full bg-[#020604] overflow-hidden">
+
+            <div
+                class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-emerald-900/40 via-[#000000] to-[#000000] z-0">
+            </div>
+            <div class="absolute inset-0 opacity-20"
+                style="background-image: linear-gradient(#10b981 1px, transparent 1px), linear-gradient(90deg, #10b981 1px, transparent 1px); background-size: 50px 50px; mask-image: radial-gradient(circle at center, black 40%, transparent 100%);">
+            </div>
+
+            <div
+                class="absolute top-1/4 left-1/4 w-96 h-96 bg-green-500/20 rounded-full blur-[100px] animate-pulse-slow">
+            </div>
+            <div class="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-emerald-600/10 rounded-full blur-[120px] animate-pulse-slow"
+                style="animation-delay: 2s;"></div>
+
+            <div
+                class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full pt-20 pb-24">
+                <div class="text-center lg:text-left z-20 order-2 lg:order-1">
+                    <div
+                        class="inline-flex items-center gap-2 px-3 py-1 border border-emerald-500/30 rounded-full text-xs font-medium text-emerald-400 mb-6 tracking-[0.2em] uppercase font-mono bg-emerald-900/20 backdrop-blur-md shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                        <span x-text="lang === 'zh' ? '把“点赞之交” 变成 “下单铁粉”' : 'CONVERT TRAFFIC TO SALES'"></span>
+                    </div>
+
+                    <h2
+                        class="text-white text-4xl md:text-6xl lg:text-7xl font-bold font-heading tracking-tight mb-6 leading-tight">
+                        <span
+                            class="block text-transparent bg-clip-text bg-gradient-to-br from-white via-emerald-100 to-emerald-400 drop-shadow-lg"
+                            x-text="lang === 'zh' ? '24小时' : '24/7'"></span>
+                        <span class="text-emerald-500 font-zen"
+                            x-text="lang === 'zh' ? '自动接单系统' : 'Auto Sales System'"></span>
+                    </h2>
+
+                    <div
+                        class="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-md mb-8 max-w-xl mx-auto lg:mx-0 shadow-2xl">
+                        <p class="text-slate-300 text-sm md:text-sm font-light leading-relaxed">
+                            <span
+                                x-html="lang === 'zh' ? '还在手动回微信报价？还在用 Excel 记账？<br>用小程序实现<b>自助下单、自动结算、会员管理</b>。<br>省下一个人工的钱，就是纯利润。' : 'Still quoting manually? Automate ordering & billing. Saving labor cost is pure profit.'"></span>
+                        </p>
+                    </div>
+
+                    <div class="flex gap-4 pointer-events-auto justify-center lg:justify-start">
+                        <a href="experience/experience.html" class="group inline-flex px-8 py-3 rounded-full bg-emerald-600 hover:bg-emerald-500
+                                text-white font-bold transition-all
+                                shadow-[0_0_20px_rgba(5,150,105,0.4)]
+                                hover:shadow-[0_0_30px_rgba(5,150,105,0.6)]
+                                items-center gap-2">
+
+                            <span x-text="lang === 'zh' ? '体验演示版' : 'Try Demo'"></span>
+
+                            <svg class="w-4 h-4 transform transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div
+                    class="relative h-[400px] lg:h-[600px] w-full flex items-center justify-center lg:justify-end order-1 lg:order-2">
+                    <img src="img/wechat_mockup.png" alt="WeChat Mini Program"
+                        class="relative z-10 max-h-full object-contain wealth-engine-anim">
+                </div>
+            </div>
+            <script src="js/neural-canvas.js"></script>
+        </div>
+
+        <div x-show="activeSlide === 3" x-cloak x-transition:enter="transition ease-out duration-1000"
+            x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="transition ease-in duration-1000" x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-105"
+            class="absolute inset-0 w-full h-full bg-[#0f0505] overflow-hidden">
+
+            <canvas id="particleCanvas" class="absolute inset-0 w-full h-full z-0 opacity-40"></canvas>
+
+            <div
+                class="absolute top-0 right-0 w-[800px] h-[800px] bg-red-900/10 rounded-full blur-[120px] pointer-events-none">
+            </div>
+
+            <div
+                class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-red-500/30 to-transparent">
+            </div>
+            <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0f0505] to-transparent z-10">
+            </div>
+
+            <div
+                class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full pt-20 pb-24">
+
+                <div class="text-center lg:text-left z-20 pointer-events-none">
+
+                    <div
+                        class="inline-flex items-center gap-2 px-3 py-1 border border-red-500/30 rounded-full text-xs font-medium text-red-400 mb-6 tracking-[0.2em] uppercase font-mono bg-red-900/20 backdrop-blur-md shadow-[0_0_15px_rgba(239,68,68,0.2)]">
+                        <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+                        <span x-text="lang === 'zh' ? '不仅写代码，还是懂技术的合伙人' : 'YOUR TECH PARTNER'"></span>
+                    </div>
+
+                    <h2
+                        class="text-4xl md:text-6xl lg:text-7xl font-bold font-heading tracking-tighter mb-8 drop-shadow-2xl flex flex-col gap-2">
+                        <span
+                            class="inline-block text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-orange-400 to-amber-400 font-zen italic pr-4 pb-1"
+                            x-text="lang === 'zh' ? '更懂在日华人的' : 'We Know Your'"></span>
+
+                        <span
+                            class="inline-block text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-orange-400 to-amber-400 font-zen italic pr-4 pb-1"
+                            x-text="lang === 'zh' ? '生意' : 'Business'"></span>
+                    </h2>
+
+                    <div class="h-px w-32 bg-gradient-to-r from-red-500 to-transparent mx-auto lg:mx-0 mb-8"></div>
+
+                    <p class="text-red-200/60 font-mono text-xs md:text-sm tracking-[0.3em] uppercase mb-8">
+                        <span x-text="lang === 'zh' ? '坐标东京/大阪 · 随时可约面谈' : 'BASED IN TOKYO/OSAKA'"></span>
+                    </p>
+
+                    <p class="mt-8 text-slate-400 max-w-lg mx-auto lg:mx-0 font-light text-sm leading-relaxed">
+                        <span
+                            x-show="lang === 'zh'">我们不仅仅是开发商，更是您的<b>数字化战略顾问</b>。从服务器搭建到支付接口对接（微信/支付宝/PayPay），我们帮您搞定一切技术难题，您只管安心赚钱。</span>
+                    </p>
+
+                    <div class="mt-10 flex gap-4 pointer-events-auto justify-center lg:justify-start">
+                        <a href="#contact"
+                            class="group px-8 py-3 rounded-full border border-red-500/30 text-red-100 hover:bg-red-500/10 transition backdrop-blur-sm flex items-center gap-2">
+                            <span x-text="lang === 'zh' ? '预约面谈' : 'Book a Meeting'"></span>
+                            <svg class="w-4 h-4 text-red-400 group-hover:translate-x-1 transition-transform" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="relative h-[400px] lg:h-[800px] w-full flex items-center justify-center perspective-1000 overflow-hidden"
+                    id="hero-parallax-root">
+                </div>
+            </div>
+
+            <script src="js/web-carousel.js" type="text/babel"></script>
+
+            <script>
+                    (function () {
+                        const canvas = document.getElementById('particleCanvas');
+                        if (!canvas) return;
+                        const ctx = canvas.getContext('2d');
+                        let width, height;
+                        let particles = [];
+
+                        const particleCount = 45;
+                        const connectionDistance = 150;
+                        const mouseDistance = 200;
+
+                        let mouse = { x: null, y: null };
+
+                        window.addEventListener('mousemove', (e) => {
+                            const rect = canvas.getBoundingClientRect();
+                            mouse.x = e.clientX - rect.left;
+                            mouse.y = e.clientY - rect.top;
+                        });
+
+                        function resize() {
+                            width = canvas.width = window.innerWidth;
+                            height = canvas.height = window.innerHeight;
+                        }
+                        window.addEventListener('resize', resize);
+                        resize();
+
+                        class Particle {
+                            constructor() {
+                                this.x = Math.random() * width;
+                                this.y = Math.random() * height;
+                                this.vx = (Math.random() - 0.5) * 0.3;
+                                this.vy = (Math.random() - 0.5) * 0.3;
+                                this.size = Math.random() * 2 + 1;
+                                // 红色系粒子
+                                this.color = `rgba(${200 + Math.random() * 55}, ${50 + Math.random() * 100}, ${50 + Math.random() * 50}, ${Math.random() * 0.5 + 0.1})`;
+                            }
+                            update() {
+                                this.x += this.vx;
+                                this.y += this.vy;
+                                if (this.x < 0 || this.x > width) this.vx *= -1;
+                                if (this.y < 0 || this.y > height) this.vy *= -1;
+
+                                let dx = mouse.x - this.x;
+                                let dy = mouse.y - this.y;
+                                let distance = Math.sqrt(dx * dx + dy * dy);
+                                if (distance < mouseDistance) {
+                                    const force = (mouseDistance - distance) / mouseDistance;
+                                    this.vx -= (dx / distance) * force * 0.5;
+                                    this.vy -= (dy / distance) * force * 0.5;
+                                }
+                            }
+                            draw() {
+                                ctx.fillStyle = this.color;
+                                ctx.beginPath();
+                                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                                ctx.fill();
+                            }
+                        }
+
+                        function init() {
+                            particles = [];
+                            for (let i = 0; i < particleCount; i++) {
+                                particles.push(new Particle());
+                            }
+                        }
+
+                        function animate() {
+                            ctx.clearRect(0, 0, width, height);
+                            for (let i = 0; i < particles.length; i++) {
+                                particles[i].update();
+                                particles[i].draw();
+
+                                for (let j = i; j < particles.length; j++) {
+                                    let dx = particles[i].x - particles[j].x;
+                                    let dy = particles[i].y - particles[j].y;
+                                    let distance = Math.sqrt(dx * dx + dy * dy);
+                                    if (distance < connectionDistance) {
+                                        ctx.beginPath();
+                                        // 红色连线
+                                        ctx.strokeStyle = `rgba(255, 100, 100, ${0.15 * (1 - distance / connectionDistance)})`;
+                                        ctx.lineWidth = 1;
+                                        ctx.moveTo(particles[i].x, particles[i].y);
+                                        ctx.lineTo(particles[j].x, particles[j].y);
+                                        ctx.stroke();
+                                    }
+                                }
+                            }
+                            requestAnimationFrame(animate);
+                        }
+
+                        init();
+                        animate();
+                    })();
+            </script>
+        </div>
+
+        <button @click="prev()"
+            class="absolute left-6 top-1/2 transform -translate-y-1/2 z-30 w-14 h-14 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 backdrop-blur-md border border-white/10 text-white/50 hover:text-white transition hidden md:flex">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"></path>
+            </svg>
+        </button>
+        <button @click="next()"
+            class="absolute right-6 top-1/2 transform -translate-y-1/2 z-30 w-14 h-14 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 backdrop-blur-md border border-white/10 text-white/50 hover:text-white transition hidden md:flex">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"></path>
+            </svg>
+        </button>
+
+        <div class="absolute bottom-24 left-1/2 transform -translate-x-1/2 z-30 flex space-x-3">
+            <template x-for="(slide, index) in slides" :key="index">
+                <button @click="goTo(index)"
+                    :class="activeSlide === index ? 'w-8 bg-blue-500' : 'w-2 bg-white/30 hover:bg-white/50'"
+                    class="h-2 rounded-full transition-all duration-300"></button>
+            </template>
+        </div>
+    </section>
+
+    <section id="target-audience" class="py-24 bg-white relative z-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-base text-blue-600 font-bold tracking-wide uppercase mb-3 font-mono">
+                    <span x-text="lang === 'zh' ? '打破平台束缚' : 'Break Platform Limits'"></span>
+                </h2>
+                <p class="text-3xl leading-8 font-extrabold tracking-tight text-slate-900 sm:text-4xl font-zen">
+                    <span x-text="lang === 'zh' ? '每个人都可以拥有自己的小程序' : 'Home turf for every ambitious dream'"></span>
+                </p>
+                <p class="mt-4 max-w-2xl text-sm text-slate-500 mx-auto">
+                    <span
+                        x-text="lang === 'zh' ? '做生意的终局，不是靠短信电话，而是拥有自己的预约系统。 别让您的客户只沉淀在“认识你”。拥有独立的 APP 与官网，意味着您可以把客户关系、服务流程与定价逻辑，真正掌握在自己手中。' : 'Whether you are an entrepreneur or a store owner, own your digital territory.'"></span>
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="audience-meteors-grid">
+
+                <!-- 卡片 1 -->
+                <div class="relative w-full group">
+                    <!-- 背后光效 -->
+                    <div class="absolute inset-0 h-full w-full rounded-full bg-pink-500 blur-3xl
+                            opacity-20 transition-all duration-500 ease-out
+                            group-hover:opacity-35 group-hover:scale-105" style="animation: shine 4s ease-in-out infinite;">
+                    </div>
+
+                    <!-- 卡片本体 -->
+                    <div class="relative flex h-full flex-col items-start justify-between overflow-hidden
+                            rounded-2xl border border-gray-800 bg-gray-900 px-8 py-8
+                            shadow-[0_12px_30px_rgba(0,0,0,0.35)]
+                            transition-all duration-500 ease-out
+                            group-hover:-translate-y-2
+                            group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.45)]
+                            meteor-card">
+
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-full border border-gray-500 bg-gray-800 mb-4 text-2xl">
+                            🛍️
+                        </div>
+
+                        <h3 class="mb-4 text-2xl font-bold font-zen
+                                text-white/90 transition-colors duration-300
+                                group-hover:text-white">
+                            跨境电商 / 品牌主理人
+                        </h3>
+
+                        <ul class="mt-2 space-y-2 text-sm text-slate-400">
+                            <li class="flex gap-2"><span class="text-pink-500">✓</span>建立专业独立商城</li>
+                            <li class="flex gap-2"><span class="text-pink-500">✓</span>多币种 & 自动汇率</li>
+                            <li class="flex gap-2"><span class="text-pink-500">✓</span>客户自助查物流</li>
+                            <li class="flex gap-2"><span class="text-pink-500">✓</span>私域客户沉淀</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 卡片 2 -->
+                <div class="relative w-full group">
+                    <div class="absolute inset-0 h-full w-full rounded-full bg-blue-500 blur-3xl
+                            opacity-20 transition-all duration-500 ease-out
+                            group-hover:opacity-35 group-hover:scale-105" style="animation: shine 5s ease-in-out infinite;">
+                    </div>
+
+                    <div class="relative flex h-full flex-col items-start justify-between overflow-hidden
+                            rounded-2xl border border-gray-800 bg-gray-900 px-8 py-8
+                            shadow-[0_12px_30px_rgba(0,0,0,0.35)]
+                            transition-all duration-500 ease-out
+                            group-hover:-translate-y-2
+                            group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.45)]
+                            meteor-card">
+
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-full border border-gray-500 bg-gray-800 mb-4 text-2xl">
+                            🚖
+                        </div>
+
+                        <h3 class="mb-4 text-2xl font-bold font-zen
+                                text-white/90 transition-colors duration-300
+                                group-hover:text-white">
+                            专业车队 / 旅游地接
+                        </h3>
+
+                        <ul class="mt-2 space-y-2 text-sm text-slate-400">
+                            <li class="flex gap-2"><span class="text-blue-500">✓</span>拒绝平台高抽成</li>
+                            <li class="flex gap-2"><span class="text-blue-500">✓</span>自主定价接单</li>
+                            <li class="flex gap-2"><span class="text-blue-500">✓</span>智能排班调度</li>
+                            <li class="flex gap-2"><span class="text-blue-500">✓</span>承接海外大单</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 卡片 3 -->
+                <div class="relative w-full group">
+                    <div class="absolute inset-0 h-full w-full rounded-full bg-amber-500 blur-3xl
+                            opacity-20 transition-all duration-500 ease-out
+                            group-hover:opacity-35 group-hover:scale-105" style="animation: shine 6s ease-in-out infinite;">
+                    </div>
+
+                    <div class="relative flex h-full flex-col items-start justify-between overflow-hidden
+                            rounded-2xl border border-gray-800 bg-gray-900 px-8 py-8
+                            shadow-[0_12px_30px_rgba(0,0,0,0.35)]
+                            transition-all duration-500 ease-out
+                            group-hover:-translate-y-2
+                            group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.45)]
+                            meteor-card">
+
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-full border border-gray-500 bg-gray-800 mb-4 text-2xl">
+                            🏪
+                        </div>
+
+                        <h3 class="mb-4 text-2xl font-bold font-zen
+                                text-white/90 transition-colors duration-300
+                                group-hover:text-white">
+                            实体连锁 / 餐饮名店
+                        </h3>
+
+                        <ul class="mt-2 space-y-2 text-sm text-slate-400">
+                            <li class="flex gap-2"><span class="text-amber-500">✓</span>扫码点单系统</li>
+                            <li class="flex gap-2"><span class="text-amber-500">✓</span>会员储值体系</li>
+                            <li class="flex gap-2"><span class="text-amber-500">✓</span>自动营销发券</li>
+                            <li class="flex gap-2"><span class="text-amber-500">✓</span>线上线下联动</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 卡片 4 -->
+                <div class="relative w-full group">
+                    <div class="absolute inset-0 h-full w-full rounded-full bg-indigo-500 blur-3xl
+                            opacity-20 transition-all duration-500 ease-out
+                            group-hover:opacity-35 group-hover:scale-105" style="animation: shine 7s ease-in-out infinite;">
+                    </div>
+
+                    <div class="relative flex h-full flex-col items-start justify-between overflow-hidden
+                            rounded-2xl border border-gray-800 bg-gray-900 px-8 py-8
+                            shadow-[0_12px_30px_rgba(0,0,0,0.35)]
+                            transition-all duration-500 ease-out
+                            group-hover:-translate-y-2
+                            group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.45)]
+                            meteor-card">
+
+                        <div
+                            class="flex items-center justify-center h-12 w-12 rounded-full border border-gray-500 bg-gray-800 mb-4 text-2xl">
+                            🎓
+                        </div>
+
+                        <h3 class="mb-4 text-2xl font-bold font-zen
+                                text-white/90 transition-colors duration-300
+                                group-hover:text-white">
+                            不动产 / 留学教育
+                        </h3>
+
+                        <ul class="mt-2 space-y-2 text-sm text-slate-400">
+                            <li class="flex gap-2"><span class="text-indigo-500">✓</span>信息库自助筛选</li>
+                            <li class="flex gap-2"><span class="text-indigo-500">✓</span>预约 & CRM 系统</li>
+                            <li class="flex gap-2"><span class="text-indigo-500">✓</span>展示成功案例</li>
+                            <li class="flex gap-2"><span class="text-indigo-500">✓</span>打造行业标杆</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <script src="js/animations.js"></script>
+    </section>
+
+    <section id="portfolio" class="py-24 bg-neutral-950 relative z-20 text-white border-t border-neutral-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-20">
+                <h2 class="text-base text-blue-500 font-bold tracking-wide uppercase mb-3 font-mono">我们的交付标准</h2>
+                <p class="text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl font-zen">
+                    稳住本盘、收割新流量
+                </p>
+                <p class="mt-4 max-w-2xl text-sm text-slate-500 mx-auto">
+                    <span
+                        x-text="lang === 'zh' ? '别让您的生意只有“回头客”。APP 既是老客户的专属服务区，也是陌生客户的流量捕获器。老客不流失，新客源源不断，生意自然越做越大。' : 'Whether you are an entrepreneur or a store owner, own your digital territory.'"></span>
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[320px]" id="bento-grid">
+
+                <div
+                    class="spotlight-card group relative col-span-1 md:col-span-2 row-span-1 overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-900/50 p-8 backdrop-blur-sm transition-all duration-300 hover:border-blue-500/30 hover:bg-neutral-900/80">
+                    <div class="pointer-events-none absolute -inset-px opacity-0 transition duration-500 group-hover:opacity-100"
+                        style="background: radial-gradient(600px circle at var(--x) var(--y), rgba(59,130,246,0.15), transparent 40%);">
+                    </div>
+
+                    <div
+                        class="absolute -bottom-4 -right-4 text-[12rem] font-bold text-white/[0.02] font-heading select-none pointer-events-none group-hover:text-white/[0.04] transition-colors">
+                        01
+                    </div>
+
+                    <div class="relative z-10 h-full flex flex-col justify-start items-start">
+                        <div
+                            class="mb-6 w-14 h-14 bg-gradient-to-br from-blue-500/20 to-blue-600/5 rounded-2xl border border-blue-500/20 flex items-center justify-center text-2xl text-blue-400 group-hover:scale-110 group-hover:border-blue-400/50 transition-all duration-300 shadow-[0_0_20px_rgba(59,130,246,0.1)]">
+                            📱
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white mb-3 flex items-center gap-2">
+                                原生 APP 开发
+                                <span
+                                    class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-blue-500 text-lg">↗</span>
+                            </h3>
+                            <p class="text-neutral-400 leading-relaxed font-light text-sm md:text-base max-w-lg">
+                                不仅是软件，更是品牌资产。ZenCode 确保您的 APP 在 Apple Store 和 Google Play
+                                上架，成为客户手机里的常驻图标。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="spotlight-card group relative col-span-1 row-span-1 overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-900/50 p-8 backdrop-blur-sm transition-all duration-300 hover:border-purple-500/30 hover:bg-neutral-900/80">
+                    <div class="pointer-events-none absolute -inset-px opacity-0 transition duration-500 group-hover:opacity-100"
+                        style="background: radial-gradient(600px circle at var(--x) var(--y), rgba(168,85,247,0.15), transparent 40%);">
+                    </div>
+
+                    <div
+                        class="absolute bottom-4 right-4 text-6xl font-bold text-white/[0.02] font-code select-none pointer-events-none group-hover:text-white/[0.04] transition-colors">
+                        &lt;/&gt;
+                    </div>
+
+                    <div class="relative z-10 h-full flex flex-col justify-start items-start">
+                        <div
+                            class="mb-6 w-14 h-14 bg-gradient-to-br from-purple-500/20 to-purple-600/5 rounded-2xl border border-purple-500/20 flex items-center justify-center text-2xl text-purple-400 group-hover:scale-110 group-hover:border-purple-400/50 transition-all duration-300 shadow-[0_0_20px_rgba(168,85,247,0.1)]">
+                            💻
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white mb-3">品牌官网落地页</h3>
+                            <p class="text-neutral-400 text-sm font-light leading-relaxed">
+                                既然要做，就做最好。让日本客户在 Google 搜索到的瞬间，就被您的企业形象折服。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="spotlight-card group relative col-span-1 md:col-span-3 row-span-1 overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-900/50 p-8 flex flex-col md:flex-row items-center gap-8 backdrop-blur-sm transition-all duration-300 hover:border-emerald-500/30 hover:bg-neutral-900/80">
+                    <div class="pointer-events-none absolute -inset-px opacity-0 transition duration-500 group-hover:opacity-100"
+                        style="background: radial-gradient(600px circle at var(--x) var(--y), rgba(16,185,129,0.15), transparent 40%);">
+                    </div>
+
+                    <div class="relative z-10 flex-1 flex flex-col justify-start items-start">
+                        <div
+                            class="mb-6 w-14 h-14 bg-gradient-to-br from-emerald-500/20 to-emerald-600/5 rounded-2xl border border-emerald-500/20 flex items-center justify-center text-2xl text-emerald-400 group-hover:scale-110 group-hover:border-emerald-400/50 transition-all duration-300 shadow-[0_0_20px_rgba(16,185,129,0.1)]">
+                            🚀
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-3">微信小程序矩阵</h3>
+                        <p class="text-neutral-400 max-w-2xl font-light text-sm md:text-base leading-relaxed">
+                            连接微信生态内的十亿用户。无需安装、扫码即用、社交裂变，是在日华人圈获客成本最低、传播速度最快的渠道。
+                        </p>
+                    </div>
+
+                    <div
+                        class="relative z-10 w-full md:w-1/3 h-40 bg-neutral-950/50 rounded-xl border border-white/5 flex items-center justify-center overflow-hidden group-hover:border-emerald-500/20 transition-colors">
+                        <div
+                            class="text-neutral-600 font-mono text-xs z-10 tracking-widest group-hover:text-emerald-500/50 transition-colors">
+                            PROFITABLE SYSTEM</div>
+                        <div class="absolute inset-0 opacity-20"
+                            style="background-image: linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px); background-size: 20px 20px;">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-white border-t border-slate-200 pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+
+                <div>
+                    <h4 class="font-bold text-slate-900 mb-4 font-heading">ZenCode.jp</h4>
+                    <p class="text-slate-500 text-sm">赋能在日华商，让生意更简单。</p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-slate-900 mb-4">信任保障</h4>
+                    <div class="flex flex-col gap-2 opacity-70 text-sm text-slate-500">
+                        <span>🛡️ SSL安全认证</span>
+                        <span>💳 聚合支付对接</span>
+                        <span>☁️ AWS 技术合作伙伴</span>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-slate-900 mb-4">联系我们</h4>
+                    <p class="text-slate-500 text-sm mb-1">📍 东京 / 大阪 / 远程支持</p>
+                    <p class="text-slate-500 text-sm">📧 contact@zencode.jp</p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-slate-900 mb-4">视觉实验室</h4>
+                    <ul class="space-y-2 text-sm text-slate-500">
+                        <li>
+                            <a href="gallery.html"
+                                class="group flex items-center gap-2 hover:text-blue-600 transition-colors">
+                                <span class="w-2 h-2 rounded-full bg-blue-500 group-hover:animate-ping"></span>
+                                <span>进入特效展示厅</span>
+                                <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity -ml-1"
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                            </a>
+                        </li>
+                        <li class="text-xs text-slate-400 mt-2">
+                            包含 WebGL, Three.js 等<br>高阶前端技术演示
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div
+                class="text-center text-slate-400 text-sm border-t border-slate-100 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <span>&copy; 2026 ZenCode. All rights reserved.</span>
+                <span class="font-mono text-xs opacity-50 mt-2 md:mt-0">DESIGNED BY HUMAN SPIRIT & AI LOGIC</span>
+            </div>
+        </div>
+    </footer>
+    <script src="js/logo-particles.js"></script>
+
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
+    <script>
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+    </script>
+</body>
+
+</html>
