@@ -88,6 +88,43 @@
             }
         }
 
+        /* =========================================
+           PC/手机背景切换控制
+        ========================================= */
+        /* 默认状态（PC优先）：隐藏手机背景，显示PC背景 */
+        .mobile-only-bg { display: none; }
+        .pc-only-bg { display: block; }
+
+        /* 手机端专属背景样式（深空极光特效） */
+        #mobile-tech-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            background-color: #0B0C10;
+            background-image:
+                radial-gradient(at 20% 30%, rgba(99, 102, 241, 0.25) 0px, transparent 50%),
+                radial-gradient(at 80% 70%, rgba(30, 32, 70, 0.3) 0px, transparent 50%),
+                linear-gradient(to bottom, rgba(11, 12, 16, 0.8), rgba(11, 12, 16, 1));
+            background-size: 120% 120%;
+            animation: auroraMove 20s ease infinite alternate;
+        }
+
+        @keyframes auroraMove {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        /* 媒体查询：手机屏幕切换 */
+        @media (max-width: 768px) {
+            .pc-only-bg {
+                display: none !important;
+            }
+            .mobile-only-bg {
+                display: block !important;
+            }
+        }
+
         /* Glass Morphism Nav Buttons */
         .glass-nav-btn {
             padding: 0.5em 1em;
@@ -115,8 +152,11 @@
 
 <body class="bg-brand-black text-brand-gray font-sans selection:bg-brand-cyan selection:text-brand-black">
 
-    <!-- Vanta.js Background -->
-    <div id="vanta-bg"></div>
+    <!-- PC端: Vanta.js Background -->
+    <div id="vanta-bg" class="pc-only-bg"></div>
+
+    <!-- 手机端: CSS 深空极光背景 -->
+    <div id="mobile-tech-bg" class="mobile-only-bg"></div>
 
     <!-- Content Wrapper -->
     <div class="content-wrapper">
@@ -356,11 +396,19 @@
         </footer>
     </div>
 
-    <!-- Initialize Vanta.js -->
+    <!-- Initialize Vanta.js (仅PC端) -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            if (typeof VANTA !== 'undefined' && VANTA.TOPOLOGY) {
-                VANTA.TOPOLOGY({
+            // 检测是否为移动端（以768px为界）
+            function isMobileDevice() {
+                return window.innerWidth < 768;
+            }
+
+            // 只有在PC端才初始化 Vanta.js，手机端使用 CSS 背景
+            if (!isMobileDevice()) {
+                console.log("PC mode: Initializing Vanta.js");
+
+                var config = {
                     el: "#vanta-bg",
                     p5: p5,
                     mouseControls: true,
@@ -372,21 +420,15 @@
                     scaleMobile: 1.00,
                     color: 0x6366F1,
                     backgroundColor: 0x0B0C10
-                });
-            } else if (typeof _vantaEffect !== 'undefined') {
-                new _vantaEffect({
-                    el: "#vanta-bg",
-                    p5: p5,
-                    mouseControls: true,
-                    touchControls: true,
-                    gyroControls: false,
-                    minHeight: 200.00,
-                    minWidth: 200.00,
-                    scale: 1.00,
-                    scaleMobile: 1.00,
-                    color: 0x6366F1,
-                    backgroundColor: 0x0B0C10
-                });
+                };
+
+                if (typeof VANTA !== 'undefined' && VANTA.TOPOLOGY) {
+                    VANTA.TOPOLOGY(config);
+                } else if (typeof _vantaEffect !== 'undefined') {
+                    new _vantaEffect(config);
+                }
+            } else {
+                console.log("Mobile mode: Using CSS aurora background");
             }
         });
     </script>
