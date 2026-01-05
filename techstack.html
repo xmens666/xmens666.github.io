@@ -118,6 +118,36 @@
         .glass-nav-orange:hover { background: rgba(255, 107, 0, 0.25); box-shadow: 0 0 20px rgba(255, 107, 0, 0.3); border-color: rgba(255, 107, 0, 0.4); color: #FF6B00; }
         .glass-nav-pink:hover { background: rgba(255, 0, 128, 0.25); box-shadow: 0 0 20px rgba(255, 0, 128, 0.3); border-color: rgba(255, 0, 128, 0.4); color: #FF0080; }
         .glass-nav-active { background: rgba(0, 194, 255, 0.2) !important; border-color: rgba(0, 194, 255, 0.5) !important; color: #00C2FF !important; }
+
+        /* 手机端响应式 */
+        @media (max-width: 767px) {
+            /* 大标题字体缩小 */
+            .section-title {
+                font-size: 1.5rem !important;
+            }
+
+            /* CTA Footer 向上提拉 */
+            .cta-footer {
+                padding-top: 2rem !important;
+                padding-bottom: 2rem !important;
+                margin-top: -2rem !important;
+            }
+
+            .cta-footer h2 {
+                font-size: 1.5rem !important;
+                margin-bottom: 1rem !important;
+            }
+
+            .cta-footer p {
+                font-size: 0.875rem !important;
+                margin-bottom: 1.5rem !important;
+            }
+
+            .cta-footer a {
+                font-size: 0.875rem !important;
+                padding: 0.75rem 1.5rem !important;
+            }
+        }
     </style>
 </head>
 
@@ -165,7 +195,7 @@
                         🎨
                     </div>
                     <div>
-                        <h2 class="text-3xl font-bold text-white font-heading">前端技术</h2>
+                        <h2 class="section-title text-3xl font-bold text-white font-heading">前端技术</h2>
                         <p class="text-slate-500 text-sm">Frontend Technologies</p>
                     </div>
                     <div class="flex-1 h-px bg-gradient-to-r from-accent-blue/50 to-transparent ml-4"></div>
@@ -248,7 +278,7 @@
                         <span>&#9881;</span>
                     </div>
                     <div>
-                        <h2 class="text-3xl font-bold text-white font-heading">后端技术</h2>
+                        <h2 class="section-title text-3xl font-bold text-white font-heading">后端技术</h2>
                         <p class="text-slate-500 text-sm">Backend Technologies</p>
                     </div>
                     <div class="flex-1 h-px bg-gradient-to-r from-accent-green/50 to-transparent ml-4"></div>
@@ -331,7 +361,7 @@
                         <span>&#9729;</span>
                     </div>
                     <div>
-                        <h2 class="text-3xl font-bold text-white font-heading">云服务 & DevOps</h2>
+                        <h2 class="section-title text-3xl font-bold text-white font-heading">云服务 & DevOps</h2>
                         <p class="text-slate-500 text-sm">Cloud & DevOps</p>
                     </div>
                     <div class="flex-1 h-px bg-gradient-to-r from-accent-purple/50 to-transparent ml-4"></div>
@@ -413,7 +443,7 @@
                         <span>&#129302;</span>
                     </div>
                     <div>
-                        <h2 class="text-3xl font-bold text-white font-heading">AI & 开发工具</h2>
+                        <h2 class="section-title text-3xl font-bold text-white font-heading">AI & 开发工具</h2>
                         <p class="text-slate-500 text-sm">AI & Development Tools</p>
                     </div>
                     <div class="flex-1 h-px bg-gradient-to-r from-accent-orange/50 to-transparent ml-4"></div>
@@ -529,7 +559,7 @@
         </main>
 
         <!-- CTA Footer -->
-        <footer class="py-20 text-center relative overflow-hidden" id="contact">
+        <footer class="cta-footer py-20 text-center relative overflow-hidden" id="contact">
             <div class="absolute inset-0 bg-gradient-to-t from-accent-blue/10 to-transparent pointer-events-none"></div>
             <div class="relative z-10 px-4">
                 <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 font-heading">想了解更多技术细节？</h2>

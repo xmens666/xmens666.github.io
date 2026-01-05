@@ -22,10 +22,14 @@
             margin: 0;
         }
 
-        body {
+        html, body {
             overflow: hidden;
             background-color: var(--dark-color);
             margin: 0;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            touch-action: none;
         }
 
         /* Back Button Style */
@@ -244,6 +248,25 @@
             to {
                 background-color: var(--dark-color);
                 filter: drop-shadow(0 0 0 var(--light-red)) blur(0);
+            }
+        }
+
+        /* 手机端响应式 - 缩小特效 */
+        @media (max-width: 767px) {
+            #solar-system {
+                transform: skewX(-45deg) scale(0.5);
+            }
+
+            #sun {
+                width: 120px;
+                height: 120px;
+            }
+
+            .back-btn {
+                top: 15px;
+                left: 15px;
+                padding: 8px 16px;
+                font-size: 12px;
             }
         }
     </style>

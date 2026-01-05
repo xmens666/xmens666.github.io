@@ -66,8 +66,9 @@
         image.src = 'logo.png'; // ⚠️ 确保你的图片叫这个名字，并在同一目录
 
         // 调整 Logo 在屏幕上的大小 (缩放比例)
-        // 如果你的图片很大，建议改小一点，比如 0.5
-        const scale = 0.8;
+        // 手机端缩小显示
+        const isMobile = window.innerWidth < 768;
+        const scale = isMobile ? 0.5 : 0.8;
 
         class Particle {
             constructor(x, y, color) {
@@ -188,6 +189,22 @@
         window.addEventListener('mousemove', function (event) {
             particlesArray.forEach(particle => {
                 particle.warp(event.x, event.y);
+            });
+        });
+
+        // 触摸支持 (手机端)
+        window.addEventListener('touchmove', function (event) {
+            event.preventDefault();
+            const touch = event.touches[0];
+            particlesArray.forEach(particle => {
+                particle.warp(touch.clientX, touch.clientY);
+            });
+        }, { passive: false });
+
+        window.addEventListener('touchstart', function (event) {
+            const touch = event.touches[0];
+            particlesArray.forEach(particle => {
+                particle.warp(touch.clientX, touch.clientY);
             });
         });
 

@@ -142,6 +142,14 @@
         .glass-nav-orange:hover { background: rgba(255, 107, 0, 0.25); box-shadow: 0 0 20px rgba(255, 107, 0, 0.3); border-color: rgba(255, 107, 0, 0.4); color: #FF6B00; }
         .glass-nav-pink:hover { background: rgba(255, 0, 128, 0.25); box-shadow: 0 0 20px rgba(255, 0, 128, 0.3); border-color: rgba(255, 0, 128, 0.4); color: #FF0080; }
         .glass-nav-active { background: rgba(189, 0, 255, 0.2) !important; border-color: rgba(189, 0, 255, 0.5) !important; color: #BD00FF !important; }
+
+        /* 手机端响应式 */
+        @media (max-width: 767px) {
+            .filter-btn {
+                font-size: 0.75rem !important;
+                padding: 0.375rem 0.75rem !important;
+            }
+        }
     </style>
 </head>
 
@@ -243,22 +251,22 @@
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
 
-            <div class="flex flex-wrap justify-center gap-4 mb-16">
+            <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-16">
                 <button @click="activeFilter = 'all'"
                     :class="activeFilter === 'all' ? 'bg-white text-black' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'"
-                    class="px-6 py-2 rounded-full text-sm font-bold transition-all border border-white/10 backdrop-blur-sm">全部案例</button>
+                    class="filter-btn px-6 py-2 rounded-full text-sm font-bold transition-all border border-white/10 backdrop-blur-sm">全部案例</button>
 
                 <button @click="activeFilter = 'app'"
                     :class="activeFilter === 'app' ? 'bg-blue-600 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'"
-                    class="px-6 py-2 rounded-full text-sm font-bold transition-all border border-white/10 backdrop-blur-sm">📱 APP</button>
+                    class="filter-btn px-6 py-2 rounded-full text-sm font-bold transition-all border border-white/10 backdrop-blur-sm">📱 APP</button>
 
                 <button @click="activeFilter = 'miniapp'"
                     :class="activeFilter === 'miniapp' ? 'bg-emerald-600 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'"
-                    class="px-6 py-2 rounded-full text-sm font-bold transition-all border border-white/10 backdrop-blur-sm">🟢 小程序</button>
+                    class="filter-btn px-6 py-2 rounded-full text-sm font-bold transition-all border border-white/10 backdrop-blur-sm">🟢 小程序</button>
 
                 <button @click="activeFilter = 'web'"
                     :class="activeFilter === 'web' ? 'bg-purple-600 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'"
-                    class="px-6 py-2 rounded-full text-sm font-bold transition-all border border-white/10 backdrop-blur-sm">🌐 网页</button>
+                    class="filter-btn px-6 py-2 rounded-full text-sm font-bold transition-all border border-white/10 backdrop-blur-sm">🌐 网页</button>
             </div>
 
 

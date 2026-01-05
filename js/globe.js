@@ -80,11 +80,15 @@
         const width = container.clientWidth;
         const height = container.clientHeight;
 
+        // 手机端使用更高的 altitude 让地球看起来更小
+        const isMobile = window.innerWidth < 768;
+        const defaultAltitude = isMobile ? 4.5 : 2.5;
+
         const Globe = window.Globe()
             (container)
             .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-night.jpg')
             .bumpImageUrl('https://unpkg.com/three-globe/example/img/earth-topology.png')
-            .pointOfView({ lat: globeConfig.initialPosition.lat, lng: globeConfig.initialPosition.lng, altitude: 2.5 })
+            .pointOfView({ lat: globeConfig.initialPosition.lat, lng: globeConfig.initialPosition.lng, altitude: defaultAltitude })
             .width(width)
             .height(height)
             .backgroundColor('#00000000') // Transparent background

@@ -146,6 +146,169 @@
             80% { width: 510px; }
             100% { width: 520px; }
         }
+
+        /* ============================================
+           MOBILE RESPONSIVE STYLES
+           ============================================ */
+
+        /* Hide canvas particle effects on mobile (circle noise particles) */
+        @media (max-width: 767px) {
+            #canvas1 {
+                display: none !important;
+            }
+
+            /* Hide loading indicator for canvas */
+            #loading {
+                display: none !important;
+            }
+
+            /* Adjust hero section for mobile */
+            .hero-content-mobile {
+                padding-top: 100px;
+            }
+
+            /* Mobile button scaling */
+            .flip-nav-btn {
+                height: 44px;
+                min-width: 80px;
+                padding: 0 16px;
+                font-size: 14px;
+            }
+
+            .flip-nav-btn::before,
+            .flip-nav-btn::after {
+                font-size: 14px;
+            }
+
+            .flip-nav-btn::after {
+                transform: translateY(44px);
+            }
+
+            /* Larger touch targets for mobile */
+            a, button {
+                min-height: 44px;
+            }
+        }
+
+        /* Tablet adjustments */
+        @media (max-width: 1023px) and (min-width: 768px) {
+            .capsule-container {
+                width: 100px;
+            }
+            .group:hover .capsule-container {
+                animation: none;
+                width: 480px;
+            }
+        }
+
+        /* Alpine.js cloak fix */
+        [x-cloak] {
+            display: none !important;
+        }
+
+        /* ============================================
+           MOBILE SPECIFIC ADJUSTMENTS
+           ============================================ */
+        @media (max-width: 767px) {
+            /* 1. 轮播第二页：图片与文字间距调小 */
+            .slide-2-image-container {
+                height: 280px !important;
+                margin-bottom: -20px;
+            }
+
+            /* 2. 轮播第二页：三个卡片改为横向滚动或调整布局 */
+            .slide-2-features-grid {
+                gap: 8px !important;
+                margin-bottom: 16px !important;
+            }
+
+            .slide-2-features-grid > div {
+                padding: 10px !important;
+            }
+
+            .slide-2-features-grid > div p {
+                font-size: 10px !important;
+                line-height: 1.3 !important;
+            }
+
+            /* 3. 轮播第三页：文字部分向上移动，与呼吸图片间距缩小 */
+            .slide-3-container {
+                gap: 0 !important;
+                padding-top: 10px !important;
+            }
+
+            .slide-3-content {
+                margin-top: -80px !important;
+            }
+
+            .slide-3-image {
+                height: 280px !important;
+                margin-bottom: -40px !important;
+            }
+
+            /* 4. 轮播第四页：标题一行显示 + 间距紧凑 */
+            .slide-4-title {
+                flex-direction: row !important;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.25rem !important;
+            }
+
+            .slide-4-title span {
+                display: inline !important;
+            }
+
+            .slide-4-carousel-container {
+                margin-top: -200px !important;
+            }
+
+            .slide-4-cta-section {
+                margin-top: 16px !important;
+                margin-bottom: 8px !important;
+            }
+
+            /* 5. Footer视觉实验室间距调小 */
+            .footer-lab-section h4 {
+                margin-bottom: 4px !important;
+            }
+
+            .footer-lab-section ul {
+                gap: 0 !important;
+            }
+
+            .footer-lab-section li {
+                margin-top: 0 !important;
+                margin-bottom: 0 !important;
+                padding-top: 2px !important;
+                padding-bottom: 2px !important;
+            }
+
+            .footer-lab-section li.text-xs {
+                margin-top: 4px !important;
+            }
+
+            /* 进入特效展示厅按钮样式 */
+            .gallery-btn {
+                display: inline-flex !important;
+                width: auto !important;
+                background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
+                color: white !important;
+                padding: 10px 20px !important;
+                border-radius: 9999px !important;
+                font-weight: 600 !important;
+                justify-content: center !important;
+                box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4) !important;
+            }
+
+            .gallery-btn-dot {
+                display: none !important;
+            }
+
+            .gallery-btn svg {
+                opacity: 1 !important;
+                margin-left: 4px !important;
+            }
+        }
     </style>
 
     <script>
@@ -196,7 +359,7 @@
     })();
 </script>
 <!--End of Tawk.to Script-->
-<body class="bg-slate-50 text-slate-800" x-data="{ lang: 'zh', scrolled: false }"
+<body class="bg-slate-50 text-slate-800" x-data="{ lang: 'zh', scrolled: false, mobileMenuOpen: false }"
     @scroll.window="scrolled = (window.pageYOffset > 50)">
 
     <!-- Navigation Bar -->
@@ -257,18 +420,90 @@
 
                     <a href="contact.html"
                         :class="scrolled ? 'bg-blue-600 text-white shadow-blue-500/20' : 'bg-white/10 text-white border border-white/20 hover:bg-white/20'"
-                        class="px-5 py-2.5 rounded-lg font-medium transition shadow-lg backdrop-blur-sm">
+                        class="hidden md:block px-5 py-2.5 rounded-lg font-medium transition shadow-lg backdrop-blur-sm">
                         <span x-text="lang === 'zh' ? '免费咨询方案' : 'Free Consultation'"></span>
                     </a>
+
+                    <!-- Mobile Hamburger Button -->
+                    <button @click="mobileMenuOpen = !mobileMenuOpen"
+                        class="md:hidden flex items-center justify-center w-10 h-10 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20"
+                        :class="scrolled ? 'bg-slate-100 border-slate-200' : ''">
+                        <svg x-show="!mobileMenuOpen" class="w-6 h-6" :class="scrolled ? 'text-slate-700' : 'text-white'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                        <svg x-show="mobileMenuOpen" x-cloak class="w-6 h-6" :class="scrolled ? 'text-slate-700' : 'text-white'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>
     </nav>
 
-    <section class="relative bg-neutral-950 min-h-screen flex items-center overflow-hidden group" x-data="{ 
-            activeSlide: 0, 
+    <!-- Mobile Full-Screen Menu -->
+    <div x-show="mobileMenuOpen" x-cloak
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl md:hidden flex flex-col items-center justify-center">
+
+        <!-- Close Button -->
+        <button @click="mobileMenuOpen = false" class="absolute top-6 right-6 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 text-white">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+
+        <!-- Mobile Navigation Links -->
+        <nav class="flex flex-col items-center gap-6">
+            <a href="index.html" @click="mobileMenuOpen = false"
+                class="text-2xl font-bold text-cyan-400 hover:text-cyan-300 transition-colors py-3 px-6">
+                首页
+            </a>
+            <a href="pricing.html" @click="mobileMenuOpen = false"
+                class="text-2xl font-medium text-white/80 hover:text-white transition-colors py-3 px-6">
+                服务定价
+            </a>
+            <a href="techstack.html" @click="mobileMenuOpen = false"
+                class="text-2xl font-medium text-white/80 hover:text-white transition-colors py-3 px-6">
+                技术栈
+            </a>
+            <a href="cases.html" @click="mobileMenuOpen = false"
+                class="text-2xl font-medium text-white/80 hover:text-white transition-colors py-3 px-6">
+                成功案例
+            </a>
+            <a href="experience/experience.html" @click="mobileMenuOpen = false"
+                class="text-2xl font-medium text-white/80 hover:text-white transition-colors py-3 px-6">
+                小程序演示
+            </a>
+            <a href="about.html" @click="mobileMenuOpen = false"
+                class="text-2xl font-medium text-white/80 hover:text-white transition-colors py-3 px-6">
+                关于我们
+            </a>
+
+            <!-- Mobile CTA Button -->
+            <a href="contact.html" @click="mobileMenuOpen = false"
+                class="mt-6 px-8 py-4 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold text-lg shadow-lg shadow-blue-500/30">
+                <span x-text="lang === 'zh' ? '免费咨询方案' : 'Free Consultation'"></span>
+            </a>
+        </nav>
+
+        <!-- Mobile Language Toggle -->
+        <button @click="lang = lang === 'zh' ? 'en' : 'zh'"
+            class="absolute bottom-10 text-white/60 font-mono text-sm hover:text-white transition-colors">
+            <span x-text="lang === 'zh' ? 'Switch to English' : '切换到中文'"></span>
+        </button>
+    </div>
+
+    <section class="relative bg-neutral-950 min-h-screen flex items-center overflow-hidden group" x-data="{
+            activeSlide: 0,
             slides: [0, 1, 2, 3],
             timer: null,
+            touchStartX: 0,
+            touchEndX: 0,
             startAutoPlay() {
                 this.timer = setInterval(() => {
                     this.next();
@@ -291,8 +526,27 @@
             },
             dispatchSlideChange() {
                 document.dispatchEvent(new CustomEvent('slideChange', { detail: { slideIndex: this.activeSlide } }));
+            },
+            handleTouchStart(e) {
+                this.touchStartX = e.changedTouches[0].screenX;
+                this.stopAutoPlay();
+            },
+            handleTouchEnd(e) {
+                this.touchEndX = e.changedTouches[0].screenX;
+                this.handleSwipe();
+                this.startAutoPlay();
+            },
+            handleSwipe() {
+                const diff = this.touchStartX - this.touchEndX;
+                const threshold = 50;
+                if (diff > threshold) {
+                    this.next();
+                } else if (diff < -threshold) {
+                    this.prev();
+                }
             }
-        }" x-init="startAutoPlay()" @mouseenter="stopAutoPlay()" @mouseleave="startAutoPlay()">
+        }" x-init="startAutoPlay()" @mouseenter="stopAutoPlay()" @mouseleave="startAutoPlay()"
+        @touchstart="handleTouchStart($event)" @touchend="handleTouchEnd($event)">
 
         <div x-show="activeSlide === 0" x-transition:enter="transition ease-out duration-1000"
             x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
@@ -311,14 +565,17 @@
                 class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full pt-20 pb-24">
                 <div class="text-center lg:text-left z-20">
                     <div
-                        class="inline-block px-3 py-1 border border-purple-500/30 rounded-full text-xs font-medium text-purple-400 mb-6 tracking-[0.2em] uppercase font-mono bg-purple-500/10 backdrop-blur-sm">
-                        <span x-text="lang === 'zh' ? '生意做大了，该有自己的“地盘”了' : 'SCALE YOUR BUSINESS WITH ASSETS'"></span>
+                        class="inline-flex items-center gap-2 px-3 py-1 border border-purple-500/30 rounded-full text-xs font-medium text-purple-400 mb-6 tracking-[0.2em] uppercase font-mono bg-purple-900/20 backdrop-blur-md shadow-[0_0_15px_rgba(168,85,247,0.2)]">
+                        <span class="w-2 h-2 rounded-full bg-purple-400 animate-ping"></span>
+                        <span x-show="lang === 'zh'">生意做大了，该有自己的"地盘"了</span>
+                        <span x-show="lang !== 'zh'">SCALE YOUR BUSINESS WITH ASSETS</span>
                     </div>
-                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white flex flex-col gap-4 mb-6 font-heading">
-                        <span class="whitespace-nowrap" x-text="lang === 'zh' ? '从“朋友圈生意”' : 'From Social Media'"></span>
+                    <h1 class="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-white flex flex-col gap-2 sm:gap-4 mb-6 font-heading">
+                        <span class="whitespace-normal sm:whitespace-nowrap" x-show="lang === 'zh'">从"朋友圈生意"</span>
+                        <span class="whitespace-normal sm:whitespace-nowrap" x-show="lang !== 'zh'" x-cloak>From Social Media</span>
 
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 font-zen whitespace-nowrap"
-                            x-text="lang === 'zh' ? '跨越到“自属品牌”' : 'To Brand Empire'"></span>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 font-zen whitespace-normal sm:whitespace-nowrap" x-show="lang === 'zh'">跨越到"自属品牌"</span>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 font-zen whitespace-normal sm:whitespace-nowrap" x-show="lang !== 'zh'" x-cloak>To Brand Empire</span>
                     </h1>
                     <p class="text-sm text-slate-400 mb-8 leading-relaxed max-w-xl mx-auto lg:mx-0 font-light">
                         <span x-show="lang === 'zh'">别让客户关系只停留在通讯工具中。让我们为您打造 专属的独立 APP 与官网，以系统化的方式承载服务、品牌与信任，让您的业务像成熟企业一样稳定运转。</span>
@@ -326,20 +583,20 @@
                             contacts. We build your exclusive App and Website, operating professionally like major
                             Japanese enterprises.</span>
                     </p>
-                    <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
+                    <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-3 sm:gap-4">
                         <a href="cases.html"
-                            class="px-8 py-4 rounded-full bg-white text-black font-bold hover:bg-slate-200 transition shadow-[0_0_20px_rgba(255,255,255,0.3)] inline-block">
+                            class="px-6 sm:px-8 py-3 sm:py-4 rounded-full bg-white text-black font-bold hover:bg-slate-200 transition shadow-[0_0_20px_rgba(255,255,255,0.3)] inline-block text-center text-sm sm:text-base">
                             <span x-text="lang === 'zh' ? '查看成功案例' : 'View Case Studies'"></span>
                         </a>
 
                         <a href="contact.html"
-                            class="px-8 py-4 rounded-full border border-slate-700 text-slate-300 font-medium hover:border-white hover:text-white transition">
+                            class="px-6 sm:px-8 py-3 sm:py-4 rounded-full border border-slate-700 text-slate-300 font-medium hover:border-white hover:text-white transition text-center text-sm sm:text-base">
                             <span x-text="lang === 'zh' ? '免费咨询方案' : 'Get Proposal'"></span>
                         </a>
                     </div>
                 </div>
 
-                <div class="relative h-[400px] lg:h-[600px] w-full flex items-center justify-center">
+                <div class="hidden md:flex relative h-[400px] lg:h-[600px] w-full items-center justify-center">
                     <canvas id="canvas1"></canvas>
                     <div id="loading" class="absolute text-blue-500 font-mono text-sm animate-pulse">
                         <span x-text="lang === 'zh' ? '品牌资产构建中...' : 'BUILDING ASSETS...'"></span>
@@ -362,11 +619,13 @@
                 class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full pt-20 pb-24">
                 <div class="text-center lg:text-left z-20 order-2 lg:order-1">
                     <div
-                        class="inline-block px-3 py-1 border border-blue-500/30 rounded-full text-xs font-medium text-blue-400 mb-6 tracking-[0.2em] uppercase font-mono bg-blue-500/10 backdrop-blur-sm">
-                        <span x-text="lang === 'zh' ? '核心品牌资产' : 'CORE BRAND ASSET'"></span>
+                        class="inline-flex items-center gap-2 px-3 py-1 border border-blue-500/30 rounded-full text-xs font-medium text-blue-400 mb-6 tracking-[0.2em] uppercase font-mono bg-blue-900/20 backdrop-blur-md shadow-[0_0_15px_rgba(59,130,246,0.2)]">
+                        <span class="w-2 h-2 rounded-full bg-blue-400 animate-ping"></span>
+                        <span x-show="lang === 'zh'">核心品牌资产</span>
+                        <span x-show="lang !== 'zh'">CORE BRAND ASSET</span>
                     </div>
 
-                    <h2 class="text-white text-4xl md:text-5xl lg:text-7xl font-bold font-heading tracking-tight mb-6 whitespace-nowrap">
+                    <h2 class="text-white text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold font-heading tracking-tight mb-6 whitespace-normal sm:whitespace-nowrap">
                         <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 font-zen"
                             x-html="lang === 'zh' ? '原生 APP 定制开发' : 'Native APP<br>Development'"></span>
                     </h2>
@@ -377,28 +636,28 @@
                             x-html="lang === 'zh' ? '不仅仅是软件，更是您企业的数字名片。上架 Apple Store 和 Google Play，建立绝对的<b>品牌信任度与用户粘性</b>。让您的服务图标，永久驻留在客户的手机屏幕上。' : 'More than software, it\'s your digital identity. Listed on App Store & Google Play for ultimate brand trust and retention. Keep your service icon on customers\' screens forever.'"></span>
                     </p>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-left max-w-2xl mx-auto lg:mx-0">
-                        <div class="bg-white/5 border border-white/10 rounded-xl p-4 backdrop-blur-sm">
-                            <div class="text-blue-400 text-xl mb-2">⚡️</div>
-                            <h4 class="text-white font-bold mb-1" x-text="lang === 'zh' ? '极致性能' : 'Peak Performance'">
+                    <div class="slide-2-features-grid grid grid-cols-3 gap-2 sm:gap-6 text-left max-w-2xl mx-auto lg:mx-0">
+                        <div class="bg-white/5 border border-white/10 rounded-xl p-2 sm:p-4 backdrop-blur-sm">
+                            <div class="text-blue-400 text-base sm:text-xl mb-1 sm:mb-2">⚡️</div>
+                            <h4 class="text-white font-bold mb-0.5 sm:mb-1 text-xs sm:text-base" x-text="lang === 'zh' ? '极致性能' : 'Peak Performance'">
                             </h4>
-                            <p class="text-slate-400 text-sm"
+                            <p class="text-slate-400 text-[10px] sm:text-sm leading-tight"
                                 x-text="lang === 'zh' ? '秒开、流畅、稳定，提供最佳用户体验。' : 'Instant load, smooth, stable. Best UX.'">
                             </p>
                         </div>
-                        <div class="bg-white/5 border border-white/10 rounded-xl p-4 backdrop-blur-sm">
-                            <div class="text-blue-400 text-xl mb-2">🔔</div>
-                            <h4 class="text-white font-bold mb-1" x-text="lang === 'zh' ? '精准触达' : 'Precise Reach'">
+                        <div class="bg-white/5 border border-white/10 rounded-xl p-2 sm:p-4 backdrop-blur-sm">
+                            <div class="text-blue-400 text-base sm:text-xl mb-1 sm:mb-2">🔔</div>
+                            <h4 class="text-white font-bold mb-0.5 sm:mb-1 text-xs sm:text-base" x-text="lang === 'zh' ? '精准触达' : 'Precise Reach'">
                             </h4>
-                            <p class="text-slate-400 text-sm"
+                            <p class="text-slate-400 text-[10px] sm:text-sm leading-tight"
                                 x-text="lang === 'zh' ? '利用推送通知，随时唤醒沉睡用户。' : 'Wake up dormant users with push notifications.'">
                             </p>
                         </div>
-                        <div class="bg-white/5 border border-white/10 rounded-xl p-4 backdrop-blur-sm">
-                            <div class="text-blue-400 text-xl mb-2">🔒</div>
-                            <h4 class="text-white font-bold mb-1" x-text="lang === 'zh' ? '私有数据' : 'Private Data'">
+                        <div class="bg-white/5 border border-white/10 rounded-xl p-2 sm:p-4 backdrop-blur-sm">
+                            <div class="text-blue-400 text-base sm:text-xl mb-1 sm:mb-2">🔒</div>
+                            <h4 class="text-white font-bold mb-0.5 sm:mb-1 text-xs sm:text-base" x-text="lang === 'zh' ? '私有数据' : 'Private Data'">
                             </h4>
-                            <p class="text-slate-400 text-sm"
+                            <p class="text-slate-400 text-[10px] sm:text-sm leading-tight"
                                 x-text="lang === 'zh' ? '完全掌握用户数据，不再受制于第三方平台。' : 'Full control of user data, independent of platforms.'">
                             </p>
                         </div>
@@ -413,13 +672,13 @@
                 </div>
 
                 <div
-                    class="relative h-[400px] lg:h-[600px] w-full flex items-center justify-center lg:justify-end order-1 lg:order-2 perspective-1000">
+                    class="slide-2-image-container relative h-[300px] md:h-[400px] lg:h-[600px] w-full flex items-center justify-center lg:justify-end order-1 lg:order-2 perspective-1000">
                     <div class="relative z-10 animate-float">
                         <div
                             class="absolute -inset-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-[40px] blur-3xl opacity-30 animate-pulse-glow">
                         </div>
                         <img src="img/app_mockup_placeholder.png" alt="APP Mockup"
-                            class="relative z-20 max-h-[500px] object-contain drop-shadow-2xl transform rotate-[-5deg] hover:rotate-0 transition duration-500">
+                            class="relative z-20 max-h-[280px] md:max-h-[500px] object-contain drop-shadow-2xl transform rotate-[-5deg] hover:rotate-0 transition duration-500">
                     </div>
                 </div>
             </div>
@@ -445,20 +704,21 @@
                 style="animation-delay: 2s;"></div>
 
             <div
-                class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full pt-20 pb-24">
-                <div class="text-center lg:text-left z-20 order-2 lg:order-1">
+                class="slide-3-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full pt-20 pb-24">
+                <div class="slide-3-content text-center lg:text-left z-20 order-2 lg:order-1">
                     <div
                         class="inline-flex items-center gap-2 px-3 py-1 border border-emerald-500/30 rounded-full text-xs font-medium text-emerald-400 mb-6 tracking-[0.2em] uppercase font-mono bg-emerald-900/20 backdrop-blur-md shadow-[0_0_15px_rgba(16,185,129,0.2)]">
                         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                        <span x-text="lang === 'zh' ? '把“点赞之交” 变成 “下单铁粉”' : 'CONVERT TRAFFIC TO SALES'"></span>
+                        <span x-show="lang === 'zh'">把"点赞之交" 变成 "下单铁粉"</span>
+                        <span x-show="lang !== 'zh'">CONVERT TRAFFIC TO SALES</span>
                     </div>
 
                     <h2
-                        class="text-white text-4xl md:text-6xl lg:text-7xl font-bold font-heading tracking-tight mb-6 leading-tight">
+                        class="text-white text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold font-heading tracking-tight mb-6 leading-tight">
                         <span
-                            class="block text-transparent bg-clip-text bg-gradient-to-br from-white via-emerald-100 to-emerald-400 drop-shadow-lg"
+                            class="inline md:block text-transparent bg-clip-text bg-gradient-to-br from-white via-emerald-100 to-emerald-400 drop-shadow-lg"
                             x-text="lang === 'zh' ? '24小时' : '24/7'"></span>
-                        <span class="text-emerald-500 font-zen"
+                        <span class="inline md:block text-emerald-500 font-zen ml-1 md:ml-0"
                             x-text="lang === 'zh' ? '自动接单系统' : 'Auto Sales System'"></span>
                     </h2>
 
@@ -488,7 +748,7 @@
                 </div>
 
                 <div
-                    class="relative h-[400px] lg:h-[600px] w-full flex items-center justify-center lg:justify-end order-1 lg:order-2">
+                    class="slide-3-image relative h-[400px] lg:h-[600px] w-full flex items-center justify-center lg:justify-end order-1 lg:order-2">
                     <img src="img/wechat_mockup.png" alt="WeChat Mini Program"
                         class="relative z-10 max-h-full object-contain wealth-engine-anim">
                 </div>
@@ -526,30 +786,26 @@
                     </div>
 
                     <h2
-                        class="text-4xl md:text-6xl lg:text-7xl font-bold font-heading tracking-tighter mb-8 drop-shadow-2xl flex flex-col gap-2">
+                        class="slide-4-title text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold font-heading tracking-tighter mb-4 md:mb-8 drop-shadow-2xl flex flex-row md:flex-col gap-1 md:gap-2 justify-center lg:justify-start flex-wrap">
                         <span
-                            class="inline-block text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-orange-400 to-amber-400 font-zen italic pr-4 pb-1"
-                            x-text="lang === 'zh' ? '更懂在日华人的' : 'We Know Your'"></span>
-
-                        <span
-                            class="inline-block text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-orange-400 to-amber-400 font-zen italic pr-4 pb-1"
-                            x-text="lang === 'zh' ? '生意' : 'Business'"></span>
+                            class="inline text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-orange-400 to-amber-400 font-zen italic pr-1 md:pr-4 pb-1"
+                            x-text="lang === 'zh' ? '更懂在日华人的生意' : 'We Know Your'"></span>
                     </h2>
 
-                    <div class="h-px w-32 bg-gradient-to-r from-red-500 to-transparent mx-auto lg:mx-0 mb-8"></div>
+                    <div class="h-px w-32 bg-gradient-to-r from-red-500 to-transparent mx-auto lg:mx-0 mb-4 md:mb-8"></div>
 
-                    <p class="text-red-200/60 font-mono text-xs md:text-sm tracking-[0.3em] uppercase mb-8">
+                    <p class="text-red-200/60 font-mono text-xs md:text-sm tracking-[0.3em] uppercase mb-4 md:mb-8">
                         <span x-text="lang === 'zh' ? '坐标东京/大阪 · 随时可约面谈' : 'BASED IN TOKYO/OSAKA'"></span>
                     </p>
 
-                    <p class="mt-8 text-slate-400 max-w-lg mx-auto lg:mx-0 font-light text-sm leading-relaxed">
+                    <p class="mt-4 md:mt-8 text-slate-400 max-w-lg mx-auto lg:mx-0 font-light text-xs md:text-sm leading-relaxed">
                         <span
                             x-show="lang === 'zh'">我们不仅仅是开发商，更是您的<b>数字化战略顾问</b>。从服务器搭建到支付接口对接（微信/支付宝/PayPay），我们帮您搞定一切技术难题，您只管安心赚钱。</span>
                     </p>
 
-                    <div class="mt-10 flex gap-4 pointer-events-auto justify-center lg:justify-start">
+                    <div class="slide-4-cta-section mt-2 md:mt-10 mb-0 flex gap-4 pointer-events-auto justify-center lg:justify-start">
                         <a href="#contact"
-                            class="group px-8 py-3 rounded-full border border-red-500/30 text-red-100 hover:bg-red-500/10 transition backdrop-blur-sm flex items-center gap-2">
+                            class="group px-6 md:px-8 py-2 md:py-3 rounded-full border border-red-500/30 text-red-100 hover:bg-red-500/10 transition backdrop-blur-sm flex items-center gap-2 text-sm md:text-base">
                             <span x-text="lang === 'zh' ? '预约面谈' : 'Book a Meeting'"></span>
                             <svg class="w-4 h-4 text-red-400 group-hover:translate-x-1 transition-transform" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -560,7 +816,7 @@
                     </div>
                 </div>
 
-                <div class="relative h-[400px] lg:h-[800px] w-full flex items-center justify-center perspective-1000 overflow-hidden"
+                <div class="slide-4-carousel-container relative h-[320px] md:h-[400px] lg:h-[800px] w-full flex items-start md:items-center justify-center perspective-1000 overflow-hidden -mt-4 md:mt-0"
                     id="hero-parallax-root">
                 </div>
             </div>
@@ -677,31 +933,32 @@
             </svg>
         </button>
 
-        <div class="absolute bottom-24 left-1/2 transform -translate-x-1/2 z-30 flex space-x-3">
+        <div class="absolute bottom-6 md:bottom-24 left-1/2 -translate-x-1/2 z-30 flex space-x-2 md:space-x-3">
             <template x-for="(slide, index) in slides" :key="index">
-                <button @click="goTo(index)"
-                    :class="activeSlide === index ? 'w-8 bg-blue-500' : 'w-2 bg-white/30 hover:bg-white/50'"
-                    class="h-2 rounded-full transition-all duration-300"></button>
+                <div @click="goTo(index)" :class="activeSlide === index
+                    ? 'w-8 md:w-8 bg-blue-500'
+                    : 'w-2 bg-white/30 hover:bg-white/50'" class="h-1 md:h-2 rounded-full transition-all duration-300 cursor-pointer">
+                </div>
             </template>
         </div>
     </section>
 
     <section id="target-audience" class="py-24 bg-white relative z-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-base text-blue-600 font-bold tracking-wide uppercase mb-3 font-mono">
+            <div class="text-center mb-12 sm:mb-16 px-2">
+                <h2 class="text-sm sm:text-base text-blue-600 font-bold tracking-wide uppercase mb-3 font-mono">
                     <span x-text="lang === 'zh' ? '打破平台束缚' : 'Break Platform Limits'"></span>
                 </h2>
-                <p class="text-3xl leading-8 font-extrabold tracking-tight text-slate-900 sm:text-4xl font-zen">
+                <p class="text-2xl sm:text-3xl leading-8 font-extrabold tracking-tight text-slate-900 sm:text-4xl font-zen">
                     <span x-text="lang === 'zh' ? '每个人都可以拥有自己的小程序' : 'Home turf for every ambitious dream'"></span>
                 </p>
-                <p class="mt-4 max-w-2xl text-sm text-slate-500 mx-auto">
+                <p class="mt-4 max-w-2xl text-xs sm:text-sm text-slate-500 mx-auto leading-relaxed">
                     <span
-                        x-text="lang === 'zh' ? '做生意的终局，不是靠短信电话，而是拥有自己的预约系统。 别让您的客户只沉淀在“认识你”。拥有独立的 APP 与官网，意味着您可以把客户关系、服务流程与定价逻辑，真正掌握在自己手中。' : 'Whether you are an entrepreneur or a store owner, own your digital territory.'"></span>
+                        x-text="lang === 'zh' ? '做生意的终局，不是靠短信电话，而是拥有自己的预约系统。 别让您的客户只沉淀在"认识你"。拥有独立的 APP 与官网，意味着您可以把客户关系、服务流程与定价逻辑，真正掌握在自己手中。' : 'Whether you are an entrepreneur or a store owner, own your digital territory.'"></span>
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="audience-meteors-grid">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8" id="audience-meteors-grid">
 
                 <!-- 卡片 1 -->
                 <div class="relative w-full group">
@@ -713,7 +970,7 @@
 
                     <!-- 卡片本体 -->
                     <div class="relative flex h-full flex-col items-start justify-between overflow-hidden
-                            rounded-2xl border border-gray-800 bg-gray-900 px-8 py-8
+                            rounded-2xl border border-gray-800 bg-gray-900 px-5 py-5 sm:px-8 sm:py-8
                             shadow-[0_12px_30px_rgba(0,0,0,0.35)]
                             transition-all duration-500 ease-out
                             group-hover:-translate-y-2
@@ -721,17 +978,17 @@
                             meteor-card">
 
                         <div
-                            class="flex items-center justify-center h-12 w-12 rounded-full border border-gray-500 bg-gray-800 mb-4 text-2xl">
+                            class="flex items-center justify-center h-10 w-10 sm:h-12 sm:w-12 rounded-full border border-gray-500 bg-gray-800 mb-3 sm:mb-4 text-xl sm:text-2xl">
                             🛍️
                         </div>
 
-                        <h3 class="mb-4 text-2xl font-bold font-zen
+                        <h3 class="mb-3 sm:mb-4 text-xl sm:text-2xl font-bold font-zen
                                 text-white/90 transition-colors duration-300
                                 group-hover:text-white">
                             跨境电商 / 品牌主理人
                         </h3>
 
-                        <ul class="mt-2 space-y-2 text-sm text-slate-400">
+                        <ul class="mt-2 space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-slate-400">
                             <li class="flex gap-2"><span class="text-pink-500">✓</span>建立专业独立商城</li>
                             <li class="flex gap-2"><span class="text-pink-500">✓</span>多币种 & 自动汇率</li>
                             <li class="flex gap-2"><span class="text-pink-500">✓</span>客户自助查物流</li>
@@ -748,7 +1005,7 @@
                     </div>
 
                     <div class="relative flex h-full flex-col items-start justify-between overflow-hidden
-                            rounded-2xl border border-gray-800 bg-gray-900 px-8 py-8
+                            rounded-2xl border border-gray-800 bg-gray-900 px-5 py-5 sm:px-8 sm:py-8
                             shadow-[0_12px_30px_rgba(0,0,0,0.35)]
                             transition-all duration-500 ease-out
                             group-hover:-translate-y-2
@@ -756,17 +1013,17 @@
                             meteor-card">
 
                         <div
-                            class="flex items-center justify-center h-12 w-12 rounded-full border border-gray-500 bg-gray-800 mb-4 text-2xl">
+                            class="flex items-center justify-center h-10 w-10 sm:h-12 sm:w-12 rounded-full border border-gray-500 bg-gray-800 mb-3 sm:mb-4 text-xl sm:text-2xl">
                             🚖
                         </div>
 
-                        <h3 class="mb-4 text-2xl font-bold font-zen
+                        <h3 class="mb-3 sm:mb-4 text-xl sm:text-2xl font-bold font-zen
                                 text-white/90 transition-colors duration-300
                                 group-hover:text-white">
                             专业车队 / 旅游地接
                         </h3>
 
-                        <ul class="mt-2 space-y-2 text-sm text-slate-400">
+                        <ul class="mt-2 space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-slate-400">
                             <li class="flex gap-2"><span class="text-blue-500">✓</span>拒绝平台高抽成</li>
                             <li class="flex gap-2"><span class="text-blue-500">✓</span>自主定价接单</li>
                             <li class="flex gap-2"><span class="text-blue-500">✓</span>智能排班调度</li>
@@ -783,7 +1040,7 @@
                     </div>
 
                     <div class="relative flex h-full flex-col items-start justify-between overflow-hidden
-                            rounded-2xl border border-gray-800 bg-gray-900 px-8 py-8
+                            rounded-2xl border border-gray-800 bg-gray-900 px-5 py-5 sm:px-8 sm:py-8
                             shadow-[0_12px_30px_rgba(0,0,0,0.35)]
                             transition-all duration-500 ease-out
                             group-hover:-translate-y-2
@@ -791,17 +1048,17 @@
                             meteor-card">
 
                         <div
-                            class="flex items-center justify-center h-12 w-12 rounded-full border border-gray-500 bg-gray-800 mb-4 text-2xl">
+                            class="flex items-center justify-center h-10 w-10 sm:h-12 sm:w-12 rounded-full border border-gray-500 bg-gray-800 mb-3 sm:mb-4 text-xl sm:text-2xl">
                             🏪
                         </div>
 
-                        <h3 class="mb-4 text-2xl font-bold font-zen
+                        <h3 class="mb-3 sm:mb-4 text-xl sm:text-2xl font-bold font-zen
                                 text-white/90 transition-colors duration-300
                                 group-hover:text-white">
                             实体连锁 / 餐饮名店
                         </h3>
 
-                        <ul class="mt-2 space-y-2 text-sm text-slate-400">
+                        <ul class="mt-2 space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-slate-400">
                             <li class="flex gap-2"><span class="text-amber-500">✓</span>扫码点单系统</li>
                             <li class="flex gap-2"><span class="text-amber-500">✓</span>会员储值体系</li>
                             <li class="flex gap-2"><span class="text-amber-500">✓</span>自动营销发券</li>
@@ -818,7 +1075,7 @@
                     </div>
 
                     <div class="relative flex h-full flex-col items-start justify-between overflow-hidden
-                            rounded-2xl border border-gray-800 bg-gray-900 px-8 py-8
+                            rounded-2xl border border-gray-800 bg-gray-900 px-5 py-5 sm:px-8 sm:py-8
                             shadow-[0_12px_30px_rgba(0,0,0,0.35)]
                             transition-all duration-500 ease-out
                             group-hover:-translate-y-2
@@ -826,17 +1083,17 @@
                             meteor-card">
 
                         <div
-                            class="flex items-center justify-center h-12 w-12 rounded-full border border-gray-500 bg-gray-800 mb-4 text-2xl">
+                            class="flex items-center justify-center h-10 w-10 sm:h-12 sm:w-12 rounded-full border border-gray-500 bg-gray-800 mb-3 sm:mb-4 text-xl sm:text-2xl">
                             🎓
                         </div>
 
-                        <h3 class="mb-4 text-2xl font-bold font-zen
+                        <h3 class="mb-3 sm:mb-4 text-xl sm:text-2xl font-bold font-zen
                                 text-white/90 transition-colors duration-300
                                 group-hover:text-white">
                             不动产 / 留学教育
                         </h3>
 
-                        <ul class="mt-2 space-y-2 text-sm text-slate-400">
+                        <ul class="mt-2 space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-slate-400">
                             <li class="flex gap-2"><span class="text-indigo-500">✓</span>信息库自助筛选</li>
                             <li class="flex gap-2"><span class="text-indigo-500">✓</span>预约 & CRM 系统</li>
                             <li class="flex gap-2"><span class="text-indigo-500">✓</span>展示成功案例</li>
@@ -851,44 +1108,44 @@
         <script src="js/animations.js"></script>
     </section>
 
-    <section id="portfolio" class="py-24 bg-neutral-950 relative z-20 text-white border-t border-neutral-900">
+    <section id="portfolio" class="py-16 sm:py-24 bg-neutral-950 relative z-20 text-white border-t border-neutral-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-20">
-                <h2 class="text-base text-blue-500 font-bold tracking-wide uppercase mb-3 font-mono">我们的交付标准</h2>
-                <p class="text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl font-zen">
+            <div class="text-center mb-12 sm:mb-20">
+                <h2 class="text-sm sm:text-base text-blue-500 font-bold tracking-wide uppercase mb-3 font-mono">我们的交付标准</h2>
+                <p class="text-2xl sm:text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl font-zen">
                     稳住本盘、收割新流量
                 </p>
-                <p class="mt-4 max-w-2xl text-sm text-slate-500 mx-auto">
+                <p class="mt-4 max-w-2xl text-xs sm:text-sm text-slate-500 mx-auto leading-relaxed">
                     <span
-                        x-text="lang === 'zh' ? '别让您的生意只有“回头客”。APP 既是老客户的专属服务区，也是陌生客户的流量捕获器。老客不流失，新客源源不断，生意自然越做越大。' : 'Whether you are an entrepreneur or a store owner, own your digital territory.'"></span>
+                        x-text="lang === 'zh' ? '别让您的生意只有"回头客"。APP 既是老客户的专属服务区，也是陌生客户的流量捕获器。老客不流失，新客源源不断，生意自然越做越大。' : 'Whether you are an entrepreneur or a store owner, own your digital territory.'"></span>
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[320px]" id="bento-grid">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 auto-rows-[280px] sm:auto-rows-[320px]" id="bento-grid">
 
                 <div
-                    class="spotlight-card group relative col-span-1 md:col-span-2 row-span-1 overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-900/50 p-8 backdrop-blur-sm transition-all duration-300 hover:border-blue-500/30 hover:bg-neutral-900/80">
+                    class="spotlight-card group relative col-span-1 md:col-span-2 row-span-1 overflow-hidden rounded-2xl sm:rounded-3xl border border-neutral-800 bg-neutral-900/50 p-5 sm:p-8 backdrop-blur-sm transition-all duration-300 hover:border-blue-500/30 hover:bg-neutral-900/80">
                     <div class="pointer-events-none absolute -inset-px opacity-0 transition duration-500 group-hover:opacity-100"
                         style="background: radial-gradient(600px circle at var(--x) var(--y), rgba(59,130,246,0.15), transparent 40%);">
                     </div>
 
                     <div
-                        class="absolute -bottom-4 -right-4 text-[12rem] font-bold text-white/[0.02] font-heading select-none pointer-events-none group-hover:text-white/[0.04] transition-colors">
+                        class="absolute -bottom-4 -right-4 text-[8rem] sm:text-[12rem] font-bold text-white/[0.02] font-heading select-none pointer-events-none group-hover:text-white/[0.04] transition-colors">
                         01
                     </div>
 
                     <div class="relative z-10 h-full flex flex-col justify-start items-start">
                         <div
-                            class="mb-6 w-14 h-14 bg-gradient-to-br from-blue-500/20 to-blue-600/5 rounded-2xl border border-blue-500/20 flex items-center justify-center text-2xl text-blue-400 group-hover:scale-110 group-hover:border-blue-400/50 transition-all duration-300 shadow-[0_0_20px_rgba(59,130,246,0.1)]">
+                            class="mb-4 sm:mb-6 w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-blue-500/20 to-blue-600/5 rounded-xl sm:rounded-2xl border border-blue-500/20 flex items-center justify-center text-xl sm:text-2xl text-blue-400 group-hover:scale-110 group-hover:border-blue-400/50 transition-all duration-300 shadow-[0_0_20px_rgba(59,130,246,0.1)]">
                             📱
                         </div>
                         <div>
-                            <h3 class="text-2xl font-bold text-white mb-3 flex items-center gap-2">
+                            <h3 class="text-xl sm:text-2xl font-bold text-white mb-2 sm:mb-3 flex items-center gap-2">
                                 原生 APP 开发
                                 <span
                                     class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-blue-500 text-lg">↗</span>
                             </h3>
-                            <p class="text-neutral-400 leading-relaxed font-light text-sm md:text-base max-w-lg">
+                            <p class="text-neutral-400 leading-relaxed font-light text-xs sm:text-sm md:text-base max-w-lg">
                                 不仅是软件，更是品牌资产。ZenCode 确保您的 APP 在 Apple Store 和 Google Play
                                 上架，成为客户手机里的常驻图标。
                             </p>
@@ -897,24 +1154,24 @@
                 </div>
 
                 <div
-                    class="spotlight-card group relative col-span-1 row-span-1 overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-900/50 p-8 backdrop-blur-sm transition-all duration-300 hover:border-purple-500/30 hover:bg-neutral-900/80">
+                    class="spotlight-card group relative col-span-1 row-span-1 overflow-hidden rounded-2xl sm:rounded-3xl border border-neutral-800 bg-neutral-900/50 p-5 sm:p-8 backdrop-blur-sm transition-all duration-300 hover:border-purple-500/30 hover:bg-neutral-900/80">
                     <div class="pointer-events-none absolute -inset-px opacity-0 transition duration-500 group-hover:opacity-100"
                         style="background: radial-gradient(600px circle at var(--x) var(--y), rgba(168,85,247,0.15), transparent 40%);">
                     </div>
 
                     <div
-                        class="absolute bottom-4 right-4 text-6xl font-bold text-white/[0.02] font-code select-none pointer-events-none group-hover:text-white/[0.04] transition-colors">
+                        class="absolute bottom-4 right-4 text-4xl sm:text-6xl font-bold text-white/[0.02] font-code select-none pointer-events-none group-hover:text-white/[0.04] transition-colors">
                         &lt;/&gt;
                     </div>
 
                     <div class="relative z-10 h-full flex flex-col justify-start items-start">
                         <div
-                            class="mb-6 w-14 h-14 bg-gradient-to-br from-purple-500/20 to-purple-600/5 rounded-2xl border border-purple-500/20 flex items-center justify-center text-2xl text-purple-400 group-hover:scale-110 group-hover:border-purple-400/50 transition-all duration-300 shadow-[0_0_20px_rgba(168,85,247,0.1)]">
+                            class="mb-4 sm:mb-6 w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-purple-500/20 to-purple-600/5 rounded-xl sm:rounded-2xl border border-purple-500/20 flex items-center justify-center text-xl sm:text-2xl text-purple-400 group-hover:scale-110 group-hover:border-purple-400/50 transition-all duration-300 shadow-[0_0_20px_rgba(168,85,247,0.1)]">
                             💻
                         </div>
                         <div>
-                            <h3 class="text-xl font-bold text-white mb-3">品牌官网落地页</h3>
-                            <p class="text-neutral-400 text-sm font-light leading-relaxed">
+                            <h3 class="text-lg sm:text-xl font-bold text-white mb-2 sm:mb-3">品牌官网落地页</h3>
+                            <p class="text-neutral-400 text-xs sm:text-sm font-light leading-relaxed">
                                 既然要做，就做最好。让日本客户在 Google 搜索到的瞬间，就被您的企业形象折服。
                             </p>
                         </div>
@@ -922,24 +1179,24 @@
                 </div>
 
                 <div
-                    class="spotlight-card group relative col-span-1 md:col-span-3 row-span-1 overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-900/50 p-8 flex flex-col md:flex-row items-center gap-8 backdrop-blur-sm transition-all duration-300 hover:border-emerald-500/30 hover:bg-neutral-900/80">
+                    class="spotlight-card group relative col-span-1 md:col-span-3 row-span-1 overflow-hidden rounded-2xl sm:rounded-3xl border border-neutral-800 bg-neutral-900/50 p-5 sm:p-8 flex flex-col md:flex-row items-center gap-4 sm:gap-8 backdrop-blur-sm transition-all duration-300 hover:border-emerald-500/30 hover:bg-neutral-900/80">
                     <div class="pointer-events-none absolute -inset-px opacity-0 transition duration-500 group-hover:opacity-100"
                         style="background: radial-gradient(600px circle at var(--x) var(--y), rgba(16,185,129,0.15), transparent 40%);">
                     </div>
 
                     <div class="relative z-10 flex-1 flex flex-col justify-start items-start">
                         <div
-                            class="mb-6 w-14 h-14 bg-gradient-to-br from-emerald-500/20 to-emerald-600/5 rounded-2xl border border-emerald-500/20 flex items-center justify-center text-2xl text-emerald-400 group-hover:scale-110 group-hover:border-emerald-400/50 transition-all duration-300 shadow-[0_0_20px_rgba(16,185,129,0.1)]">
+                            class="mb-4 sm:mb-6 w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-emerald-500/20 to-emerald-600/5 rounded-xl sm:rounded-2xl border border-emerald-500/20 flex items-center justify-center text-xl sm:text-2xl text-emerald-400 group-hover:scale-110 group-hover:border-emerald-400/50 transition-all duration-300 shadow-[0_0_20px_rgba(16,185,129,0.1)]">
                             🚀
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-3">微信小程序矩阵</h3>
-                        <p class="text-neutral-400 max-w-2xl font-light text-sm md:text-base leading-relaxed">
+                        <h3 class="text-xl sm:text-2xl font-bold text-white mb-2 sm:mb-3">微信小程序矩阵</h3>
+                        <p class="text-neutral-400 max-w-2xl font-light text-xs sm:text-sm md:text-base leading-relaxed">
                             连接微信生态内的十亿用户。无需安装、扫码即用、社交裂变，是在日华人圈获客成本最低、传播速度最快的渠道。
                         </p>
                     </div>
 
                     <div
-                        class="relative z-10 w-full md:w-1/3 h-40 bg-neutral-950/50 rounded-xl border border-white/5 flex items-center justify-center overflow-hidden group-hover:border-emerald-500/20 transition-colors">
+                        class="relative z-10 w-full md:w-1/3 h-32 sm:h-40 bg-neutral-950/50 rounded-xl border border-white/5 flex items-center justify-center overflow-hidden group-hover:border-emerald-500/20 transition-colors">
                         <div
                             class="text-neutral-600 font-mono text-xs z-10 tracking-widest group-hover:text-emerald-500/50 transition-colors">
                             PROFITABLE SYSTEM</div>
@@ -953,18 +1210,18 @@
         </div>
     </section>
 
-    <footer class="bg-white border-t border-slate-200 pt-20 pb-10">
+    <footer class="bg-white border-t border-slate-200 pt-12 sm:pt-20 pb-8 sm:pb-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-8">
 
-                <div>
-                    <h4 class="font-bold text-slate-900 mb-4 font-heading">ZenCode.jp</h4>
-                    <p class="text-slate-500 text-sm">赋能在日华商，让生意更简单。</p>
+                <div class="col-span-2 sm:col-span-1">
+                    <h4 class="font-bold text-slate-900 mb-3 sm:mb-4 font-heading text-sm sm:text-base">ZenCode.jp</h4>
+                    <p class="text-slate-500 text-xs sm:text-sm">赋能在日华商，让生意更简单。</p>
                 </div>
 
                 <div>
-                    <h4 class="font-bold text-slate-900 mb-4">信任保障</h4>
-                    <div class="flex flex-col gap-2 opacity-70 text-sm text-slate-500">
+                    <h4 class="font-bold text-slate-900 mb-3 sm:mb-4 text-sm sm:text-base">信任保障</h4>
+                    <div class="flex flex-col gap-1.5 sm:gap-2 opacity-70 text-xs sm:text-sm text-slate-500">
                         <span>🛡️ SSL安全认证</span>
                         <span>💳 聚合支付对接</span>
                         <span>☁️ AWS 技术合作伙伴</span>
@@ -972,18 +1229,18 @@
                 </div>
 
                 <div>
-                    <h4 class="font-bold text-slate-900 mb-4">联系我们</h4>
-                    <p class="text-slate-500 text-sm mb-1">📍 东京 / 大阪 / 远程支持</p>
-                    <p class="text-slate-500 text-sm">📧 contact@zencode.jp</p>
+                    <h4 class="font-bold text-slate-900 mb-3 sm:mb-4 text-sm sm:text-base">联系我们</h4>
+                    <p class="text-slate-500 text-xs sm:text-sm mb-1">📍 东京 / 大阪 / 远程支持</p>
+                    <p class="text-slate-500 text-xs sm:text-sm break-all">📧 contact@zencode.jp</p>
                 </div>
 
-                <div>
-                    <h4 class="font-bold text-slate-900 mb-4">视觉实验室</h4>
-                    <ul class="space-y-2 text-sm text-slate-500">
-                        <li>
+                <div class="footer-lab-section col-span-2 sm:col-span-1">
+                    <h4 class="font-bold text-slate-900 mb-2 sm:mb-4 text-sm sm:text-base">视觉实验室</h4>
+                    <ul class="space-y-1 sm:space-y-2 text-xs sm:text-sm text-slate-500">
+                        <li class="gallery-btn-wrapper">
                             <a href="gallery.html"
-                                class="group flex items-center gap-2 hover:text-blue-600 transition-colors">
-                                <span class="w-2 h-2 rounded-full bg-blue-500 group-hover:animate-ping"></span>
+                                class="gallery-btn group flex items-center gap-2 hover:text-blue-600 transition-colors">
+                                <span class="gallery-btn-dot w-2 h-2 rounded-full bg-blue-500 group-hover:animate-ping"></span>
                                 <span>进入特效展示厅</span>
                                 <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity -ml-1"
                                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -992,7 +1249,7 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="text-xs text-slate-400 mt-2">
+                        <li class="text-xs text-slate-400 mt-1 sm:mt-2">
                             包含 WebGL, Three.js 等<br>高阶前端技术演示
                         </li>
                     </ul>
@@ -1001,9 +1258,9 @@
             </div>
 
             <div
-                class="text-center text-slate-400 text-sm border-t border-slate-100 pt-8 flex flex-col md:flex-row justify-between items-center">
+                class="text-center text-slate-400 text-xs sm:text-sm border-t border-slate-100 pt-6 sm:pt-8 flex flex-col md:flex-row justify-between items-center gap-2">
                 <span>&copy; 2026 ZenCode. All rights reserved.</span>
-                <span class="font-mono text-xs opacity-50 mt-2 md:mt-0">DESIGNED BY HUMAN SPIRIT & AI LOGIC</span>
+                <span class="font-mono text-xs opacity-50">DESIGNED BY HUMAN SPIRIT & AI LOGIC</span>
             </div>
         </div>
     </footer>

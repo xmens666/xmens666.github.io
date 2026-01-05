@@ -52,14 +52,20 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-        body {
+        html, body {
             background-color: #050505;
             margin: 0;
             overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            touch-action: none;
+        }
+
+        body {
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 100vh;
             perspective: 1200px;
             /* Global perspective for the mouse tilt */
         }
@@ -83,6 +89,16 @@
             background: rgba(255, 255, 255, 0.1);
             color: #fff;
             border-color: #fff;
+        }
+
+        /* 手机端响应式 */
+        @media (max-width: 767px) {
+            .back-btn {
+                top: 15px;
+                left: 15px;
+                padding: 8px 16px;
+                font-size: 12px;
+            }
         }
 
         /* Star/Dust particles background */
@@ -148,16 +164,30 @@
                 }
             }, [isDragging, slideMode]);
 
+            // 触摸支持
+            const handleTouchMove = useCallback((e) => {
+                if (sliderRef.current && e.touches[0]) {
+                    const rect = sliderRef.current.getBoundingClientRect();
+                    const x = Math.max(0, Math.min(e.touches[0].clientX - rect.left, rect.width));
+                    const percent = (x / rect.width) * 100;
+                    setSliderXPercent(percent);
+                }
+            }, []);
+
             useEffect(() => {
                 if (slideMode === "drag") {
                     document.addEventListener("mousemove", handleMouseMove);
                     document.addEventListener("mouseup", handleMouseUp);
+                    document.addEventListener("touchmove", handleTouchMove);
+                    document.addEventListener("touchend", handleMouseUp);
                     return () => {
                         document.removeEventListener("mousemove", handleMouseMove);
                         document.removeEventListener("mouseup", handleMouseUp);
+                        document.removeEventListener("touchmove", handleTouchMove);
+                        document.removeEventListener("touchend", handleMouseUp);
                     };
                 }
-            }, [handleMouseMove, handleMouseUp, slideMode]);
+            }, [handleMouseMove, handleMouseUp, handleTouchMove, slideMode]);
 
             return (
                 <div
@@ -249,7 +279,7 @@
                                 transform: `rotateX(${15 + rotate.x}deg) rotateY(${rotate.y}deg) rotateZ(0deg)`,
                                 transition: "transform 0.1s ease-out"
                             }}
-                            className="relative mx-auto h-[450px] w-[800px] rounded-[2rem] border border-white/10 bg-neutral-900 shadow-2xl backdrop-blur-xl"
+                            className="relative mx-auto h-[280px] w-[340px] md:h-[450px] md:w-[800px] rounded-[1.5rem] md:rounded-[2rem] border border-white/10 bg-neutral-900 shadow-2xl backdrop-blur-xl"
                         >
                             {/* Device Bezel / Inner Border Shine */}
                             <div className="absolute inset-0 rounded-[2rem] border border-white/5 pointer-events-none"></div>
@@ -293,7 +323,7 @@
 
                         {/* 3D Reflection/Shadow on floor */}
                         <div
-                            className="absolute -bottom-24 left-1/2 -translate-x-1/2 w-[700px] h-[30px] bg-black/60 blur-xl rounded-[100%] transition-transform duration-100 ease-out"
+                            className="absolute -bottom-16 md:-bottom-24 left-1/2 -translate-x-1/2 w-[300px] md:w-[700px] h-[20px] md:h-[30px] bg-black/60 blur-xl rounded-[100%] transition-transform duration-100 ease-out"
                             style={{
                                 transform: `translateX(-50%) rotateX(60deg) scale(${1 - (rotate.x / 50)})`
                             }}
