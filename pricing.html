@@ -39,6 +39,32 @@
             display: none !important;
         }
 
+        /* 手机端侧边栏菜单 */
+        .mobile-menu-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 99998;
+        }
+        .mobile-menu-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 75%;
+            max-width: 320px;
+            background: rgba(20, 20, 30, 0.05);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border-left: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: -10px 0 40px rgba(0, 0, 0, 0.3);
+            z-index: 99999;
+            padding: 80px 24px 40px;
+            overflow-y: auto;
+        }
+
         /* Particles container */
         #particles-js {
             position: fixed;
@@ -128,6 +154,7 @@
 </head>
 
 <body class="bg-brand-green text-slate-200 selection:bg-accent-green selection:text-black font-sans" x-data="{
+        mobileMenuOpen: false,
         filter: 'all',
         packages: [
             // === AI & 效率工具 (新增) ===
@@ -249,8 +276,7 @@
 
     <!-- Content wrapper -->
     <div class="content-wrapper">
-        <nav class="fixed w-full z-50 bg-brand-green/80 backdrop-blur-xl border-b border-white/5"
-            x-data="{ mobileMenuOpen: false }">
+        <nav class="fixed w-full z-50 bg-brand-green/80 backdrop-blur-xl border-b border-white/5">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between h-20 items-center">
                     <a href="index.html" class="flex items-center gap-2 group">
@@ -273,71 +299,87 @@
                             class="hidden md:inline-block bg-white text-black px-6 py-2 rounded-full font-bold text-sm hover:bg-accent-green hover:shadow-[0_0_15px_rgba(0,255,163,0.4)] transition duration-300">
                             免费咨询
                         </a>
-                        <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-white p-2">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 text-white flex items-center justify-center hover:bg-white/20 transition">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                             </svg>
                         </button>
                     </div>
                 </div>
             </div>
+        </nav>
 
-            <!-- Mobile Full-Screen Menu -->
-            <div x-show="mobileMenuOpen" x-cloak
-                x-transition:enter="transition ease-out duration-300"
-                x-transition:enter-start="opacity-0"
-                x-transition:enter-end="opacity-100"
-                x-transition:leave="transition ease-in duration-200"
-                x-transition:leave-start="opacity-100"
-                x-transition:leave-end="opacity-0"
-                class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl md:hidden flex flex-col items-center justify-center">
+        <!-- Mobile Slide-in Menu -->
+        <template x-if="mobileMenuOpen">
+            <div class="md:hidden">
+                <!-- Overlay -->
+                <div class="mobile-menu-overlay"
+                    @click="mobileMenuOpen = false"
+                    x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0"
+                    x-transition:enter-end="opacity-100"
+                    x-transition:leave="transition ease-in duration-200"
+                    x-transition:leave-start="opacity-100"
+                    x-transition:leave-end="opacity-0">
+                </div>
+                <!-- Panel -->
+                <div class="mobile-menu-panel"
+                    x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="translate-x-full"
+                    x-transition:enter-end="translate-x-0"
+                    x-transition:leave="transition ease-in duration-200"
+                    x-transition:leave-start="translate-x-0"
+                    x-transition:leave-end="translate-x-full">
 
-                <!-- Close Button -->
-                <button @click="mobileMenuOpen = false" class="absolute top-6 right-6 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
+                    <!-- Close Button -->
+                    <button @click="mobileMenuOpen = false" class="absolute top-5 right-5 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
 
-                <!-- Mobile Navigation Links -->
-                <div class="flex flex-col items-center gap-3">
-                    <a href="index.html" @click="mobileMenuOpen = false"
-                        class="text-lg font-medium text-white/80 hover:text-white transition-colors py-2 px-4">
-                        首页
-                    </a>
-                    <a href="solutions.html" @click="mobileMenuOpen = false"
-                        class="text-lg font-medium text-white/80 hover:text-white transition-colors py-2 px-4">
-                        解决方案
-                    </a>
-                    <a href="pricing.html" @click="mobileMenuOpen = false"
-                        class="text-lg font-bold text-accent-green py-2 px-4">
-                        服务定价
-                    </a>
-                    <a href="techstack.html" @click="mobileMenuOpen = false"
-                        class="text-lg font-medium text-white/80 hover:text-white transition-colors py-2 px-4">
-                        技术栈
-                    </a>
-                    <a href="cases.html" @click="mobileMenuOpen = false"
-                        class="text-lg font-medium text-white/80 hover:text-white transition-colors py-2 px-4">
-                        成功案例
-                    </a>
-                    <a href="experience/experience.html" @click="mobileMenuOpen = false"
-                        class="text-lg font-medium text-white/80 hover:text-white transition-colors py-2 px-4">
-                        小程序演示
-                    </a>
-                    <a href="about.html" @click="mobileMenuOpen = false"
-                        class="text-lg font-medium text-white/80 hover:text-white transition-colors py-2 px-4">
-                        关于我们
-                    </a>
+                    <!-- Navigation Links -->
+                    <nav class="flex flex-col gap-1">
+                        <a href="index.html" @click="mobileMenuOpen = false"
+                            class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
+                            首页
+                        </a>
+                        <a href="solutions.html" @click="mobileMenuOpen = false"
+                            class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
+                            解决方案
+                        </a>
+                        <a href="pricing.html" @click="mobileMenuOpen = false"
+                            class="text-base font-bold text-accent-green bg-accent-green/10 py-3 px-4 rounded-lg">
+                            服务定价
+                        </a>
+                        <a href="techstack.html" @click="mobileMenuOpen = false"
+                            class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
+                            技术栈
+                        </a>
+                        <a href="cases.html" @click="mobileMenuOpen = false"
+                            class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
+                            成功案例
+                        </a>
+                        <a href="experience/experience.html" @click="mobileMenuOpen = false"
+                            class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
+                            小程序演示
+                        </a>
+                        <a href="about.html" @click="mobileMenuOpen = false"
+                            class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
+                            关于我们
+                        </a>
+                    </nav>
 
-                    <!-- Mobile CTA Button -->
-                    <a href="contact.html" @click="mobileMenuOpen = false"
-                        class="mt-4 px-6 py-3 rounded-full bg-gradient-to-r from-accent-green to-teal-500 text-black font-bold text-base shadow-lg shadow-accent-green/30 hover:shadow-accent-green/50 transition">
-                        免费咨询方案
-                    </a>
+                    <!-- CTA Button -->
+                    <div class="mt-8 px-4">
+                        <a href="contact.html" @click="mobileMenuOpen = false"
+                            class="block w-full text-center py-3 rounded-full bg-gradient-to-r from-accent-green to-teal-500 text-black font-bold text-sm shadow-lg shadow-accent-green/30">
+                            免费咨询方案
+                        </a>
+                    </div>
                 </div>
             </div>
-        </nav>
+        </template>
 
         <header
             class="relative pt-32 pb-20 px-4 text-center overflow-hidden min-h-[500px] flex flex-col items-center justify-center">

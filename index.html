@@ -138,6 +138,32 @@
             50% { transform: scale(1.5); opacity: 0.5; }
         }
 
+        /* ========== 手机端侧边栏菜单 ========== */
+        .mobile-menu-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 99998;
+        }
+        .mobile-menu-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 75%;
+            max-width: 320px;
+            background: rgba(20, 20, 30, 0.05);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border-left: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: -10px 0 40px rgba(0, 0, 0, 0.3);
+            z-index: 99999;
+            padding: 80px 24px 40px;
+            overflow-y: auto;
+        }
+
         /* ========== 动态响应式变量系统 ========== */
         :root {
             --vh: 1vh;
@@ -755,67 +781,85 @@
         </div>
     </nav>
 
-    <!-- Mobile Full-Screen Menu -->
-    <div x-show="mobileMenuOpen" x-cloak
-        x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0"
-        x-transition:enter-end="opacity-100"
-        x-transition:leave="transition ease-in duration-200"
-        x-transition:leave-start="opacity-100"
-        x-transition:leave-end="opacity-0"
-        class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl md:hidden flex flex-col items-center justify-center">
+    <!-- Mobile Slide-in Menu -->
+    <template x-if="mobileMenuOpen">
+        <div class="md:hidden">
+            <!-- Overlay -->
+            <div class="mobile-menu-overlay"
+                @click="mobileMenuOpen = false"
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0"
+                x-transition:enter-end="opacity-100"
+                x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-start="opacity-100"
+                x-transition:leave-end="opacity-0">
+            </div>
+            <!-- Panel -->
+            <div class="mobile-menu-panel"
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="translate-x-full"
+                x-transition:enter-end="translate-x-0"
+                x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-start="translate-x-0"
+                x-transition:leave-end="translate-x-full">
 
-        <!-- Close Button -->
-        <button @click="mobileMenuOpen = false" class="absolute top-6 right-6 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 text-white">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-        </button>
+                <!-- Close Button -->
+                <button @click="mobileMenuOpen = false" class="absolute top-5 right-5 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
 
-        <!-- Mobile Navigation Links -->
-        <nav class="flex flex-col items-center gap-3">
-            <a href="index.html" @click="mobileMenuOpen = false"
-                class="text-lg font-bold text-cyan-400 hover:text-cyan-300 transition-colors py-2 px-4">
-                首页
-            </a>
-            <a href="solutions.html" @click="mobileMenuOpen = false"
-                class="text-lg font-medium text-white/80 hover:text-white transition-colors py-2 px-4">
-                解决方案
-            </a>
-            <a href="pricing.html" @click="mobileMenuOpen = false"
-                class="text-lg font-medium text-white/80 hover:text-white transition-colors py-2 px-4">
-                服务定价
-            </a>
-            <a href="techstack.html" @click="mobileMenuOpen = false"
-                class="text-lg font-medium text-white/80 hover:text-white transition-colors py-2 px-4">
-                技术栈
-            </a>
-            <a href="cases.html" @click="mobileMenuOpen = false"
-                class="text-lg font-medium text-white/80 hover:text-white transition-colors py-2 px-4">
-                成功案例
-            </a>
-            <a href="experience/experience.html" @click="mobileMenuOpen = false"
-                class="text-lg font-medium text-white/80 hover:text-white transition-colors py-2 px-4">
-                小程序演示
-            </a>
-            <a href="about.html" @click="mobileMenuOpen = false"
-                class="text-lg font-medium text-white/80 hover:text-white transition-colors py-2 px-4">
-                关于我们
-            </a>
+                <!-- Navigation Links -->
+                <nav class="flex flex-col gap-1">
+                    <a href="index.html" @click="mobileMenuOpen = false"
+                        class="text-base font-bold text-cyan-400 bg-cyan-500/10 py-3 px-4 rounded-lg">
+                        首页
+                    </a>
+                    <a href="solutions.html" @click="mobileMenuOpen = false"
+                        class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
+                        解决方案
+                    </a>
+                    <a href="pricing.html" @click="mobileMenuOpen = false"
+                        class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
+                        服务定价
+                    </a>
+                    <a href="techstack.html" @click="mobileMenuOpen = false"
+                        class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
+                        技术栈
+                    </a>
+                    <a href="cases.html" @click="mobileMenuOpen = false"
+                        class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
+                        成功案例
+                    </a>
+                    <a href="experience/experience.html" @click="mobileMenuOpen = false"
+                        class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
+                        小程序演示
+                    </a>
+                    <a href="about.html" @click="mobileMenuOpen = false"
+                        class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
+                        关于我们
+                    </a>
+                </nav>
 
-            <!-- Mobile CTA Button -->
-            <a href="contact.html" @click="mobileMenuOpen = false"
-                class="mt-4 px-6 py-3 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold text-base shadow-lg shadow-blue-500/30">
-                <span x-text="lang === 'zh' ? '免费咨询方案' : 'Free Consultation'"></span>
-            </a>
-        </nav>
+                <!-- CTA Button -->
+                <div class="mt-8 px-4">
+                    <a href="contact.html" @click="mobileMenuOpen = false"
+                        class="block w-full text-center py-3 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold text-sm shadow-lg shadow-blue-500/30">
+                        <span x-text="lang === 'zh' ? '免费咨询方案' : 'Free Consultation'"></span>
+                    </a>
+                </div>
 
-        <!-- Mobile Language Toggle -->
-        <button @click="lang = lang === 'zh' ? 'en' : 'zh'"
-            class="absolute bottom-10 text-white/60 font-mono text-sm hover:text-white transition-colors">
-            <span x-text="lang === 'zh' ? 'Switch to English' : '切换到中文'"></span>
-        </button>
-    </div>
+                <!-- Language Toggle -->
+                <div class="mt-6 px-4">
+                    <button @click="lang = lang === 'zh' ? 'en' : 'zh'"
+                        class="w-full text-center text-white/50 font-mono text-xs hover:text-white transition-colors py-2">
+                        <span x-text="lang === 'zh' ? 'Switch to English' : '切换到中文'"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
 
     <section class="carousel-section relative bg-neutral-950 flex items-center overflow-hidden group" x-data="{
             activeSlide: 0,

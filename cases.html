@@ -32,6 +32,32 @@
             color: #ffffff;
         }
 
+        /* 手机端侧边栏菜单 */
+        .mobile-menu-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 99998;
+        }
+        .mobile-menu-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 75%;
+            max-width: 320px;
+            background: rgba(20, 20, 30, 0.05);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border-left: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: -10px 0 40px rgba(0, 0, 0, 0.3);
+            z-index: 99999;
+            padding: 80px 24px 40px;
+            overflow-y: auto;
+        }
+
         /* Canvas 背景动画 */
         #wrapper {
             position: fixed;
@@ -166,6 +192,7 @@
 </head>
 
 <body x-data="{
+    mobileMenuOpen: false,
     totalImages: 20,
     activeFilter: 'all',
     imgFolder: 'img/cases/app-', // 图片路径前缀
@@ -193,8 +220,7 @@
     <!-- 内容层 -->
     <div class="content-layer">
 
-    <nav class="fixed w-full z-50 top-0 left-0 border-b border-white/5 bg-black/50 backdrop-blur-xl"
-        x-data="{ mobileMenuOpen: false }">
+    <nav class="fixed w-full z-50 top-0 left-0 border-b border-white/5 bg-black/50 backdrop-blur-xl">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
                 <a href="index.html" class="flex items-center gap-2 group">
@@ -218,71 +244,87 @@
                 <div class="flex items-center gap-4">
                     <a href="index.html#contact"
                         class="hidden md:inline-block px-5 py-2 rounded-full bg-white text-black text-sm font-bold hover:bg-slate-200 transition">立即咨询</a>
-                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-white p-2">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 text-white flex items-center justify-center hover:bg-white/20 transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                         </svg>
                     </button>
                 </div>
             </div>
         </div>
+    </nav>
 
-        <!-- Mobile Full-Screen Menu -->
-        <div x-show="mobileMenuOpen" x-cloak
-            x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0"
-            x-transition:enter-end="opacity-100"
-            x-transition:leave="transition ease-in duration-200"
-            x-transition:leave-start="opacity-100"
-            x-transition:leave-end="opacity-0"
-            class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl md:hidden flex flex-col items-center justify-center">
+    <!-- Mobile Slide-in Menu -->
+    <template x-if="mobileMenuOpen">
+        <div class="md:hidden">
+            <!-- Overlay -->
+            <div class="mobile-menu-overlay"
+                @click="mobileMenuOpen = false"
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0"
+                x-transition:enter-end="opacity-100"
+                x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-start="opacity-100"
+                x-transition:leave-end="opacity-0">
+            </div>
+            <!-- Panel -->
+            <div class="mobile-menu-panel"
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="translate-x-full"
+                x-transition:enter-end="translate-x-0"
+                x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-start="translate-x-0"
+                x-transition:leave-end="translate-x-full">
 
-            <!-- Close Button -->
-            <button @click="mobileMenuOpen = false" class="absolute top-6 right-6 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-            </button>
+                <!-- Close Button -->
+                <button @click="mobileMenuOpen = false" class="absolute top-5 right-5 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
 
-            <!-- Mobile Navigation Links -->
-            <div class="flex flex-col items-center gap-3">
-                <a href="index.html" @click="mobileMenuOpen = false"
-                    class="text-lg font-medium text-white/80 hover:text-white transition-colors py-2 px-4">
-                    首页
-                </a>
-                <a href="solutions.html" @click="mobileMenuOpen = false"
-                    class="text-lg font-medium text-white/80 hover:text-white transition-colors py-2 px-4">
-                    解决方案
-                </a>
-                <a href="pricing.html" @click="mobileMenuOpen = false"
-                    class="text-lg font-medium text-white/80 hover:text-white transition-colors py-2 px-4">
-                    服务定价
-                </a>
-                <a href="techstack.html" @click="mobileMenuOpen = false"
-                    class="text-lg font-medium text-white/80 hover:text-white transition-colors py-2 px-4">
-                    技术栈
-                </a>
-                <a href="cases.html" @click="mobileMenuOpen = false"
-                    class="text-lg font-bold text-purple-400 py-2 px-4">
-                    成功案例
-                </a>
-                <a href="experience/experience.html" @click="mobileMenuOpen = false"
-                    class="text-lg font-medium text-white/80 hover:text-white transition-colors py-2 px-4">
-                    小程序演示
-                </a>
-                <a href="about.html" @click="mobileMenuOpen = false"
-                    class="text-lg font-medium text-white/80 hover:text-white transition-colors py-2 px-4">
-                    关于我们
-                </a>
+                <!-- Navigation Links -->
+                <nav class="flex flex-col gap-1">
+                    <a href="index.html" @click="mobileMenuOpen = false"
+                        class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
+                        首页
+                    </a>
+                    <a href="solutions.html" @click="mobileMenuOpen = false"
+                        class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
+                        解决方案
+                    </a>
+                    <a href="pricing.html" @click="mobileMenuOpen = false"
+                        class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
+                        服务定价
+                    </a>
+                    <a href="techstack.html" @click="mobileMenuOpen = false"
+                        class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
+                        技术栈
+                    </a>
+                    <a href="cases.html" @click="mobileMenuOpen = false"
+                        class="text-base font-bold text-purple-400 bg-purple-500/10 py-3 px-4 rounded-lg">
+                        成功案例
+                    </a>
+                    <a href="experience/experience.html" @click="mobileMenuOpen = false"
+                        class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
+                        小程序演示
+                    </a>
+                    <a href="about.html" @click="mobileMenuOpen = false"
+                        class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
+                        关于我们
+                    </a>
+                </nav>
 
-                <!-- Mobile CTA Button -->
-                <a href="contact.html" @click="mobileMenuOpen = false"
-                    class="mt-4 px-6 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold text-base shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 transition">
-                    免费咨询方案
-                </a>
+                <!-- CTA Button -->
+                <div class="mt-8 px-4">
+                    <a href="contact.html" @click="mobileMenuOpen = false"
+                        class="block w-full text-center py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold text-sm shadow-lg shadow-purple-500/30">
+                        免费咨询方案
+                    </a>
+                </div>
             </div>
         </div>
-    </nav>
+    </template>
 
     <header class="relative pt-32 pb-20">
         <div
@@ -401,7 +443,7 @@
                 <span>您的想法，</span>
                 <span>我们帮您实现。</span>
             </h2>
-            <a href="index.html#contact"
+            <a href="contact.html"
                 class="inline-flex items-center justify-center px-10 py-5 text-lg font-bold text-white bg-blue-600 rounded-full hover:bg-blue-500 transition-all shadow-[0_0_40px_rgba(37,99,235,0.5)]">开始您的项目</a>
         </div>
     </section>
