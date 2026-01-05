@@ -29,7 +29,112 @@
     <link rel="stylesheet" href="css/style.css">
 
     <style>
-        /* Flip Nav Buttons */
+        /* ========== 动态响应式变量系统 ========== */
+        :root {
+            --vh: 1vh;
+            --vw: 1vw;
+            /* 动态字体大小 - 基于视口高度 */
+            --font-hero: clamp(1.5rem, 5vh, 4.5rem);
+            --font-title: clamp(1.25rem, 4vh, 3.5rem);
+            --font-subtitle: clamp(1rem, 3vh, 2.5rem);
+            --font-body: clamp(0.75rem, 1.8vh, 1rem);
+            --font-small: clamp(0.625rem, 1.5vh, 0.875rem);
+            /* 动态间距 - 基于视口高度 */
+            --space-xs: clamp(0.25rem, 1vh, 0.5rem);
+            --space-sm: clamp(0.5rem, 1.5vh, 1rem);
+            --space-md: clamp(0.75rem, 2vh, 1.5rem);
+            --space-lg: clamp(1rem, 3vh, 2rem);
+            --space-xl: clamp(1.5rem, 4vh, 3rem);
+            --space-2xl: clamp(2rem, 5vh, 4rem);
+            /* 动态 padding */
+            --pad-section: clamp(3rem, 8vh, 6rem);
+            --pad-content: clamp(1rem, 3vh, 1.5rem);
+        }
+
+        .carousel-section {
+            min-height: calc(var(--vh, 1vh) * 100);
+        }
+
+        /* 轮播内容容器 - 动态适配 */
+        .slide-content-wrapper {
+            padding-top: var(--pad-section);
+            padding-bottom: var(--pad-section);
+            gap: var(--space-lg);
+        }
+
+        /* 动态标题样式 */
+        .dynamic-hero-title {
+            font-size: var(--font-hero) !important;
+            line-height: 1.15 !important;
+            margin-bottom: var(--space-md) !important;
+        }
+
+        .dynamic-title {
+            font-size: var(--font-title) !important;
+            line-height: 1.2 !important;
+            margin-bottom: var(--space-md) !important;
+        }
+
+        .dynamic-subtitle {
+            font-size: var(--font-subtitle) !important;
+            line-height: 1.3 !important;
+        }
+
+        .dynamic-body {
+            font-size: var(--font-body) !important;
+            margin-bottom: var(--space-md) !important;
+        }
+
+        .dynamic-small {
+            font-size: var(--font-small) !important;
+        }
+
+        /* 动态间距 */
+        .dynamic-gap-sm { gap: var(--space-sm) !important; }
+        .dynamic-gap-md { gap: var(--space-md) !important; }
+        .dynamic-gap-lg { gap: var(--space-lg) !important; }
+        .dynamic-mb-sm { margin-bottom: var(--space-sm) !important; }
+        .dynamic-mb-md { margin-bottom: var(--space-md) !important; }
+        .dynamic-mb-lg { margin-bottom: var(--space-lg) !important; }
+        .dynamic-mt-sm { margin-top: var(--space-sm) !important; }
+        .dynamic-mt-md { margin-top: var(--space-md) !important; }
+        .dynamic-mt-lg { margin-top: var(--space-lg) !important; }
+
+        /* 移动端特殊调整 */
+        @media (max-width: 767px) {
+            :root {
+                --font-hero: clamp(1.5rem, 6vw, 2.5rem);
+                --font-title: clamp(1.25rem, 5vw, 2rem);
+                --font-subtitle: clamp(1rem, 4vw, 1.5rem);
+                --pad-section: clamp(2rem, 6vh, 4rem);
+            }
+
+            .slide-content-wrapper {
+                padding-top: calc(var(--vh, 1vh) * 12);
+                padding-bottom: calc(var(--vh, 1vh) * 8);
+            }
+
+            /* 移除所有负 margin */
+            .slide-3-container,
+            .slide-4-carousel-container,
+            .slide-2-image-container {
+                margin-top: 0 !important;
+            }
+        }
+
+        /* 超小屏幕（如 iPhone SE） */
+        @media (max-height: 667px) {
+            :root {
+                --font-hero: clamp(1.25rem, 5vw, 2rem);
+                --font-title: clamp(1rem, 4vw, 1.75rem);
+                --font-body: clamp(0.65rem, 1.6vh, 0.875rem);
+                --space-lg: clamp(0.5rem, 2vh, 1rem);
+                --space-xl: clamp(0.75rem, 2.5vh, 1.5rem);
+                --pad-section: clamp(1.5rem, 5vh, 3rem);
+            }
+        }
+
+        /* ========== Flip Nav Buttons ========== */
         .flip-nav-btn {
             height: 52px;
             min-width: 100px;
@@ -232,18 +337,18 @@
             }
 
             /* 3. 轮播第三页：文字部分向上移动，与呼吸图片间距缩小 */
+            /* 动态尺寸已在 :root 中定义，这些旧规则已被替代 */
             .slide-3-container {
-                gap: 0 !important;
-                padding-top: 10px !important;
+                gap: var(--space-sm) !important;
             }
 
             .slide-3-content {
-                margin-top: -80px !important;
+                margin-top: 0 !important;
             }
 
             .slide-3-image {
-                height: 280px !important;
-                margin-bottom: -40px !important;
+                height: calc(var(--vh, 1vh) * 35) !important;
+                margin-bottom: 0 !important;
             }
 
             /* 4. 轮播第四页：标题一行显示 + 间距紧凑 */
@@ -251,7 +356,7 @@
                 flex-direction: row !important;
                 flex-wrap: wrap;
                 justify-content: center;
-                gap: 0.25rem !important;
+                gap: var(--space-xs) !important;
             }
 
             .slide-4-title span {
@@ -259,12 +364,13 @@
             }
 
             .slide-4-carousel-container {
-                margin-top: -200px !important;
+                margin-top: 0 !important;
+                height: calc(var(--vh, 1vh) * 40) !important;
             }
 
             .slide-4-cta-section {
-                margin-top: 16px !important;
-                margin-bottom: 8px !important;
+                margin-top: var(--space-sm) !important;
+                margin-bottom: var(--space-xs) !important;
             }
 
             /* 5. Footer视觉实验室间距调小 */
@@ -344,6 +450,20 @@
                 }
             }
         }
+    </script>
+    <script>
+        // 动态计算真实视口尺寸（解决移动端浏览器地址栏问题）
+        function setViewportUnits() {
+            const vh = window.innerHeight * 0.01;
+            const vw = window.innerWidth * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+            document.documentElement.style.setProperty('--vw', `${vw}px`);
+        }
+        setViewportUnits();
+        window.addEventListener('resize', setViewportUnits);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(setViewportUnits, 100); // 延迟确保方向变化后尺寸正确
+        });
     </script>
 </head>
 <!--Start of Tawk.to Script-->
@@ -498,7 +618,7 @@
         </button>
     </div>
 
-    <section class="relative bg-neutral-950 min-h-screen flex items-center overflow-hidden group" x-data="{
+    <section class="carousel-section relative bg-neutral-950 flex items-center overflow-hidden group" x-data="{
             activeSlide: 0,
             slides: [0, 1, 2, 3],
             timer: null,
@@ -562,41 +682,41 @@
             <script src="js/hero-vortex.js" type="text/babel"></script>
 
             <div
-                class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full pt-20 pb-24">
+                class="slide-content-wrapper max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full z-10 grid grid-cols-1 lg:grid-cols-2 items-center h-full">
                 <div class="text-center lg:text-left z-20">
                     <div
-                        class="inline-flex items-center gap-2 px-3 py-1 border border-purple-500/30 rounded-full text-xs font-medium text-purple-400 mb-6 tracking-[0.2em] uppercase font-mono bg-purple-900/20 backdrop-blur-md shadow-[0_0_15px_rgba(168,85,247,0.2)]">
+                        class="inline-flex items-center gap-2 px-3 py-1 border border-purple-500/30 rounded-full dynamic-small font-medium text-purple-400 dynamic-mb-md tracking-[0.2em] uppercase font-mono bg-purple-900/20 backdrop-blur-md shadow-[0_0_15px_rgba(168,85,247,0.2)]">
                         <span class="w-2 h-2 rounded-full bg-purple-400 animate-ping"></span>
                         <span x-show="lang === 'zh'">生意做大了，该有自己的"地盘"了</span>
                         <span x-show="lang !== 'zh'">SCALE YOUR BUSINESS WITH ASSETS</span>
                     </div>
-                    <h1 class="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-white flex flex-col gap-2 sm:gap-4 mb-6 font-heading">
+                    <h1 class="dynamic-hero-title font-bold text-white flex flex-col dynamic-gap-sm font-heading">
                         <span class="whitespace-normal sm:whitespace-nowrap" x-show="lang === 'zh'">从"朋友圈生意"</span>
                         <span class="whitespace-normal sm:whitespace-nowrap" x-show="lang !== 'zh'" x-cloak>From Social Media</span>
 
                         <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 font-zen whitespace-normal sm:whitespace-nowrap" x-show="lang === 'zh'">跨越到"自属品牌"</span>
                         <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 font-zen whitespace-normal sm:whitespace-nowrap" x-show="lang !== 'zh'" x-cloak>To Brand Empire</span>
                     </h1>
-                    <p class="text-sm text-slate-400 mb-8 leading-relaxed max-w-xl mx-auto lg:mx-0 font-light">
+                    <p class="dynamic-body text-slate-400 leading-relaxed max-w-xl mx-auto lg:mx-0 font-light">
                         <span x-show="lang === 'zh'">别让客户关系只停留在通讯工具中。让我们为您打造 专属的独立 APP 与官网，以系统化的方式承载服务、品牌与信任，让您的业务像成熟企业一样稳定运转。</span>
                         <span x-show="lang === 'en'" style="display: none;">Don't let your customers just sit in WeChat
                             contacts. We build your exclusive App and Website, operating professionally like major
                             Japanese enterprises.</span>
                     </p>
-                    <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-3 sm:gap-4">
+                    <div class="flex flex-col sm:flex-row justify-center lg:justify-start dynamic-gap-sm">
                         <a href="cases.html"
-                            class="px-6 sm:px-8 py-3 sm:py-4 rounded-full bg-white text-black font-bold hover:bg-slate-200 transition shadow-[0_0_20px_rgba(255,255,255,0.3)] inline-block text-center text-sm sm:text-base">
+                            class="px-6 sm:px-8 py-2 sm:py-3 rounded-full bg-white text-black font-bold hover:bg-slate-200 transition shadow-[0_0_20px_rgba(255,255,255,0.3)] inline-block text-center dynamic-small">
                             <span x-text="lang === 'zh' ? '查看成功案例' : 'View Case Studies'"></span>
                         </a>
 
                         <a href="contact.html"
-                            class="px-6 sm:px-8 py-3 sm:py-4 rounded-full border border-slate-700 text-slate-300 font-medium hover:border-white hover:text-white transition text-center text-sm sm:text-base">
+                            class="px-6 sm:px-8 py-2 sm:py-3 rounded-full border border-slate-700 text-slate-300 font-medium hover:border-white hover:text-white transition text-center dynamic-small">
                             <span x-text="lang === 'zh' ? '免费咨询方案' : 'Get Proposal'"></span>
                         </a>
                     </div>
                 </div>
 
-                <div class="hidden md:flex relative h-[400px] lg:h-[600px] w-full items-center justify-center">
+                <div class="hidden md:flex relative w-full items-center justify-center" style="height: calc(var(--vh, 1vh) * 50);">
                     <canvas id="canvas1"></canvas>
                     <div id="loading" class="absolute text-blue-500 font-mono text-sm animate-pulse">
                         <span x-text="lang === 'zh' ? '品牌资产构建中...' : 'BUILDING ASSETS...'"></span>
@@ -616,69 +736,68 @@
             </div>
 
             <div
-                class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full pt-20 pb-24">
+                class="slide-content-wrapper max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full z-10 grid grid-cols-1 lg:grid-cols-2 items-center h-full">
                 <div class="text-center lg:text-left z-20 order-2 lg:order-1">
                     <div
-                        class="inline-flex items-center gap-2 px-3 py-1 border border-blue-500/30 rounded-full text-xs font-medium text-blue-400 mb-6 tracking-[0.2em] uppercase font-mono bg-blue-900/20 backdrop-blur-md shadow-[0_0_15px_rgba(59,130,246,0.2)]">
+                        class="inline-flex items-center gap-2 px-3 py-1 border border-blue-500/30 rounded-full dynamic-small font-medium text-blue-400 dynamic-mb-md tracking-[0.2em] uppercase font-mono bg-blue-900/20 backdrop-blur-md shadow-[0_0_15px_rgba(59,130,246,0.2)]">
                         <span class="w-2 h-2 rounded-full bg-blue-400 animate-ping"></span>
                         <span x-show="lang === 'zh'">核心品牌资产</span>
                         <span x-show="lang !== 'zh'">CORE BRAND ASSET</span>
                     </div>
 
-                    <h2 class="text-white text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold font-heading tracking-tight mb-6 whitespace-normal sm:whitespace-nowrap">
+                    <h2 class="dynamic-title text-white font-bold font-heading tracking-tight whitespace-normal sm:whitespace-nowrap">
                         <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 font-zen"
                             x-html="lang === 'zh' ? '原生 APP 定制开发' : 'Native APP<br>Development'"></span>
                     </h2>
 
-                    <p
-                        class="text-slate-400 text-sm md:text-sm max-w-2xl font-light leading-relaxed mx-auto lg:mx-0 mb-8">
+                    <p class="dynamic-body text-slate-400 max-w-2xl font-light leading-relaxed mx-auto lg:mx-0">
                         <span
                             x-html="lang === 'zh' ? '不仅仅是软件，更是您企业的数字名片。上架 Apple Store 和 Google Play，建立绝对的<b>品牌信任度与用户粘性</b>。让您的服务图标，永久驻留在客户的手机屏幕上。' : 'More than software, it\'s your digital identity. Listed on App Store & Google Play for ultimate brand trust and retention. Keep your service icon on customers\' screens forever.'"></span>
                     </p>
 
-                    <div class="slide-2-features-grid grid grid-cols-3 gap-2 sm:gap-6 text-left max-w-2xl mx-auto lg:mx-0">
-                        <div class="bg-white/5 border border-white/10 rounded-xl p-2 sm:p-4 backdrop-blur-sm">
-                            <div class="text-blue-400 text-base sm:text-xl mb-1 sm:mb-2">⚡️</div>
-                            <h4 class="text-white font-bold mb-0.5 sm:mb-1 text-xs sm:text-base" x-text="lang === 'zh' ? '极致性能' : 'Peak Performance'">
+                    <div class="slide-2-features-grid grid grid-cols-3 dynamic-gap-sm text-left max-w-2xl mx-auto lg:mx-0">
+                        <div class="bg-white/5 border border-white/10 rounded-xl p-2 sm:p-3 backdrop-blur-sm">
+                            <div class="text-blue-400 dynamic-body">⚡️</div>
+                            <h4 class="text-white font-bold dynamic-small" x-text="lang === 'zh' ? '极致性能' : 'Peak Performance'">
                             </h4>
-                            <p class="text-slate-400 text-[10px] sm:text-sm leading-tight"
-                                x-text="lang === 'zh' ? '秒开、流畅、稳定，提供最佳用户体验。' : 'Instant load, smooth, stable. Best UX.'">
+                            <p class="text-slate-400 dynamic-small leading-tight"
+                                x-text="lang === 'zh' ? '秒开、流畅、稳定' : 'Fast & stable'">
                             </p>
                         </div>
-                        <div class="bg-white/5 border border-white/10 rounded-xl p-2 sm:p-4 backdrop-blur-sm">
-                            <div class="text-blue-400 text-base sm:text-xl mb-1 sm:mb-2">🔔</div>
-                            <h4 class="text-white font-bold mb-0.5 sm:mb-1 text-xs sm:text-base" x-text="lang === 'zh' ? '精准触达' : 'Precise Reach'">
+                        <div class="bg-white/5 border border-white/10 rounded-xl p-2 sm:p-3 backdrop-blur-sm">
+                            <div class="text-blue-400 dynamic-body">🔔</div>
+                            <h4 class="text-white font-bold dynamic-small" x-text="lang === 'zh' ? '精准触达' : 'Precise Reach'">
                             </h4>
-                            <p class="text-slate-400 text-[10px] sm:text-sm leading-tight"
-                                x-text="lang === 'zh' ? '利用推送通知，随时唤醒沉睡用户。' : 'Wake up dormant users with push notifications.'">
+                            <p class="text-slate-400 dynamic-small leading-tight"
+                                x-text="lang === 'zh' ? '推送唤醒用户' : 'Push notifications'">
                             </p>
                         </div>
-                        <div class="bg-white/5 border border-white/10 rounded-xl p-2 sm:p-4 backdrop-blur-sm">
-                            <div class="text-blue-400 text-base sm:text-xl mb-1 sm:mb-2">🔒</div>
-                            <h4 class="text-white font-bold mb-0.5 sm:mb-1 text-xs sm:text-base" x-text="lang === 'zh' ? '私有数据' : 'Private Data'">
+                        <div class="bg-white/5 border border-white/10 rounded-xl p-2 sm:p-3 backdrop-blur-sm">
+                            <div class="text-blue-400 dynamic-body">🔒</div>
+                            <h4 class="text-white font-bold dynamic-small" x-text="lang === 'zh' ? '私有数据' : 'Private Data'">
                             </h4>
-                            <p class="text-slate-400 text-[10px] sm:text-sm leading-tight"
-                                x-text="lang === 'zh' ? '完全掌握用户数据，不再受制于第三方平台。' : 'Full control of user data, independent of platforms.'">
+                            <p class="text-slate-400 dynamic-small leading-tight"
+                                x-text="lang === 'zh' ? '完全掌握数据' : 'Full data control'">
                             </p>
                         </div>
                     </div>
 
-                    <div class="mt-10 flex gap-4 pointer-events-auto justify-center lg:justify-start">
+                    <div class="dynamic-mt-md flex dynamic-gap-sm pointer-events-auto justify-center lg:justify-start">
                         <button
-                            class="px-8 py-3 rounded-full bg-blue-600 text-white font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-500/30">
+                            class="px-6 py-2 rounded-full bg-blue-600 text-white font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-500/30 dynamic-small">
                             <span x-text="lang === 'zh' ? '咨询 APP 开发' : 'Inquire App Dev'"></span>
                         </button>
                     </div>
                 </div>
 
                 <div
-                    class="slide-2-image-container relative h-[300px] md:h-[400px] lg:h-[600px] w-full flex items-center justify-center lg:justify-end order-1 lg:order-2 perspective-1000">
+                    class="slide-2-image-container relative w-full flex items-center justify-center lg:justify-end order-1 lg:order-2 perspective-1000" style="height: calc(var(--vh, 1vh) * 40);">
                     <div class="relative z-10 animate-float">
                         <div
                             class="absolute -inset-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-[40px] blur-3xl opacity-30 animate-pulse-glow">
                         </div>
                         <img src="img/app_mockup_placeholder.png" alt="APP Mockup"
-                            class="relative z-20 max-h-[280px] md:max-h-[500px] object-contain drop-shadow-2xl transform rotate-[-5deg] hover:rotate-0 transition duration-500">
+                            class="relative z-20 object-contain drop-shadow-2xl transform rotate-[-5deg] hover:rotate-0 transition duration-500" style="max-height: calc(var(--vh, 1vh) * 35);">
                     </div>
                 </div>
             </div>
@@ -704,17 +823,16 @@
                 style="animation-delay: 2s;"></div>
 
             <div
-                class="slide-3-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full pt-20 pb-24">
+                class="slide-content-wrapper slide-3-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full z-10 grid grid-cols-1 lg:grid-cols-2 items-center h-full">
                 <div class="slide-3-content text-center lg:text-left z-20 order-2 lg:order-1">
                     <div
-                        class="inline-flex items-center gap-2 px-3 py-1 border border-emerald-500/30 rounded-full text-xs font-medium text-emerald-400 mb-6 tracking-[0.2em] uppercase font-mono bg-emerald-900/20 backdrop-blur-md shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+                        class="inline-flex items-center gap-2 px-3 py-1 border border-emerald-500/30 rounded-full dynamic-small font-medium text-emerald-400 dynamic-mb-md tracking-[0.2em] uppercase font-mono bg-emerald-900/20 backdrop-blur-md shadow-[0_0_15px_rgba(16,185,129,0.2)]">
                         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
                         <span x-show="lang === 'zh'">把"点赞之交" 变成 "下单铁粉"</span>
                         <span x-show="lang !== 'zh'">CONVERT TRAFFIC TO SALES</span>
                     </div>
 
-                    <h2
-                        class="text-white text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold font-heading tracking-tight mb-6 leading-tight">
+                    <h2 class="dynamic-title text-white font-bold font-heading tracking-tight leading-tight">
                         <span
                             class="inline md:block text-transparent bg-clip-text bg-gradient-to-br from-white via-emerald-100 to-emerald-400 drop-shadow-lg"
                             x-text="lang === 'zh' ? '24小时' : '24/7'"></span>
@@ -723,16 +841,16 @@
                     </h2>
 
                     <div
-                        class="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-md mb-8 max-w-xl mx-auto lg:mx-0 shadow-2xl">
-                        <p class="text-slate-300 text-sm md:text-sm font-light leading-relaxed">
+                        class="bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-md dynamic-mb-md max-w-xl mx-auto lg:mx-0 shadow-2xl">
+                        <p class="text-slate-300 dynamic-body font-light leading-relaxed" style="margin-bottom: 0 !important;">
                             <span
                                 x-html="lang === 'zh' ? '还在手动回微信报价？还在用 Excel 记账？<br>用小程序实现<b>自助下单、自动结算、会员管理</b>。<br>省下一个人工的钱，就是纯利润。' : 'Still quoting manually? Automate ordering & billing. Saving labor cost is pure profit.'"></span>
                         </p>
                     </div>
 
-                    <div class="flex gap-4 pointer-events-auto justify-center lg:justify-start">
-                        <a href="experience/experience.html" class="group inline-flex px-8 py-3 rounded-full bg-emerald-600 hover:bg-emerald-500
-                                text-white font-bold transition-all
+                    <div class="flex dynamic-gap-sm pointer-events-auto justify-center lg:justify-start">
+                        <a href="experience/experience.html" class="group inline-flex px-6 py-2 rounded-full bg-emerald-600 hover:bg-emerald-500
+                                text-white font-bold transition-all dynamic-small
                                 shadow-[0_0_20px_rgba(5,150,105,0.4)]
                                 hover:shadow-[0_0_30px_rgba(5,150,105,0.6)]
                                 items-center gap-2">
@@ -748,9 +866,9 @@
                 </div>
 
                 <div
-                    class="slide-3-image relative h-[400px] lg:h-[600px] w-full flex items-center justify-center lg:justify-end order-1 lg:order-2">
+                    class="slide-3-image relative w-full flex items-center justify-center lg:justify-end order-1 lg:order-2" style="height: calc(var(--vh, 1vh) * 40);">
                     <img src="img/wechat_mockup.png" alt="WeChat Mini Program"
-                        class="relative z-10 max-h-full object-contain wealth-engine-anim">
+                        class="relative z-10 object-contain wealth-engine-anim" style="max-height: calc(var(--vh, 1vh) * 38);">
                 </div>
             </div>
             <script src="js/neural-canvas.js"></script>
@@ -775,37 +893,37 @@
             </div>
 
             <div
-                class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full pt-20 pb-24">
+                class="slide-content-wrapper max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full z-10 grid grid-cols-1 lg:grid-cols-2 items-center h-full">
 
                 <div class="text-center lg:text-left z-20 pointer-events-none">
 
                     <div
-                        class="inline-flex items-center gap-2 px-3 py-1 border border-red-500/30 rounded-full text-xs font-medium text-red-400 mb-6 tracking-[0.2em] uppercase font-mono bg-red-900/20 backdrop-blur-md shadow-[0_0_15px_rgba(239,68,68,0.2)]">
+                        class="inline-flex items-center gap-2 px-3 py-1 border border-red-500/30 rounded-full dynamic-small font-medium text-red-400 dynamic-mb-md tracking-[0.2em] uppercase font-mono bg-red-900/20 backdrop-blur-md shadow-[0_0_15px_rgba(239,68,68,0.2)]">
                         <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
                         <span x-text="lang === 'zh' ? '不仅写代码，还是懂技术的合伙人' : 'YOUR TECH PARTNER'"></span>
                     </div>
 
                     <h2
-                        class="slide-4-title text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold font-heading tracking-tighter mb-4 md:mb-8 drop-shadow-2xl flex flex-row md:flex-col gap-1 md:gap-2 justify-center lg:justify-start flex-wrap">
+                        class="slide-4-title dynamic-title font-bold font-heading tracking-tighter drop-shadow-2xl flex flex-row md:flex-col dynamic-gap-sm justify-center lg:justify-start flex-wrap">
                         <span
                             class="inline text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-orange-400 to-amber-400 font-zen italic pr-1 md:pr-4 pb-1"
                             x-text="lang === 'zh' ? '更懂在日华人的生意' : 'We Know Your'"></span>
                     </h2>
 
-                    <div class="h-px w-32 bg-gradient-to-r from-red-500 to-transparent mx-auto lg:mx-0 mb-4 md:mb-8"></div>
+                    <div class="h-px w-32 bg-gradient-to-r from-red-500 to-transparent mx-auto lg:mx-0 dynamic-mb-md"></div>
 
-                    <p class="text-red-200/60 font-mono text-xs md:text-sm tracking-[0.3em] uppercase mb-4 md:mb-8">
+                    <p class="text-red-200/60 font-mono dynamic-small tracking-[0.3em] uppercase dynamic-mb-sm">
                         <span x-text="lang === 'zh' ? '坐标东京/大阪 · 随时可约面谈' : 'BASED IN TOKYO/OSAKA'"></span>
                     </p>
 
-                    <p class="mt-4 md:mt-8 text-slate-400 max-w-lg mx-auto lg:mx-0 font-light text-xs md:text-sm leading-relaxed">
+                    <p class="dynamic-mt-sm dynamic-body text-slate-400 max-w-lg mx-auto lg:mx-0 font-light leading-relaxed">
                         <span
                             x-show="lang === 'zh'">我们不仅仅是开发商，更是您的<b>数字化战略顾问</b>。从服务器搭建到支付接口对接（微信/支付宝/PayPay），我们帮您搞定一切技术难题，您只管安心赚钱。</span>
                     </p>
 
-                    <div class="slide-4-cta-section mt-2 md:mt-10 mb-0 flex gap-4 pointer-events-auto justify-center lg:justify-start">
+                    <div class="slide-4-cta-section dynamic-mt-md flex dynamic-gap-sm pointer-events-auto justify-center lg:justify-start">
                         <a href="#contact"
-                            class="group px-6 md:px-8 py-2 md:py-3 rounded-full border border-red-500/30 text-red-100 hover:bg-red-500/10 transition backdrop-blur-sm flex items-center gap-2 text-sm md:text-base">
+                            class="group px-6 py-2 rounded-full border border-red-500/30 text-red-100 hover:bg-red-500/10 transition backdrop-blur-sm flex items-center gap-2 dynamic-small">
                             <span x-text="lang === 'zh' ? '预约面谈' : 'Book a Meeting'"></span>
                             <svg class="w-4 h-4 text-red-400 group-hover:translate-x-1 transition-transform" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -816,8 +934,8 @@
                     </div>
                 </div>
 
-                <div class="slide-4-carousel-container relative h-[320px] md:h-[400px] lg:h-[800px] w-full flex items-start md:items-center justify-center perspective-1000 overflow-hidden -mt-4 md:mt-0"
-                    id="hero-parallax-root">
+                <div class="slide-4-carousel-container relative w-full flex items-start md:items-center justify-center perspective-1000 overflow-hidden"
+                    id="hero-parallax-root" style="height: calc(var(--vh, 1vh) * 45);">
                 </div>
             </div>
 
