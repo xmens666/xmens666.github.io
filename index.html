@@ -495,12 +495,12 @@
             }
 
             .slide-3-image {
-                height: calc(var(--vh, 1vh) * 38) !important;
-                margin-bottom: 0 !important;
+                height: calc(var(--vh, 1vh) * 55) !important;
             }
 
             .slide-3-image img {
-                max-height: calc(var(--vh, 1vh) * 35) !important;
+                max-height: calc(var(--vh, 1vh) * 55) !important;
+                transform: scale(1.25);
             }
 
             /* 4. 轮播第四页：标题一行显示 + 间距紧凑 */
@@ -947,7 +947,13 @@
                         <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 font-zen whitespace-normal sm:whitespace-nowrap" x-show="lang !== 'zh'" x-cloak>To Brand Empire</span>
                     </h1>
                     <p class="dynamic-body text-slate-400 leading-relaxed max-w-xl mx-auto lg:mx-0 font-light">
-                        <span x-show="lang === 'zh'">别让客户关系只停留在通讯工具中。ZenCode为您打造 专属独立的 APP 与官网，让您的业务呈指数级疯狂增长！</span>
+                        <span x-show="lang === 'zh'">
+                            别让客户只停留在通讯中。
+                            <span class="text-emerald-400 font-semibold">
+                                ZenCode 为您打造专属独立的 APP 与官网！
+                            </span>
+                        </span>
+
                         <span x-show="lang === 'en'" style="display: none;">Don't let your customers just sit in WeChat
                             contacts. We build your exclusive App and Website, operating professionally like major
                             Japanese enterprises.</span>
@@ -1007,7 +1013,7 @@
                             x-html="lang === 'zh' ? '原生定制开发' : 'Native APP<br>Development'"></span>
                     </h2>
 
-                    <p class="dynamic-body text-emerald-300 max-w-2xl font-light leading-relaxed mx-auto lg:mx-0">
+                    <p class="dynamic-body text-emerald-300 max-w-2xl text-emerald-400 font-semibold leading-relaxed mx-auto lg:mx-0">
                         <span x-html="lang === 'zh'
                             ? '苹果和安卓同时构建,帮您上架 Apple Store 和 Google Play'
                             : 'Listed on App Store & Google Play for ultimate brand trust and retention.'">
@@ -1108,8 +1114,10 @@
                     <div
                         class="bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-md dynamic-mb-md max-w-xl mx-auto lg:mx-0 shadow-2xl">
                         <p class="text-slate-300 dynamic-body font-light leading-relaxed" style="margin-bottom: 0 !important;">
-                            <span
-                                x-html="lang === 'zh' ? '还在手动回微信报价？还在用 Excel 记账？<br>用小程序实现<b>自助下单、自动结算、会员管理</b>。<br>省下一个人工的钱，就是纯利润。' : 'Still quoting manually? Automate ordering & billing. Saving labor cost is pure profit.'"></span>
+                            <span x-html="lang === 'zh'
+                                ? '还在手动回微信报价？还在用 Excel 记账？<br>用小程序实现 <span class=&quot;text-emerald-400 font-medium&quot;>自助下单、自动结算、会员管理</span>。<br>省下一个人工的钱，就是 <span class=&quot;font-bold text-red-500&quot;>纯利润</span>。'
+                                : 'Still quoting manually? Automate ordering & billing. Saving labor cost is pure profit.'">
+                            </span>
                         </p>
                     </div>
 
@@ -1131,9 +1139,9 @@
                 </div>
 
                 <div
-                    class="slide-3-image relative w-full flex items-center justify-center lg:justify-center order-1 lg:order-2 h-[300px] md:h-[500px] -mt-16 md:mt-0 md:-ml-8" style="height: calc(var(--vh, 1vh) * 65);">
+                    class="slide-3-image relative w-full flex items-center justify-center lg:justify-center order-1 lg:order-2 h-[400px] md:h-[500px] -mt-16 md:-mt-12 md:-ml-8" style="height: calc(var(--vh, 1vh) * 75);">
                     <img src="img/wechat_mockup.png" alt="WeChat Mini Program"
-                        class="relative z-10 object-contain wealth-engine-anim scale-[1.3] md:scale-[1.5]" style="max-height: calc(var(--vh, 1vh) * 60);">
+                        class="relative z-10 object-contain wealth-engine-anim scale-[2] md:scale-[1.5]" style="max-height: calc(var(--vh, 1vh) * 80);">
                 </div>
             </div>
             <script src="js/neural-canvas.js"></script>
