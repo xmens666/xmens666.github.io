@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>关于我们 - ZenCode | 日本华人企业数字化专家</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
@@ -50,8 +54,23 @@
             height: 100dvh;
             z-index: 0;
             pointer-events: none;
+            /* --- 新增的关键修复代码 --- */
+            /* 强制开启 GPU 硬件加速 */
+            transform: translate3d(0, 0, 0);
+            -webkit-transform: translate3d(0, 0, 0);
+            /* 告诉浏览器这个元素的变换属性可能会改变，提前做好渲染准备 */
+            will-change: transform;
+            /* 确保背景在最底层，防止 z-index 问题导致的闪烁 */
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            /* --- 新增结束 --- */
         }
-
+        /* 可选：如果上面的还不行，尝试强制锁定 canvas 尺寸 */
+        #vanta-bg canvas {
+            display: block;
+            width: 100% !important;
+            height: 100% !important;
+        }
         .content-wrapper {
             position: relative;
             z-index: 10;
