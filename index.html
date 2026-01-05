@@ -826,10 +826,11 @@
             startAutoPlay() {
                 this.timer = setInterval(() => {
                     this.next();
-                }, 8000);
+                }, 5000);
             },
-            stopAutoPlay() {
+            resetAutoPlay() {
                 clearInterval(this.timer);
+                this.startAutoPlay();
             },
             next() {
                 this.activeSlide = (this.activeSlide + 1) % this.slides.length;
@@ -842,29 +843,30 @@
             goTo(index) {
                 this.activeSlide = index;
                 this.dispatchSlideChange();
+                this.resetAutoPlay();
             },
             dispatchSlideChange() {
                 document.dispatchEvent(new CustomEvent('slideChange', { detail: { slideIndex: this.activeSlide } }));
             },
             handleTouchStart(e) {
                 this.touchStartX = e.changedTouches[0].screenX;
-                this.stopAutoPlay();
             },
             handleTouchEnd(e) {
                 this.touchEndX = e.changedTouches[0].screenX;
                 this.handleSwipe();
-                this.startAutoPlay();
             },
             handleSwipe() {
                 const diff = this.touchStartX - this.touchEndX;
                 const threshold = 50;
                 if (diff > threshold) {
                     this.next();
+                    this.resetAutoPlay();
                 } else if (diff < -threshold) {
                     this.prev();
+                    this.resetAutoPlay();
                 }
             }
-        }" x-init="startAutoPlay()" @mouseenter="stopAutoPlay()" @mouseleave="startAutoPlay()"
+        }" x-init="startAutoPlay()"
         @touchstart="handleTouchStart($event)" @touchend="handleTouchEnd($event)">
 
         <div x-show="activeSlide === 0" x-transition:enter="transition ease-out duration-1000"
