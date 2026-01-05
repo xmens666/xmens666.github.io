@@ -243,9 +243,27 @@
                 padding-bottom: 8px !important;
             }
 
-            /* 手机框 - 紧贴切换按钮下方 */
+            /* 手机框 - 紧贴切换按钮下方，缩小尺寸 */
             .phone-frame-container {
                 margin-top: 50px !important;
+                width: 320px !important;
+                height: 640px !important;
+                border-radius: 2.5rem !important;
+                border-width: 6px !important;
+            }
+
+            /* 灵动岛缩小 */
+            .phone-frame-container .w-28 {
+                width: 5.5rem !important;
+            }
+        }
+
+        /* 超小屏幕 */
+        @media (max-width: 374px) {
+            .phone-frame-container {
+                width: 290px !important;
+                height: 580px !important;
+                border-radius: 2rem !important;
             }
         }
     </style>
