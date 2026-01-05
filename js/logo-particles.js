@@ -118,10 +118,10 @@
     // 交互：监听整个 Hero Section 的鼠标移动
     const heroSection = canvas.closest('section');
     if (heroSection) {
+        // 鼠标移动事件
         heroSection.addEventListener('mousemove', function (event) {
-            if (!isPlaying) return; // Don't calculate warp if paused
+            if (!isPlaying) return;
 
-            // 获取 Canvas 相对于视口的坐标
             const rect = canvas.getBoundingClientRect();
             const x = event.clientX - rect.left;
             const y = event.clientY - rect.top;
@@ -130,6 +130,34 @@
                 particle.warp(x, y);
             });
         });
+
+        // 触屏移动事件 (手机端)
+        heroSection.addEventListener('touchmove', function (event) {
+            if (!isPlaying) return;
+
+            const touch = event.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+
+            particlesArray.forEach(particle => {
+                particle.warp(x, y);
+            });
+        }, { passive: true });
+
+        // 触屏点击事件 (单点触碰也有效果)
+        heroSection.addEventListener('touchstart', function (event) {
+            if (!isPlaying) return;
+
+            const touch = event.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+
+            particlesArray.forEach(particle => {
+                particle.warp(x, y);
+            });
+        }, { passive: true });
     }
 
     // Listen for Slide Changes to Pause/Resume

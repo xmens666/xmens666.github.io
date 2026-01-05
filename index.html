@@ -247,26 +247,17 @@
 
         @keyframes capsule-expand {
             0% { width: 120px; }
-            60% { width: 540px; }
-            80% { width: 510px; }
-            100% { width: 520px; }
+            60% { width: 700px; }
+            80% { width: 670px; }
+            100% { width: 680px; }
         }
 
         /* ============================================
            MOBILE RESPONSIVE STYLES
            ============================================ */
 
-        /* Hide canvas particle effects on mobile (circle noise particles) */
+        /* Mobile responsive styles */
         @media (max-width: 767px) {
-            #canvas1 {
-                display: none !important;
-            }
-
-            /* Hide loading indicator for canvas */
-            #loading {
-                display: none !important;
-            }
-
             /* Adjust hero section for mobile */
             .hero-content-mobile {
                 padding-top: 100px;
@@ -302,7 +293,7 @@
             }
             .group:hover .capsule-container {
                 animation: none;
-                width: 480px;
+                width: 640px;
             }
         }
 
@@ -337,18 +328,29 @@
             }
 
             /* 3. 轮播第三页：文字部分向上移动，与呼吸图片间距缩小 */
-            /* 动态尺寸已在 :root 中定义，这些旧规则已被替代 */
+            /* 轮播第二页：图片与文字重叠 */
+            .slide-2-image-container {
+                margin-bottom: -30px !important;
+            }
+
+            /* 轮播第三页：图片与文字重叠 */
             .slide-3-container {
-                gap: var(--space-sm) !important;
+                gap: 0 !important;
             }
 
             .slide-3-content {
-                margin-top: 0 !important;
+                margin-top: -40px !important;
+                position: relative;
+                z-index: 10;
             }
 
             .slide-3-image {
-                height: calc(var(--vh, 1vh) * 35) !important;
+                height: calc(var(--vh, 1vh) * 38) !important;
                 margin-bottom: 0 !important;
+            }
+
+            .slide-3-image img {
+                max-height: calc(var(--vh, 1vh) * 35) !important;
             }
 
             /* 4. 轮播第四页：标题一行显示 + 间距紧凑 */
@@ -494,7 +496,10 @@
                             class="h-8 w-auto object-contain transition-transform duration-300 group-hover:scale-110">
                         <span :class="scrolled ? 'text-blue-600' : 'text-white'"
                             class="font-bold text-2xl nav-text transition-colors duration-300 font-heading tracking-tight">
-                            ZenCode<span :class="scrolled ? 'text-slate-900' : 'text-white/80'">.jp</span>
+                            ZenCode
+                            <span class="text-[0.5em] text-emerald-500 align-baseline">
+                                .jp
+                            </span>
                         </span>
                     </a>
                 </div>
@@ -507,7 +512,7 @@
 
                         <!-- Main Capsule Container -->
                         <div class="capsule-container relative bg-black/60 backdrop-blur-xl border border-white/10 shadow-2xl rounded-full transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]
-                                    w-[120px] h-[46px] group-hover:w-[520px] overflow-hidden flex items-center justify-center">
+                                    w-[120px] h-[46px] group-hover:w-[680px] overflow-hidden flex items-center justify-center">
 
                             <!-- Collapsed State: MENU with pulsing dot -->
                             <div class="absolute inset-0 flex items-center justify-center transition-opacity duration-300 group-hover:opacity-0 pointer-events-none">
@@ -520,6 +525,7 @@
                             <!-- Expanded State: Navigation Links Only -->
                             <div class="flex items-center gap-1 px-4 opacity-0 translate-y-2 transition-all duration-500 delay-100 group-hover:opacity-100 group-hover:translate-y-0 group-hover:delay-75">
                                 <a href="index.html" class="capsule-nav-link capsule-active">首页</a>
+                                <a href="solutions.html" class="capsule-nav-link">解决方案</a>
                                 <a href="pricing.html" class="capsule-nav-link">服务定价</a>
                                 <a href="techstack.html" class="capsule-nav-link">技术栈</a>
                                 <a href="cases.html" class="capsule-nav-link">成功案例</a>
@@ -578,35 +584,39 @@
         </button>
 
         <!-- Mobile Navigation Links -->
-        <nav class="flex flex-col items-center gap-6">
+        <nav class="flex flex-col items-center gap-3">
             <a href="index.html" @click="mobileMenuOpen = false"
-                class="text-2xl font-bold text-cyan-400 hover:text-cyan-300 transition-colors py-3 px-6">
+                class="text-lg font-bold text-cyan-400 hover:text-cyan-300 transition-colors py-2 px-4">
                 首页
             </a>
+            <a href="solutions.html" @click="mobileMenuOpen = false"
+                class="text-lg font-medium text-white/80 hover:text-white transition-colors py-2 px-4">
+                解决方案
+            </a>
             <a href="pricing.html" @click="mobileMenuOpen = false"
-                class="text-2xl font-medium text-white/80 hover:text-white transition-colors py-3 px-6">
+                class="text-lg font-medium text-white/80 hover:text-white transition-colors py-2 px-4">
                 服务定价
             </a>
             <a href="techstack.html" @click="mobileMenuOpen = false"
-                class="text-2xl font-medium text-white/80 hover:text-white transition-colors py-3 px-6">
+                class="text-lg font-medium text-white/80 hover:text-white transition-colors py-2 px-4">
                 技术栈
             </a>
             <a href="cases.html" @click="mobileMenuOpen = false"
-                class="text-2xl font-medium text-white/80 hover:text-white transition-colors py-3 px-6">
+                class="text-lg font-medium text-white/80 hover:text-white transition-colors py-2 px-4">
                 成功案例
             </a>
             <a href="experience/experience.html" @click="mobileMenuOpen = false"
-                class="text-2xl font-medium text-white/80 hover:text-white transition-colors py-3 px-6">
+                class="text-lg font-medium text-white/80 hover:text-white transition-colors py-2 px-4">
                 小程序演示
             </a>
             <a href="about.html" @click="mobileMenuOpen = false"
-                class="text-2xl font-medium text-white/80 hover:text-white transition-colors py-3 px-6">
+                class="text-lg font-medium text-white/80 hover:text-white transition-colors py-2 px-4">
                 关于我们
             </a>
 
             <!-- Mobile CTA Button -->
             <a href="contact.html" @click="mobileMenuOpen = false"
-                class="mt-6 px-8 py-4 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold text-lg shadow-lg shadow-blue-500/30">
+                class="mt-4 px-6 py-3 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold text-base shadow-lg shadow-blue-500/30">
                 <span x-text="lang === 'zh' ? '免费咨询方案' : 'Free Consultation'"></span>
             </a>
         </nav>
@@ -694,7 +704,11 @@
                         <span class="whitespace-normal sm:whitespace-nowrap" x-show="lang === 'zh'">从"朋友圈生意"</span>
                         <span class="whitespace-normal sm:whitespace-nowrap" x-show="lang !== 'zh'" x-cloak>From Social Media</span>
 
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 font-zen whitespace-normal sm:whitespace-nowrap" x-show="lang === 'zh'">跨越到"自属品牌"</span>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 font-zen
+                                 text-3xl sm:text-4xl md:text-6xl lg:text-7xl
+                                 whitespace-normal sm:whitespace-nowrap" x-show="lang === 'zh'">
+                            跨越到"自属品牌"
+                        </span>
                         <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 font-zen whitespace-normal sm:whitespace-nowrap" x-show="lang !== 'zh'" x-cloak>To Brand Empire</span>
                     </h1>
                     <p class="dynamic-body text-slate-400 leading-relaxed max-w-xl mx-auto lg:mx-0 font-light">
@@ -703,21 +717,21 @@
                             contacts. We build your exclusive App and Website, operating professionally like major
                             Japanese enterprises.</span>
                     </p>
-                    <div class="flex flex-col sm:flex-row justify-center lg:justify-start dynamic-gap-sm">
+                    <div class="flex w-full flex-row justify-center lg:justify-start items-center gap-0">
                         <a href="cases.html"
-                            class="px-6 sm:px-8 py-2 sm:py-3 rounded-full bg-white text-black font-bold hover:bg-slate-200 transition shadow-[0_0_20px_rgba(255,255,255,0.3)] inline-block text-center dynamic-small">
+                            class="px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold hover:bg-white/20 transition grid place-items-center text-sm sm:text-base">
                             <span x-text="lang === 'zh' ? '查看成功案例' : 'View Case Studies'"></span>
                         </a>
-
+                        <div class="divider divider-horizontal text-slate-500 text-xs sm:text-sm mx-1 sm:mx-2">OR</div>
                         <a href="contact.html"
-                            class="px-6 sm:px-8 py-2 sm:py-3 rounded-full border border-slate-700 text-slate-300 font-medium hover:border-white hover:text-white transition text-center dynamic-small">
+                            class="px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-md border border-blue-400/30 text-white font-bold hover:from-blue-500/30 hover:to-purple-500/30 transition grid place-items-center text-sm sm:text-base">
                             <span x-text="lang === 'zh' ? '免费咨询方案' : 'Get Proposal'"></span>
                         </a>
                     </div>
                 </div>
 
-                <div class="hidden md:flex relative w-full items-center justify-center" style="height: calc(var(--vh, 1vh) * 50);">
-                    <canvas id="canvas1"></canvas>
+                <div class="flex relative w-full items-center justify-center" style="height: calc(var(--vh, 1vh) * 35); min-height: 180px;" >
+                    <canvas id="canvas1" class="touch-none"></canvas>
                     <div id="loading" class="absolute text-blue-500 font-mono text-sm animate-pulse">
                         <span x-text="lang === 'zh' ? '品牌资产构建中...' : 'BUILDING ASSETS...'"></span>
                     </div>
@@ -746,13 +760,15 @@
                     </div>
 
                     <h2 class="dynamic-title text-white font-bold font-heading tracking-tight whitespace-normal sm:whitespace-nowrap">
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 font-zen"
-                            x-html="lang === 'zh' ? '原生 APP 定制开发' : 'Native APP<br>Development'"></span>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 font-zen" x-html="lang === 'zh'
+                            ? '原生APP小程序 <span class=&quot;inline-block text-2xl sm:text-3xl md:text-4xl lg:text-5xl&quot;>定制</span>开发'
+                            : 'Native APP<br>Development'">
+                        </span>
                     </h2>
 
                     <p class="dynamic-body text-slate-400 max-w-2xl font-light leading-relaxed mx-auto lg:mx-0">
                         <span
-                            x-html="lang === 'zh' ? '不仅仅是软件，更是您企业的数字名片。上架 Apple Store 和 Google Play，建立绝对的<b>品牌信任度与用户粘性</b>。让您的服务图标，永久驻留在客户的手机屏幕上。' : 'More than software, it\'s your digital identity. Listed on App Store & Google Play for ultimate brand trust and retention. Keep your service icon on customers\' screens forever.'"></span>
+                            x-html="lang === 'zh' ? '帮您上架 Apple Store 和 Google Play，建立绝对的<b>品牌信任度与用户粘性</b>。' : 'Listed on App Store & Google Play for ultimate brand trust and retention.'"></span>
                     </p>
 
                     <div class="slide-2-features-grid grid grid-cols-3 dynamic-gap-sm text-left max-w-2xl mx-auto lg:mx-0">
@@ -833,11 +849,17 @@
                     </div>
 
                     <h2 class="dynamic-title text-white font-bold font-heading tracking-tight leading-tight">
-                        <span
-                            class="inline md:block text-transparent bg-clip-text bg-gradient-to-br from-white via-emerald-100 to-emerald-400 drop-shadow-lg"
-                            x-text="lang === 'zh' ? '24小时' : '24/7'"></span>
-                        <span class="inline md:block text-emerald-500 font-zen ml-1 md:ml-0"
-                            x-text="lang === 'zh' ? '自动接单系统' : 'Auto Sales System'"></span>
+                        <span class="inline
+                                text-transparent bg-clip-text bg-gradient-to-br
+                                from-white via-emerald-100 to-emerald-400
+                                drop-shadow-lg
+                                text-3xl sm:text-4xl md:text-6xl lg:text-7xl" x-text="lang === 'zh' ? '24小时' : '24/7'">
+                        </span>
+
+                        <span class="inline text-emerald-500 font-zen
+                                text-base sm:text-lg md:text-2xl lg:text-3xl
+                                ml-1" x-text="lang === 'zh' ? '自动接单系统' : 'Auto Sales System'">
+                        </span>
                     </h2>
 
                     <div
@@ -866,9 +888,9 @@
                 </div>
 
                 <div
-                    class="slide-3-image relative w-full flex items-center justify-center lg:justify-end order-1 lg:order-2" style="height: calc(var(--vh, 1vh) * 40);">
+                    class="slide-3-image relative w-full flex items-center justify-center lg:justify-end order-1 lg:order-2 h-[300px] md:h-[400px] lg:h-[600px]">
                     <img src="img/wechat_mockup.png" alt="WeChat Mini Program"
-                        class="relative z-10 object-contain wealth-engine-anim" style="max-height: calc(var(--vh, 1vh) * 38);">
+                        class="relative z-10 max-h-full object-contain wealth-engine-anim">
                 </div>
             </div>
             <script src="js/neural-canvas.js"></script>
@@ -1333,7 +1355,9 @@
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-8">
 
                 <div class="col-span-2 sm:col-span-1">
-                    <h4 class="font-bold text-slate-900 mb-3 sm:mb-4 font-heading text-sm sm:text-base">ZenCode.jp</h4>
+                    <h4 class="font-bold text-slate-900 mb-3 sm:mb-4 font-heading text-sm sm:text-base">
+                        ZenCode<span class="text-[0.5em] text-emerald-500 align-baseline">.jp</span>
+                    </h4>
                     <p class="text-slate-500 text-xs sm:text-sm">赋能在日华商，让生意更简单。</p>
                 </div>
 
