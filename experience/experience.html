@@ -215,18 +215,22 @@
 
         /* ================= 手机端响应式 ================= */
         @media (max-width: 767px) {
-            /* 手机端隐藏返回按钮悬浮层 */
+            /* 手机端隐藏返回按钮悬浮层和原PC版切换按钮 */
             .back-btn-desktop {
+                display: none !important;
+            }
+
+            .role-switcher {
                 display: none !important;
             }
 
             /* 整体布局调整 - 不滚动，完整适配屏幕 */
             body {
                 justify-content: flex-start !important;
-                padding-top: 50px !important;
+                padding-top: 44px !important; /* 顶部导航栏高度 */
                 overflow: hidden !important;
                 height: 100vh !important;
-                height: 100dvh !important; /* 动态视口高度，更好支持移动浏览器 */
+                height: 100dvh !important;
             }
 
             /* 背景层调整为滚动时保持固定 */
@@ -234,36 +238,19 @@
                 position: fixed !important;
             }
 
-            /* 顶部切换按钮 - 固定在顶部导航下方 */
-            .role-switcher {
-                position: fixed !important;
-                top: 48px !important;
-                left: 50% !important;
-                transform: translateX(-50%) !important;
-                width: 260px !important;
-                margin: 0 !important;
-                z-index: 100 !important;
-            }
-
-            .role-switcher button {
-                font-size: 11px !important;
-                padding-top: 6px !important;
-                padding-bottom: 6px !important;
-            }
-
-            /* 手机框 - 使用 calc 和 vh 自适应高度 */
+            /* 手机框 - 使用 calc 和 dvh 自适应高度，紧贴顶部导航栏 */
             .phone-frame-container {
-                margin-top: 46px !important;
-                width: calc(100vw - 40px) !important;
-                max-width: 320px !important;
-                /* 高度 = 视口高度 - 顶部栏(50px) - 切换按钮区域(46px) - 底部边距(20px) */
-                height: calc(100vh - 116px) !important;
-                height: calc(100dvh - 116px) !important;
-                max-height: 680px !important;
-                min-height: 400px !important;
-                border-radius: 2.2rem !important;
-                border-width: 5px !important;
-                margin-bottom: 10px !important;
+                margin-top: 8px !important;
+                width: calc(100vw - 32px) !important;
+                max-width: 340px !important;
+                /* 高度 = 视口高度 - 顶部导航栏(44px) - 上边距(8px) - 底部安全边距(12px) */
+                height: calc(100vh - 64px) !important;
+                height: calc(100dvh - 64px) !important;
+                max-height: 720px !important;
+                min-height: 380px !important;
+                border-radius: 2rem !important;
+                border-width: 4px !important;
+                margin-bottom: 8px !important;
                 flex-shrink: 0 !important;
             }
 
@@ -276,39 +263,30 @@
         /* 超小屏幕宽度 */
         @media (max-width: 374px) {
             .phone-frame-container {
-                width: calc(100vw - 24px) !important;
-                border-radius: 1.8rem !important;
-                border-width: 4px !important;
-            }
-
-            .role-switcher {
-                width: 240px !important;
+                width: calc(100vw - 16px) !important;
+                border-radius: 1.6rem !important;
+                border-width: 3px !important;
             }
         }
 
         /* 超短屏手机 - 高度非常有限 */
-        @media (max-height: 600px) and (max-width: 767px) {
+        @media (max-height: 580px) and (max-width: 767px) {
+            .mobile-top-bar {
+                padding-top: 4px !important;
+                padding-bottom: 4px !important;
+            }
+
             body {
-                padding-top: 40px !important;
-            }
-
-            .role-switcher {
-                top: 40px !important;
-                width: 220px !important;
-            }
-
-            .role-switcher button {
-                font-size: 10px !important;
-                padding-top: 5px !important;
-                padding-bottom: 5px !important;
+                padding-top: 36px !important;
             }
 
             .phone-frame-container {
-                margin-top: 36px !important;
-                height: calc(100vh - 86px) !important;
-                height: calc(100dvh - 86px) !important;
-                border-radius: 1.5rem !important;
-                border-width: 4px !important;
+                margin-top: 4px !important;
+                height: calc(100vh - 48px) !important;
+                height: calc(100dvh - 48px) !important;
+                border-radius: 1.4rem !important;
+                border-width: 3px !important;
+                margin-bottom: 4px !important;
             }
 
             /* 灵动岛进一步缩小 */
@@ -353,16 +331,36 @@
         </div>
     </div>
 
-    <!-- 手机端顶部返回按钮 + 说明 -->
-    <div class="md:hidden fixed top-0 left-0 right-0 z-[200] px-4 py-3 flex items-center justify-between bg-gradient-to-b from-black/60 to-transparent">
+    <!-- 手机端顶部一体化导航栏：返回 + 切换按钮 + 说明 -->
+    <div class="mobile-top-bar md:hidden fixed top-0 left-0 right-0 z-[200] px-2 py-2 flex items-center justify-between gap-2 bg-black/70 backdrop-blur-xl border-b border-white/10">
+        <!-- 返回按钮 -->
         <a href="../index.html"
-            class="flex items-center gap-2 px-3 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-white/90 text-xs font-semibold">
-            <span>←</span>
-            <span>返回</span>
+            class="flex-shrink-0 w-8 h-8 rounded-full bg-white/10 border border-white/15 text-white/90 text-xs font-semibold flex items-center justify-center">
+            ←
         </a>
-        <button onclick="toggleMobileInfo()" class="flex items-center gap-1 px-3 py-2 rounded-full bg-emerald-500/20 backdrop-blur-md border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
-            <span>💡</span>
-            <span>说明</span>
+
+        <!-- 中间切换按钮 -->
+        <div class="mobile-role-switcher flex-1 max-w-[200px] bg-black/50 rounded-full p-0.5 flex items-center relative border border-white/10">
+            <div id="mobile-slider-bg"
+                class="absolute left-0.5 w-[49%] h-[85%] bg-gradient-to-b from-gray-600 to-gray-800 rounded-full transition-all duration-400 ease-out z-0 shadow-md">
+            </div>
+            <button onclick="switchMasterRole('customer')"
+                class="flex-1 relative z-10 py-1.5 text-[10px] font-bold text-center transition-colors duration-300 text-white"
+                id="mobile-btn-customer">
+                🛒 顾客
+            </button>
+            <button onclick="switchMasterRole('manager')"
+                class="flex-1 relative z-10 py-1.5 text-[10px] font-bold text-gray-400 text-center transition-colors duration-300 relative"
+                id="mobile-btn-manager">
+                💼 店长
+                <span id="mobile-manager-badge"
+                    class="absolute top-0.5 right-2 w-2 h-2 bg-red-500 rounded-full hidden animate-pulse"></span>
+            </button>
+        </div>
+
+        <!-- 说明按钮 -->
+        <button onclick="toggleMobileInfo()" class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-xs font-semibold flex items-center justify-center">
+            💡
         </button>
     </div>
 
@@ -971,34 +969,52 @@
         // ================= 导航逻辑 =================
         function switchMasterRole(role) {
             state.role = role;
+            // PC端元素
             const slider = document.getElementById('slider-bg');
             const btnC = document.getElementById('btn-customer');
             const btnM = document.getElementById('btn-manager');
+            const badge = document.getElementById('manager-badge');
+            // 手机端元素
+            const mobileSlider = document.getElementById('mobile-slider-bg');
+            const mobileBtnC = document.getElementById('mobile-btn-customer');
+            const mobileBtnM = document.getElementById('mobile-btn-manager');
+            const mobileBadge = document.getElementById('mobile-manager-badge');
+            // 通用元素
             const groupC = document.getElementById('role-customer-group');
             const groupM = document.getElementById('role-manager-group');
-            const badge = document.getElementById('manager-badge');
             const bgCustomer = document.getElementById('bg-customer-layer');
             const bgManager = document.getElementById('bg-manager-layer');
 
             if (role === 'customer') {
                 bgCustomer.style.opacity = '1';
                 bgManager.style.opacity = '0';
-                slider.style.left = '1.5%';
-                btnC.classList.add('text-white'); btnC.classList.remove('text-gray-400');
-                btnM.classList.add('text-gray-400'); btnM.classList.remove('text-white');
+                // PC端切换
+                if (slider) slider.style.left = '1.5%';
+                if (btnC) { btnC.classList.add('text-white'); btnC.classList.remove('text-gray-400'); }
+                if (btnM) { btnM.classList.add('text-gray-400'); btnM.classList.remove('text-white'); }
+                // 手机端切换
+                if (mobileSlider) mobileSlider.style.left = '0.5%';
+                if (mobileBtnC) { mobileBtnC.classList.add('text-white'); mobileBtnC.classList.remove('text-gray-400'); }
+                if (mobileBtnM) { mobileBtnM.classList.add('text-gray-400'); mobileBtnM.classList.remove('text-white'); }
                 groupC.classList.remove('hidden');
                 groupM.classList.add('hidden');
                 navTo('page-c-home');
             } else {
                 bgCustomer.style.opacity = '0';
                 bgManager.style.opacity = '1';
-                slider.style.left = '50.5%';
-                btnM.classList.add('text-white'); btnM.classList.remove('text-gray-400');
-                btnC.classList.add('text-gray-400'); btnC.classList.remove('text-white');
+                // PC端切换
+                if (slider) slider.style.left = '50.5%';
+                if (btnM) { btnM.classList.add('text-white'); btnM.classList.remove('text-gray-400'); }
+                if (btnC) { btnC.classList.add('text-gray-400'); btnC.classList.remove('text-white'); }
+                // 手机端切换
+                if (mobileSlider) mobileSlider.style.left = '50%';
+                if (mobileBtnM) { mobileBtnM.classList.add('text-white'); mobileBtnM.classList.remove('text-gray-400'); }
+                if (mobileBtnC) { mobileBtnC.classList.add('text-gray-400'); mobileBtnC.classList.remove('text-white'); }
                 groupM.classList.remove('hidden');
                 groupC.classList.add('hidden');
                 state.hasUnreadMsgForManager = false;
-                badge.classList.add('hidden');
+                if (badge) badge.classList.add('hidden');
+                if (mobileBadge) mobileBadge.classList.add('hidden');
                 // 检查是否有新订单需要显示弹窗
                 if (state.hasNewOrder) {
                     setTimeout(() => showNewOrderModal(), 300);
@@ -1247,7 +1263,15 @@
 
         function openManagerReply() { renderManagerReplyChat(); document.getElementById('page-m-reply').classList.remove('translate-x-full'); }
         function closeManagerReply() { document.getElementById('page-m-reply').classList.add('translate-x-full'); }
-        function triggerManagerBadge() { if (state.role === 'customer') { state.hasUnreadMsgForManager = true; document.getElementById('manager-badge').classList.remove('hidden'); } }
+        function triggerManagerBadge() {
+            if (state.role === 'customer') {
+                state.hasUnreadMsgForManager = true;
+                const badge = document.getElementById('manager-badge');
+                const mobileBadge = document.getElementById('mobile-manager-badge');
+                if (badge) badge.classList.remove('hidden');
+                if (mobileBadge) mobileBadge.classList.remove('hidden');
+            }
+        }
 
         // ================= 工具 =================
         function toggleMobileInfo() {
