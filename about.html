@@ -36,13 +36,20 @@
         }
     </script>
     <style>
+        /* 隐藏未初始化的 Alpine.js 元素 */
+        [x-cloak] {
+            display: none !important;
+        }
+
         #vanta-bg {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
             z-index: 0;
+            pointer-events: none;
         }
 
         .content-wrapper {
@@ -52,6 +59,14 @@
 
         .text-glow {
             text-shadow: 0 0 10px rgba(102, 252, 241, 0.5);
+        }
+
+        /* 手机端响应式 */
+        @media (max-width: 767px) {
+            .hero-desc {
+                font-size: 0.9rem !important;
+                line-height: 1.6 !important;
+            }
         }
 
         /* Glass Morphism Nav Buttons */
@@ -123,7 +138,7 @@
                 </div>
             </div>
 
-            <div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false"
+            <div x-show="mobileMenuOpen" x-cloak @click.away="mobileMenuOpen = false"
                 class="md:hidden bg-brand-dark border-b border-white/10">
                 <div class="px-4 py-4 space-y-2">
                     <a href="index.html" class="block text-sm text-white hover:text-brand-cyan py-1">首页</a>
@@ -153,7 +168,7 @@
                                 商业秩序
                             </span>
                         </h1>
-                        <p class="text-lg text-slate-400 leading-relaxed mb-8 border-l-2 border-brand-cyan pl-6">
+                        <p class="hero-desc text-lg text-slate-400 leading-relaxed mb-8 border-l-2 border-brand-cyan pl-6">
                             ZenCode 成立于东京。我们不仅是程序员，更是您的商业架构师。我们致力于消除技术壁垒，通过数字化手段，让在日华人的商业智慧无限放大。
                         </p>
 
