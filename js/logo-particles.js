@@ -15,6 +15,8 @@
     setCanvasSize();
 
     let particlesArray = [];
+    let imageLoaded = false;
+    let loadingScreenGone = false;
     const image = new Image();
     image.src = 'logo.png'; // ⚠️ 确保 logo.png 在同级目录
 
@@ -173,10 +175,30 @@
     });
 
 
+    // Function to start the particle animation
+    function startParticleAnimation() {
+        if (imageLoaded && loadingScreenGone) {
+            init();
+            animate();
+        }
+    }
+
     image.onload = () => {
-        init();
-        animate();
+        imageLoaded = true;
+        // Check if loading screen exists
+        const loadingScreen = document.getElementById('loading-screen');
+        if (!loadingScreen) {
+            // No loading screen, start immediately
+            loadingScreenGone = true;
+            startParticleAnimation();
+        }
     };
+
+    // Listen for custom event when loading screen is hidden
+    document.addEventListener('loadingScreenHidden', function() {
+        loadingScreenGone = true;
+        startParticleAnimation();
+    });
 
     window.addEventListener('resize', function () {
         setCanvasSize();

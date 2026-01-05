@@ -158,7 +158,8 @@
 
     <!-- Content wrapper -->
     <div class="content-wrapper">
-        <nav class="fixed w-full z-50 bg-brand-green/80 backdrop-blur-xl border-b border-white/5">
+        <nav class="fixed w-full z-50 bg-brand-green/80 backdrop-blur-xl border-b border-white/5"
+            x-data="{ mobileMenuOpen: false }">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between h-20 items-center">
                     <a href="index.html" class="flex items-center gap-2 group">
@@ -169,6 +170,7 @@
                     </a>
                     <div class="hidden md:flex items-center gap-2 ml-auto mr-6">
                         <a href="index.html" class="glass-nav-btn glass-nav-blue">首页</a>
+                        <a href="solutions.html" class="glass-nav-btn glass-nav-blue">解决方案</a>
                         <a href="pricing.html" class="glass-nav-btn glass-nav-green">服务定价</a>
                         <a href="techstack.html" class="glass-nav-btn glass-nav-blue glass-nav-active">技术栈</a>
                         <a href="cases.html" class="glass-nav-btn glass-nav-purple">成功案例</a>
@@ -177,10 +179,32 @@
                     </div>
                     <div class="flex items-center gap-4">
                         <a href="contact.html"
-                            class="bg-white text-black px-6 py-2 rounded-full font-bold text-sm hover:bg-accent-green hover:shadow-[0_0_15px_rgba(0,255,163,0.4)] transition duration-300">
+                            class="hidden md:inline-block bg-white text-black px-6 py-2 rounded-full font-bold text-sm hover:bg-accent-green hover:shadow-[0_0_15px_rgba(0,255,163,0.4)] transition duration-300">
                             免费咨询
                         </a>
+                        <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-white p-2">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                        </button>
                     </div>
+                </div>
+            </div>
+            <!-- Mobile Menu -->
+            <div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false"
+                x-transition:enter="transition ease-out duration-200"
+                x-transition:enter-start="opacity-0 -translate-y-2"
+                x-transition:enter-end="opacity-100 translate-y-0"
+                class="md:hidden bg-brand-green/95 border-b border-white/10 backdrop-blur-xl">
+                <div class="px-4 py-4 space-y-2">
+                    <a href="index.html" class="block text-sm text-white hover:text-accent-green py-2">首页</a>
+                    <a href="solutions.html" class="block text-sm text-white hover:text-accent-green py-2">解决方案</a>
+                    <a href="pricing.html" class="block text-sm text-white hover:text-accent-green py-2">服务定价</a>
+                    <a href="techstack.html" class="block text-sm text-accent-green font-bold py-2">技术栈</a>
+                    <a href="cases.html" class="block text-sm text-white hover:text-accent-green py-2">成功案例</a>
+                    <a href="experience/experience.html" class="block text-sm text-white hover:text-accent-green py-2">小程序演示</a>
+                    <a href="about.html" class="block text-sm text-white hover:text-accent-green py-2">关于我们</a>
+                    <a href="contact.html" class="block text-sm text-white hover:text-accent-green py-2">联系我们</a>
                 </div>
             </div>
         </nav>

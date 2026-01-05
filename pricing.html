@@ -148,14 +148,16 @@
                 desc: '彻底取代昂贵的 UberEats。包含扫码点餐、后厨打印、外卖配送范围计算。',
                 features: ['微信/Line小程序', '云打印机对接', '多语言菜单', '会员储值功能'],
                 icon: '🍜', badge: 'HOT',
-                color: 'text-orange-500', border: 'hover:border-orange-500/50'
+                color: 'text-orange-500', border: 'hover:border-orange-500/50',
+                link: 'test-index/case-restaurant.html'
             },
             {
                 id: 2, title: '美业/诊所预约', cat: 'app', price: '78.0', unit: '万円',
                 desc: '美容/牙科/整骨院专用。可视化排班、病历管理、术后自动关怀提醒。',
                 features: ['技师/医生指名', '电子病历/卡', 'No-show 预警', 'Line 预约提醒'],
                 icon: '💅', badge: '',
-                color: 'text-pink-500', border: 'hover:border-pink-500/50'
+                color: 'text-pink-500', border: 'hover:border-pink-500/50',
+                link: 'test-index/case-beauty.html'
             },
             {
                 id: 103, title: '健身/瑜伽馆管理', cat: 'app', price: '85.0', unit: '万円',
@@ -169,7 +171,8 @@
                 desc: '高端地接社必备。行程拖拽定制、车辆3D展示、司机调度后台。',
                 features: ['行程规划器', '询价单PDF生成', '车辆库存管理', '司机接单App'],
                 icon: '🗻', badge: '',
-                color: 'text-blue-500', border: 'hover:border-blue-500/50'
+                color: 'text-blue-500', border: 'hover:border-blue-500/50',
+                link: 'test-index/case-travel.html'
             },
             {
                 id: 104, title: '民宿/酒店 PMS', cat: 'app', price: '120.0', unit: '万円',
@@ -185,21 +188,24 @@
                 desc: '支持直邮/保税仓模式。实时汇率计算、秒杀倒计时、三级分销裂变。',
                 features: ['Stripe/支付宝支付', '物流追踪API', '分销裂变系统', '多币种结算'],
                 icon: '🛍️', badge: '',
-                color: 'text-purple-500', border: 'hover:border-purple-500/50'
+                color: 'text-purple-500', border: 'hover:border-purple-500/50',
+                link: 'test-index/case-beauty.html'
             },
             {
                 id: 8, title: '二手车库存 ERP', cat: 'platform', price: '150.0', unit: '万円~',
                 desc: '车行专用 ERP。贷款计算器、车况检测报告生成、多店库存调拨。',
                 features: ['古物台账生成', '车检提醒', '进销存管理', '多店权限控制'],
                 icon: '🏎️', badge: '',
-                color: 'text-red-500', border: 'hover:border-red-500/50'
+                color: 'text-red-500', border: 'hover:border-red-500/50',
+                link: 'test-index/case-cars.html'
             },
             {
                 id: 9, title: '不动产找房平台', cat: 'platform', price: '280.0', unit: '万円~',
                 desc: '类似 Suumo 的垂直平台。地图找房、VR 看房集成、复杂的筛选算法。',
                 features: ['地图找房', 'VR/全景看房', '房源爬虫工具', '经纪人后台'],
                 icon: '🏠', badge: '',
-                color: 'text-emerald-500', border: 'hover:border-emerald-500/50'
+                color: 'text-emerald-500', border: 'hover:border-emerald-500/50',
+                link: 'test-index/case-realestate.html'
             },
              {
                 id: 105, title: '求职招聘平台', cat: 'platform', price: '180.0', unit: '万円',
@@ -239,7 +245,8 @@
 
     <!-- Content wrapper -->
     <div class="content-wrapper">
-        <nav class="fixed w-full z-50 bg-brand-green/80 backdrop-blur-xl border-b border-white/5">
+        <nav class="fixed w-full z-50 bg-brand-green/80 backdrop-blur-xl border-b border-white/5"
+            x-data="{ mobileMenuOpen: false }">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between h-20 items-center">
                     <a href="index.html" class="flex items-center gap-2 group">
@@ -250,6 +257,7 @@
                     </a>
                     <div class="hidden md:flex items-center gap-2 ml-auto mr-6">
                         <a href="index.html" class="glass-nav-btn glass-nav-blue">首页</a>
+                        <a href="solutions.html" class="glass-nav-btn glass-nav-blue">解决方案</a>
                         <a href="pricing.html" class="glass-nav-btn glass-nav-green glass-nav-active">服务定价</a>
                         <a href="techstack.html" class="glass-nav-btn glass-nav-blue">技术栈</a>
                         <a href="cases.html" class="glass-nav-btn glass-nav-purple">成功案例</a>
@@ -258,10 +266,32 @@
                     </div>
                     <div class="flex items-center gap-4">
                         <a href="contact.html"
-                            class="bg-white text-black px-6 py-2 rounded-full font-bold text-sm hover:bg-accent-green hover:shadow-[0_0_15px_rgba(0,255,163,0.4)] transition duration-300">
+                            class="hidden md:inline-block bg-white text-black px-6 py-2 rounded-full font-bold text-sm hover:bg-accent-green hover:shadow-[0_0_15px_rgba(0,255,163,0.4)] transition duration-300">
                             免费咨询
                         </a>
+                        <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-white p-2">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                        </button>
                     </div>
+                </div>
+            </div>
+            <!-- Mobile Menu -->
+            <div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false"
+                x-transition:enter="transition ease-out duration-200"
+                x-transition:enter-start="opacity-0 -translate-y-2"
+                x-transition:enter-end="opacity-100 translate-y-0"
+                class="md:hidden bg-brand-green/95 border-b border-white/10 backdrop-blur-xl">
+                <div class="px-4 py-4 space-y-2">
+                    <a href="index.html" class="block text-sm text-white hover:text-accent-green py-2">首页</a>
+                    <a href="solutions.html" class="block text-sm text-white hover:text-accent-green py-2">解决方案</a>
+                    <a href="pricing.html" class="block text-sm text-accent-green font-bold py-2">服务定价</a>
+                    <a href="techstack.html" class="block text-sm text-white hover:text-accent-green py-2">技术栈</a>
+                    <a href="cases.html" class="block text-sm text-white hover:text-accent-green py-2">成功案例</a>
+                    <a href="experience/experience.html" class="block text-sm text-white hover:text-accent-green py-2">小程序演示</a>
+                    <a href="about.html" class="block text-sm text-white hover:text-accent-green py-2">关于我们</a>
+                    <a href="contact.html" class="block text-sm text-white hover:text-accent-green py-2">联系我们</a>
                 </div>
             </div>
         </nav>
@@ -358,10 +388,18 @@
                             </template>
                         </div>
 
-                        <button
-                            class="mt-6 w-full py-2.5 rounded-lg border border-white/10 text-sm font-bold text-slate-300 hover:bg-white hover:text-black transition duration-300">
-                            查看详情
-                        </button>
+                        <template x-if="item.link">
+                            <a :href="item.link"
+                                class="mt-6 w-full py-2.5 rounded-lg border border-white/10 text-sm font-bold text-slate-300 hover:bg-white hover:text-black transition duration-300 block text-center">
+                                查看案例
+                            </a>
+                        </template>
+                        <template x-if="!item.link">
+                            <a href="contact.html"
+                                class="mt-6 w-full py-2.5 rounded-lg border border-white/10 text-sm font-bold text-slate-300 hover:bg-white hover:text-black transition duration-300 block text-center">
+                                咨询定制
+                            </a>
+                        </template>
                     </div>
                 </template>
             </div>
