@@ -95,68 +95,12 @@
         .mobile-only-bg { display: none; }
         .pc-only-bg { display: block; }
 
-        /* 手机端专属背景样式（深空极光特效） */
+        /* 手机端专属背景样式（Particles.js） */
         #mobile-tech-bg {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: 0;
-            pointer-events: none;
             background-color: #0B0C10;
-            overflow: hidden;
-        }
-
-        /* 使用伪元素实现多层光晕动画 */
-        #mobile-tech-bg::before,
-        #mobile-tech-bg::after {
-            content: '';
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.5;
-        }
-
-        /* 第一个光晕 - 蓝紫色 */
-        #mobile-tech-bg::before {
-            width: 60vw;
-            height: 60vw;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.4) 0%, transparent 70%);
-            top: -10%;
-            left: -20%;
-            animation: auroraFloat1 15s ease-in-out infinite;
-        }
-
-        /* 第二个光晕 - 深蓝色 */
-        #mobile-tech-bg::after {
-            width: 50vw;
-            height: 50vw;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%);
-            bottom: 10%;
-            right: -15%;
-            animation: auroraFloat2 18s ease-in-out infinite;
-        }
-
-        @keyframes auroraFloat1 {
-            0%, 100% {
-                transform: translate(0, 0) scale(1);
-            }
-            33% {
-                transform: translate(30vw, 20vh) scale(1.2);
-            }
-            66% {
-                transform: translate(10vw, 40vh) scale(0.9);
-            }
-        }
-
-        @keyframes auroraFloat2 {
-            0%, 100% {
-                transform: translate(0, 0) scale(1);
-            }
-            33% {
-                transform: translate(-25vw, -15vh) scale(1.1);
-            }
-            66% {
-                transform: translate(-10vw, -30vh) scale(0.85);
-            }
         }
 
         /* 媒体查询：手机屏幕切换 */
@@ -440,7 +384,10 @@
         </footer>
     </div>
 
-    <!-- Initialize Vanta.js (仅PC端) -->
+    <!-- Particles.js (手机端背景) -->
+    <script src="js/particles/particles.min.js"></script>
+
+    <!-- Initialize Background Effects -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // 检测是否为移动端（以768px为界）
@@ -448,8 +395,8 @@
                 return window.innerWidth < 768;
             }
 
-            // 只有在PC端才初始化 Vanta.js，手机端使用 CSS 背景
             if (!isMobileDevice()) {
+                // PC端：初始化 Vanta.js
                 console.log("PC mode: Initializing Vanta.js");
 
                 var config = {
@@ -472,7 +419,56 @@
                     new _vantaEffect(config);
                 }
             } else {
-                console.log("Mobile mode: Using CSS aurora background");
+                // 手机端：初始化 Particles.js
+                console.log("Mobile mode: Initializing Particles.js");
+
+                if (typeof particlesJS !== 'undefined') {
+                    particlesJS('mobile-tech-bg', {
+                        particles: {
+                            number: {
+                                value: 60,
+                                density: { enable: true, value_area: 800 }
+                            },
+                            color: { value: ["#6366F1", "#3B82F6", "#66FCF1", "#45A29E"] },
+                            shape: { type: "circle" },
+                            opacity: {
+                                value: 0.5,
+                                random: true,
+                                anim: { enable: true, speed: 0.5, opacity_min: 0.1, sync: false }
+                            },
+                            size: {
+                                value: 3,
+                                random: true,
+                                anim: { enable: true, speed: 2, size_min: 0.5, sync: false }
+                            },
+                            line_linked: {
+                                enable: true,
+                                distance: 150,
+                                color: "#6366F1",
+                                opacity: 0.2,
+                                width: 1
+                            },
+                            move: {
+                                enable: true,
+                                speed: 1,
+                                direction: "none",
+                                random: true,
+                                straight: false,
+                                out_mode: "out",
+                                bounce: false
+                            }
+                        },
+                        interactivity: {
+                            detect_on: "canvas",
+                            events: {
+                                onhover: { enable: false },
+                                onclick: { enable: false },
+                                resize: true
+                            }
+                        },
+                        retina_detect: true
+                    });
+                }
             }
         });
     </script>
