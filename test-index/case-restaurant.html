@@ -35,6 +35,122 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+
+        /* ========== Mobile Responsive Styles ========== */
+        @media (max-width: 767px) {
+            /* Navigation */
+            nav .max-w-7xl {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            nav .h-20 {
+                height: 4rem;
+            }
+            nav .text-xl {
+                font-size: 1rem;
+            }
+            nav .text-sm {
+                font-size: 0.75rem;
+            }
+
+            /* Hero Section */
+            section.relative {
+                padding-top: 5rem;
+                padding-bottom: 3rem;
+            }
+            section .grid {
+                gap: 2rem;
+            }
+
+            /* Title */
+            section h1 {
+                font-size: 1.75rem !important;
+                gap: 0.5rem !important;
+            }
+
+            /* Description */
+            section .text-lg {
+                font-size: 0.875rem;
+                line-height: 1.6;
+            }
+
+            /* Stats Grid */
+            section .grid-cols-3 {
+                gap: 0.75rem;
+            }
+            section .grid-cols-3 > div {
+                text-align: center;
+            }
+            section .grid-cols-3 .text-3xl {
+                font-size: 1.25rem;
+            }
+            section .grid-cols-3 .text-xs {
+                font-size: 0.625rem;
+            }
+
+            /* Tags */
+            section .flex.gap-3 span {
+                padding: 0.375rem 0.625rem;
+                font-size: 0.625rem;
+            }
+
+            /* Phone Mockup */
+            .perspective-1000,
+            section .flex.justify-center {
+                justify-content: center !important;
+            }
+            section .w-\[320px\] {
+                width: 280px;
+                height: 560px;
+            }
+            section .w-\[320px\] .rounded-\[40px\] {
+                border-radius: 30px;
+            }
+
+            /* Feature Cards Section */
+            .bg-white .grid-cols-1 {
+                gap: 1rem;
+            }
+            .bg-white .grid-cols-1 > div {
+                padding: 1.25rem;
+            }
+            .bg-white h2 {
+                font-size: 1.25rem;
+            }
+            .bg-white h3 {
+                font-size: 1rem;
+                margin-bottom: 0.5rem;
+            }
+            .bg-white p {
+                font-size: 0.75rem;
+            }
+
+            /* CTA Section */
+            .bg-neutral-900 h2 {
+                font-size: 1.25rem;
+            }
+            .bg-neutral-900 p {
+                font-size: 0.875rem;
+            }
+            .bg-neutral-900 .flex.justify-center {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+            .bg-neutral-900 a {
+                text-align: center;
+            }
+        }
+
+        /* Extra small screens */
+        @media (max-width: 374px) {
+            section h1 {
+                font-size: 1.5rem !important;
+            }
+            section .w-\[320px\] {
+                width: 260px;
+                height: 520px;
+            }
+        }
     </style>
 </head>
 
@@ -275,7 +391,7 @@
             <h2 class="text-3xl text-white font-bold mb-6">您的餐厅也需要这样的系统？</h2>
             <p class="text-slate-400 mb-8">别让昂贵的平台抽成吃掉您的利润。ZenCode 帮您搭建属于自己的外卖帝国。</p>
             <div class="flex justify-center gap-4">
-                <a href="contact.html"
+                <a href="../contact.html"
                     class="px-8 py-3 rounded-full bg-orange-600 text-white font-bold hover:bg-orange-500 transition">
                     免费获取报价
                 </a>

@@ -553,16 +553,67 @@
     </script>
 </head>
 <!--Start of Tawk.to Script-->
+<div id="zencode-chat-btn" onclick="toggleChat()"
+    class="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 transform hover:scale-110 active:scale-95 hidden group">
+
+    <div class="absolute inset-0 bg-accent-green/20 rounded-full blur-md animate-pulse"></div>
+    <div
+        class="absolute inset-0 bg-gradient-to-tr from-[#00FFA3] to-[#00C2FF] rounded-full opacity-80 group-hover:opacity-100 transition-opacity">
+    </div>
+
+    <div class="absolute inset-[2px] bg-black/40 backdrop-blur-sm rounded-full border border-white/20"></div>
+
+    <svg class="w-6 h-6 text-white relative z-10 pointer-events-none" fill="none" stroke="currentColor"
+        viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
+        </path>
+    </svg>
+
+    <div class="absolute top-0 right-0 w-3.5 h-3.5 bg-red-500 border-2 border-black rounded-full z-20 animate-bounce">
+    </div>
+</div>
+
 <script type="text/javascript">
     var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+
+    // ⚠️ 你的 Tawk ID (请确保这里是你自己的链接)
+    var tawkSrc = 'https://embed.tawk.to/695a13d84cd6f0197d100eb3/1je3tr1ao';
+
     (function () {
         var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
         s1.async = true;
-        s1.src = 'https://embed.tawk.to/695a13d84cd6f0197d100eb3/1je3tr1ao';
+        s1.src = tawkSrc;
         s1.charset = 'UTF-8';
         s1.setAttribute('crossorigin', '*');
         s0.parentNode.insertBefore(s1, s0);
     })();
+
+    // ✨ 核心魔法：当 Tawk 加载完成后
+    Tawk_API.onLoad = function () {
+        // 1. 隐藏原本那个丑丑的默认挂件
+        Tawk_API.hideWidget();
+
+        // 2. 显示我们自己漂亮的按钮
+        document.getElementById('zencode-chat-btn').classList.remove('hidden');
+    };
+
+    // ✨ 控制开关
+    function toggleChat() {
+        Tawk_API.toggle(); // 切换打开/关闭
+    }
+
+    // ✨ 监听：当聊天窗口被关闭时，确保原生挂件不跑出来
+    Tawk_API.onChatMinimized = function () {
+        Tawk_API.hideWidget(); // 再次强制隐藏
+        document.getElementById('zencode-chat-btn').classList.remove('hidden'); // 显示我们的按钮
+    };
+
+    // ✨ 监听：当聊天窗口打开时，可以隐藏我们的按钮（可选，防止遮挡）
+    Tawk_API.onChatMaximized = function () {
+        // 如果你希望打开聊天框时，悬浮球消失，取消下面这行的注释
+        // document.getElementById('zencode-chat-btn').classList.add('hidden');
+    };
 </script>
 <!--End of Tawk.to Script-->
 <body class="bg-slate-50 text-slate-800" x-data="{ lang: 'zh', scrolled: false, mobileMenuOpen: false }"
@@ -857,16 +908,19 @@
                         <span x-show="lang !== 'zh'">CORE BRAND ASSET</span>
                     </div>
 
-                    <h2 class="dynamic-title text-white font-bold font-heading tracking-tight whitespace-normal sm:whitespace-nowrap">
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 font-zen" x-html="lang === 'zh'
-                            ? '原生APP小程序 <span class=&quot;inline-block text-2xl sm:text-3xl md:text-4xl lg:text-5xl&quot;>定制</span>开发'
-                            : 'Native APP<br>Development'">
-                        </span>
+                    <h2 class="text-white text-4xl md:text-5xl lg:text-6xl xl:text-7xl
+                            font-bold font-heading tracking-tight
+                            mb-2 md:mb-4
+                            whitespace-normal">
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 font-zen"
+                            x-html="lang === 'zh' ? '原生定制开发' : 'Native APP<br>Development'"></span>
                     </h2>
 
-                    <p class="dynamic-body text-slate-400 max-w-2xl font-light leading-relaxed mx-auto lg:mx-0">
-                        <span
-                            x-html="lang === 'zh' ? '帮您上架 Apple Store 和 Google Play，建立绝对的<b>品牌信任度与用户粘性</b>。' : 'Listed on App Store & Google Play for ultimate brand trust and retention.'"></span>
+                    <p class="dynamic-body text-emerald-300 max-w-2xl font-light leading-relaxed mx-auto lg:mx-0">
+                        <span x-html="lang === 'zh'
+                            ? '苹果和安卓同时构建,帮您上架 Apple Store 和 Google Play'
+                            : 'Listed on App Store & Google Play for ultimate brand trust and retention.'">
+                        </span>
                     </p>
 
                     <div class="slide-2-features-grid grid grid-cols-3 dynamic-gap-sm text-left max-w-2xl mx-auto lg:mx-0">
@@ -1042,7 +1096,7 @@
                     </p>
 
                     <div class="slide-4-cta-section dynamic-mt-md flex dynamic-gap-sm pointer-events-auto justify-center lg:justify-start">
-                        <a href="#contact"
+                        <a href="contact.html"
                             class="group px-6 py-2 rounded-full border border-red-500/30 text-red-100 hover:bg-red-500/10 transition backdrop-blur-sm flex items-center gap-2 dynamic-small">
                             <span x-text="lang === 'zh' ? '预约面谈' : 'Book a Meeting'"></span>
                             <svg class="w-4 h-4 text-red-400 group-hover:translate-x-1 transition-transform" fill="none"
@@ -1355,7 +1409,7 @@
                 </p>
                 <p class="mt-4 max-w-2xl text-xs sm:text-sm text-slate-500 mx-auto leading-relaxed">
                     <span
-                        x-text="lang === 'zh' ? '别让您的生意只有"回头客"。APP 既是老客户的专属服务区，也是陌生客户的流量捕获器。老客不流失，新客源源不断，生意自然越做越大。' : 'Whether you are an entrepreneur or a store owner, own your digital territory.'"></span>
+                        x-text="lang === 'zh' ? '别让您的生意只有“回头客”。APP 既是老客户的专属服务区，也是陌生客户的流量捕获器。老客不流失，新客源源不断，生意自然越做越大。' : 'Whether you are an entrepreneur or a store owner, own your digital territory.'"></span>
                 </p>
             </div>
 
