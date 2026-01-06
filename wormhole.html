@@ -256,6 +256,20 @@
                 });
             };
 
+            const handleTouchMove = (e) => {
+                if (e.touches[0]) {
+                    const { clientX, clientY } = e.touches[0];
+                    const { innerWidth, innerHeight } = window;
+                    const xPct = (clientX / innerWidth) - 0.5;
+                    const yPct = (clientY / innerHeight) - 0.5;
+                    const maxRot = 15;
+                    setRotate({
+                        x: -yPct * maxRot,
+                        y: xPct * maxRot
+                    });
+                }
+            };
+
             const resetTilt = () => {
                 setRotate({ x: 0, y: 0 });
             }
@@ -265,6 +279,8 @@
                     className="w-full h-full flex items-center justify-center overflow-hidden"
                     onMouseMove={handleMouseMove}
                     onMouseLeave={resetTilt}
+                    onTouchMove={handleTouchMove}
+                    onTouchEnd={resetTilt}
                 >
                     {/* Ambient Glow Background */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-purple-900/40 rounded-full blur-[120px] animate-pulse-glow z-0 pointer-events-none"></div>
