@@ -1721,6 +1721,47 @@
                 requestAnimationFrame(raf);
             }
             requestAnimationFrame(raf);
+        } else {
+            // 移动端：轮播区滑动吸附到下一区块
+            let lastScrollY = window.scrollY;
+            let isSnapping = false;
+            let snapTimeout = null;
+
+            window.addEventListener('scroll', () => {
+                if (isSnapping) return;
+
+                const currentScrollY = window.scrollY;
+                const targetAudience = document.getElementById('target-audience');
+                if (!targetAudience) return;
+
+                const carouselBottom = targetAudience.offsetTop;
+                const navHeight = 80;
+                const snapPoint = carouselBottom - navHeight;
+
+                // 在轮播区内，向下滚动，且滚动超过10px
+                if (currentScrollY > lastScrollY &&
+                    currentScrollY > 10 &&
+                    currentScrollY < snapPoint - 50) {
+
+                    isSnapping = true;
+
+                    // 清除之前的定时器
+                    if (snapTimeout) clearTimeout(snapTimeout);
+
+                    // 平滑滚动到吸附点
+                    window.scrollTo({
+                        top: snapPoint,
+                        behavior: 'smooth'
+                    });
+
+                    // 防止重复触发
+                    snapTimeout = setTimeout(() => {
+                        isSnapping = false;
+                    }, 800);
+                }
+
+                lastScrollY = currentScrollY;
+            }, { passive: true });
         }
     </script>
 
