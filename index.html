@@ -246,7 +246,7 @@
 
             .slide-content-wrapper {
                 padding-top: calc(var(--vh, 1vh) * 12);
-                padding-bottom: calc(var(--vh, 1vh) * 8);
+                padding-bottom: calc(var(--vh, 1vh) * 6);
             }
 
             /* 移除所有负 margin */
@@ -515,24 +515,24 @@
                 display: inline !important;
             }
 
-            .slide-4-carousel-container {
-                margin-top: 0 !important;
-                height: calc(var(--vh, 1vh) * 40) !important;
+            /* 问题1：第二页按钮文字居中 */
+            .slide-2-cta a {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                line-height: 1 !important;
             }
 
+            /* 问题2：第四页轮播与按钮距离优化 */
             .slide-4-cta-section {
                 margin-top: var(--space-sm) !important;
-                margin-bottom: var(--space-xs) !important;
+                margin-bottom: 0.25rem !important;
             }
 
-            /* 第四页轮播上移，减少与按钮距离 */
             .slide-4-carousel-container {
-                margin-top: -1rem !important;
-            }
-
-            /* 第二页按钮居中 */
-            .slide-2-cta {
-                justify-content: center !important;
+                margin-top: -2.5rem !important;
+                height: calc(var(--vh, 1vh) * 35) !important;
+                align-items: center !important;
             }
 
             /* 5. Footer视觉实验室间距调小 */
