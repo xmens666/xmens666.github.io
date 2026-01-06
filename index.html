@@ -870,7 +870,7 @@
             startAutoPlay() {
                 this.timer = setInterval(() => {
                     this.next();
-                }, 5000);
+                }, 7000);
             },
             resetAutoPlay() {
                 clearInterval(this.timer);
@@ -1192,10 +1192,23 @@
                         <span x-text="lang === 'zh' ? '坐标东京/大阪 · 随时可约面谈' : 'BASED IN TOKYO/OSAKA'"></span>
                     </p>
 
-                    <p class="dynamic-mt-sm dynamic-body text-slate-400 max-w-lg mx-auto lg:mx-0 font-light leading-relaxed">
-                        <span
-                            x-show="lang === 'zh'">我们不仅仅是开发商，更是您的<b>数字化战略顾问</b>。从服务器搭建到支付接口对接（微信/支付宝/PayPay），我们帮您搞定一切技术难题，您只管安心赚钱。</span>
-                    </p>
+                    <div class="max-w-lg mx-auto lg:mx-0 p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
+
+                        <p class="dynamic-body text-slate-400 font-light leading-relaxed">
+                            <span x-show="lang === 'zh'">
+                                我们不仅仅是开发商，更是您的
+
+                                <span class="text-emerald-400 font-normal">数字化战略顾问</span>。
+
+                                从服务器搭建到支付接口对接（
+                                <span class="text-emerald-400">微信/支付宝/PayPay</span>
+                                ），我们帮您搞定一切技术难题，您只管
+
+                                <span class="text-red-500 font-medium">安心赚钱</span>。
+                            </span>
+                        </p>
+
+                    </div>
 
                     <div class="slide-4-cta-section dynamic-mt-md flex dynamic-gap-sm pointer-events-auto justify-center lg:justify-start">
                         <a href="contact.html"
