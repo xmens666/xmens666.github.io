@@ -179,18 +179,22 @@
             }, []);
 
             useEffect(() => {
+                // 始终监听 Touch 事件，保证手机端可以滑动
+                document.addEventListener("touchmove", handleTouchMove);
+                document.addEventListener("touchend", handleMouseUp);
+
+                // Mouse 事件根据模式决定是否全局监听
                 if (slideMode === "drag") {
                     document.addEventListener("mousemove", handleMouseMove);
                     document.addEventListener("mouseup", handleMouseUp);
-                    document.addEventListener("touchmove", handleTouchMove);
-                    document.addEventListener("touchend", handleMouseUp);
-                    return () => {
-                        document.removeEventListener("mousemove", handleMouseMove);
-                        document.removeEventListener("mouseup", handleMouseUp);
-                        document.removeEventListener("touchmove", handleTouchMove);
-                        document.removeEventListener("touchend", handleMouseUp);
-                    };
                 }
+
+                return () => {
+                    document.removeEventListener("touchmove", handleTouchMove);
+                    document.removeEventListener("touchend", handleMouseUp);
+                    document.removeEventListener("mousemove", handleMouseMove);
+                    document.removeEventListener("mouseup", handleMouseUp);
+                };
             }, [handleMouseMove, handleMouseUp, handleTouchMove, slideMode]);
 
             return (
