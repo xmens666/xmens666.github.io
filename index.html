@@ -247,14 +247,14 @@
 
         /* 移动端特殊调整 */
         @media (max-width: 767px) {
-            /* Scroll Snap 锚点吸附 - 只吸附轮播区 */
+            /* Scroll Snap 锚点吸附 - 吸附到白色背景区块 */
             html {
                 scroll-snap-type: y proximity;
             }
 
-            .carousel-section {
+            #target-audience {
                 scroll-snap-align: start;
-                scroll-snap-stop: always;
+                scroll-margin-top: 80px; /* 导航栏高度 h-20 */
             }
 
             :root {
