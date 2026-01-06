@@ -63,6 +63,12 @@
     }
 
     function init() {
+        // 安全检查：确保 canvas 有有效尺寸
+        if (canvas.width === 0 || canvas.height === 0) {
+            console.warn('Canvas has zero dimensions, skipping init');
+            return;
+        }
+
         const tempCanvas = document.createElement('canvas');
         const tempCtx = tempCanvas.getContext('2d');
 
@@ -178,6 +184,13 @@
     // Function to start the particle animation
     function startParticleAnimation() {
         if (imageLoaded && loadingScreenGone) {
+            // 确保 canvas 有有效尺寸
+            setCanvasSize();
+            if (canvas.width === 0 || canvas.height === 0) {
+                // 延迟重试，等待父容器渲染完成
+                setTimeout(startParticleAnimation, 100);
+                return;
+            }
             init();
             animate();
         }
