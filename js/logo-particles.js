@@ -21,8 +21,8 @@
     image.src = 'logo.png'; // ⚠️ 确保 logo.png 在同级目录
 
     // Logo 缩放比例 (根据 Canvas 大小动态调整)
-    let scale = 0.6;
-    if (canvas.width < 500) scale = 0.4; // 手机端缩小
+    // 手机端不显示此效果，由CSS隐藏
+    let scale = 0.66; // 1.15倍放大 (原0.6)
 
     class Particle {
         constructor(x, y, color) {
