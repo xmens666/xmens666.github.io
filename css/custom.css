@@ -1,0 +1,570 @@
+/* ========================================
+   ZenCode Index Page - Custom Styles
+   Extracted from index.html for better maintainability
+   ======================================== */
+
+/* ========== Loading Screen Styles ========== */
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: calc(var(--vh, 1vh) * 100);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+#loading-screen.fade-out {
+    opacity: 0;
+    visibility: hidden;
+}
+#loading-screen.hidden {
+    display: none;
+}
+#loading-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+/* Mobile: Simple gradient background instead of Vanta.js */
+@media (max-width: 767px) {
+    #loading-bg {
+        background: linear-gradient(135deg, #050505 0%, #0a1628 50%, #050505 100%);
+    }
+    #loading-bg::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(0, 194, 255, 0.15) 0%, transparent 70%);
+        animation: pulse-glow 2s ease-in-out infinite;
+    }
+    #loading-bg::after {
+        content: '';
+        position: absolute;
+        top: 20%;
+        right: 10%;
+        width: 150px;
+        height: 150px;
+        background: radial-gradient(circle, rgba(0, 194, 255, 0.1) 0%, transparent 70%);
+        animation: pulse-glow 2.5s ease-in-out infinite 0.5s;
+    }
+}
+@keyframes pulse-glow {
+    0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+}
+#loading-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    color: white;
+    pointer-events: none;
+}
+#loading-content h1 {
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    margin-bottom: 1rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s ease forwards 0.3s;
+}
+#loading-content p {
+    font-size: clamp(0.875rem, 2.5vw, 1.25rem);
+    opacity: 0;
+    animation: fadeInUp 0.8s ease forwards 0.6s;
+}
+#loading-content .loading-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease forwards 0.9s;
+}
+#loading-content .loading-dots span {
+    width: 8px;
+    height: 8px;
+    background: #00C2FF;
+    border-radius: 50%;
+    animation: pulse-dot 1.4s ease-in-out infinite;
+}
+#loading-content .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+#loading-content .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes pulse-dot {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.5; }
+}
+
+/* ========== 手机端侧边栏菜单 ========== */
+.mobile-menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 99998;
+}
+.mobile-menu-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 75%;
+    max-width: 320px;
+    background: rgba(20, 20, 30, 0.05);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border-left: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.3);
+    z-index: 99999;
+    padding: 80px 24px 40px;
+    overflow-y: auto;
+}
+
+/* ========== 动态响应式变量系统 ========== */
+:root {
+    /* 视口单位：移动端滚动时稳定（避免地址栏收起/出现导致跳动） */
+    --vh: 1vh; /* fallback */
+    /* 动态字体大小 - 基于视口高度 */
+    --font-hero: clamp(1.5rem, calc(var(--vh) * 5), 4.5rem);
+    --font-title: clamp(1.25rem, calc(var(--vh) * 4), 3.5rem);
+    --font-subtitle: clamp(1rem, calc(var(--vh) * 3), 2.5rem);
+    --font-body: clamp(0.75rem, calc(var(--vh) * 1.8), 1rem);
+    --font-small: clamp(0.625rem, 1.5vh, 0.875rem);
+    /* 动态间距 - 基于视口高度 */
+    --space-xs: clamp(0.25rem, 1vh, 0.5rem);
+    --space-sm: clamp(0.5rem, 1.5vh, 1rem);
+    --space-md: clamp(0.75rem, 2vh, 1.5rem);
+    --space-lg: clamp(1rem, 3vh, 2rem);
+    --space-xl: clamp(1.5rem, 4vh, 3rem);
+    --space-2xl: clamp(2rem, 5vh, 4rem);
+    /* 动态 padding */
+    --pad-section: clamp(3rem, 8vh, 6rem);
+    --pad-content: clamp(1rem, 3vh, 1.5rem);
+}
+@supports (height: 1svh) {
+    :root {
+        --vh: 1svh;
+    }
+}
+
+/* 关闭滚动锚点，避免图片/字体加载引起页面突然跳动 */
+html { overflow-anchor: none; }
+
+.carousel-section {
+    min-height: calc(var(--vh, 1vh) * 100);
+}
+
+/* 轮播内容容器 - 动态适配 */
+.slide-content-wrapper {
+    padding-top: var(--pad-section);
+    padding-bottom: var(--pad-section);
+    gap: var(--space-lg);
+}
+
+/* 动态标题样式 */
+.dynamic-hero-title {
+    font-size: var(--font-hero) !important;
+    line-height: 1.15 !important;
+    margin-bottom: var(--space-md) !important;
+}
+
+.dynamic-title {
+    font-size: var(--font-title) !important;
+    line-height: 1.2 !important;
+    margin-bottom: var(--space-md) !important;
+}
+
+.dynamic-subtitle {
+    font-size: var(--font-subtitle) !important;
+    line-height: 1.3 !important;
+}
+
+.dynamic-body {
+    font-size: var(--font-body) !important;
+    margin-bottom: var(--space-md) !important;
+}
+
+.dynamic-small {
+    font-size: var(--font-small) !important;
+}
+
+/* 动态间距 */
+.dynamic-gap-sm { gap: var(--space-sm) !important; }
+.dynamic-gap-md { gap: var(--space-md) !important; }
+.dynamic-gap-lg { gap: var(--space-lg) !important; }
+.dynamic-mb-sm { margin-bottom: var(--space-sm) !important; }
+.dynamic-mb-md { margin-bottom: var(--space-md) !important; }
+.dynamic-mb-lg { margin-bottom: var(--space-lg) !important; }
+.dynamic-mt-sm { margin-top: var(--space-sm) !important; }
+.dynamic-mt-md { margin-top: var(--space-md) !important; }
+.dynamic-mt-lg { margin-top: var(--space-lg) !important; }
+
+/* 移动端特殊调整 */
+@media (max-width: 767px) {
+    /* Scroll Snap 锚点吸附 - 吸附到白色背景区块 */
+    html {
+        scroll-snap-type: y proximity;
+    }
+
+    #target-audience {
+        scroll-snap-align: start;
+        scroll-margin-top: 80px; /* 导航栏高度 h-20 */
+    }
+
+    :root {
+        --font-hero: clamp(1.5rem, 6vw, 2.5rem);
+        --font-title: clamp(1.25rem, 5vw, 2rem);
+        --font-subtitle: clamp(1rem, 4vw, 1.5rem);
+        --pad-section: clamp(2rem, 6vh, 4rem);
+    }
+
+    .slide-content-wrapper {
+        padding-top: calc(var(--vh, 1vh) * 12);
+        padding-bottom: calc(var(--vh, 1vh) * 6);
+    }
+
+    /* 移除所有负 margin */
+    .slide-3-container,
+    .slide-4-carousel-container,
+    .slide-2-image-container {
+        margin-top: 0 !important;
+    }
+
+    /* 减少 section 间距 */
+    #target-audience {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+    }
+}
+
+/* 超小屏幕（如 iPhone SE） */
+@media (max-height: 667px) {
+    :root {
+        --font-hero: clamp(1.25rem, 5vw, 2rem);
+        --font-title: clamp(1rem, 4vw, 1.75rem);
+        --font-body: clamp(0.65rem, 1.6vh, 0.875rem);
+        --space-lg: clamp(0.5rem, 2vh, 1rem);
+        --space-xl: clamp(0.75rem, 2.5vh, 1.5rem);
+        --pad-section: clamp(1.5rem, 5vh, 3rem);
+    }
+}
+
+/* ========== Flip Nav Buttons ========== */
+.flip-nav-btn {
+    height: 52px;
+    min-width: 100px;
+    padding: 0 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s ease-in-out;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flip-nav-btn:hover {
+    box-shadow: 0 0 30px currentColor;
+    transform: translateY(-2px);
+}
+
+.flip-nav-btn::before,
+.flip-nav-btn::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.5s ease-in-out;
+}
+
+.flip-nav-btn::before {
+    transform: translateY(0) scale(1);
+}
+
+.flip-nav-btn::after {
+    transform: translateY(52px);
+}
+
+.flip-nav-btn:hover::before {
+    transform: translateY(-42px) scale(0.8) rotate(10deg);
+    opacity: 0;
+}
+
+.flip-nav-btn:hover::after {
+    transform: translateY(0) scale(1.05);
+}
+
+/* 默认状态：所有按钮使用淡蓝色 */
+.flip-nav-btn::before { background: rgba(0, 194, 255, 0.15); color: #00C2FF; }
+.flip-nav-btn { color: #00C2FF; }
+
+/* Green - 服务定价 (hover时变绿) */
+.flip-green::after { background: #00FFA3; color: #000; }
+.flip-green:hover { color: #00FFA3; }
+
+/* Blue - 技术栈 / 首页 (hover时保持蓝) */
+.flip-blue::after { background: #00C2FF; color: #000; }
+.flip-blue:hover { color: #00C2FF; }
+
+/* Purple - 成功案例 (hover时变紫) */
+.flip-purple::after { background: #BD00FF; color: #fff; }
+.flip-purple:hover { color: #BD00FF; }
+
+/* Orange - 小程序演示 (hover时变橙) */
+.flip-orange::after { background: #FF6B00; color: #fff; }
+.flip-orange:hover { color: #FF6B00; }
+
+/* Pink - 关于我们 (hover时变粉) */
+.flip-pink::after { background: #FF0080; color: #fff; }
+.flip-pink:hover { color: #FF0080; }
+
+/* Dynamic Capsule Navigation Styles */
+.capsule-nav-link {
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    border-radius: 9999px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.capsule-nav-link:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.capsule-nav-link.capsule-active {
+    color: #22d3ee;
+    background: rgba(34, 211, 238, 0.15);
+}
+
+/* Capsule container spring animation */
+.capsule-container {
+    will-change: width;
+}
+
+/* Add subtle bounce effect on hover */
+.group:hover .capsule-container {
+    animation: capsule-expand 0.7s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes capsule-expand {
+    0% { width: 120px; }
+    60% { width: 700px; }
+    80% { width: 670px; }
+    100% { width: 680px; }
+}
+
+/* ============================================
+   MOBILE RESPONSIVE STYLES
+   ============================================ */
+
+/* Hide canvas particle effects on mobile (circle noise particles) */
+@media (max-width: 767px) {
+    #canvas1 {
+        display: none !important;
+    }
+
+    /* Hide loading indicator for canvas */
+    #loading {
+        display: none !important;
+    }
+
+    /* Adjust hero section for mobile */
+    .hero-content-mobile {
+        padding-top: 100px;
+    }
+
+    /* Mobile button scaling */
+    .flip-nav-btn {
+        height: 44px;
+        min-width: 80px;
+        padding: 0 16px;
+        font-size: 14px;
+    }
+
+    .flip-nav-btn::before,
+    .flip-nav-btn::after {
+        font-size: 14px;
+    }
+
+    .flip-nav-btn::after {
+        transform: translateY(44px);
+    }
+
+    /* Larger touch targets for mobile */
+    a, button {
+        min-height: 44px;
+    }
+}
+
+/* Tablet adjustments */
+@media (max-width: 1023px) and (min-width: 768px) {
+    .capsule-container {
+        width: 100px;
+    }
+    .group:hover .capsule-container {
+        animation: none;
+        width: 640px;
+    }
+}
+
+/* Alpine.js cloak fix */
+[x-cloak] {
+    display: none !important;
+}
+
+/* ============================================
+   MOBILE SPECIFIC ADJUSTMENTS
+   ============================================ */
+@media (max-width: 767px) {
+    /* 1. 轮播第二页：图片与文字间距调小 */
+    .slide-2-image-container {
+        height: 280px !important;
+        margin-bottom: -20px;
+    }
+
+    /* 2. 轮播第二页：三个卡片改为横向滚动或调整布局 */
+    .slide-2-features-grid {
+        gap: 8px !important;
+        margin-bottom: 16px !important;
+    }
+
+    .slide-2-features-grid > div {
+        padding: 10px !important;
+    }
+
+    .slide-2-features-grid > div p {
+        font-size: 10px !important;
+        line-height: 1.3 !important;
+    }
+
+    /* 3. 轮播第三页：文字部分向上移动，与呼吸图片间距缩小 */
+    /* 轮播第二页：图片与文字重叠 */
+    .slide-2-image-container {
+        margin-bottom: -30px !important;
+    }
+
+    /* 轮播第三页：图片与文字重叠 */
+    .slide-3-container {
+        gap: 0 !important;
+    }
+
+    .slide-3-content {
+        margin-top: -40px !important;
+        position: relative;
+        z-index: 10;
+    }
+
+    .slide-3-image {
+        height: calc(var(--vh, 1vh) * 55) !important;
+    }
+
+    .slide-3-image img {
+        max-height: calc(var(--vh, 1vh) * 55) !important;
+        transform: scale(1.25);
+    }
+
+    /* 4. 轮播第四页：标题一行显示 + 间距紧凑 */
+    .slide-4-title {
+        flex-direction: row !important;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: var(--space-xs) !important;
+    }
+
+    .slide-4-title span {
+        display: inline !important;
+    }
+
+    /* 问题1：第二页按钮文字居中 */
+    .slide-2-cta a {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        line-height: 1 !important;
+    }
+
+    /* 问题2：第四页轮播与按钮距离优化 */
+    .slide-4-cta-section {
+        margin-top: var(--space-sm) !important;
+        margin-bottom: 0.25rem !important;
+    }
+
+    .slide-4-carousel-container {
+        margin-top: -2.5rem !important;
+        height: calc(var(--vh, 1vh) * 35) !important;
+        align-items: center !important;
+    }
+
+    /* 5. Footer视觉实验室间距调小 */
+    .footer-lab-section h4 {
+        margin-bottom: 4px !important;
+    }
+
+    .footer-lab-section ul {
+        gap: 0 !important;
+    }
+
+    .footer-lab-section li {
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+        padding-top: 2px !important;
+        padding-bottom: 2px !important;
+    }
+
+    .footer-lab-section li.text-xs {
+        margin-top: 4px !important;
+    }
+
+    /* 进入特效展示厅按钮样式 */
+    .gallery-btn {
+        display: inline-flex !important;
+        width: auto !important;
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
+        color: white !important;
+        padding: 10px 20px !important;
+        border-radius: 9999px !important;
+        font-weight: 600 !important;
+        justify-content: center !important;
+        box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4) !important;
+    }
+
+    .gallery-btn-dot {
+        display: none !important;
+    }
+
+    .gallery-btn svg {
+        opacity: 1 !important;
+        margin-left: 4px !important;
+    }
+}
