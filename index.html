@@ -36,7 +36,7 @@
             top: 0;
             left: 0;
             width: 100vw;
-            height: 100vh;
+            height: calc(var(--vh, 1vh) * 100);
             z-index: 9999;
             display: flex;
             align-items: center;
@@ -166,13 +166,15 @@
 
         /* ========== 动态响应式变量系统 ========== */
         :root {
-            --vh: 1vh;
-            --vw: 1vw;
+            /* 视口单位：移动端滚动时稳定（避免地址栏收起/出现导致跳动） */
+            --vh: 1vh; /* fallback */
+            /* 说明：支持 svh 的浏览器将覆盖为 1svh（stable viewport height） */
+            
             /* 动态字体大小 - 基于视口高度 */
-            --font-hero: clamp(1.5rem, 5vh, 4.5rem);
-            --font-title: clamp(1.25rem, 4vh, 3.5rem);
-            --font-subtitle: clamp(1rem, 3vh, 2.5rem);
-            --font-body: clamp(0.75rem, 1.8vh, 1rem);
+            --font-hero: clamp(1.5rem, calc(var(--vh) * 5), 4.5rem);
+            --font-title: clamp(1.25rem, calc(var(--vh) * 4), 3.5rem);
+            --font-subtitle: clamp(1rem, calc(var(--vh) * 3), 2.5rem);
+            --font-body: clamp(0.75rem, calc(var(--vh) * 1.8), 1rem);
             --font-small: clamp(0.625rem, 1.5vh, 0.875rem);
             /* 动态间距 - 基于视口高度 */
             --space-xs: clamp(0.25rem, 1vh, 0.5rem);
@@ -185,6 +187,14 @@
             --pad-section: clamp(3rem, 8vh, 6rem);
             --pad-content: clamp(1rem, 3vh, 1.5rem);
         }
+        @supports (height: 1svh) {
+            :root {
+                --vh: 1svh;
+            }
+        }
+
+        /* 关闭滚动锚点，避免图片/字体加载引起页面突然跳动 */
+        html { overflow-anchor: none; }
 
         .carousel-section {
             min-height: calc(var(--vh, 1vh) * 100);
@@ -614,18 +624,8 @@
         }
     </script>
     <script>
-        // 动态计算真实视口尺寸（解决移动端浏览器地址栏问题）
-        function setViewportUnits() {
-            const vh = window.innerHeight * 0.01;
-            const vw = window.innerWidth * 0.01;
-            document.documentElement.style.setProperty('--vh', `${vh}px`);
-            document.documentElement.style.setProperty('--vw', `${vw}px`);
-        }
-        setViewportUnits();
-        window.addEventListener('resize', setViewportUnits);
-        window.addEventListener('orientationchange', () => {
-            setTimeout(setViewportUnits, 100); // 延迟确保方向变化后尺寸正确
-        });
+        // 移动端滚动稳定性：使用 CSS svh（stable viewport height）解决地址栏收起/出现导致的 vh 抖动
+        // 因此不再通过 JS 动态写入 --vh/--vw，避免滚动时触发 reflow 引起页面跳动。
     </script>
 </head>
 <!--Start of Tawk.to Script-->
