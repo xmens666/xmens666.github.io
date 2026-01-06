@@ -1725,7 +1725,7 @@
             // 移动端：轮播区滑动吸附到下一区块
             let lastScrollY = window.scrollY;
             let isSnapping = false;
-            let snapTimeout = null;
+            let hasSnapped = false; // 记录是否已吸附过
 
             window.addEventListener('scroll', () => {
                 if (isSnapping) return;
@@ -1738,15 +1738,19 @@
                 const navHeight = 80;
                 const snapPoint = carouselBottom - navHeight;
 
-                // 在轮播区内，向下滚动，且滚动超过10px
-                if (currentScrollY > lastScrollY &&
+                // 回到顶部时重置吸附状态
+                if (currentScrollY < 10) {
+                    hasSnapped = false;
+                }
+
+                // 在轮播区内，向下滚动，且未吸附过
+                if (!hasSnapped &&
+                    currentScrollY > lastScrollY &&
                     currentScrollY > 10 &&
                     currentScrollY < snapPoint - 50) {
 
                     isSnapping = true;
-
-                    // 清除之前的定时器
-                    if (snapTimeout) clearTimeout(snapTimeout);
+                    hasSnapped = true;
 
                     // 平滑滚动到吸附点
                     window.scrollTo({
@@ -1754,10 +1758,13 @@
                         behavior: 'smooth'
                     });
 
-                    // 防止重复触发
-                    snapTimeout = setTimeout(() => {
+                    // 等待动画完成后解锁
+                    setTimeout(() => {
                         isSnapping = false;
-                    }, 800);
+                        lastScrollY = snapPoint; // 更新位置防止抖动
+                    }, 600);
+
+                    return; // 不更新 lastScrollY
                 }
 
                 lastScrollY = currentScrollY;
