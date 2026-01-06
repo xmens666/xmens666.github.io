@@ -365,7 +365,7 @@
         </div>
     </header>
 
-    <main class="relative z-10 bg-neutral-950 border-t border-white/10">
+    <main class="relative z-10 bg-neutral-950/95 border-t border-white/10">
         <div class="absolute inset-0 bg-grid-slate opacity-20 pointer-events-none"></div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
@@ -600,6 +600,26 @@
             window.requestAnimationFrame(draw);
         }
         init();
+    </script>
+
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
+    <script>
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
     </script>
 
 </body>

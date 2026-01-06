@@ -11,13 +11,14 @@
     <link rel="manifest" href="/site.webmanifest">
     <script src="https://cdn.tailwindcss.com"></script>
     <link
-        href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Outfit:wght@400;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&family=Outfit:wght@400;700&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Noto Sans SC', 'sans-serif'], heading: ['Outfit', 'sans-serif'] },
+                    fontFamily: { sans: ['Nunito', 'Yuanti SC', 'YouYuan', 'Noto Sans SC', 'sans-serif'], heading: ['Nunito', 'Yuanti SC', 'YouYuan', 'Noto Sans SC', 'sans-serif'] },
                     colors: { 'brand-green': '#0a1f1a', 'accent-green': '#00FFA3' }
                 }
             }
@@ -276,6 +277,26 @@
             }
         }
         form.addEventListener("submit", handleSubmit);
+    </script>
+
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
+    <script>
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
     </script>
 
 </body>
