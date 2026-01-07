@@ -218,14 +218,13 @@ html { overflow-anchor: none; }
 
 /* 移动端特殊调整 */
 @media (max-width: 767px) {
-    /* Scroll Snap 锚点吸附 - 吸附到白色背景区块 */
+    /* Scroll Snap 锚点吸附 - 仅轮播区底部吸附 */
     html {
         scroll-snap-type: y proximity;
     }
 
-    #target-audience {
-        scroll-snap-align: start;
-        scroll-margin-top: 80px; /* 导航栏高度 h-20 */
+    .carousel-section {
+        scroll-snap-align: end;
     }
 
     :root {
