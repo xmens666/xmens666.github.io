@@ -567,3 +567,63 @@ html { overflow-anchor: none; }
         margin-left: 4px !important;
     }
 }
+
+/* ========== Footer 快速导航斜切按钮 ========== */
+.footer-nav-btn {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 6px;
+    border: 1px solid currentColor;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    z-index: 1;
+    background: transparent;
+    text-decoration: none;
+}
+
+.footer-nav-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 0;
+    height: 100%;
+    transform: translateX(-50%) skew(-15deg);
+    transition: all 0.4s ease;
+    z-index: -1;
+}
+
+.footer-nav-btn:hover::before {
+    width: 130%;
+}
+
+.footer-nav-btn:hover span {
+    color: white;
+}
+
+.footer-nav-btn span {
+    font-size: 12px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+/* 成功案例 - 蓝色 */
+.footer-nav-btn.btn-cases { color: #0369a1; }
+.footer-nav-btn.btn-cases::before { background: linear-gradient(135deg, #0284c7, #0ea5e9); }
+
+/* 小程序演示 - 绿色 */
+.footer-nav-btn.btn-demo { color: #059669; }
+.footer-nav-btn.btn-demo::before { background: linear-gradient(135deg, #059669, #10b981); }
+
+/* 解决方案 - 紫色 */
+.footer-nav-btn.btn-solutions { color: #7c3aed; }
+.footer-nav-btn.btn-solutions::before { background: linear-gradient(135deg, #7c3aed, #a78bfa); }
+
+/* 服务定价 - 橙色 */
+.footer-nav-btn.btn-pricing { color: #ea580c; }
+.footer-nav-btn.btn-pricing::before { background: linear-gradient(135deg, #ea580c, #fb923c); }
+
+/* 代码欣赏 - 灰色 */
+.footer-nav-btn.btn-gallery { color: #475569; }
+.footer-nav-btn.btn-gallery::before { background: linear-gradient(135deg, #475569, #94a3b8); }
