@@ -570,9 +570,11 @@ html { overflow-anchor: none; }
 
 /* ========== Footer 快速导航斜切按钮 ========== */
 .footer-nav-btn {
-    display: inline-block;
-    padding: 6px 16px;
-    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 12px;
+    border-radius: 5px;
     border: 1px solid currentColor;
     position: relative;
     overflow: hidden;
@@ -580,6 +582,7 @@ html { overflow-anchor: none; }
     z-index: 1;
     background: transparent;
     text-decoration: none;
+    line-height: 1.2;
 }
 
 .footer-nav-btn::before {
@@ -603,9 +606,11 @@ html { overflow-anchor: none; }
 }
 
 .footer-nav-btn span {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 500;
     transition: color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
 }
 
 /* 成功案例 - 蓝色 */
