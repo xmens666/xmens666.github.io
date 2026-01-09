@@ -714,6 +714,45 @@ html { overflow-anchor: none; }
     .footer-nav-btn.btn-gallery::after { background: #94a3b8; }
 }
 
+/* ========== Portfolio 背景光晕动画 ========== */
+@keyframes float-blob-1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -20px) scale(1.05); }
+    66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+@keyframes float-blob-2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-25px, 30px) scale(0.95); }
+    66% { transform: translate(25px, -15px) scale(1.05); }
+}
+
+@keyframes float-blob-3 {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.1); }
+}
+
+@keyframes float-blob-4 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(15px, -25px) scale(1.08); }
+}
+
+.portfolio-blob-1 {
+    animation: float-blob-1 8s ease-in-out infinite;
+}
+
+.portfolio-blob-2 {
+    animation: float-blob-2 10s ease-in-out infinite;
+}
+
+.portfolio-blob-3 {
+    animation: float-blob-3 12s ease-in-out infinite;
+}
+
+.portfolio-blob-4 {
+    animation: float-blob-4 7s ease-in-out infinite;
+}
+
 /* ========== Hero 渐变边框旋转按钮 ========== */
 .hero-gradient-btn {
     position: relative;
