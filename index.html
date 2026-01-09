@@ -769,47 +769,49 @@
         <script src="js/animations.js"></script>
     </section>
 
-    <section id="portfolio" class="py-16 sm:py-24 bg-neutral-950 relative z-20 text-white border-t border-neutral-900">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="portfolio" class="py-16 sm:py-24 relative z-20 overflow-hidden">
+        <!-- 渐变背景 -->
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-50 via-purple-50 to-cyan-50"></div>
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-200/30 rounded-full blur-3xl"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-200/20 rounded-full blur-3xl"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center mb-12 sm:mb-20">
-                <h2 class="text-sm sm:text-base text-blue-500 font-bold tracking-wide uppercase mb-3 font-mono">我们的交付标准</h2>
-                <p class="text-2xl sm:text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl font-zen">
+                <h2 class="text-sm sm:text-base text-blue-600 font-bold tracking-wide uppercase mb-3 font-mono">我们的交付标准</h2>
+                <p class="text-2xl sm:text-3xl leading-8 font-extrabold tracking-tight text-slate-800 sm:text-4xl font-zen">
                     稳住本盘、收割新流量
                 </p>
-                <p class="mt-4 max-w-2xl text-xs sm:text-sm text-slate-500 mx-auto leading-relaxed">
+                <p class="mt-4 max-w-2xl text-xs sm:text-sm text-slate-600 mx-auto leading-relaxed">
                     <span
-                        x-html="lang === 'zh' 
-                        ? '别让您的生意只有“回头客”。APP 既是老客户的<span class=\'font-bold text-emerald-500\'>专属服务区</span>，也是陌生客户的<span class=\'font-bold text-emerald-500\'>流量捕获器</span>。老客不流失，新客源源不断，<span class=\'font-bold text-emerald-500\'>生意自然越做越大</span>。' 
-                        : 'Whether you are an entrepreneur or a store owner, <span class=\'font-bold text-emerald-500\'>own your digital territory</span>.'">
+                        x-html="lang === 'zh'
+                        ? '别让您的生意只有"回头客"。APP 既是老客户的<span class=\'font-bold text-blue-600\'>专属服务区</span>，也是陌生客户的<span class=\'font-bold text-blue-600\'>流量捕获器</span>。老客不流失，新客源源不断，<span class=\'font-bold text-blue-600\'>生意自然越做越大</span>。'
+                        : 'Whether you are an entrepreneur or a store owner, <span class=\'font-bold text-blue-600\'>own your digital territory</span>.'">
                     </span>
                 </p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 auto-rows-[280px] sm:auto-rows-[320px]" id="bento-grid">
 
+                <!-- 卡片1: 原生APP开发 -->
                 <div
-                    class="spotlight-card group relative col-span-1 md:col-span-2 row-span-1 overflow-hidden rounded-2xl sm:rounded-3xl border border-neutral-800 bg-neutral-900/50 p-5 sm:p-8 backdrop-blur-sm transition-all duration-300 hover:border-blue-500/30 hover:bg-neutral-900/80">
-                    <div class="pointer-events-none absolute -inset-px opacity-0 transition duration-500 group-hover:opacity-100"
-                        style="background: radial-gradient(600px circle at var(--x) var(--y), rgba(59,130,246,0.15), transparent 40%);">
-                    </div>
+                    class="spotlight-card group relative col-span-1 md:col-span-2 row-span-1 overflow-hidden rounded-2xl sm:rounded-3xl border border-white/60 bg-white/40 backdrop-blur-xl p-5 sm:p-8 transition-all duration-300 hover:bg-white/60 hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-1">
 
-                    <div
-                        class="absolute -bottom-4 -right-4 text-[8rem] sm:text-[12rem] font-bold text-white/[0.02] font-heading select-none pointer-events-none group-hover:text-white/[0.04] transition-colors">
+                    <div class="absolute -bottom-4 -right-4 text-[8rem] sm:text-[12rem] font-bold text-blue-500/[0.05] font-heading select-none pointer-events-none">
                         01
                     </div>
 
                     <div class="relative z-10 h-full flex flex-col justify-start items-start">
                         <div
-                            class="mb-4 sm:mb-6 w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-blue-500/20 to-blue-600/5 rounded-xl sm:rounded-2xl border border-blue-500/20 flex items-center justify-center text-xl sm:text-2xl text-blue-400 group-hover:scale-110 group-hover:border-blue-400/50 transition-all duration-300 shadow-[0_0_20px_rgba(59,130,246,0.1)]">
+                            class="mb-4 sm:mb-6 w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl sm:rounded-2xl flex items-center justify-center text-xl sm:text-2xl text-white group-hover:scale-110 transition-all duration-300 shadow-lg shadow-blue-500/30">
                             📱
                         </div>
                         <div>
-                            <h3 class="text-xl sm:text-2xl font-bold text-white mb-2 sm:mb-3 flex items-center gap-2">
+                            <h3 class="text-xl sm:text-2xl font-bold text-slate-800 mb-2 sm:mb-3 flex items-center gap-2">
                                 原生 APP 开发
-                                <span
-                                    class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-blue-500 text-lg">↗</span>
+                                <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-blue-500 text-lg">↗</span>
                             </h3>
-                            <p class="text-blue-400/80 leading-relaxed font-light text-xs sm:text-sm md:text-base max-w-lg">
+                            <p class="text-slate-600 leading-relaxed font-light text-xs sm:text-sm md:text-base max-w-lg">
                                 不仅是软件，更是品牌资产。ZenCode 确保您的 APP 在 Apple Store 和 Google Play
                                 上架，成为客户手机里的常驻图标。
                             </p>
@@ -817,55 +819,50 @@
                     </div>
                 </div>
 
+                <!-- 卡片2: 品牌官网落地页 -->
                 <div
-                    class="spotlight-card group relative col-span-1 row-span-1 overflow-hidden rounded-2xl sm:rounded-3xl border border-neutral-800 bg-neutral-900/50 p-5 sm:p-8 backdrop-blur-sm transition-all duration-300 hover:border-purple-500/30 hover:bg-neutral-900/80">
-                    <div class="pointer-events-none absolute -inset-px opacity-0 transition duration-500 group-hover:opacity-100"
-                        style="background: radial-gradient(600px circle at var(--x) var(--y), rgba(168,85,247,0.15), transparent 40%);">
-                    </div>
+                    class="spotlight-card group relative col-span-1 row-span-1 overflow-hidden rounded-2xl sm:rounded-3xl border border-white/60 bg-white/40 backdrop-blur-xl p-5 sm:p-8 transition-all duration-300 hover:bg-white/60 hover:shadow-xl hover:shadow-purple-500/10 hover:-translate-y-1">
 
-                    <div
-                        class="absolute bottom-4 right-4 text-4xl sm:text-6xl font-bold text-white/[0.02] font-code select-none pointer-events-none group-hover:text-white/[0.04] transition-colors">
+                    <div class="absolute bottom-4 right-4 text-4xl sm:text-6xl font-bold text-purple-500/[0.08] font-code select-none pointer-events-none">
                         &lt;/&gt;
                     </div>
 
                     <div class="relative z-10 h-full flex flex-col justify-start items-start">
                         <div
-                            class="mb-4 sm:mb-6 w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-purple-500/20 to-purple-600/5 rounded-xl sm:rounded-2xl border border-purple-500/20 flex items-center justify-center text-xl sm:text-2xl text-purple-400 group-hover:scale-110 group-hover:border-purple-400/50 transition-all duration-300 shadow-[0_0_20px_rgba(168,85,247,0.1)]">
+                            class="mb-4 sm:mb-6 w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl sm:rounded-2xl flex items-center justify-center text-xl sm:text-2xl text-white group-hover:scale-110 transition-all duration-300 shadow-lg shadow-purple-500/30">
                             💻
                         </div>
                         <div>
-                            <h3 class="text-lg sm:text-xl font-bold text-white mb-2 sm:mb-3">品牌官网落地页</h3>
-                            <p class="text-purple-400/80 text-xs sm:text-sm font-light leading-relaxed">
+                            <h3 class="text-lg sm:text-xl font-bold text-slate-800 mb-2 sm:mb-3">品牌官网落地页</h3>
+                            <p class="text-slate-600 text-xs sm:text-sm font-light leading-relaxed">
                                 既然要做，就做最好。让日本客户在 Google 搜索到的瞬间，就被您的企业形象折服。
                             </p>
                         </div>
                     </div>
                 </div>
 
+                <!-- 卡片3: 微信小程序矩阵 -->
                 <div
-                    class="spotlight-card group relative col-span-1 md:col-span-3 row-span-1 overflow-hidden rounded-2xl sm:rounded-3xl border border-neutral-800 bg-neutral-900/50 p-5 sm:p-8 flex flex-col md:flex-row items-center gap-4 sm:gap-8 backdrop-blur-sm transition-all duration-300 hover:border-emerald-500/30 hover:bg-neutral-900/80">
-                    <div class="pointer-events-none absolute -inset-px opacity-0 transition duration-500 group-hover:opacity-100"
-                        style="background: radial-gradient(600px circle at var(--x) var(--y), rgba(16,185,129,0.15), transparent 40%);">
-                    </div>
+                    class="spotlight-card group relative col-span-1 md:col-span-3 row-span-1 overflow-hidden rounded-2xl sm:rounded-3xl border border-white/60 bg-white/40 backdrop-blur-xl p-5 sm:p-8 flex flex-col md:flex-row items-center gap-4 sm:gap-8 transition-all duration-300 hover:bg-white/60 hover:shadow-xl hover:shadow-emerald-500/10 hover:-translate-y-1">
 
                     <div class="relative z-10 flex-1 flex flex-col justify-start items-start">
                         <div
-                            class="mb-4 sm:mb-6 w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-emerald-500/20 to-emerald-600/5 rounded-xl sm:rounded-2xl border border-emerald-500/20 flex items-center justify-center text-xl sm:text-2xl text-emerald-400 group-hover:scale-110 group-hover:border-emerald-400/50 transition-all duration-300 shadow-[0_0_20px_rgba(16,185,129,0.1)]">
+                            class="mb-4 sm:mb-6 w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-xl sm:rounded-2xl flex items-center justify-center text-xl sm:text-2xl text-white group-hover:scale-110 transition-all duration-300 shadow-lg shadow-emerald-500/30">
                             🚀
                         </div>
-                        <h3 class="text-xl sm:text-2xl font-bold text-white mb-2 sm:mb-3">微信小程序矩阵</h3>
-                        <p class="text-emerald-400/80 max-w-2xl font-light text-xs sm:text-sm md:text-base leading-relaxed">
+                        <h3 class="text-xl sm:text-2xl font-bold text-slate-800 mb-2 sm:mb-3">微信小程序矩阵</h3>
+                        <p class="text-slate-600 max-w-2xl font-light text-xs sm:text-sm md:text-base leading-relaxed">
                             连接微信生态内的十亿用户。无需安装、扫码即用、社交裂变，是在日华人圈获客成本最低、传播速度最快的渠道。
                         </p>
                     </div>
 
                     <div
-                        class="relative z-10 w-full md:w-1/3 h-32 sm:h-40 bg-neutral-950/50 rounded-xl border border-white/5 flex items-center justify-center overflow-hidden group-hover:border-emerald-500/20 transition-colors">
-                        <div
-                            class="text-neutral-600 font-mono text-xs z-10 tracking-widest group-hover:text-emerald-500/50 transition-colors">
-                            PROFITABLE SYSTEM</div>
-                        <div class="absolute inset-0 opacity-20"
-                            style="background-image: linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px); background-size: 20px 20px;">
+                        class="relative z-10 w-full md:w-1/3 h-32 sm:h-40 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl border border-emerald-200/50 flex items-center justify-center overflow-hidden">
+                        <div class="text-emerald-600/60 font-mono text-xs z-10 tracking-widest">
+                            PROFITABLE SYSTEM
+                        </div>
+                        <div class="absolute inset-0 opacity-30"
+                            style="background-image: linear-gradient(#10b98120 1px, transparent 1px), linear-gradient(90deg, #10b98120 1px, transparent 1px); background-size: 20px 20px;">
                         </div>
                     </div>
                 </div>
