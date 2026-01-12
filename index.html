@@ -873,6 +873,839 @@
         </div>
     </section>
 
+    <!-- 即将上线APP展示区 -->
+    <section id="app-preview" class="relative overflow-hidden" x-data="{ expanded: false }">
+        <!-- 折叠状态：展开按钮 -->
+        <div class="app-preview-trigger py-12 sm:py-16 relative" :class="{ 'hidden': expanded }">
+            <div class="absolute inset-0 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500"></div>
+            <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMzYgMzRoLTJ2LTRoMnYyaDR2Mmgtdi0yem0wLTMwVjBoMnY0aC00VjJoMnYyem0tMiAyaC0ydjJoMnYyaDJ2LTJoMnYyaDJ2Mmgtdjh6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-20"></div>
+            <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-white/90 text-sm mb-4">
+                    <span class="w-2 h-2 rounded-full bg-yellow-300 animate-pulse"></span>
+                    <span>Coming Soon</span>
+                </div>
+                <h2 class="text-2xl sm:text-4xl md:text-5xl font-bold text-white mb-4 font-heading">
+                    即将上线 · 超级APP
+                </h2>
+                <p class="text-white/80 text-sm sm:text-base mb-8 max-w-xl mx-auto">
+                    在日华人一站式生活平台，连接服务、交易、社交与社区
+                </p>
+                <button
+                    @click="expanded = true; $nextTick(() => document.getElementById('app-expanded').scrollIntoView({ behavior: 'smooth', block: 'start' }))"
+                    class="app-expand-btn group">
+                    <span class="app-expand-btn-bg"></span>
+                    <span class="app-expand-btn-text">
+                        <span>探索详情</span>
+                        <svg class="w-5 h-5 transition-transform group-hover:translate-y-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 展开后的内容 -->
+        <div id="app-expanded" x-show="expanded" x-collapse.duration.500ms class="bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
+            <!-- 顶部装饰 -->
+            <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-500 to-transparent"></div>
+
+            <!-- 收起按钮 - top-20 让它位于全局导航栏(h-20)下方 -->
+            <div class="sticky top-20 z-40 bg-slate-900/95 backdrop-blur-md border-b border-white/10">
+                <div class="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-pink-500 flex items-center justify-center text-white font-bold text-sm">
+                            游
+                        </div>
+                        <span class="text-white font-semibold text-sm">东瀛游侠</span>
+                        <span class="hidden sm:inline px-2 py-0.5 bg-orange-500/20 text-orange-400 text-xs rounded-full">Beta</span>
+                    </div>
+                    <button @click="expanded = false; $nextTick(() => document.getElementById('app-preview').scrollIntoView({ behavior: 'smooth' }))"
+                            class="flex items-center gap-2 px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-full text-white/80 hover:text-white transition-all text-xs">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                        </svg>
+                        <span>收起</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Hero区域 -->
+            <div class="relative pt-8 pb-16 sm:py-24 overflow-hidden">
+                <div class="absolute inset-0">
+                    <div class="absolute top-20 left-10 w-72 h-72 bg-orange-500/20 rounded-full blur-3xl"></div>
+                    <div class="absolute bottom-10 right-10 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl"></div>
+                </div>
+                <div class="max-w-6xl mx-auto px-4 relative z-10">
+                    <div class="text-center mb-12">
+                        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6 font-heading">
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-red-400 to-pink-400">东瀛游侠</span>
+                        </h1>
+                        <p class="text-xl sm:text-2xl text-white/60 mb-4">在日华人的一站式生活与社交平台</p>
+                        <p class="text-white/40 text-sm max-w-2xl mx-auto leading-relaxed">
+                            把"服务、交易、招聘、社交、活动、内容社区"统一在一个App里。无论是找服务、找房、找工作、找朋友，还是买卖闲置、逛本地商家、发动态提问答疑，都能在同一个江湖体系里完成。
+                        </p>
+                    </div>
+
+                    <!-- 核心价值 -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="dy-value-card">
+                            <div class="dy-value-icon">🎯</div>
+                            <h4 class="text-white font-bold mb-1">一站式</h4>
+                            <p class="text-white/50 text-xs">生活服务、商业交易、社交活动、内容社区全覆盖</p>
+                        </div>
+                        <div class="dy-value-card">
+                            <div class="dy-value-icon">🔗</div>
+                            <h4 class="text-white font-bold mb-1">强连接</h4>
+                            <p class="text-white/50 text-xs">聊天、通知、评价、信誉与成就贯穿全链路</p>
+                        </div>
+                        <div class="dy-value-card">
+                            <div class="dy-value-icon">📍</div>
+                            <h4 class="text-white font-bold mb-1">本地化</h4>
+                            <p class="text-white/50 text-xs">地区筛选、在日场景、华人社区关系网络</p>
+                        </div>
+                        <div class="dy-value-card">
+                            <div class="dy-value-icon">🚀</div>
+                            <h4 class="text-white font-bold mb-1">可持续</h4>
+                            <p class="text-white/50 text-xs">成长积分、成就系统、信誉体系驱动长期活跃</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 功能模块矩阵 -->
+            <div class="py-12 bg-slate-800/50">
+                <div class="max-w-6xl mx-auto px-4">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white text-center mb-4">功能模块矩阵</h2>
+                    <p class="text-white/40 text-center mb-12 text-sm">江湖化模块统一入口，内容与交易强关联</p>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- 生活服务与交易 -->
+                        <div class="dy-module-card">
+                            <div class="dy-module-header bg-gradient-to-r from-blue-500 to-cyan-500">
+                                <span class="text-2xl">🏪</span>
+                                <h3 class="text-lg font-bold text-white">生活服务与交易</h3>
+                            </div>
+                            <div class="dy-module-content">
+                                <div class="dy-feature-item">
+                                    <span class="dy-feature-badge bg-blue-500/20 text-blue-400">镖局快马</span>
+                                    <p>服务/跑腿/技能发布，支持急单、议价、评价与聊天</p>
+                                </div>
+                                <div class="dy-feature-item">
+                                    <span class="dy-feature-badge bg-cyan-500/20 text-cyan-400">神州宝库</span>
+                                    <p>店铺+商品+订单体系，支持店铺咨询、下单与支付</p>
+                                </div>
+                                <div class="dy-feature-item">
+                                    <span class="dy-feature-badge bg-teal-500/20 text-teal-400">侠客集市</span>
+                                    <p>二手闲置交易，支持分类筛选、议价与交易记录</p>
+                                </div>
+                                <div class="dy-feature-item">
+                                    <span class="dy-feature-badge bg-emerald-500/20 text-emerald-400">客栈驿站</span>
+                                    <p>房源/租售/仓储/办公信息发布与筛选</p>
+                                </div>
+                                <div class="dy-feature-item">
+                                    <span class="dy-feature-badge bg-green-500/20 text-green-400">江湖食肆</span>
+                                    <p>餐厅与菜品检索、设施筛选、评论与咨询</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 招聘与职业 -->
+                        <div class="dy-module-card">
+                            <div class="dy-module-header bg-gradient-to-r from-purple-500 to-pink-500">
+                                <span class="text-2xl">💼</span>
+                                <h3 class="text-lg font-bold text-white">招聘与职业</h3>
+                            </div>
+                            <div class="dy-module-content">
+                                <div class="dy-feature-item">
+                                    <span class="dy-feature-badge bg-purple-500/20 text-purple-400">江湖揭榜</span>
+                                    <p>求职简历与招聘岗位双向展示</p>
+                                </div>
+                                <div class="dy-feature-item">
+                                    <span class="dy-feature-badge bg-pink-500/20 text-pink-400">智能匹配</span>
+                                    <p>支持筛选、详情、投递/邀请与沟通</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 社交与社区 -->
+                        <div class="dy-module-card">
+                            <div class="dy-module-header bg-gradient-to-r from-orange-500 to-yellow-500">
+                                <span class="text-2xl">👥</span>
+                                <h3 class="text-lg font-bold text-white">社交与社区</h3>
+                            </div>
+                            <div class="dy-module-content">
+                                <div class="dy-feature-item">
+                                    <span class="dy-feature-badge bg-orange-500/20 text-orange-400">英雄结义</span>
+                                    <p>同乡会、俱乐部、聚会活动、相亲等本地社交</p>
+                                </div>
+                                <div class="dy-feature-item">
+                                    <span class="dy-feature-badge bg-yellow-500/20 text-yellow-400">游侠动态</span>
+                                    <p>发布动态、点赞评论、举报与内容互动</p>
+                                </div>
+                                <div class="dy-feature-item">
+                                    <span class="dy-feature-badge bg-amber-500/20 text-amber-400">侠客问道</span>
+                                    <p>问答社区，支持分类、悬赏、已解决标记</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 交易与支付 -->
+                        <div class="dy-module-card">
+                            <div class="dy-module-header bg-gradient-to-r from-green-500 to-emerald-500">
+                                <span class="text-2xl">💰</span>
+                                <h3 class="text-lg font-bold text-white">交易与支付闭环</h3>
+                            </div>
+                            <div class="dy-module-content">
+                                <div class="dy-feature-item">
+                                    <span class="dy-feature-badge bg-green-500/20 text-green-400">购物车</span>
+                                    <p>下单、支付、订单状态更新</p>
+                                </div>
+                                <div class="dy-feature-item">
+                                    <span class="dy-feature-badge bg-emerald-500/20 text-emerald-400">交易记录</span>
+                                    <p>多维度评价系统</p>
+                                </div>
+                                <div class="dy-feature-item">
+                                    <span class="dy-feature-badge bg-teal-500/20 text-teal-400">游侠币</span>
+                                    <p>消费返还/抵扣/过期机制</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 典型使用场景 + 官网结构图 共用一个 Alpine 作用域 -->
+            <div x-data="{
+                activeModal: null,
+                modalData: {
+                    'product': {
+                        icon: '💎',
+                        title: '产品定位',
+                        subtitle: '打造SaaS交互社区',
+                        desc: '东瀛游侠是一款面向在日华人的一站式生活与社交平台，将服务、交易、招聘、社交、活动、内容社区统一在一个江湖体系里。',
+                        points: ['SaaS化运营模式', '社区化内容生态', '本地化服务网络', '游戏化成长体系']
+                    },
+                    'features': {
+                        icon: '⚙️',
+                        title: '核心功能',
+                        subtitle: '八大核心模块',
+                        desc: '覆盖生活服务、交易、招聘、社交等全场景需求，打造完整的在日华人生活闭环。',
+                        points: ['镖局快马 - 服务跑腿', '神州宝库 - 店铺商城', '侠客集市 - 二手交易', '客栈驿站 - 房产租售', '江湖食肆 - 餐饮美食', '江湖揭榜 - 招聘求职', '英雄结义 - 社交活动', '侠客问道 - 问答社区']
+                    },
+                    'scenes': {
+                        icon: '🎯',
+                        title: '使用场景',
+                        subtitle: '日本生活场景全覆盖',
+                        desc: '无论是初来乍到还是长期定居，东瀛游侠都能满足你在日本的各种生活需求。',
+                        points: ['找服务：紧急跑腿、技能服务', '找工作：岗位投递、简历管理', '找房源：租房买卖、办公仓储', '找人脉：同乡会、俱乐部活动', '买卖交易：二手市集、商城购物', '解决问题：发动态、提问答疑']
+                    },
+                    'highlights': {
+                        icon: '✨',
+                        title: '特色亮点',
+                        subtitle: '差异化竞争优势',
+                        desc: '独特的江湖化设计理念，让用户在获取服务的同时享受沉浸式体验。',
+                        points: ['江湖化模块命名与UI设计', '信誉与成就系统驱动活跃', '举报与审核闭环保障安全', '站内聊天贯穿全链路']
+                    },
+                    'users': {
+                        icon: '👥',
+                        title: '用户人群',
+                        subtitle: '三大核心用户群体',
+                        desc: '精准定位在日华人社区，服务个人用户、商家和组织者。',
+                        points: ['个人用户：生活服务、交友求助', '商家服务者：获客成交、长期经营', '社区组织者：运营活动、沉淀圈子']
+                    },
+                    'security': {
+                        icon: '🛡️',
+                        title: '安全合规',
+                        subtitle: '构建可信社区环境',
+                        desc: '完善的安全机制和合规体系，保护用户隐私和交易安全。',
+                        points: ['实名认证体系', '交易资金保障', '内容审核机制', '隐私数据保护']
+                    },
+                    'download': {
+                        icon: '📲',
+                        title: '下载体验',
+                        subtitle: '多端支持即将上线',
+                        desc: '支持iOS、Android和Web多端访问，随时随地使用东瀛游侠。',
+                        points: ['iOS App Store', 'Android 应用商店', 'Web网页版', '微信小程序(规划中)']
+                    },
+                    'life_service': {
+                        icon: '🏪',
+                        title: '生活服务',
+                        subtitle: '镖局快马 + 江湖食肆',
+                        desc: '涵盖日常生活中的各类服务需求，从跑腿代办到美食探店，一站解决。',
+                        points: ['紧急跑腿：代购、代取、代送', '技能服务：翻译、搬家、维修', '餐饮美食：餐厅检索、菜品推荐', '设施筛选：停车场、包间、wifi', '评论系统：真实用户点评参考']
+                    },
+                    'job_career': {
+                        icon: '💼',
+                        title: '招聘职业',
+                        subtitle: '江湖揭榜',
+                        desc: '在日华人专属的招聘求职平台，双向匹配，高效对接。',
+                        points: ['简历管理：一键投递多个岗位', '岗位筛选：行业、地区、薪资', '企业认证：真实可靠的招聘方', '即时沟通：在线聊天快速响应', '面试预约：日程管理一目了然']
+                    },
+                    'social_community': {
+                        icon: '👥',
+                        title: '社交社区',
+                        subtitle: '英雄结义',
+                        desc: '连接在日华人，建立真实的社交关系网络。',
+                        points: ['同乡会：找到老乡，倍感亲切', '俱乐部：兴趣相投，志同道合', '线下活动：聚餐、运动、旅行', '相亲交友：缘分从这里开始', '圈子沉淀：长期关系持续经营']
+                    },
+                    'content_qa': {
+                        icon: '❓',
+                        title: '内容问答',
+                        subtitle: '侠客问道 + 游侠动态',
+                        desc: '知识共享与经验交流的社区平台。',
+                        points: ['提问求助：生活难题快速解答', '悬赏问答：重金求解专业问题', '经验分享：老司机带路不迷茫', '动态发布：分享日常精彩瞬间', '互动评论：点赞、评论、转发']
+                    },
+                    'message_notify': {
+                        icon: '💬',
+                        title: '消息通知',
+                        subtitle: '全链路消息中心',
+                        desc: '不错过任何重要信息，实时掌握动态。',
+                        points: ['私聊消息：一对一沟通无障碍', '群聊功能：多人讨论高效协作', '系统通知：订单、审核、活动', '消息聚合：分类清晰易管理', '推送提醒：重要消息即时到达']
+                    },
+                    'payment_order': {
+                        icon: '💰',
+                        title: '支付订单',
+                        subtitle: '交易闭环保障',
+                        desc: '安全便捷的支付体验，完整的交易保障。',
+                        points: ['多种支付：微信、支付宝、信用卡', '购物车：批量下单更方便', '订单追踪：实时状态更新', '交易评价：双向评价机制', '游侠币：消费返还、抵扣优惠']
+                    },
+                    'scene_service': {
+                        icon: '🔧',
+                        title: '找服务',
+                        subtitle: '紧急跑腿、技能服务',
+                        desc: '急事不急，总有人帮你搞定。',
+                        points: ['代购代办：机场接送、排队取号', '技能服务：翻译陪同、搬家清洁', '急单加急：紧急需求优先处理', '议价系统：灵活定价双方满意', '服务评价：选择靠谱的服务者']
+                    },
+                    'scene_job': {
+                        icon: '💼',
+                        title: '找工作',
+                        subtitle: '查看岗位、投递简历',
+                        desc: '在日华人求职首选，机会触手可及。',
+                        points: ['海量岗位：餐饮、IT、贸易、翻译', '简历优化：专业模板一键生成', '智能推荐：匹配你的技能经验', '薪资透明：明码标价不踩坑', '入职跟踪：从投递到入职全程']
+                    },
+                    'scene_house': {
+                        icon: '🏠',
+                        title: '找房源',
+                        subtitle: '租房/买卖/办公',
+                        desc: '安居乐业，从找到合适的房子开始。',
+                        points: ['租房信息：公寓、合租、整租', '买卖房产：二手房、新房咨询', '办公场地：写字楼、共享办公', '仓储物流：仓库、物流中转', '地图筛选：按区域精准查找']
+                    },
+                    'scene_network': {
+                        icon: '🤝',
+                        title: '找人脉',
+                        subtitle: '同乡会、俱乐部',
+                        desc: '他乡遇故知，人脉即资源。',
+                        points: ['同乡组织：按省份、城市聚合', '兴趣俱乐部：运动、音乐、摄影', '行业圈子：同行交流互助', '线下活动：定期聚会拓展人脉', '人脉推荐：认识朋友的朋友']
+                    },
+                    'scene_trade': {
+                        icon: '🛒',
+                        title: '买卖交易',
+                        subtitle: '二手市集、商城',
+                        desc: '买卖不求人，闲置变现金。',
+                        points: ['二手闲置：低价淘好物', '商家店铺：品质有保障', '分类齐全：电子、家具、服饰', '议价功能：讨价还价更灵活', '交易保障：平台担保更安心']
+                    },
+                    'scene_help': {
+                        icon: '❓',
+                        title: '解决问题',
+                        subtitle: '发动态、提问答疑',
+                        desc: '有问题？社区里总有人能帮你。',
+                        points: ['快速提问：描述问题等待解答', '悬赏求助：重要问题重金求解', '经验搜索：别人踩过的坑你绕行', '动态求助：朋友圈式广而告之', '专家解答：认证用户权威回复']
+                    }
+                },
+                openModal(key) { this.activeModal = key; document.body.style.overflow = 'hidden'; },
+                closeModal() { this.activeModal = null; document.body.style.overflow = ''; }
+            }" @keydown.escape.window="closeModal()">
+
+            <!-- 典型使用场景 -->
+            <div class="py-16">
+                <div class="max-w-6xl mx-auto px-4">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white text-center mb-4">典型使用场景</h2>
+                    <p class="text-orange-400/60 text-center mb-12 text-xs">点击查看详情</p>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+                        <div class="dy-scene-card dy-flow-clickable" @click="openModal('scene_service')">
+                            <div class="dy-scene-icon">🔧</div>
+                            <span>找服务</span>
+                            <p>紧急跑腿、技能服务</p>
+                        </div>
+                        <div class="dy-scene-card dy-flow-clickable" @click="openModal('scene_job')">
+                            <div class="dy-scene-icon">💼</div>
+                            <span>找工作</span>
+                            <p>查看岗位、投递简历</p>
+                        </div>
+                        <div class="dy-scene-card dy-flow-clickable" @click="openModal('scene_house')">
+                            <div class="dy-scene-icon">🏠</div>
+                            <span>找房源</span>
+                            <p>租房/买卖/办公</p>
+                        </div>
+                        <div class="dy-scene-card dy-flow-clickable" @click="openModal('scene_network')">
+                            <div class="dy-scene-icon">🤝</div>
+                            <span>找人脉</span>
+                            <p>同乡会、俱乐部</p>
+                        </div>
+                        <div class="dy-scene-card dy-flow-clickable" @click="openModal('scene_trade')">
+                            <div class="dy-scene-icon">🛒</div>
+                            <span>买卖交易</span>
+                            <p>二手市集、商城</p>
+                        </div>
+                        <div class="dy-scene-card dy-flow-clickable" @click="openModal('scene_help')">
+                            <div class="dy-scene-icon">❓</div>
+                            <span>解决问题</span>
+                            <p>发动态、提问答疑</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 官网结构图（信息架构） -->
+            <div class="py-12 bg-slate-800/30">
+                <div class="max-w-5xl mx-auto px-4">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white text-center mb-4">信息架构</h2>
+                    <p class="text-white/40 text-center mb-2 text-sm">官网结构与功能导航</p>
+                    <p class="text-orange-400/60 text-center mb-10 text-xs">点击各模块查看详情</p>
+
+                    <div class="dy-flowchart">
+                        <!-- 顶层：官网首页 -->
+                        <div class="flex justify-center mb-6">
+                            <div class="dy-flow-node dy-flow-root">
+                                <span>🏠</span>
+                                <p>官网首页</p>
+                            </div>
+                        </div>
+
+                        <!-- 连接线 -->
+                        <div class="flex justify-center mb-2">
+                            <div class="w-px h-6 bg-gradient-to-b from-orange-500 to-orange-500/30"></div>
+                        </div>
+
+                        <!-- 分支线 -->
+                        <div class="flex justify-center mb-2">
+                            <div class="dy-flow-branches"></div>
+                        </div>
+
+                        <!-- 第二层：主要模块 - 可点击 -->
+                        <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-2 sm:gap-3 mb-8">
+                            <div class="dy-flow-node dy-flow-secondary dy-flow-clickable" @click="openModal('product')">
+                                <span>💎</span>
+                                <p>产品定位</p>
+                            </div>
+                            <div class="dy-flow-node dy-flow-secondary dy-flow-highlight dy-flow-clickable" @click="openModal('features')">
+                                <span>⚙️</span>
+                                <p>核心功能</p>
+                            </div>
+                            <div class="dy-flow-node dy-flow-secondary dy-flow-clickable" @click="openModal('scenes')">
+                                <span>🎯</span>
+                                <p>使用场景</p>
+                            </div>
+                            <div class="dy-flow-node dy-flow-secondary dy-flow-clickable" @click="openModal('highlights')">
+                                <span>✨</span>
+                                <p>特色亮点</p>
+                            </div>
+                            <div class="dy-flow-node dy-flow-secondary dy-flow-clickable" @click="openModal('users')">
+                                <span>👥</span>
+                                <p>用户人群</p>
+                            </div>
+                            <div class="dy-flow-node dy-flow-secondary dy-flow-clickable" @click="openModal('security')">
+                                <span>🛡️</span>
+                                <p>安全合规</p>
+                            </div>
+                            <div class="dy-flow-node dy-flow-secondary dy-flow-clickable" @click="openModal('download')">
+                                <span>📲</span>
+                                <p>下载CTA</p>
+                            </div>
+                        </div>
+
+                        <!-- 核心功能展开 -->
+                        <div class="flex justify-center mb-2">
+                            <div class="text-white/30 text-xs">核心功能模块展开</div>
+                        </div>
+                        <div class="flex justify-center mb-2">
+                            <div class="w-px h-4 bg-gradient-to-b from-cyan-500/50 to-cyan-500/20"></div>
+                        </div>
+
+                        <!-- 第三层：核心功能子模块 - 可点击 -->
+                        <div class="grid grid-cols-3 md:grid-cols-6 gap-2 sm:gap-3">
+                            <div class="dy-flow-node dy-flow-tertiary dy-flow-clickable" @click="openModal('life_service')">
+                                <span>🏪</span>
+                                <p>生活服务</p>
+                            </div>
+                            <div class="dy-flow-node dy-flow-tertiary dy-flow-clickable" @click="openModal('job_career')">
+                                <span>💼</span>
+                                <p>招聘职业</p>
+                            </div>
+                            <div class="dy-flow-node dy-flow-tertiary dy-flow-clickable" @click="openModal('social_community')">
+                                <span>👥</span>
+                                <p>社交社区</p>
+                            </div>
+                            <div class="dy-flow-node dy-flow-tertiary dy-flow-clickable" @click="openModal('content_qa')">
+                                <span>❓</span>
+                                <p>内容问答</p>
+                            </div>
+                            <div class="dy-flow-node dy-flow-tertiary dy-flow-clickable" @click="openModal('message_notify')">
+                                <span>💬</span>
+                                <p>消息通知</p>
+                            </div>
+                            <div class="dy-flow-node dy-flow-tertiary dy-flow-clickable" @click="openModal('payment_order')">
+                                <span>💰</span>
+                                <p>支付订单</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- 功能矩阵表 -->
+            <div class="py-12">
+                <div class="max-w-6xl mx-auto px-4">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white text-center mb-4">功能矩阵</h2>
+                    <p class="text-white/40 text-center mb-10 text-sm">场景 × 模块 对应关系</p>
+
+                    <div class="overflow-x-auto">
+                        <table class="dy-matrix-table">
+                            <thead>
+                                <tr>
+                                    <th class="dy-matrix-header-cell">场景 / 模块</th>
+                                    <th class="dy-matrix-header-cell">镖局快马</th>
+                                    <th class="dy-matrix-header-cell">江湖食肆</th>
+                                    <th class="dy-matrix-header-cell">侠客集市</th>
+                                    <th class="dy-matrix-header-cell">神州宝库</th>
+                                    <th class="dy-matrix-header-cell">客栈驿站</th>
+                                    <th class="dy-matrix-header-cell">江湖揭榜</th>
+                                    <th class="dy-matrix-header-cell">英雄结义</th>
+                                    <th class="dy-matrix-header-cell">侠客问道</th>
+                                    <th class="dy-matrix-header-cell">游侠动态</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="dy-matrix-row-header">找服务/跑腿</td>
+                                    <td class="dy-matrix-cell dy-matrix-active">✔</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                </tr>
+                                <tr>
+                                    <td class="dy-matrix-row-header">本地餐饮与菜品</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell dy-matrix-active">✔</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                </tr>
+                                <tr>
+                                    <td class="dy-matrix-row-header">二手交易/闲置</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell dy-matrix-active">✔</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                </tr>
+                                <tr>
+                                    <td class="dy-matrix-row-header">店铺商城购物</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell dy-matrix-active">✔</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                </tr>
+                                <tr>
+                                    <td class="dy-matrix-row-header">租房/买卖/办公</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell dy-matrix-active">✔</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                </tr>
+                                <tr>
+                                    <td class="dy-matrix-row-header">招聘/求职</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell dy-matrix-active">✔</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                </tr>
+                                <tr>
+                                    <td class="dy-matrix-row-header">同乡会/俱乐部</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell dy-matrix-active">✔</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                </tr>
+                                <tr>
+                                    <td class="dy-matrix-row-header">问答与悬赏</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell dy-matrix-active">✔</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                </tr>
+                                <tr>
+                                    <td class="dy-matrix-row-header">内容动态/互动</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell">-</td>
+                                    <td class="dy-matrix-cell dy-matrix-active">✔</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 弹窗 Modal -->
+            <div x-show="activeModal" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                 class="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-4">
+                <!-- 背景遮罩 -->
+                <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" @click="closeModal()"></div>
+
+                <!-- 弹窗内容 -->
+                <div x-show="activeModal" x-transition:enter="transition ease-out duration-200 delay-100" x-transition:enter-start="opacity-0 scale-95 translate-y-4" x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                     class="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-white/10 shadow-2xl max-w-md w-full max-h-[85vh] sm:max-h-[80vh] overflow-y-auto">
+                    <!-- 关闭按钮 -->
+                    <button @click="closeModal()" class="absolute top-3 right-3 sm:top-4 sm:right-4 text-white/40 hover:text-white transition-colors z-10">
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+
+                    <!-- 头部 -->
+                    <div class="p-4 sm:p-6 pb-3 sm:pb-4 border-b border-white/10">
+                        <div class="flex items-center gap-3 sm:gap-4">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-br from-orange-500 to-pink-500 flex items-center justify-center text-xl sm:text-2xl">
+                                <span x-text="modalData[activeModal]?.icon"></span>
+                            </div>
+                            <div>
+                                <h3 class="text-lg sm:text-xl font-bold text-white" x-text="modalData[activeModal]?.title"></h3>
+                                <p class="text-orange-400 text-xs sm:text-sm" x-text="modalData[activeModal]?.subtitle"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 内容 -->
+                    <div class="p-4 sm:p-6">
+                        <p class="text-white/70 text-xs sm:text-sm leading-relaxed mb-4" x-text="modalData[activeModal]?.desc"></p>
+
+                        <ul class="space-y-2">
+                            <template x-for="(point, index) in modalData[activeModal]?.points" :key="index">
+                                <li class="flex items-start gap-2 text-xs sm:text-sm">
+                                    <span class="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-orange-500/20 flex items-center justify-center text-orange-400 text-[10px] sm:text-xs flex-shrink-0 mt-0.5" x-text="index + 1"></span>
+                                    <span class="text-white/60" x-text="point"></span>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+
+                    <!-- 底部 -->
+                    <div class="p-4 sm:p-6 pt-3 sm:pt-4 border-t border-white/10">
+                        <button @click="closeModal()" class="w-full py-2 sm:py-2.5 bg-white/10 hover:bg-white/20 active:bg-white/30 rounded-lg text-white text-xs sm:text-sm font-medium transition-colors">
+                            关闭
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 产品截图画廊 -->
+            <div class="py-12 bg-slate-800/50 overflow-visible">
+                <div class="max-w-7xl mx-auto px-4 overflow-visible">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white text-center mb-4">产品预览</h2>
+                    <p class="text-white/40 text-center mb-12 text-sm">界面设计与功能展示</p>
+
+                    <div class="dy-gallery" x-data="{
+                        images: [],
+                        currentIndex: 0,
+                        lightboxOpen: false,
+                        init() {
+                            // 自动检测图片数量（1-50范围）
+                            for (let i = 1; i <= 50; i++) {
+                                const img = new Image();
+                                img.onload = () => {
+                                    this.images.push({ src: 'img/dy/' + i + '.png', id: i });
+                                    this.images.sort((a, b) => a.id - b.id);
+                                };
+                                img.src = 'img/dy/' + i + '.png';
+                            }
+                        },
+                        openLightbox(index) {
+                            this.currentIndex = index;
+                            this.lightboxOpen = true;
+                            document.body.style.overflow = 'hidden';
+                        },
+                        closeLightbox() {
+                            this.lightboxOpen = false;
+                            document.body.style.overflow = '';
+                        },
+                        next() {
+                            this.currentIndex = (this.currentIndex + 1) % this.images.length;
+                        },
+                        prev() {
+                            this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
+                        }
+                    }" @keydown.escape.window="closeLightbox()" @keydown.arrow-right.window="lightboxOpen && next()" @keydown.arrow-left.window="lightboxOpen && prev()">
+                        <!-- 图片网格 -->
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 overflow-visible py-4">
+                            <template x-for="(image, index) in images" :key="image.id">
+                                <div class="dy-gallery-item group" @click="openLightbox(index)">
+                                    <img :src="image.src" :alt="'东瀛游侠截图 ' + image.id" class="w-full h-auto rounded-lg shadow-lg transition-all duration-300 group-hover:scale-105 cursor-pointer">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-end justify-center pb-3">
+                                        <span class="text-white text-xs">点击查看</span>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+
+                        <!-- Lightbox 弹窗 -->
+                        <div x-show="lightboxOpen" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                             class="fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center" @click.self="closeLightbox()">
+                            <button @click="closeLightbox()" class="absolute top-4 right-4 text-white/60 hover:text-white p-2 z-10">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                            <button @click="prev()" class="absolute left-4 text-white/60 hover:text-white p-2">
+                                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                </svg>
+                            </button>
+                            <button @click="next()" class="absolute right-4 text-white/60 hover:text-white p-2">
+                                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </button>
+                            <img x-show="images.length > 0" :src="images[currentIndex]?.src" class="max-h-[90vh] max-w-[90vw] object-contain rounded-lg shadow-2xl">
+                            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/60 text-sm">
+                                <span x-text="currentIndex + 1"></span> / <span x-text="images.length"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 目标用户 & 技术栈 -->
+            <div class="py-16">
+                <div class="max-w-6xl mx-auto px-4">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <!-- 目标用户 -->
+                        <div class="dy-info-card">
+                            <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                                <span class="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-pink-500 flex items-center justify-center text-sm">👤</span>
+                                目标用户
+                            </h3>
+                            <div class="space-y-4">
+                                <div class="flex items-start gap-3">
+                                    <span class="w-6 h-6 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 text-xs flex-shrink-0 mt-0.5">1</span>
+                                    <div>
+                                        <h4 class="text-white font-medium text-sm">在日华人个人用户</h4>
+                                        <p class="text-white/40 text-xs">生活服务、交友、求助、交易</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center text-green-400 text-xs flex-shrink-0 mt-0.5">2</span>
+                                    <div>
+                                        <h4 class="text-white font-medium text-sm">商家与服务提供者</h4>
+                                        <p class="text-white/40 text-xs">获客、成交、长期经营</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="w-6 h-6 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 text-xs flex-shrink-0 mt-0.5">3</span>
+                                    <div>
+                                        <h4 class="text-white font-medium text-sm">社区组织者/活动方</h4>
+                                        <p class="text-white/40 text-xs">运营活动、沉淀圈子</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 技术栈 -->
+                        <div class="dy-info-card">
+                            <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                                <span class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-sm">⚡</span>
+                                技术与平台
+                            </h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-3 text-white/70 text-sm">
+                                    <span class="text-lg">📱</span>
+                                    <span>多端支持：iOS / Android / Web</span>
+                                </div>
+                                <div class="flex items-center gap-3 text-white/70 text-sm">
+                                    <span class="text-lg">☁️</span>
+                                    <span>后端服务：Supabase</span>
+                                </div>
+                                <div class="flex items-center gap-3 text-white/70 text-sm">
+                                    <span class="text-lg">🔔</span>
+                                    <span>推送、消息、支付全面接入</span>
+                                </div>
+                                <div class="flex items-center gap-3 text-white/70 text-sm">
+                                    <span class="text-lg">🛡️</span>
+                                    <span>成长系统 + 内容审核机制</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 底部CTA -->
+            <div class="py-16 relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-r from-orange-500/10 via-red-500/10 to-pink-500/10"></div>
+                <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4">敬请期待</h2>
+                    <p class="text-white/50 mb-8 text-sm">东瀛游侠即将上线，开启在日华人生活新方式</p>
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <a href="#contact" class="px-6 py-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-bold rounded-full hover:shadow-lg hover:shadow-orange-500/30 transition-all text-sm">
+                            预约体验
+                        </a>
+                        <button @click="expanded = false; $nextTick(() => document.getElementById('app-preview').scrollIntoView({ behavior: 'smooth' }))"
+                                class="px-6 py-3 bg-white/10 text-white font-bold rounded-full hover:bg-white/20 transition-all text-sm flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                            </svg>
+                            收起详情
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <footer class="bg-white border-t border-slate-200 pt-12 sm:pt-20 pb-8 sm:pb-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-8">

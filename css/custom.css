@@ -851,3 +851,479 @@ html { overflow-anchor: none; }
         font-size: 12px;
     }
 }
+
+/* ========== 即将上线APP展示区 ========== */
+
+/* 展开按钮 */
+.app-expand-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 40px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    overflow: hidden;
+    background: transparent;
+}
+
+.app-expand-btn-bg {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50px;
+    transition: all 0.4s ease;
+}
+
+.app-expand-btn:hover .app-expand-btn-bg {
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.05);
+    box-shadow: 0 10px 40px rgba(255, 255, 255, 0.2);
+}
+
+.app-expand-btn-text {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+/* 核心价值卡片 */
+.dy-value-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.dy-value-card:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-4px);
+}
+
+.dy-value-icon {
+    font-size: 2rem;
+    margin-bottom: 12px;
+}
+
+/* 功能模块卡片 */
+.dy-module-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.dy-module-card:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+.dy-module-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+}
+
+.dy-module-content {
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dy-feature-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.dy-feature-item p {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.dy-feature-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    width: fit-content;
+}
+
+/* 使用场景卡片 */
+.dy-scene-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.dy-scene-card:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.dy-scene-icon {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+}
+
+.dy-scene-card span {
+    display: block;
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.dy-scene-card p {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 11px;
+}
+
+/* 图片画廊 */
+.dy-gallery-item {
+    position: relative;
+    overflow: visible;
+    border-radius: 12px;
+    z-index: 1;
+    transition: z-index 0s 0.3s;
+}
+
+.dy-gallery-item:hover {
+    z-index: 10;
+    transition: z-index 0s 0s;
+}
+
+.dy-gallery-item img {
+    border-radius: 12px;
+}
+
+/* 图片网格容器需要给放大的图片留空间 */
+.dy-gallery {
+    overflow: visible;
+}
+
+.dy-gallery .grid {
+    overflow: visible;
+    padding: 20px;
+    margin: -20px;
+}
+
+/* 信息卡片 */
+.dy-info-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 24px;
+}
+
+/* 手机端适配 */
+@media (max-width: 767px) {
+    .app-expand-btn {
+        padding: 14px 32px;
+    }
+
+    .app-expand-btn-text {
+        font-size: 14px;
+    }
+
+    .dy-value-card {
+        padding: 16px;
+    }
+
+    .dy-value-icon {
+        font-size: 1.5rem;
+    }
+
+    .dy-module-header {
+        padding: 12px 16px;
+    }
+
+    .dy-module-content {
+        padding: 12px 16px;
+    }
+
+    .dy-scene-card {
+        padding: 12px;
+    }
+
+    .dy-scene-icon {
+        font-size: 1.25rem;
+    }
+}
+
+/* ========== 信息架构流程图 ========== */
+.dy-flowchart {
+    position: relative;
+}
+
+.dy-flow-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 8px;
+    border-radius: 12px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.dy-flow-node span {
+    font-size: 1.25rem;
+    margin-bottom: 4px;
+}
+
+.dy-flow-node p {
+    font-size: 11px;
+    font-weight: 600;
+    color: white;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.dy-flow-root {
+    background: linear-gradient(135deg, #f97316, #ec4899);
+    box-shadow: 0 4px 20px rgba(249, 115, 22, 0.3);
+    padding: 16px 24px;
+}
+
+.dy-flow-root span {
+    font-size: 1.5rem;
+}
+
+.dy-flow-root p {
+    font-size: 14px;
+}
+
+.dy-flow-secondary {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.dy-flow-secondary:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-2px);
+}
+
+.dy-flow-highlight {
+    background: rgba(6, 182, 212, 0.2);
+    border-color: rgba(6, 182, 212, 0.4);
+}
+
+.dy-flow-tertiary {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dy-flow-tertiary:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* 可点击的节点 */
+.dy-flow-clickable {
+    cursor: pointer;
+    position: relative;
+}
+
+.dy-flow-clickable::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 14px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.dy-flow-clickable:hover::after {
+    border-color: rgba(249, 115, 22, 0.5);
+}
+
+.dy-flow-clickable:active {
+    transform: scale(0.95);
+}
+
+.dy-flow-branches {
+    width: 80%;
+    max-width: 800px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(249, 115, 22, 0.5) 10%, rgba(249, 115, 22, 0.5) 90%, transparent);
+    position: relative;
+}
+
+/* ========== 功能矩阵表 ========== */
+.dy-matrix-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 2px;
+    font-size: 12px;
+}
+
+.dy-matrix-header-cell {
+    background: linear-gradient(135deg, rgba(249, 115, 22, 0.3), rgba(236, 72, 153, 0.3));
+    color: white;
+    font-weight: 600;
+    padding: 10px 8px;
+    text-align: center;
+    white-space: nowrap;
+    border-radius: 6px 6px 0 0;
+    font-size: 11px;
+}
+
+.dy-matrix-row-header {
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+    font-weight: 500;
+    padding: 10px 12px;
+    text-align: left;
+    white-space: nowrap;
+    border-radius: 6px 0 0 6px;
+    font-size: 12px;
+}
+
+.dy-matrix-cell {
+    background: rgba(255, 255, 255, 0.03);
+    color: rgba(255, 255, 255, 0.3);
+    text-align: center;
+    padding: 10px 8px;
+    font-size: 14px;
+}
+
+.dy-matrix-active {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+    font-weight: bold;
+}
+
+/* 手机端矩阵表适配 */
+@media (max-width: 767px) {
+    .dy-matrix-table {
+        font-size: 10px;
+    }
+
+    .dy-matrix-header-cell {
+        padding: 8px 4px;
+        font-size: 9px;
+    }
+
+    .dy-matrix-row-header {
+        padding: 8px 6px;
+        font-size: 10px;
+    }
+
+    .dy-matrix-cell {
+        padding: 8px 4px;
+        font-size: 12px;
+    }
+
+    /* 手机端流程图分支线 */
+    .dy-flow-branches {
+        width: 95%;
+    }
+
+    .dy-flow-node {
+        padding: 8px 4px;
+    }
+
+    .dy-flow-node span {
+        font-size: 1rem;
+    }
+
+    .dy-flow-node p {
+        font-size: 9px;
+    }
+
+    /* 手机端场景卡片更紧凑 */
+    .dy-scene-card {
+        padding: 10px 8px;
+    }
+
+    .dy-scene-icon {
+        font-size: 1.1rem;
+        margin-bottom: 4px;
+    }
+
+    .dy-scene-card span {
+        font-size: 12px;
+    }
+
+    .dy-scene-card p {
+        font-size: 10px;
+    }
+
+    /* 手机端核心价值卡片 */
+    .dy-value-card {
+        padding: 12px 8px;
+    }
+
+    .dy-value-icon {
+        font-size: 1.25rem;
+        margin-bottom: 8px;
+    }
+
+    .dy-value-card h4 {
+        font-size: 13px;
+    }
+
+    .dy-value-card p {
+        font-size: 10px;
+        line-height: 1.4;
+    }
+
+    /* 手机端功能模块卡片 */
+    .dy-module-header {
+        padding: 10px 12px;
+    }
+
+    .dy-module-header span {
+        font-size: 1.25rem;
+    }
+
+    .dy-module-header h3 {
+        font-size: 14px;
+    }
+
+    .dy-module-content {
+        padding: 10px 12px;
+        gap: 8px;
+    }
+
+    .dy-feature-badge {
+        font-size: 11px;
+        padding: 3px 8px;
+    }
+
+    .dy-feature-item p {
+        font-size: 11px;
+    }
+
+    .dy-flow-root {
+        padding: 12px 16px;
+    }
+
+    .dy-flow-root span {
+        font-size: 1.25rem;
+    }
+
+    .dy-flow-root p {
+        font-size: 12px;
+    }
+}
