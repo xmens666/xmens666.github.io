@@ -1565,8 +1565,8 @@
                         currentIndex: 0,
                         lightboxOpen: false,
                         init() {
-                            // 自动检测图片数量（1-50范围）
-                            for (let i = 1; i <= 50; i++) {
+                            // 加载图片（1-20）
+                            for (let i = 1; i <= 20; i++) {
                                 const img = new Image();
                                 img.onload = () => {
                                     this.images.push({ src: 'img/dy/' + i + '.png', id: i });
@@ -1748,9 +1748,9 @@
                 </div>
 
                 <!-- Android 下载弹窗 -->
-                <div x-show="showAndroidModal" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                <div x-show="showAndroidModal" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
                      class="fixed inset-0 z-[9999] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4" @click.self="showAndroidModal = false">
-                    <div x-show="showAndroidModal" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90"
+                    <div x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90"
                          class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl">
                         <!-- Android 图标 -->
                         <div class="w-20 h-20 mx-auto mb-6 bg-green-100 rounded-full flex items-center justify-center">
