@@ -745,29 +745,58 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8" id="audience-meteors-grid"
                 x-data="{
                     audiences: [
-                        { icon: '🛍️', title: '跨境电商 / 品牌主理人', color: 'pink', duration: 4, list: ['建立专业独立商城', '多币种 & 自动汇率', '客户自助查物流', '私域客户沉淀'] },
-                        { icon: '🚖', title: '专业车队 / 旅游地接', color: 'blue', duration: 5, list: ['拒绝平台高抽成', '自主定价接单', '智能排班调度', '承接海外大单'] },
-                        { icon: '🏪', title: '实体连锁 / 餐饮名店', color: 'amber', duration: 6, list: ['扫码点单系统', '会员储值体系', '自动营销发券', '线上线下联动'] },
-                        { icon: '🎓', title: '不动产 / 留学教育', color: 'indigo', duration: 7, list: ['信息库自助筛选', '预约 & CRM 系统', '展示成功案例', '打造行业标杆'] }
+                        { icon: '🛍️', title: '跨境电商 / 品牌主理人', color: 'pink', gradient: 'from-pink-500 via-rose-500 to-red-500', duration: 4, list: ['建立专业独立商城', '多币种 & 自动汇率', '客户自助查物流', '私域客户沉淀'] },
+                        { icon: '🚖', title: '专业车队 / 旅游地接', color: 'blue', gradient: 'from-blue-500 via-cyan-500 to-teal-500', duration: 5, list: ['拒绝平台高抽成', '自主定价接单', '智能排班调度', '承接海外大单'] },
+                        { icon: '🏪', title: '实体连锁 / 餐饮名店', color: 'amber', gradient: 'from-amber-500 via-orange-500 to-yellow-500', duration: 6, list: ['扫码点单系统', '会员储值体系', '自动营销发券', '线上线下联动'] },
+                        { icon: '🎓', title: '不动产 / 留学教育', color: 'indigo', gradient: 'from-indigo-500 via-purple-500 to-violet-500', duration: 7, list: ['信息库自助筛选', '预约 & CRM 系统', '展示成功案例', '打造行业标杆'] }
                     ]
                 }">
                 <template x-for="(item, index) in audiences" :key="index">
-                    <div class="relative w-full group">
-                        <div class="absolute inset-0 h-full w-full rounded-full blur-3xl opacity-20 transition-all duration-500 ease-out group-hover:opacity-35 group-hover:scale-105"
-                            :class="'bg-' + item.color + '-500'"
-                            :style="'animation: shine ' + item.duration + 's ease-in-out infinite;'">
+                    <div class="relative w-full group audience-card-wrapper" :style="'animation-delay: ' + (index * 0.1) + 's'">
+                        <!-- 背景光晕 -->
+                        <div class="absolute inset-0 h-full w-full rounded-2xl blur-3xl opacity-0 transition-all duration-700 ease-out group-hover:opacity-40"
+                            :class="'bg-gradient-to-br ' + item.gradient">
                         </div>
-                        <div class="relative flex h-full flex-col items-start justify-between overflow-hidden rounded-2xl border border-gray-800 bg-gray-900 px-5 py-5 sm:px-8 sm:py-8 shadow-[0_12px_30px_rgba(0,0,0,0.35)] transition-all duration-500 ease-out group-hover:-translate-y-2 group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.45)] meteor-card">
-                            <div class="flex items-center justify-center h-10 w-10 sm:h-12 sm:w-12 rounded-full border border-gray-500 bg-gray-800 mb-3 sm:mb-4 text-xl sm:text-2xl" x-text="item.icon"></div>
-                            <h3 class="mb-3 sm:mb-4 text-xl sm:text-2xl font-bold font-zen text-white/90 transition-colors duration-300 group-hover:text-white" x-text="item.title"></h3>
-                            <ul class="mt-2 space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-slate-400">
+
+                        <!-- 卡片主体 -->
+                        <div class="audience-card relative flex h-full flex-col items-start justify-between overflow-hidden rounded-2xl border border-gray-700/50 bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800 px-5 py-5 sm:px-8 sm:py-8 shadow-[0_12px_30px_rgba(0,0,0,0.35)] transition-all duration-500 ease-out group-hover:-translate-y-2 group-hover:shadow-[0_25px_60px_rgba(0,0,0,0.5)] group-hover:border-gray-600/50">
+
+                            <!-- 流光边框效果 -->
+                            <div class="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                                 :class="'audience-glow-border-' + item.color"></div>
+
+                            <!-- 顶部流星动画 -->
+                            <div class="absolute top-0 left-0 right-0 h-px overflow-hidden">
+                                <div class="absolute h-full w-1/3 bg-gradient-to-r from-transparent via-white/60 to-transparent audience-meteor"
+                                     :style="'animation-duration: ' + (2 + index * 0.5) + 's'"></div>
+                            </div>
+
+                            <!-- 角落光点 -->
+                            <div class="absolute top-4 right-4 w-1 h-1 rounded-full bg-white/20 group-hover:bg-white/60 transition-all duration-500 group-hover:shadow-[0_0_10px_rgba(255,255,255,0.5)]"></div>
+
+                            <!-- 图标 -->
+                            <div class="relative flex items-center justify-center h-12 w-12 sm:h-14 sm:w-14 rounded-xl border border-gray-600/50 bg-gradient-to-br from-gray-800 to-gray-900 mb-4 sm:mb-5 text-2xl sm:text-3xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 group-hover:border-gray-500/50"
+                                 :class="'group-hover:shadow-lg group-hover:shadow-' + item.color + '-500/30'">
+                                <span x-text="item.icon" class="transition-transform duration-300 group-hover:scale-110"></span>
+                            </div>
+
+                            <!-- 标题 -->
+                            <h3 class="mb-3 sm:mb-4 text-lg sm:text-2xl font-bold font-zen text-white/90 transition-all duration-300 group-hover:text-white group-hover:tracking-wide" x-text="item.title"></h3>
+
+                            <!-- 功能列表 -->
+                            <ul class="mt-2 space-y-2 sm:space-y-3 text-xs sm:text-sm text-slate-400 w-full">
                                 <template x-for="(li, i) in item.list" :key="i">
-                                    <li class="flex gap-2">
-                                        <span :class="'text-' + item.color + '-500'">✓</span>
-                                        <span x-text="li"></span>
+                                    <li class="flex gap-2 sm:gap-3 items-center audience-list-item transition-all duration-300 group-hover:translate-x-1"
+                                        :style="'transition-delay: ' + (i * 50) + 'ms'">
+                                        <span class="flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-xs transition-all duration-300"
+                                              :class="'bg-' + item.color + '-500/20 text-' + item.color + '-400 group-hover:bg-' + item.color + '-500/30 group-hover:text-' + item.color + '-300'">✓</span>
+                                        <span x-text="li" class="transition-colors duration-300 group-hover:text-slate-300"></span>
                                     </li>
                                 </template>
                             </ul>
+
+                            <!-- 底部渐变装饰 -->
+                            <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/20 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                         </div>
                     </div>
                 </template>

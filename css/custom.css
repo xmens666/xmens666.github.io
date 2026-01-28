@@ -1327,3 +1327,121 @@ html { overflow-anchor: none; }
         font-size: 12px;
     }
 }
+
+/* ========== Audience Cards Enhanced Effects ========== */
+
+/* 卡片入场动画 */
+.audience-card-wrapper {
+    animation: audience-fade-in 0.6s ease-out backwards;
+}
+
+@keyframes audience-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 流星动画 */
+.audience-meteor {
+    animation: meteor-slide 3s linear infinite;
+}
+
+@keyframes meteor-slide {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(400%);
+    }
+}
+
+/* 流光边框效果 - 各颜色 */
+.audience-glow-border-pink {
+    background: linear-gradient(90deg, transparent, rgba(236, 72, 153, 0.3), transparent);
+    background-size: 200% 100%;
+    animation: glow-border-move 2s linear infinite;
+}
+
+.audience-glow-border-blue {
+    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.3), transparent);
+    background-size: 200% 100%;
+    animation: glow-border-move 2s linear infinite;
+}
+
+.audience-glow-border-amber {
+    background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.3), transparent);
+    background-size: 200% 100%;
+    animation: glow-border-move 2s linear infinite;
+}
+
+.audience-glow-border-indigo {
+    background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.3), transparent);
+    background-size: 200% 100%;
+    animation: glow-border-move 2s linear infinite;
+}
+
+@keyframes glow-border-move {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* 卡片内部光效 */
+.audience-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+    transition: left 0.7s ease;
+    pointer-events: none;
+}
+
+.audience-card-wrapper:hover .audience-card::before {
+    left: 100%;
+}
+
+/* 列表项 hover 效果 */
+.audience-list-item {
+    position: relative;
+}
+
+.audience-card-wrapper:hover .audience-list-item {
+    transform: translateX(4px);
+}
+
+/* 移动端优化 */
+@media (max-width: 767px) {
+    .audience-card-wrapper {
+        animation-delay: 0s !important;
+    }
+
+    .audience-meteor {
+        animation-duration: 2s;
+    }
+
+    /* 触摸设备优化 - 移除 hover 依赖，改用更明显的静态效果 */
+    .audience-card {
+        border-color: rgba(107, 114, 128, 0.3);
+    }
+
+    .audience-card::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    }
+}
