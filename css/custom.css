@@ -1501,7 +1501,6 @@ html { overflow-anchor: none; }
         animation-duration: 2s;
     }
 
-    /* 触摸设备优化 - 移除 hover 依赖，改用更明显的静态效果 */
     .audience-card {
         border-color: rgba(107, 114, 128, 0.3);
     }
@@ -1515,4 +1514,88 @@ html { overflow-anchor: none; }
         height: 1px;
         background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
     }
+}
+
+/* ========== Mobile Touch Active States ========== */
+/* 模拟 hover 效果，当卡片滚动进入视口时自动激活 */
+
+/* 卡片整体效果 */
+.audience-card-wrapper.touch-active {
+    transform: translateY(-8px);
+}
+
+.audience-card-wrapper.touch-active .audience-card {
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+    border-color: rgba(107, 114, 128, 0.5);
+}
+
+/* 背景光晕 */
+.audience-card-wrapper.touch-active > div:first-child {
+    opacity: 0.4;
+}
+
+/* 流光边框 */
+.audience-card-wrapper.touch-active .audience-glow-border-pink,
+.audience-card-wrapper.touch-active .audience-glow-border-blue,
+.audience-card-wrapper.touch-active .audience-glow-border-amber,
+.audience-card-wrapper.touch-active .audience-glow-border-indigo {
+    opacity: 1;
+}
+
+/* 图标放大 */
+.audience-card-wrapper.touch-active .audience-card > .flex-1 > div:first-child {
+    transform: scale(1.1);
+}
+
+/* 标题颜色 */
+.audience-card-wrapper.touch-active h3 {
+    color: white;
+}
+
+/* 列表项位移 */
+.audience-card-wrapper.touch-active li {
+    transform: translateX(4px);
+}
+
+.audience-card-wrapper.touch-active li span:last-child {
+    color: rgb(203, 213, 225);
+}
+
+/* 右侧装饰图标 */
+.audience-card-wrapper.touch-active svg {
+    transform: scale(1.1);
+}
+
+/* 卡片内扫光效果 */
+.audience-card-wrapper.touch-active .audience-card::before {
+    left: 100%;
+}
+
+/* 平滑过渡 */
+.audience-card-wrapper {
+    transition: transform 0.5s ease;
+}
+
+.audience-card-wrapper .audience-card {
+    transition: box-shadow 0.5s ease, border-color 0.5s ease;
+}
+
+.audience-card-wrapper > div:first-child {
+    transition: opacity 0.7s ease;
+}
+
+.audience-card-wrapper h3 {
+    transition: color 0.3s ease;
+}
+
+.audience-card-wrapper li {
+    transition: transform 0.3s ease;
+}
+
+.audience-card-wrapper li span:last-child {
+    transition: color 0.3s ease;
+}
+
+.audience-card-wrapper svg {
+    transition: transform 0.5s ease, color 0.5s ease;
 }
