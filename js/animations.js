@@ -43,46 +43,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     })();
 
-    // Mobile: Auto-activate hover effects on scroll into view
-    (function () {
-        // Only apply on touch devices
-        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-
-        if (!isTouchDevice) return;
-
-        const cards = document.querySelectorAll('.audience-card-wrapper');
-
-        if (!cards.length) return;
-
-        const observerOptions = {
-            root: null,
-            rootMargin: '-10% 0px -10% 0px', // Trigger when card is 10% into viewport
-            threshold: 0.3 // 30% of card visible
-        };
-
-        let currentActiveCard = null;
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                const card = entry.target;
-
-                if (entry.isIntersecting && entry.intersectionRatio >= 0.3) {
-                    // Deactivate previous card
-                    if (currentActiveCard && currentActiveCard !== card) {
-                        currentActiveCard.classList.remove('touch-active');
-                    }
-                    // Activate current card
-                    card.classList.add('touch-active');
-                    currentActiveCard = card;
-                } else if (!entry.isIntersecting) {
-                    card.classList.remove('touch-active');
-                    if (currentActiveCard === card) {
-                        currentActiveCard = null;
-                    }
-                }
-            });
-        }, observerOptions);
-
-        cards.forEach(card => observer.observe(card));
-    })();
 });

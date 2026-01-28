@@ -1330,17 +1330,32 @@ html { overflow-anchor: none; }
 
 /* ========== Audience Section Background Effects ========== */
 
-/* 动态光晕动画 */
-.audience-bg-blob-1 {
-    animation: audience-blob-float 15s ease-in-out infinite;
+/* 动态光晕动画 - 仅桌面端 */
+@media (min-width: 768px) {
+    .audience-bg-blob-1 {
+        animation: audience-blob-float 15s ease-in-out infinite;
+    }
+
+    .audience-bg-blob-2 {
+        animation: audience-blob-float 18s ease-in-out infinite reverse;
+    }
+
+    .audience-bg-blob-3 {
+        animation: audience-blob-pulse 12s ease-in-out infinite;
+    }
 }
 
-.audience-bg-blob-2 {
-    animation: audience-blob-float 18s ease-in-out infinite reverse;
-}
+/* 移动端禁用光晕动画和模糊 */
+@media (max-width: 767px) {
+    .audience-bg-blob-1,
+    .audience-bg-blob-2,
+    .audience-bg-blob-3 {
+        display: none;
+    }
 
-.audience-bg-blob-3 {
-    animation: audience-blob-pulse 12s ease-in-out infinite;
+    .audience-stars {
+        display: none;
+    }
 }
 
 @keyframes audience-blob-float {
@@ -1369,7 +1384,7 @@ html { overflow-anchor: none; }
     }
 }
 
-/* 星点背景 */
+/* 星点背景 - 仅桌面端 */
 .audience-stars {
     position: absolute;
     width: 100%;
@@ -1379,12 +1394,7 @@ html { overflow-anchor: none; }
         radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.2), transparent),
         radial-gradient(1px 1px at 90px 40px, rgba(255,255,255,0.4), transparent),
         radial-gradient(2px 2px at 130px 80px, rgba(255,255,255,0.2), transparent),
-        radial-gradient(1px 1px at 160px 120px, rgba(255,255,255,0.3), transparent),
-        radial-gradient(2px 2px at 200px 50px, rgba(255,255,255,0.15), transparent),
-        radial-gradient(1px 1px at 250px 160px, rgba(255,255,255,0.25), transparent),
-        radial-gradient(2px 2px at 300px 90px, rgba(255,255,255,0.2), transparent),
-        radial-gradient(1px 1px at 350px 200px, rgba(255,255,255,0.3), transparent),
-        radial-gradient(2px 2px at 400px 130px, rgba(255,255,255,0.15), transparent);
+        radial-gradient(1px 1px at 160px 120px, rgba(255,255,255,0.3), transparent);
     background-repeat: repeat;
     background-size: 450px 250px;
     animation: audience-stars-twinkle 8s ease-in-out infinite;
@@ -1491,20 +1501,40 @@ html { overflow-anchor: none; }
     transform: translateX(4px);
 }
 
-/* 移动端优化 */
+/* 移动端性能优化 */
 @media (max-width: 767px) {
     .audience-card-wrapper {
-        animation-delay: 0s !important;
+        animation: none !important;
     }
 
+    /* 禁用流星动画 */
     .audience-meteor {
-        animation-duration: 2s;
+        display: none;
+    }
+
+    /* 禁用流光边框动画 */
+    .audience-glow-border-pink,
+    .audience-glow-border-blue,
+    .audience-glow-border-amber,
+    .audience-glow-border-indigo {
+        display: none;
+    }
+
+    /* 禁用卡片背景光晕 */
+    .audience-card-wrapper > div:first-child {
+        display: none;
+    }
+
+    /* 禁用扫光效果 */
+    .audience-card::before {
+        display: none;
     }
 
     .audience-card {
-        border-color: rgba(107, 114, 128, 0.3);
+        border-color: rgba(107, 114, 128, 0.4);
     }
 
+    /* 简化的顶部边框 */
     .audience-card::after {
         content: '';
         position: absolute;
@@ -1512,90 +1542,37 @@ html { overflow-anchor: none; }
         left: 0;
         right: 0;
         height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
     }
 }
 
-/* ========== Mobile Touch Active States ========== */
-/* 模拟 hover 效果，当卡片滚动进入视口时自动激活 */
+/* 桌面端保留完整 hover 效果 */
+@media (min-width: 768px) {
+    .audience-card-wrapper {
+        transition: transform 0.5s ease;
+    }
 
-/* 卡片整体效果 */
-.audience-card-wrapper.touch-active {
-    transform: translateY(-8px);
-}
+    .audience-card-wrapper .audience-card {
+        transition: box-shadow 0.5s ease, border-color 0.5s ease;
+    }
 
-.audience-card-wrapper.touch-active .audience-card {
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
-    border-color: rgba(107, 114, 128, 0.5);
-}
+    .audience-card-wrapper > div:first-child {
+        transition: opacity 0.7s ease;
+    }
 
-/* 背景光晕 */
-.audience-card-wrapper.touch-active > div:first-child {
-    opacity: 0.4;
-}
+    .audience-card-wrapper h3 {
+        transition: color 0.3s ease;
+    }
 
-/* 流光边框 */
-.audience-card-wrapper.touch-active .audience-glow-border-pink,
-.audience-card-wrapper.touch-active .audience-glow-border-blue,
-.audience-card-wrapper.touch-active .audience-glow-border-amber,
-.audience-card-wrapper.touch-active .audience-glow-border-indigo {
-    opacity: 1;
-}
+    .audience-card-wrapper li {
+        transition: transform 0.3s ease;
+    }
 
-/* 图标放大 */
-.audience-card-wrapper.touch-active .audience-card > .flex-1 > div:first-child {
-    transform: scale(1.1);
-}
+    .audience-card-wrapper li span:last-child {
+        transition: color 0.3s ease;
+    }
 
-/* 标题颜色 */
-.audience-card-wrapper.touch-active h3 {
-    color: white;
-}
-
-/* 列表项位移 */
-.audience-card-wrapper.touch-active li {
-    transform: translateX(4px);
-}
-
-.audience-card-wrapper.touch-active li span:last-child {
-    color: rgb(203, 213, 225);
-}
-
-/* 右侧装饰图标 */
-.audience-card-wrapper.touch-active svg {
-    transform: scale(1.1);
-}
-
-/* 卡片内扫光效果 */
-.audience-card-wrapper.touch-active .audience-card::before {
-    left: 100%;
-}
-
-/* 平滑过渡 */
-.audience-card-wrapper {
-    transition: transform 0.5s ease;
-}
-
-.audience-card-wrapper .audience-card {
-    transition: box-shadow 0.5s ease, border-color 0.5s ease;
-}
-
-.audience-card-wrapper > div:first-child {
-    transition: opacity 0.7s ease;
-}
-
-.audience-card-wrapper h3 {
-    transition: color 0.3s ease;
-}
-
-.audience-card-wrapper li {
-    transition: transform 0.3s ease;
-}
-
-.audience-card-wrapper li span:last-child {
-    transition: color 0.3s ease;
-}
-
-.audience-card-wrapper svg {
-    transition: transform 0.5s ease, color 0.5s ease;
+    .audience-card-wrapper svg {
+        transition: transform 0.5s ease, color 0.5s ease;
+    }
 }
