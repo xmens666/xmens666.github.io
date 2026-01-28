@@ -1530,20 +1530,45 @@ html { overflow-anchor: none; }
         display: none;
     }
 
+    /* 轻量边框流光动画 */
     .audience-card {
-        border-color: rgba(107, 114, 128, 0.4);
+        border: 1px solid transparent;
+        background:
+            linear-gradient(to bottom right, #1f2937, #111827) padding-box,
+            linear-gradient(var(--border-angle, 0deg), rgba(255,255,255,0.1), rgba(255,255,255,0.3), rgba(255,255,255,0.1)) border-box;
+        animation: mobile-border-rotate 8s linear infinite;
     }
 
-    /* 简化的顶部边框 */
-    .audience-card::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    /* 第二张卡片延迟 */
+    .audience-card-wrapper:nth-child(2) .audience-card {
+        animation-delay: -2s;
     }
+
+    /* 第三张卡片延迟 */
+    .audience-card-wrapper:nth-child(3) .audience-card {
+        animation-delay: -4s;
+    }
+
+    /* 第四张卡片延迟 */
+    .audience-card-wrapper:nth-child(4) .audience-card {
+        animation-delay: -6s;
+    }
+}
+
+@keyframes mobile-border-rotate {
+    0% {
+        --border-angle: 0deg;
+    }
+    100% {
+        --border-angle: 360deg;
+    }
+}
+
+/* 注册 CSS 变量动画 */
+@property --border-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
 }
 
 /* 桌面端保留完整 hover 效果 */
