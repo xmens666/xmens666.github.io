@@ -1532,43 +1532,51 @@ html { overflow-anchor: none; }
 
     /* 轻量边框流光动画 */
     .audience-card {
-        border: 1px solid transparent;
-        background:
-            linear-gradient(to bottom right, #1f2937, #111827) padding-box,
-            linear-gradient(var(--border-angle, 0deg), rgba(255,255,255,0.1), rgba(255,255,255,0.3), rgba(255,255,255,0.1)) border-box;
-        animation: mobile-border-rotate 8s linear infinite;
+        position: relative;
+        border: 1px solid rgba(75, 85, 99, 0.4);
+        overflow: hidden;
     }
 
-    /* 第二张卡片延迟 */
-    .audience-card-wrapper:nth-child(2) .audience-card {
-        animation-delay: -2s;
+    /* 流光效果 - 顶部边框 */
+    .audience-card::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+        animation: mobile-border-glow 3s ease-in-out infinite;
     }
 
-    /* 第三张卡片延迟 */
-    .audience-card-wrapper:nth-child(3) .audience-card {
-        animation-delay: -4s;
+    /* 错开动画时间 */
+    .audience-card-wrapper:nth-child(2) .audience-card::after {
+        animation-delay: 0.5s;
     }
-
-    /* 第四张卡片延迟 */
-    .audience-card-wrapper:nth-child(4) .audience-card {
-        animation-delay: -6s;
+    .audience-card-wrapper:nth-child(3) .audience-card::after {
+        animation-delay: 1s;
+    }
+    .audience-card-wrapper:nth-child(4) .audience-card::after {
+        animation-delay: 1.5s;
     }
 }
 
-@keyframes mobile-border-rotate {
-    0% {
-        --border-angle: 0deg;
+@keyframes mobile-border-glow {
+    0%, 100% {
+        left: -100%;
+        opacity: 0;
     }
-    100% {
-        --border-angle: 360deg;
+    10% {
+        opacity: 1;
     }
-}
-
-/* 注册 CSS 变量动画 */
-@property --border-angle {
-    syntax: '<angle>';
-    initial-value: 0deg;
-    inherits: false;
+    50% {
+        left: 100%;
+        opacity: 1;
+    }
+    60%, 100% {
+        left: 100%;
+        opacity: 0;
+    }
 }
 
 /* 桌面端保留完整 hover 效果 */
