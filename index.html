@@ -731,15 +731,10 @@
         <!-- 网格背景 -->
         <div class="absolute inset-0 opacity-[0.03]" style="background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 50px 50px;"></div>
 
-        <!-- 动态光晕 -->
-        <div class="absolute top-0 left-1/4 w-[600px] h-[600px] bg-pink-500/10 rounded-full blur-[120px] audience-bg-blob-1"></div>
-        <div class="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[100px] audience-bg-blob-2"></div>
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-500/5 rounded-full blur-[150px] audience-bg-blob-3"></div>
-
-        <!-- 星点装饰 -->
-        <div class="absolute inset-0 overflow-hidden pointer-events-none">
-            <div class="audience-stars"></div>
-        </div>
+        <!-- 静态光晕 - 减小尺寸和模糊值以优化性能 -->
+        <div class="hidden md:block absolute top-0 left-1/4 w-[400px] h-[400px] bg-pink-500/8 rounded-full blur-3xl audience-bg-blob-1"></div>
+        <div class="hidden md:block absolute bottom-0 right-1/4 w-[350px] h-[350px] bg-blue-500/8 rounded-full blur-3xl audience-bg-blob-2"></div>
+        <div class="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-purple-500/5 rounded-full blur-3xl audience-bg-blob-3"></div>
 
         <!-- 顶部光线 -->
         <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
