@@ -4,12 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZenCode - 懂生意的技术合伙人</title>
+    <title>ZenCode - <span data-i18n-en="Tech Partner Who Gets It"><span data-i18n="t_2774">懂生意<span data-i18n="t_5594">的</span></span><span data-i18n-en="Tech Partner"><span data-i18n-ja="<span data-i18n="t_5920">技術</span>パートナー"></span></span></span></title>
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/i18next@23.11.5/umd/i18next.min.js"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
     <script src="js/main.js"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -67,13 +68,15 @@
         }
     </script>
     <script>
-        // 移动端滚动稳定性：使用 CSS svh（stable viewport height）解决地址栏收起/出现导致的 vh 抖动
-        // 因此不再通过 JS 动态写入 --vh/--vw，避免滚动时触发 reflow 引起页面跳动。
+        // <span data-i18n="t_7942">移动端滚动<span data-i18n="t_8911">稳定</span>性</span>：<span data-i18n="t_7144">使<span data-i18n="t_8030">用</span></span> CSS svh（stable viewport height）<span data-i18n="t_8679">解决地址栏<span data-i18n="t_2160">收起</span></span>/<span data-i18n="t_6913">出现导致<span data-i18n="t_5594">的</span></span> vh <span data-i18n="t_3500">抖动</span>
+        // <span data-i18n="t_6066">因此不再通过</span> JS <span data-i18n="t_1078">动态写入</span> --vh/--vw，<span data-i18n="t_3426">避免滚动时触发</span> reflow <span data-i18n="t_2780">引起页面跳动</span>。
     </script>
+  <script id="i18n-en" type="application/json">{   "site_title": "ZenCode - Tech Partner Who Gets It",   "hero_title": "Your Tech Partner Who Gets It",   "hero_subtitle": "Transforming ideas into powerful digital experiences",   "nav_about": "About",   "nav_cases": "Cases",   "nav_tech": "Tech",   "nav_solutions": "Solutions",   "nav_contact": "Contact",   "cta_title": "Let's Build Something Amazing",   "cta_subtitle": "From concept to deployment, I turn your vision into reality",   "services_title": "What I Do",   "footer_copyright": "© 2026 ZenCode.jp. All rights reserved." } </script>
+  <script id="i18n-ja" type="application/json">{   "site_title": "ZenCode - <span data-i18n="t_5644">懂<span data-i18n="t_5920">技術</span></span>のビジネスパートナー",   "hero_title": "ビジネスを<span data-i18n="t_5121">理解</span>する<span data-i18n="t_5920">技術</span>パートナー",   "hero_subtitle": "アイデアを<span data-i18n="t_4580">強力</span>なデジタル<span data-i18n="t_1804">体験</span>へ",   "nav_about": "<span data-i18n="t_7871">概要</span>",   "nav_cases": "<span data-i18n="t_513">実績</span>",   "nav_tech": "<span data-i18n="t_5920">技術</span>",   "nav_solutions": "ソリューション",   "nav_contact": "お<span data-i18n="t_4679">問</span>い<span data-i18n="t_3491">合</span>わせ",   "cta_title": "<span data-i18n="t_1453">一緒</span>に<span data-i18n="t_9762">素晴</span>らしいものを",   "cta_subtitle": "コンセプトからデプロイまで、<span data-i18n="t_3308">夢</span>を<span data-i18n="t_9547">現実</span>に",   "services_title": "サービス",   "footer_copyright": "© 2026 ZenCode.jp. All rights reserved." } </script>
 </head>
-<!-- 微信联系按钮 -->
+<!-- <span data-i18n="t_9097"><span data-i18n="t_3844"><span data-i18n="t_7307">微信</span>联系</span>按钮</span> -->
 <div x-data="{ showWechat: false }" class="fixed bottom-6 right-6 z-50">
-    <!-- 浮动按钮 -->
+    <!-- <span data-i18n="t_3116">浮动按钮</span> -->
     <button @click="showWechat = !showWechat"
         class="w-14 h-14 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 transform hover:scale-110 active:scale-95 group relative">
         <div class="absolute inset-0 bg-green-500/20 rounded-full blur-md animate-pulse"></div>
@@ -82,7 +85,7 @@
             <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 01.213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.32.32 0 00.167-.054l1.903-1.114a.864.864 0 01.717-.098 10.16 10.16 0 002.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178A1.17 1.17 0 014.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178 1.17 1.17 0 01-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 01.598.082l1.584.926a.272.272 0 00.14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.49.49 0 01.176-.554C23.137 18.638 24 17.078 24 15.354c0-3.407-3.268-6.18-7.062-6.496zm-2.395 2.725c.535 0 .969.44.969.982a.976.976 0 01-.969.983.976.976 0 01-.969-.983c0-.542.434-.982.97-.982zm4.842 0c.535 0 .969.44.969.982a.976.976 0 01-.969.983.976.976 0 01-.969-.983c0-.542.434-.982.969-.982z"/>
         </svg>
     </button>
-    <!-- 微信号弹出框 -->
+    <!-- <span data-i18n="t_1227"><span data-i18n="t_7307">微信</span>号弹出框</span> -->
     <div x-show="showWechat" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 translate-y-2"
          @click.away="showWechat = false"
          class="absolute bottom-16 right-0 bg-white rounded-2xl shadow-2xl p-4 min-w-[200px] border border-gray-100">
@@ -93,13 +96,13 @@
                 </svg>
             </div>
             <div>
-                <p class="text-gray-500 text-xs">微信联系</p>
+                <p class="text-gray-500 text-xs"><span data-i18n="t_3844"><span data-i18n="t_7307">微信</span>联系</span></p>
                 <p class="text-gray-800 font-bold text-sm">xiaobo-japan</p>
             </div>
         </div>
-        <button @click="navigator.clipboard.writeText('xiaobo-japan'); $el.textContent = '已复制!'; setTimeout(() => $el.textContent = '点击复制微信号', 2000)"
+        <button @click="navigator.clipboard.writeText('xiaobo-japan'); $el.textContent = '<span data-i18n="t_4276">已复制</span>!'; setTimeout(() => $el.textContent = '<span data-i18n="t_3086">点击复制<span data-i18n="t_7307">微信</span>号</span>', 2000)"
                 class="w-full py-2 bg-green-500 hover:bg-green-600 text-white text-sm font-medium rounded-lg transition-colors">
-            点击复制微信号
+            <span data-i18n="t_3086">点击复制<span data-i18n="t_7307">微信</span>号</span>
         </button>
     </div>
 </div>
@@ -111,7 +114,7 @@
         <div id="loading-bg"></div>
         <div id="loading-content">
             <h1>ZENCODE</h1>
-            <p>构建未来的数字资产</p>
+            <p><span data-i18n="t_2655">构建未来<span data-i18n="t_5594">的</span>数字资产</span></p>
             <div class="loading-dots">
                 <span></span>
                 <span></span>
@@ -125,7 +128,7 @@
         class="fixed w-full z-50 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
-                <!-- Logo (保持不动) -->
+                <!-- Logo (<span data-i18n="t_9382">保持不动</span>) -->
                 <div class="flex-shrink-0 flex items-center">
                     <a href="#" class="flex items-center gap-3 group">
                         <img src="logo.png" alt="ZenCode Logo"
@@ -140,7 +143,7 @@
                     </a>
                 </div>
 
-                <!-- 灵动胶囊导航 (只包含6个按钮) -->
+                <!-- <span data-i18n="t_5127">灵动胶囊<span data-i18n="t_2269">导航</span></span> (<span data-i18n="t_9349">只包含</span>6<span data-i18n="t_5583">个按钮</span>) -->
                 <div class="hidden md:flex items-center absolute left-1/2 -translate-x-1/2">
                     <div class="group relative flex items-center justify-center">
                         <!-- Glow Effect -->
@@ -160,30 +163,30 @@
 
                             <!-- Expanded State: Navigation Links Only -->
                             <div class="flex items-center gap-1 px-4 opacity-0 translate-y-2 transition-all duration-500 delay-100 group-hover:opacity-100 group-hover:translate-y-0 group-hover:delay-75">
-                                <a href="index.html" class="capsule-nav-link capsule-active">首页</a>
-                                <a href="solutions.html" class="capsule-nav-link">解决方案</a>
-                                <a href="pricing.html" class="capsule-nav-link">服务定价</a>
-                                <a href="techstack.html" class="capsule-nav-link">技术栈</a>
-                                <a href="cases.html" class="capsule-nav-link">成功案例</a>
-                                <a href="experience/experience.html" class="capsule-nav-link">小程序演示</a>
-                                <a href="about.html" class="capsule-nav-link">关于我们</a>
+                                <a href="index.html" class="capsule-nav-link capsule-active"><span data-i18n-en="Home"><span data-i18n-ja="ホーム"></span></span></a>
+                                <a href="solutions.html" class="capsule-nav-link"><span data-i18n="Solutions"><span data-i18n="t_7451">解决方案</span></span></a>
+                                <a href="pricing.html" class="capsule-nav-link"><span data-i18n="t_3901"><span data-i18n="t_8816">服务</span>定价</span></a>
+                                <a href="techstack.html" class="capsule-nav-link"><span data-i18n="t_4968">技术栈</span></a>
+                                <a href="cases.html" class="capsule-nav-link"><span data-i18n="t_7781">成功案例</span></a>
+                                <a href="experience/experience.html" class="capsule-nav-link"><span data-i18n-en="Mini Program"><span data-i18n-ja="ミニプログラム"></span></span><span data-i18n="t_2934">演示</span></a>
+                                <a href="about.html" class="capsule-nav-link"><span data-i18n-en="About"><span data-i18n-ja="<span data-i18n="t_2002">私</span>たちについて"></span></span></a>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Right Side: Language Toggle + CTA (保持不动) -->
+                <!-- Right Side: Language Toggle + CTA (<span data-i18n="t_9382">保持不动</span>) -->
                 <div class="flex items-center gap-4">
                     <button @click="lang = lang === 'zh' ? 'en' : 'zh'"
                         :class="scrolled ? 'text-slate-600 hover:text-blue-600' : 'text-white/80 hover:text-white'"
                         class="font-mono text-sm font-medium transition-colors">
-                        <span x-text="lang === 'zh' ? 'EN' : '中'"></span>
+                        <span x-text="lang === 'zh' ? 'EN' : '<span data-i18n="t_6941">中</span>'"></span>
                     </button>
 
                     <a href="contact.html"
                         :class="scrolled ? 'bg-blue-600 text-white shadow-blue-500/20' : 'bg-white/10 text-white border border-white/20 hover:bg-white/20'"
                         class="hidden md:block px-5 py-2.5 rounded-lg font-medium transition shadow-lg backdrop-blur-sm">
-                        <span x-text="lang === 'zh' ? '免费咨询方案' : 'Free Consultation'"></span>
+                        <span x-text="lang === 'zh' ? '<span data-i18n="t_7493">免费咨询方案</span>' : 'Free Consultation'"></span>
                     </a>
 
                     <!-- Mobile Hamburger Button -->
@@ -235,31 +238,31 @@
                 <nav class="flex flex-col gap-1">
                     <a href="index.html" @click="mobileMenuOpen = false"
                         class="text-base font-bold text-cyan-400 bg-cyan-500/10 py-3 px-4 rounded-lg">
-                        首页
+                        <span data-i18n-en="Home"><span data-i18n-ja="ホーム"></span></span>
                     </a>
                     <a href="solutions.html" @click="mobileMenuOpen = false"
                         class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                        解决方案
+                        <span data-i18n="Solutions"><span data-i18n="t_7451">解决方案</span></span>
                     </a>
                     <a href="pricing.html" @click="mobileMenuOpen = false"
                         class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                        服务定价
+                        <span data-i18n="t_3901"><span data-i18n="t_8816">服务</span>定价</span>
                     </a>
                     <a href="techstack.html" @click="mobileMenuOpen = false"
                         class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                        技术栈
+                        <span data-i18n="t_4968">技术栈</span>
                     </a>
                     <a href="cases.html" @click="mobileMenuOpen = false"
                         class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                        成功案例
+                        <span data-i18n="t_7781">成功案例</span>
                     </a>
                     <a href="experience/experience.html" @click="mobileMenuOpen = false"
                         class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                        小程序演示
+                        <span data-i18n-en="Mini Program"><span data-i18n-ja="ミニプログラム"></span></span><span data-i18n="t_2934">演示</span>
                     </a>
                     <a href="about.html" @click="mobileMenuOpen = false"
                         class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                        关于我们
+                        <span data-i18n-en="About"><span data-i18n-ja="<span data-i18n="t_2002">私</span>たちについて"></span></span>
                     </a>
                 </nav>
 
@@ -267,7 +270,7 @@
                 <div class="mt-8 px-4">
                     <a href="contact.html" @click="mobileMenuOpen = false"
                         class="block w-full text-center py-3 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold text-sm shadow-lg shadow-blue-500/30">
-                        <span x-text="lang === 'zh' ? '免费咨询方案' : 'Free Consultation'"></span>
+                        <span x-text="lang === 'zh' ? '<span data-i18n="t_7493">免费咨询方案</span>' : 'Free Consultation'"></span>
                     </a>
                 </div>
 
@@ -275,7 +278,7 @@
                 <div class="mt-6 px-4">
                     <button @click="lang = lang === 'zh' ? 'en' : 'zh'"
                         class="w-full text-center text-white/50 font-mono text-xs hover:text-white transition-colors py-2">
-                        <span x-text="lang === 'zh' ? 'Switch to English' : '切换到中文'"></span>
+                        <span x-text="lang === 'zh' ? 'Switch to English' : '<span data-i18n="t_3084">切换到<span data-i18n="t_3823"><span data-i18n="t_6941">中</span>文</span></span>'"></span>
                     </button>
                 </div>
             </div>
@@ -305,25 +308,25 @@
                     <div
                         class="inline-flex items-center gap-2 px-3 py-1 border border-cyan-500/30 rounded-full dynamic-small font-medium text-cyan-400 dynamic-mb-md tracking-[0.2em] uppercase font-mono bg-cyan-900/20 backdrop-blur-md shadow-[0_0_15px_rgba(34,211,238,0.2)]">
                         <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-                        <span x-show="lang === 'zh'">世界已进入代码纪元</span>
+                        <span x-show="lang === 'zh'"><span data-i18n="t_5600">世界已进入代码纪元</span></span>
                         <span x-show="lang !== 'zh'">THE WORLD RUNS ON CODE</span>
                     </div>
                     <h1 class="dynamic-hero-title font-bold text-white flex flex-col dynamic-gap-sm font-heading">
-                        <span class="whitespace-normal sm:whitespace-nowrap" x-show="lang === 'zh'">以<span class="text-cyan-400">「你」</span>为原点</span>
+                        <span class="whitespace-normal sm:whitespace-nowrap" x-show="lang === 'zh'"><span data-i18n="t_662">以</span><span class="text-cyan-400">「<span data-i18n="t_2267">你</span>」</span><span data-i18n="t_754">为原点</span></span>
                         <span class="whitespace-normal sm:whitespace-nowrap" x-show="lang !== 'zh'" x-cloak>Center on <span class="text-cyan-400">YOU</span></span>
 
                         <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 font-zen
                                  text-3xl sm:text-4xl md:text-5xl lg:text-6xl
                                  whitespace-normal sm:whitespace-nowrap" x-show="lang === 'zh'">
-                            数字化链接世界
+                            <span data-i18n="t_1386">数字化链接世界</span>
                         </span>
                         <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 font-zen whitespace-normal sm:whitespace-nowrap" x-show="lang !== 'zh'" x-cloak>Digitally Connect the World</span>
                     </h1>
                     <p class="dynamic-body text-slate-400 leading-relaxed max-w-xl mx-auto lg:mx-0 font-light">
                         <span x-show="lang === 'zh'">
-                            人肉沟通的时代已经过去。
+                            <span data-i18n="t_8554">人肉沟通<span data-i18n="t_5594">的</span>时代已经过去</span>。
                             <span class="text-cyan-400 font-semibold">
-                                用代码构建你的数字宇宙，让客户 24 小时触手可及。
+                                <span data-i18n="t_9169"><span data-i18n="t_8030">用</span>代码构建<span data-i18n="t_2267">你</span><span data-i18n="t_5594">的</span>数字宇宙</span>，<span data-i18n="t_4980">让客户</span> 24 <span data-i18n="t_1981"><span data-i18n="t_5719">小时</span>触手可及</span>。
                             </span>
                         </span>
 
@@ -336,11 +339,11 @@
                     </div>
                     <div class="flex w-full flex-row justify-center lg:justify-start items-center gap-2 sm:gap-3">
                         <a href="cases.html" class="hero-gradient-btn">
-                            <span x-text="lang === 'zh' ? '查看成功案例' : 'View Case Studies'"></span>
+                            <span x-text="lang === 'zh' ? '<span data-i18n="t_4453">查看<span data-i18n="t_7781">成功案例</span></span>' : 'View Case Studies'"></span>
                         </a>
                         <div class="text-slate-500 text-xs sm:text-sm">OR</div>
                         <a href="experience/experience.html" class="hero-gradient-btn">
-                            <span x-text="lang === 'zh' ? '线上功能体验' : 'Try Demo'"></span>
+                            <span x-text="lang === 'zh' ? '<span data-i18n="t_1001">线上功能<span data-i18n="t_1610">体验</span></span>' : 'Try Demo'"></span>
                         </a>
                     </div>
 
@@ -353,7 +356,7 @@
                 <div class="hidden md:flex relative w-full items-center justify-center overflow-visible" style="height: calc(var(--vh, 1vh) * 60);">
                     <canvas id="canvas1"></canvas>
                     <div id="loading" class="absolute text-blue-500 font-mono text-sm animate-pulse">
-                        <span x-text="lang === 'zh' ? '品牌资产构建中...' : 'BUILDING ASSETS...'"></span>
+                        <span x-text="lang === 'zh' ? '<span data-i18n="t_1426"><span data-i18n="t_9030">品牌</span>资产构建<span data-i18n="t_6941">中</span></span>...' : 'BUILDING ASSETS...'"></span>
                     </div>
                 </div>
             </div>
@@ -375,7 +378,7 @@
                     <div
                         class="inline-flex items-center gap-2 px-3 py-1 border border-blue-500/30 rounded-full dynamic-small font-medium text-blue-400 dynamic-mb-md tracking-[0.2em] uppercase font-mono bg-blue-900/20 backdrop-blur-md shadow-[0_0_15px_rgba(59,130,246,0.2)]">
                         <span class="w-2 h-2 rounded-full bg-blue-400 animate-ping"></span>
-                        <span x-show="lang === 'zh'">核心品牌资产</span>
+                        <span x-show="lang === 'zh'"><span data-i18n="t_4428">核心<span data-i18n="t_9030">品牌</span>资产</span></span>
                         <span x-show="lang !== 'zh'">CORE BRAND ASSET</span>
                     </div>
 
@@ -384,12 +387,12 @@
                             mb-2 md:mb-4
                             whitespace-normal">
                         <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 font-zen"
-                            x-html="lang === 'zh' ? '原生定制开发' : 'Native APP<br>Development'"></span>
+                            x-html="lang === 'zh' ? '<span data-i18n="t_8079"><span data-i18n="t_2745">原生</span>定制<span data-i18n="t_4057">开发</span></span>' : 'Native <span data-i18n-en="<span data-i18n-ja="アプリ"></span>"><span data-i18n-ja="アプリ"></span></span><br>Development'"></span>
                     </h2>
 
                     <p class="dynamic-body text-emerald-300 max-w-2xl text-emerald-400 font-semibold leading-relaxed mx-auto lg:mx-0">
                         <span x-html="lang === 'zh'
-                            ? '苹果和安卓同时构建,帮您上架 Apple Store 和 Google Play'
+                            ? '<span data-i18n="t_2670">苹果<span data-i18n="t_2529">和</span>安卓同时构建</span>,<span data-i18n="t_4565">帮您<span data-i18n="t_174">上架</span></span> Apple Store <span data-i18n="t_2529">和</span> Google Play'
                             : 'Listed on App Store & Google Play for ultimate brand trust and retention.'">
                         </span>
                     </p>
@@ -397,26 +400,26 @@
                     <div class="slide-2-features-grid grid grid-cols-3 dynamic-gap-sm text-left max-w-2xl mx-auto lg:mx-0">
                         <div class="bg-white/5 border border-white/10 rounded-xl p-2 sm:p-3 backdrop-blur-sm">
                             <div class="text-blue-400 dynamic-body">⚡️</div>
-                            <h4 class="text-white font-bold dynamic-small" x-text="lang === 'zh' ? '极致性能' : 'Peak Performance'">
+                            <h4 class="text-white font-bold dynamic-small" x-text="lang === 'zh' ? '<span data-i18n="t_9616">极致性能</span>' : 'Peak Performance'">
                             </h4>
                             <p class="text-slate-400 dynamic-small leading-tight"
-                                x-text="lang === 'zh' ? '秒开、流畅、稳定' : 'Fast & stable'">
+                                x-text="lang === 'zh' ? '<span data-i18n="t_2508">秒开</span>、<span data-i18n="t_7284">流畅</span>、<span data-i18n="t_8911">稳定</span>' : 'Fast & stable'">
                             </p>
                         </div>
                         <div class="bg-white/5 border border-white/10 rounded-xl p-2 sm:p-3 backdrop-blur-sm">
                             <div class="text-blue-400 dynamic-body">🔔</div>
-                            <h4 class="text-white font-bold dynamic-small" x-text="lang === 'zh' ? '精准触达' : 'Precise Reach'">
+                            <h4 class="text-white font-bold dynamic-small" x-text="lang === 'zh' ? '<span data-i18n="t_5548">精准触达</span>' : 'Precise Reach'">
                             </h4>
                             <p class="text-slate-400 dynamic-small leading-tight"
-                                x-text="lang === 'zh' ? '推送唤醒用户' : 'Push notifications'">
+                                x-text="lang === 'zh' ? '<span data-i18n="t_8526"><span data-i18n="t_6706">推送</span>唤醒<span data-i18n="t_8030">用</span>户</span>' : 'Push notifications'">
                             </p>
                         </div>
                         <div class="bg-white/5 border border-white/10 rounded-xl p-2 sm:p-3 backdrop-blur-sm">
                             <div class="text-blue-400 dynamic-body">🔒</div>
-                            <h4 class="text-white font-bold dynamic-small" x-text="lang === 'zh' ? '私有数据' : 'Private Data'">
+                            <h4 class="text-white font-bold dynamic-small" x-text="lang === 'zh' ? '<span data-i18n="t_5738"><span data-i18n="t_2002">私</span>有数据</span>' : 'Private Data'">
                             </h4>
                             <p class="text-slate-400 dynamic-small leading-tight"
-                                x-text="lang === 'zh' ? '完全掌握数据' : 'Full data control'">
+                                x-text="lang === 'zh' ? '<span data-i18n="t_9789">完全掌握数据</span>' : 'Full data control'">
                             </p>
                         </div>
                     </div>
@@ -424,7 +427,7 @@
                     <div class="slide-2-cta dynamic-mt-md flex dynamic-gap-sm pointer-events-auto justify-center lg:justify-start">
                         <a href="solutions.html"
                             class="inline-block px-6 py-2 rounded-full bg-blue-600 text-white font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-500/30 dynamic-small">
-                            <span x-text="lang === 'zh' ? '即用方案' : 'Solutions'"></span>
+                            <span x-text="lang === 'zh' ? '<span data-i18n="t_5179">即<span data-i18n="t_8030">用</span>方案</span>' : 'Solutions'"></span>
                         </a>
                     </div>
                 </div>
@@ -435,7 +438,7 @@
                         <div
                             class="absolute -inset-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-[40px] blur-3xl opacity-30 animate-pulse-glow">
                         </div>
-                        <img src="img/app_mockup_placeholder.png" alt="APP Mockup"
+                        <img src="img/app_mockup_placeholder.png" alt="<span data-i18n-en="<span data-i18n-ja="アプリ"></span>"><span data-i18n-ja="アプリ"></span></span> Mockup"
                             class="relative z-20 object-contain drop-shadow-2xl transform rotate-[-5deg] hover:rotate-0 transition duration-500 max-h-[55vh] md:max-h-none" style="max-height: calc(var(--vh, 1vh) * 42);">
                     </div>
                 </div>
@@ -467,7 +470,7 @@
                     <div
                         class="inline-flex items-center gap-2 px-3 py-1 border border-emerald-500/30 rounded-full dynamic-small font-medium text-emerald-400 dynamic-mb-md tracking-[0.2em] uppercase font-mono bg-emerald-900/20 backdrop-blur-md shadow-[0_0_15px_rgba(16,185,129,0.2)]">
                         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                        <span x-show="lang === 'zh'">把"点赞之交" 变成 "下单铁粉"</span>
+                        <span x-show="lang === 'zh'"><span data-i18n="t_2937">把</span>"<span data-i18n="t_9440"><span data-i18n="t_1420">点赞</span>之交</span>" <span data-i18n="t_8633">变成</span> "<span data-i18n="t_7673"><span data-i18n="t_5522">下单</span>铁粉</span>"</span>
                         <span x-show="lang !== 'zh'">CONVERT TRAFFIC TO SALES</span>
                     </div>
 
@@ -476,12 +479,12 @@
                                 text-transparent bg-clip-text bg-gradient-to-br
                                 from-white via-emerald-100 to-emerald-400
                                 drop-shadow-lg
-                                text-3xl sm:text-4xl md:text-6xl lg:text-7xl" x-text="lang === 'zh' ? '24小时' : '24/7'">
+                                text-3xl sm:text-4xl md:text-6xl lg:text-7xl" x-text="lang === 'zh' ? '24<span data-i18n="t_5719">小时</span>' : '24/7'">
                         </span>
 
                         <span class="inline text-emerald-500 font-zen
                                 text-base sm:text-lg md:text-2xl lg:text-3xl
-                                ml-1" x-text="lang === 'zh' ? '自动接单系统' : 'Auto Sales System'">
+                                ml-1" x-text="lang === 'zh' ? '<span data-i18n="t_9118">自动接单<span data-i18n="t_9178">系统</span></span>' : 'Auto Sales System'">
                         </span>
                     </h2>
 
@@ -489,7 +492,7 @@
                         class="bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-md dynamic-mb-md max-w-xl mx-auto lg:mx-0 shadow-2xl">
                         <p class="text-slate-300 dynamic-body font-light leading-relaxed" style="margin-bottom: 0 !important;">
                             <span x-html="lang === 'zh'
-                                ? '还在手动回微信报价？还在用 Excel 记账？<br>用小程序实现 <span class=&quot;text-emerald-400 font-medium&quot;>自助下单、自动结算、会员管理</span>。<br>省下一个人工的钱，就是 <span class=&quot;font-bold text-red-500&quot;>纯利润</span>。'
+                                ? '<span data-i18n="t_1661">还<span data-i18n="t_7124">在</span>手动回<span data-i18n="t_7307">微信</span>报价</span>？<span data-i18n="t_7744">还<span data-i18n="t_7124">在</span><span data-i18n="t_8030">用</span></span> Excel <span data-i18n="t_6070">记账</span>？<br><span data-i18n="t_8030">用</span><span data-i18n-en="Mini Program"><span data-i18n-ja="ミニプログラム"></span></span><span data-i18n="t_6546">实现</span> <span class=&quot;text-emerald-400 font-medium&quot;><span data-i18n="t_7615">自助<span data-i18n="t_5522">下单</span></span>、<span data-i18n="t_7283">自动结算</span>、<span data-i18n="t_5560">会员管理</span></span>。<br><span data-i18n="t_5111">省下一个人工<span data-i18n="t_5594">的</span>钱</span>，<span data-i18n="t_7640">就<span data-i18n="t_2645">是</span></span> <span class=&quot;font-bold text-red-500&quot;><span data-i18n="t_2476">纯利润</span></span>。'
                                 : 'Still quoting manually? Automate ordering & billing. Saving labor cost is pure profit.'">
                             </span>
                         </p>
@@ -502,7 +505,7 @@
                                 hover:shadow-[0_0_30px_rgba(5,150,105,0.6)]
                                 items-center gap-2">
 
-                            <span x-text="lang === 'zh' ? '体验演示版' : 'Try Demo'"></span>
+                            <span x-text="lang === 'zh' ? '<span data-i18n="t_7591"><span data-i18n="t_1610">体验</span><span data-i18n="t_2934">演示</span>版</span>' : 'Try Demo'"></span>
 
                             <svg class="w-4 h-4 transform transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
@@ -547,7 +550,7 @@
                     <div
                         class="inline-flex items-center gap-2 px-3 py-1 border border-red-500/30 rounded-full dynamic-small font-medium text-red-400 dynamic-mb-md tracking-[0.2em] uppercase font-mono bg-red-900/20 backdrop-blur-md shadow-[0_0_15px_rgba(239,68,68,0.2)]">
                         <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
-                        <span x-text="lang === 'zh' ? '不仅写代码，还是懂技术的合伙人' : 'YOUR TECH PARTNER'"></span>
+                        <span x-text="lang === 'zh' ? '<span data-i18n="t_6041">不仅写代码</span>，<span data-i18n="t_3253">还<span data-i18n="t_2645">是</span>懂技术<span data-i18n="t_5594">的</span><span data-i18n="t_3491">合</span>伙人</span>' : 'YOUR TECH PARTNER'"></span>
                     </div>
 
                         <h2 class="slide-4-title dynamic-title font-bold font-heading tracking-tighter drop-shadow-2xl
@@ -556,29 +559,29 @@
                                     from-red-400 via-orange-400 to-amber-400
                                     font-zen italic
                                     text-3xl sm:text-4xl md:text-5xl lg:text-6xl
-                                    pr-1 md:pr-4 pb-1" x-text="lang === 'zh' ? '更懂在日华人的生意' : 'We Know Your'">
+                                    pr-1 md:pr-4 pb-1" x-text="lang === 'zh' ? '<span data-i18n="t_5500">更懂</span><span data-i18n-en="Chinese in Japan"><span data-i18n-ja="<span data-i18n="t_2791"><span data-i18n="t_7124">在</span>日本华人</span>"></span></span><span data-i18n="t_9162"><span data-i18n="t_5594">的</span>生意</span>' : 'We Know Your'">
                             </span>
                         </h2>
 
                     <div class="h-px w-32 bg-gradient-to-r from-red-500 to-transparent mx-auto lg:mx-0 dynamic-mb-md"></div>
 
                     <p class="text-red-200/60 font-mono dynamic-small tracking-[0.3em] uppercase dynamic-mb-sm">
-                        <span x-text="lang === 'zh' ? '坐标东京/大阪 · 随时可约面谈' : 'BASED IN TOKYO/OSAKA'"></span>
+                        <span x-text="lang === 'zh' ? '<span data-i18n="t_6020">坐标<span data-i18n="t_4110">东京</span></span>/<span data-i18n="t_3630">大阪</span> · <span data-i18n="t_5805">随时可约面谈</span>' : 'BASED IN TOKYO/OSAKA'"></span>
                     </p>
 
                     <div class="max-w-lg mx-auto lg:mx-0 p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
 
                         <p class="dynamic-body text-slate-400 font-light leading-relaxed">
                             <span x-show="lang === 'zh'">
-                                我们不仅仅是开发商，更是您的
+                                <span data-i18n="t_8609">我们不仅仅<span data-i18n="t_2645">是</span><span data-i18n="t_4057">开发</span>商</span>，<span data-i18n="t_8084">更<span data-i18n="t_2645">是</span>您<span data-i18n="t_5594">的</span></span>
 
-                                <span class="text-emerald-400 font-normal">数字化战略顾问</span>。
+                                <span class="text-emerald-400 font-normal"><span data-i18n="t_4274">数字化战略顾问</span></span>。
 
-                                从服务器搭建到支付接口对接（
-                                <span class="text-emerald-400">微信/支付宝/PayPay</span>
-                                ），我们帮您搞定一切技术难题，您只管
+                                <span data-i18n="t_6412">从<span data-i18n="t_8816">服务</span>器搭建到</span><span data-i18n-en="Payment"><span data-i18n-ja="<span data-i18n="t_5837">決済</span>"></span></span><span data-i18n="t_8719">接口<span data-i18n="t_331">对接</span></span>（
+                                <span class="text-emerald-400"><span data-i18n="t_7307">微信</span>/<span data-i18n-en="Payment"><span data-i18n-ja="<span data-i18n="t_5837">決済</span>"></span></span><span data-i18n="t_1264">宝</span>/PayPay</span>
+                                ），<span data-i18n="t_7202">我们帮您搞定一切技术难题</span>，<span data-i18n="t_2073">您只管</span>
 
-                                <span class="text-red-500 font-medium">安心赚钱</span>。
+                                <span class="text-red-500 font-medium"><span data-i18n="t_7216">安心赚钱</span></span>。
                             </span>
                         </p>
 
@@ -587,7 +590,7 @@
                     <div class="slide-4-cta-section dynamic-mt-md flex dynamic-gap-sm pointer-events-auto justify-center lg:justify-start">
                         <a href="contact.html"
                             class="group px-6 py-2 rounded-full border border-red-500/30 text-red-100 hover:bg-red-500/10 transition backdrop-blur-sm flex items-center gap-2 dynamic-small">
-                            <span x-text="lang === 'zh' ? '预约面谈' : 'Book a Meeting'"></span>
+                            <span x-text="lang === 'zh' ? '<span data-i18n="t_5094"><span data-i18n="t_7093">预约</span>面谈</span>' : 'Book a Meeting'"></span>
                             <svg class="w-4 h-4 text-red-400 group-hover:translate-x-1 transition-transform" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -638,7 +641,7 @@
                                 this.vx = (Math.random() - 0.5) * 0.3;
                                 this.vy = (Math.random() - 0.5) * 0.3;
                                 this.size = Math.random() * 2 + 1;
-                                // 红色系粒子
+                                // <span data-i18n="t_2696">红色系粒子</span>
                                 this.color = `rgba(${200 + Math.random() * 55}, ${50 + Math.random() * 100}, ${50 + Math.random() * 50}, ${Math.random() * 0.5 + 0.1})`;
                             }
                             update() {
@@ -683,7 +686,7 @@
                                     let distance = Math.sqrt(dx * dx + dy * dy);
                                     if (distance < connectionDistance) {
                                         ctx.beginPath();
-                                        // 红色连线
+                                        // <span data-i18n="t_9989">红色连线</span>
                                         ctx.strokeStyle = `rgba(255, 100, 100, ${0.15 * (1 - distance / connectionDistance)})`;
                                         ctx.lineWidth = 1;
                                         ctx.moveTo(particles[i].x, particles[i].y);
@@ -725,39 +728,39 @@
     </section>
 
     <section id="target-audience" class="py-16 sm:py-24 relative z-20 overflow-hidden">
-        <!-- 深色渐变背景 -->
+        <!-- <span data-i18n="t_7352">深色<span data-i18n="t_7447">渐变背景</span></span> -->
         <div class="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900"></div>
 
-        <!-- 网格背景 -->
+        <!-- <span data-i18n="t_460">网格背景</span> -->
         <div class="absolute inset-0 opacity-[0.03]" style="background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 50px 50px;"></div>
 
-        <!-- 静态光晕 - 减小尺寸和模糊值以优化性能 -->
+        <!-- <span data-i18n="t_9556">静态光晕</span> - <span data-i18n="t_336">减小尺寸<span data-i18n="t_2529">和</span>模糊值<span data-i18n="t_662">以</span>优化性能</span> -->
         <div class="hidden md:block absolute top-0 left-1/4 w-[400px] h-[400px] bg-pink-500/8 rounded-full blur-3xl audience-bg-blob-1"></div>
         <div class="hidden md:block absolute bottom-0 right-1/4 w-[350px] h-[350px] bg-blue-500/8 rounded-full blur-3xl audience-bg-blob-2"></div>
         <div class="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-purple-500/5 rounded-full blur-3xl audience-bg-blob-3"></div>
 
-        <!-- 顶部光线 -->
+        <!-- <span data-i18n="t_2243">顶部光线</span> -->
         <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center mb-12 sm:mb-16 px-2">
                 <h2 class="text-sm sm:text-base text-cyan-400 font-bold tracking-wide uppercase mb-3 font-mono">
-                    <span x-text="lang === 'zh' ? '打破平台束缚' : 'Break Platform Limits'"></span>
+                    <span x-text="lang === 'zh' ? '<span data-i18n="t_6740">打破平台束缚</span>' : 'Break Platform Limits'"></span>
                 </h2>
                 <p class="text-2xl sm:text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl font-zen">
-                    <span x-text="lang === 'zh' ? '拥有自己的小程序' : 'Home turf for every ambitious dream'"></span>
+                    <span x-text="lang === 'zh' ? '<span data-i18n="t_7893"><span data-i18n="t_6015">拥有</span>自己<span data-i18n="t_5594">的</span></span><span data-i18n-en="Mini Program"><span data-i18n-ja="ミニプログラム"></span></span>' : 'Home turf for every ambitious dream'"></span>
                 </p>
                 <p class="mt-4 max-w-2xl text-xs sm:text-sm text-slate-400 mx-auto leading-relaxed">
                     <span
                         x-html="lang === 'zh'
-                        ? '做生意的终局，不是靠短信电话，而是拥有自己的<span class=\'font-bold text-cyan-400\'>预约系统</span>。 别让您的客户只沉淀在"认识你"。拥有<span class=\'font-bold text-cyan-400\'>独立的 APP 与官网</span>，意味着您可以把客户关系、服务流程与定价逻辑，真正<span class=\'font-bold text-cyan-400\'>掌握在自己手中</span>。'
+                        ? '<span data-i18n="t_7708">做生意<span data-i18n="t_5594">的</span>终局</span>，<span data-i18n="t_965">不<span data-i18n="t_2645">是</span>靠短信电话</span>，<span data-i18n="t_6644">而<span data-i18n="t_2645">是</span><span data-i18n="t_7893"><span data-i18n="t_6015">拥有</span>自己<span data-i18n="t_5594">的</span></span></span><span class=\'font-bold text-cyan-400\'><span data-i18n="t_7882"><span data-i18n="t_7093">预约</span><span data-i18n="t_9178">系统</span></span></span>。 <span data-i18n="t_2044">别让您<span data-i18n="t_5594">的</span>客户只沉淀<span data-i18n="t_7124">在</span></span>"<span data-i18n="t_7650">认识<span data-i18n="t_2267">你</span></span>"。<span data-i18n="t_6015">拥有</span><span class=\'font-bold text-cyan-400\'><span data-i18n="t_3698">独立<span data-i18n="t_5594">的</span></span> <span data-i18n-en="<span data-i18n-ja="アプリ"></span>"><span data-i18n-ja="アプリ"></span></span> <span data-i18n="t_1188">与</span><span data-i18n-en="Official Site"><span data-i18n-ja="<span data-i18n="t_2064">公式</span>サイト"></span></span></span>，<span data-i18n="t_6481">意味着您可<span data-i18n="t_662">以</span><span data-i18n="t_2937">把</span>客户关系</span>、<span data-i18n="t_8770"><span data-i18n="t_8816">服务</span>流程<span data-i18n="t_1188">与</span>定价逻辑</span>，<span data-i18n="t_264">真正</span><span class=\'font-bold text-cyan-400\'><span data-i18n="t_459">掌握<span data-i18n="t_7124">在</span>自己手<span data-i18n="t_6941">中</span></span></span>。'
                         : 'Whether you are an entrepreneur or a store owner, <span class=\'font-bold text-cyan-400\'>own your digital territory</span>.'">
                     </span>
                 </p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8" id="audience-meteors-grid">
-                <!-- 卡片1: 跨境电商 -->
+                <!-- <span data-i18n="t_8993">卡片</span>1: <span data-i18n="t_1440">跨境电商</span> -->
                 <div class="relative w-full group audience-card-wrapper">
                     <div class="absolute inset-0 h-full w-full rounded-2xl blur-3xl opacity-0 transition-all duration-700 ease-out group-hover:opacity-40 bg-gradient-to-br from-pink-500 via-rose-500 to-red-500"></div>
                     <div class="audience-card relative flex h-full flex-row items-center overflow-hidden rounded-2xl border border-gray-700/50 bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800 px-5 py-5 sm:px-8 sm:py-8 shadow-[0_12px_30px_rgba(0,0,0,0.35)] transition-all duration-500 ease-out group-hover:-translate-y-2 group-hover:shadow-[0_25px_60px_rgba(0,0,0,0.5)] group-hover:border-gray-600/50">
@@ -765,18 +768,18 @@
                         <div class="absolute top-0 left-0 right-0 h-px overflow-hidden">
                             <div class="absolute h-full w-1/3 bg-gradient-to-r from-transparent via-white/60 to-transparent audience-meteor" style="animation-duration: 2s"></div>
                         </div>
-                        <!-- 左侧内容 -->
+                        <!-- <span data-i18n="t_3470">左侧<span data-i18n="t_7637">内容</span></span> -->
                         <div class="flex-1 min-w-0 relative z-10">
                             <div class="flex items-center justify-center h-12 w-12 sm:h-14 sm:w-14 rounded-xl border border-gray-600/50 bg-gradient-to-br from-gray-800 to-gray-900 mb-4 text-2xl sm:text-3xl transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-pink-500/30">🛍️</div>
-                            <h3 class="mb-3 text-lg sm:text-2xl font-bold font-zen text-white/90 transition-all duration-300 group-hover:text-white">跨境电商 / 品牌主理人</h3>
+                            <h3 class="mb-3 text-lg sm:text-2xl font-bold font-zen text-white/90 transition-all duration-300 group-hover:text-white"><span data-i18n="t_1440">跨境电商</span> / <span data-i18n="t_6339"><span data-i18n="t_9030">品牌</span>主理人</span></h3>
                             <ul class="space-y-2 text-xs sm:text-sm text-slate-400">
-                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-pink-500/20 text-pink-400">✓</span><span>建立专业独立商城</span></li>
-                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-pink-500/20 text-pink-400">✓</span><span>多币种 & 自动汇率</span></li>
-                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-pink-500/20 text-pink-400">✓</span><span>客户自助查物流</span></li>
-                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-pink-500/20 text-pink-400">✓</span><span>私域客户沉淀</span></li>
+                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-pink-500/20 text-pink-400">✓</span><span><span data-i18n="t_4391">建立专业独立<span data-i18n="t_9560">商城</span></span></span></li>
+                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-pink-500/20 text-pink-400">✓</span><span><span data-i18n="t_9139">多币种</span> & <span data-i18n="t_6245">自动汇率</span></span></li>
+                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-pink-500/20 text-pink-400">✓</span><span><span data-i18n="t_7994">客户自助查物流</span></span></li>
+                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-pink-500/20 text-pink-400">✓</span><span><span data-i18n="t_1023"><span data-i18n="t_2002">私</span>域客户沉淀</span></span></li>
                             </ul>
                         </div>
-                        <!-- 右侧装饰图 - 购物车/商城 -->
+                        <!-- <span data-i18n="t_6701">右侧装饰图</span> - <span data-i18n="t_5970">购物车</span>/<span data-i18n="t_9560">商城</span> -->
                         <div class="flex flex-shrink-0 w-20 h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 items-center justify-center relative">
                             <svg class="w-full h-full text-pink-500/10 group-hover:text-pink-500/20 transition-all duration-500 group-hover:scale-110" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M17 18c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zM7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm0-3l1.1-2h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1v2h2l3.6 7.59L3.62 17H19v-2H7z"/>
@@ -788,7 +791,7 @@
                     </div>
                 </div>
 
-                <!-- 卡片2: 专业车队 -->
+                <!-- <span data-i18n="t_8993">卡片</span>2: <span data-i18n="t_8354">专业车队</span> -->
                 <div class="relative w-full group audience-card-wrapper" style="animation-delay: 0.1s">
                     <div class="absolute inset-0 h-full w-full rounded-2xl blur-3xl opacity-0 transition-all duration-700 ease-out group-hover:opacity-40 bg-gradient-to-br from-blue-500 via-cyan-500 to-teal-500"></div>
                     <div class="audience-card relative flex h-full flex-row items-center overflow-hidden rounded-2xl border border-gray-700/50 bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800 px-5 py-5 sm:px-8 sm:py-8 shadow-[0_12px_30px_rgba(0,0,0,0.35)] transition-all duration-500 ease-out group-hover:-translate-y-2 group-hover:shadow-[0_25px_60px_rgba(0,0,0,0.5)] group-hover:border-gray-600/50">
@@ -798,15 +801,15 @@
                         </div>
                         <div class="flex-1 min-w-0 relative z-10">
                             <div class="flex items-center justify-center h-12 w-12 sm:h-14 sm:w-14 rounded-xl border border-gray-600/50 bg-gradient-to-br from-gray-800 to-gray-900 mb-4 text-2xl sm:text-3xl transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-blue-500/30">🚖</div>
-                            <h3 class="mb-3 text-lg sm:text-2xl font-bold font-zen text-white/90 transition-all duration-300 group-hover:text-white">专业车队 / 旅游地接</h3>
+                            <h3 class="mb-3 text-lg sm:text-2xl font-bold font-zen text-white/90 transition-all duration-300 group-hover:text-white"><span data-i18n="t_8354">专业车队</span> / <span data-i18n="t_6727">旅<span data-i18n="t_9989">游</span>地接</span></h3>
                             <ul class="space-y-2 text-xs sm:text-sm text-slate-400">
-                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-blue-500/20 text-blue-400">✓</span><span>拒绝平台高抽成</span></li>
-                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-blue-500/20 text-blue-400">✓</span><span>自主定价接单</span></li>
-                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-blue-500/20 text-blue-400">✓</span><span>智能排班调度</span></li>
-                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-blue-500/20 text-blue-400">✓</span><span>承接海外大单</span></li>
+                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-blue-500/20 text-blue-400">✓</span><span><span data-i18n="t_4026">拒绝平台高抽成</span></span></li>
+                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-blue-500/20 text-blue-400">✓</span><span><span data-i18n="t_1901">自主定价接单</span></span></li>
+                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-blue-500/20 text-blue-400">✓</span><span><span data-i18n="t_1372">智能排班调度</span></span></li>
+                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-blue-500/20 text-blue-400">✓</span><span><span data-i18n="t_4652">承接海外大单</span></span></li>
                             </ul>
                         </div>
-                        <!-- 右侧装饰图 - 地图/导航 -->
+                        <!-- <span data-i18n="t_6701">右侧装饰图</span> - <span data-i18n="t_4282">地图</span>/<span data-i18n="t_2269">导航</span> -->
                         <div class="flex flex-shrink-0 w-20 h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 items-center justify-center relative">
                             <svg class="w-full h-full text-blue-500/10 group-hover:text-blue-500/20 transition-all duration-500 group-hover:scale-110" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
@@ -818,7 +821,7 @@
                     </div>
                 </div>
 
-                <!-- 卡片3: 实体连锁 -->
+                <!-- <span data-i18n="t_8993">卡片</span>3: <span data-i18n="t_8294">实体连锁</span> -->
                 <div class="relative w-full group audience-card-wrapper" style="animation-delay: 0.2s">
                     <div class="absolute inset-0 h-full w-full rounded-2xl blur-3xl opacity-0 transition-all duration-700 ease-out group-hover:opacity-40 bg-gradient-to-br from-amber-500 via-orange-500 to-yellow-500"></div>
                     <div class="audience-card relative flex h-full flex-row items-center overflow-hidden rounded-2xl border border-gray-700/50 bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800 px-5 py-5 sm:px-8 sm:py-8 shadow-[0_12px_30px_rgba(0,0,0,0.35)] transition-all duration-500 ease-out group-hover:-translate-y-2 group-hover:shadow-[0_25px_60px_rgba(0,0,0,0.5)] group-hover:border-gray-600/50">
@@ -828,15 +831,15 @@
                         </div>
                         <div class="flex-1 min-w-0 relative z-10">
                             <div class="flex items-center justify-center h-12 w-12 sm:h-14 sm:w-14 rounded-xl border border-gray-600/50 bg-gradient-to-br from-gray-800 to-gray-900 mb-4 text-2xl sm:text-3xl transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-amber-500/30">🏪</div>
-                            <h3 class="mb-3 text-lg sm:text-2xl font-bold font-zen text-white/90 transition-all duration-300 group-hover:text-white">实体连锁 / 餐饮名店</h3>
+                            <h3 class="mb-3 text-lg sm:text-2xl font-bold font-zen text-white/90 transition-all duration-300 group-hover:text-white"><span data-i18n="t_8294">实体连锁</span> / <span data-i18n="t_2193"><span data-i18n="t_6075">餐饮</span>名店</span></h3>
                             <ul class="space-y-2 text-xs sm:text-sm text-slate-400">
-                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-amber-500/20 text-amber-400">✓</span><span>扫码点单系统</span></li>
-                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-amber-500/20 text-amber-400">✓</span><span>会员储值体系</span></li>
-                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-amber-500/20 text-amber-400">✓</span><span>自动营销发券</span></li>
-                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-amber-500/20 text-amber-400">✓</span><span>线上线下联动</span></li>
+                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-amber-500/20 text-amber-400">✓</span><span><span data-i18n="t_7144"><span data-i18n="t_2649">扫码</span>点单<span data-i18n="t_9178">系统</span></span></span></li>
+                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-amber-500/20 text-amber-400">✓</span><span><span data-i18n="t_2650">会员储值体系</span></span></li>
+                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-amber-500/20 text-amber-400">✓</span><span><span data-i18n="t_4923">自动营销发券</span></span></li>
+                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-amber-500/20 text-amber-400">✓</span><span><span data-i18n="t_2971">线上线下联动</span></span></li>
                             </ul>
                         </div>
-                        <!-- 右侧装饰图 - 二维码/扫码 -->
+                        <!-- <span data-i18n="t_6701">右侧装饰图</span> - <span data-i18n="t_8692">二维码</span>/<span data-i18n="t_2649">扫码</span> -->
                         <div class="flex flex-shrink-0 w-20 h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 items-center justify-center relative">
                             <svg class="w-3/4 h-3/4 text-amber-500/10 group-hover:text-amber-500/20 transition-all duration-500 group-hover:scale-110" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M3 11h8V3H3v8zm2-6h4v4H5V5zm8-2v8h8V3h-8zm6 6h-4V5h4v4zM3 21h8v-8H3v8zm2-6h4v4H5v-4zm13 2h-2v2h2v2h-4v-4h2v-2h-2v-2h4v4zm0-6h2v4h-2v-4zm2 6h2v4h-2v-4z"/>
@@ -848,7 +851,7 @@
                     </div>
                 </div>
 
-                <!-- 卡片4: 不动产/教育 -->
+                <!-- <span data-i18n="t_8993">卡片</span>4: <span data-i18n="t_9694">不动产</span>/<span data-i18n="t_5307">教育</span> -->
                 <div class="relative w-full group audience-card-wrapper" style="animation-delay: 0.3s">
                     <div class="absolute inset-0 h-full w-full rounded-2xl blur-3xl opacity-0 transition-all duration-700 ease-out group-hover:opacity-40 bg-gradient-to-br from-indigo-500 via-purple-500 to-violet-500"></div>
                     <div class="audience-card relative flex h-full flex-row items-center overflow-hidden rounded-2xl border border-gray-700/50 bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800 px-5 py-5 sm:px-8 sm:py-8 shadow-[0_12px_30px_rgba(0,0,0,0.35)] transition-all duration-500 ease-out group-hover:-translate-y-2 group-hover:shadow-[0_25px_60px_rgba(0,0,0,0.5)] group-hover:border-gray-600/50">
@@ -858,15 +861,15 @@
                         </div>
                         <div class="flex-1 min-w-0 relative z-10">
                             <div class="flex items-center justify-center h-12 w-12 sm:h-14 sm:w-14 rounded-xl border border-gray-600/50 bg-gradient-to-br from-gray-800 to-gray-900 mb-4 text-2xl sm:text-3xl transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-indigo-500/30">🎓</div>
-                            <h3 class="mb-3 text-lg sm:text-2xl font-bold font-zen text-white/90 transition-all duration-300 group-hover:text-white">不动产 / 留学教育</h3>
+                            <h3 class="mb-3 text-lg sm:text-2xl font-bold font-zen text-white/90 transition-all duration-300 group-hover:text-white"><span data-i18n="t_9694">不动产</span> / <span data-i18n="t_1974">留学<span data-i18n="t_5307">教育</span></span></h3>
                             <ul class="space-y-2 text-xs sm:text-sm text-slate-400">
-                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-indigo-500/20 text-indigo-400">✓</span><span>信息库自助筛选</span></li>
-                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-indigo-500/20 text-indigo-400">✓</span><span>预约 & CRM 系统</span></li>
-                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-indigo-500/20 text-indigo-400">✓</span><span>展示成功案例</span></li>
-                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-indigo-500/20 text-indigo-400">✓</span><span>打造行业标杆</span></li>
+                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-indigo-500/20 text-indigo-400">✓</span><span><span data-i18n="t_6994">信息库自助筛选</span></span></li>
+                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-indigo-500/20 text-indigo-400">✓</span><span><span data-i18n="t_7093">预约</span> & CRM <span data-i18n="t_9178">系统</span></span></li>
+                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-indigo-500/20 text-indigo-400">✓</span><span><span data-i18n="t_9038">展示<span data-i18n="t_7781">成功案例</span></span></span></li>
+                                <li class="flex gap-2 items-center"><span class="w-5 h-5 rounded-full flex items-center justify-center text-xs bg-indigo-500/20 text-indigo-400">✓</span><span><span data-i18n="t_7250"><span data-i18n="t_5130">打造</span><span data-i18n="t_8133">行业</span>标杆</span></span></li>
                             </ul>
                         </div>
-                        <!-- 右侧装饰图 - 建筑/房屋 -->
+                        <!-- <span data-i18n="t_6701">右侧装饰图</span> - <span data-i18n="t_1512">建筑</span>/<span data-i18n="t_8850">房屋</span> -->
                         <div class="flex flex-shrink-0 w-20 h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 items-center justify-center relative">
                             <svg class="w-full h-full text-indigo-500/10 group-hover:text-indigo-500/20 transition-all duration-500 group-hover:scale-110" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3zm0 4.7L16 12v6h-2v-6H10v6H8v-6l-1.2-1.1-.8.9L12 7.7z"/>
@@ -886,7 +889,7 @@
     </section>
 
     <section id="portfolio" class="py-16 sm:py-24 relative z-20 overflow-hidden">
-        <!-- 渐变背景 + 飘动光晕 -->
+        <!-- <span data-i18n="t_7447">渐变背景</span> + <span data-i18n="t_2717">飘动光晕</span> -->
         <div class="absolute inset-0 bg-gradient-to-br from-blue-100 via-purple-100 to-cyan-100"></div>
         <div class="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-400/40 rounded-full blur-3xl portfolio-blob-1"></div>
         <div class="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-purple-400/40 rounded-full blur-3xl portfolio-blob-2"></div>
@@ -895,13 +898,13 @@
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center mb-12 sm:mb-20">
-                <h2 class="text-sm sm:text-base text-blue-600 font-bold tracking-wide uppercase mb-3 font-mono">我们的交付标准</h2>
+                <h2 class="text-sm sm:text-base text-blue-600 font-bold tracking-wide uppercase mb-3 font-mono"><span data-i18n="t_6825">我们<span data-i18n="t_5594">的</span>交付标准</span></h2>
                 <p class="text-2xl sm:text-3xl leading-8 font-extrabold tracking-tight text-slate-800 sm:text-4xl font-zen">
-                    稳住本盘、收割新流量
+                    <span data-i18n="t_4702">稳住本盘</span>、<span data-i18n="t_7875">收割新流量</span>
                 </p>
                 <p class="mt-4 max-w-2xl text-xs sm:text-sm text-slate-600 mx-auto leading-relaxed">
                     <span x-show="lang === 'zh'">
-                        别让您的生意只有"回头客"。APP 既是老客户的<span class="font-bold text-blue-600">专属服务区</span>，也是陌生客户的<span class="font-bold text-blue-600">流量捕获器</span>。老客不流失，新客源源不断，<span class="font-bold text-blue-600">生意自然越做越大</span>。
+                        <span data-i18n="t_8776">别让您<span data-i18n="t_9162"><span data-i18n="t_5594">的</span>生意</span>只有</span>"<span data-i18n="t_1070">回头客</span>"。<span data-i18n-en="<span data-i18n-ja="アプリ"></span>"><span data-i18n-ja="アプリ"></span></span> <span data-i18n="t_6751">既<span data-i18n="t_2645">是</span>老客户<span data-i18n="t_5594">的</span></span><span class="font-bold text-blue-600"><span data-i18n="t_7582">专属<span data-i18n="t_8816">服务</span>区</span></span>，<span data-i18n="t_1574">也<span data-i18n="t_2645">是</span>陌生客户<span data-i18n="t_5594">的</span></span><span class="font-bold text-blue-600"><span data-i18n="t_8551">流量捕获器</span></span>。<span data-i18n="t_3860">老客不流失</span>，<span data-i18n="t_7811">新客源源不断</span>，<span class="font-bold text-blue-600"><span data-i18n="t_81">生意自然越做越大</span></span>。
                     </span>
                     <span x-show="lang !== 'zh'" x-cloak>
                         Whether you are an entrepreneur or a store owner, <span class="font-bold text-blue-600">own your digital territory</span>.
@@ -911,7 +914,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-6 auto-rows-auto sm:auto-rows-[320px]" id="bento-grid">
 
-                <!-- 卡片1: 原生APP开发 -->
+                <!-- <span data-i18n="t_8993">卡片</span>1: <span data-i18n="t_2745">原生</span><span data-i18n-en="<span data-i18n-ja="アプリ"></span>"><span data-i18n-ja="アプリ"></span></span><span data-i18n="t_4057">开发</span> -->
                 <div
                     class="spotlight-card group relative col-span-1 md:col-span-2 row-span-1 overflow-hidden rounded-2xl sm:rounded-3xl border border-white/60 bg-white/40 backdrop-blur-xl p-4 sm:p-8 transition-all duration-300 hover:bg-white/60 hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-1">
 
@@ -926,18 +929,18 @@
                         </div>
                         <div class="flex-1 min-w-0">
                             <h3 class="text-base sm:text-2xl font-bold text-slate-800 mb-1 sm:mb-3 flex items-center gap-2">
-                                原生 APP 开发
+                                <span data-i18n="t_2745">原生</span> <span data-i18n-en="<span data-i18n-ja="アプリ"></span>"><span data-i18n-ja="アプリ"></span></span> <span data-i18n="t_4057">开发</span>
                                 <span class="hidden sm:inline opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-blue-500 text-lg">↗</span>
                             </h3>
                             <p class="text-slate-600 leading-relaxed font-light text-xs sm:text-sm md:text-base max-w-lg">
-                                不仅是软件，更是品牌资产。ZenCode 确保您的 APP 在 Apple Store 和 Google Play
-                                上架，成为客户手机里的常驻图标。
+                                <span data-i18n="t_5924">不仅<span data-i18n="t_2645">是</span>软件</span>，<span data-i18n="t_6694">更<span data-i18n="t_2645">是</span><span data-i18n="t_9030">品牌</span>资产</span>。ZenCode <span data-i18n="t_1126">确保您<span data-i18n="t_5594">的</span></span> <span data-i18n-en="<span data-i18n-ja="アプリ"></span>"><span data-i18n-ja="アプリ"></span></span> <span data-i18n="t_7124">在</span> Apple Store <span data-i18n="t_2529">和</span> Google Play
+                                <span data-i18n="t_174">上架</span>，<span data-i18n="t_5439">成为客户手机<span data-i18n="t_3472">里</span><span data-i18n="t_5594">的</span>常驻<span data-i18n="t_1736">图标</span></span>。
                             </p>
                         </div>
                     </div>
                 </div>
 
-                <!-- 卡片2: 品牌官网落地页 -->
+                <!-- <span data-i18n="t_8993">卡片</span>2: <span data-i18n="t_9030">品牌</span><span data-i18n-en="Official Site"><span data-i18n-ja="<span data-i18n="t_2064">公式</span>サイト"></span></span><span data-i18n="t_5515">落地页</span> -->
                 <div
                     class="spotlight-card group relative col-span-1 row-span-1 overflow-hidden rounded-2xl sm:rounded-3xl border border-white/60 bg-white/40 backdrop-blur-xl p-4 sm:p-8 transition-all duration-300 hover:bg-white/60 hover:shadow-xl hover:shadow-purple-500/10 hover:-translate-y-1">
 
@@ -951,15 +954,15 @@
                             💻
                         </div>
                         <div class="flex-1 min-w-0">
-                            <h3 class="text-base sm:text-xl font-bold text-slate-800 mb-1 sm:mb-3">品牌官网落地页</h3>
+                            <h3 class="text-base sm:text-xl font-bold text-slate-800 mb-1 sm:mb-3"><span data-i18n="t_9030">品牌</span><span data-i18n-en="Official Site"><span data-i18n-ja="<span data-i18n="t_2064">公式</span>サイト"></span></span><span data-i18n="t_5515">落地页</span></h3>
                             <p class="text-slate-600 text-xs sm:text-sm font-light leading-relaxed">
-                                既然要做，就做最好。让日本客户在 Google 搜索到的瞬间，就被您的企业形象折服。
+                                <span data-i18n="t_3431">既然要做</span>，<span data-i18n="t_418">就做最好</span>。<span data-i18n="t_5079">让日本客户<span data-i18n="t_7124">在</span></span> Google <span data-i18n="t_3794">搜索到<span data-i18n="t_5594">的</span>瞬间</span>，<span data-i18n="t_4680">就被您<span data-i18n="t_5594">的</span>企业形象折服</span>。
                             </p>
                         </div>
                     </div>
                 </div>
 
-                <!-- 卡片3: 微信小程序矩阵 -->
+                <!-- <span data-i18n="t_8993">卡片</span>3: <span data-i18n="t_7307">微信</span><span data-i18n-en="Mini Program"><span data-i18n-ja="ミニプログラム"></span></span><span data-i18n="t_5682">矩阵</span> -->
                 <div
                     class="spotlight-card group relative col-span-1 md:col-span-3 row-span-1 overflow-hidden rounded-2xl sm:rounded-3xl border border-white/60 bg-white/40 backdrop-blur-xl p-4 sm:p-8 transition-all duration-300 hover:bg-white/60 hover:shadow-xl hover:shadow-emerald-500/10 hover:-translate-y-1">
 
@@ -971,9 +974,9 @@
                             </div>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <h3 class="text-base sm:text-2xl font-bold text-slate-800 mb-1 sm:mb-3">微信小程序矩阵</h3>
+                            <h3 class="text-base sm:text-2xl font-bold text-slate-800 mb-1 sm:mb-3"><span data-i18n="t_7307">微信</span><span data-i18n-en="Mini Program"><span data-i18n-ja="ミニプログラム"></span></span><span data-i18n="t_5682">矩阵</span></h3>
                             <p class="text-slate-600 max-w-2xl font-light text-xs sm:text-sm md:text-base leading-relaxed">
-                                连接微信生态内的十亿用户。无需安装、扫码即用、社交裂变，是在日华人圈获客成本最低、传播速度最快的渠道。
+                                <span data-i18n="t_3170"><span data-i18n="t_9660">连接</span><span data-i18n="t_7307">微信</span>生态内<span data-i18n="t_5594">的</span>十亿<span data-i18n="t_8030">用</span>户</span>。<span data-i18n="t_8841">无需安装</span>、<span data-i18n="t_1901"><span data-i18n="t_2649">扫码</span>即<span data-i18n="t_8030">用</span></span>、<span data-i18n="t_1742"><span data-i18n="t_3130">社交</span>裂变</span>，<span data-i18n="t_2645">是</span><span data-i18n-en="Chinese in Japan"><span data-i18n-ja="<span data-i18n="t_2791"><span data-i18n="t_7124">在</span>日本华人</span>"></span></span><span data-i18n="t_2998">圈<span data-i18n="t_1898">获客</span>成本最低</span>、<span data-i18n="t_744">传播速度最快<span data-i18n="t_5594">的</span>渠道</span>。
                             </p>
                         </div>
                         <div
@@ -992,9 +995,9 @@
         </div>
     </section>
 
-    <!-- 即将上线APP展示区 -->
+    <!-- <span data-i18n="t_1120">即将上线</span><span data-i18n-en="<span data-i18n-ja="アプリ"></span>"><span data-i18n-ja="アプリ"></span></span><span data-i18n="t_1358">展示区</span> -->
     <section id="app-preview" class="relative overflow-hidden" x-data="{ expanded: false }">
-        <!-- 折叠状态：展开按钮 -->
+        <!-- <span data-i18n="t_3404">折叠状态</span>：<span data-i18n="t_9463">展开按钮</span> -->
         <div class="app-preview-trigger py-12 sm:py-16 relative" :class="{ 'hidden': expanded }">
             <div class="absolute inset-0 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500"></div>
             <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMzYgMzRoLTJ2LTRoMnYyaDR2Mmgtdi0yem0wLTMwVjBoMnY0aC00VjJoMnYyem0tMiAyaC0ydjJoMnYyaDJ2LTJoMnYyaDJ2Mmgtdjh6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-20"></div>
@@ -1004,17 +1007,17 @@
                     <span>Coming Soon</span>
                 </div>
                 <h2 class="text-2xl sm:text-4xl md:text-5xl font-bold text-white mb-4 font-heading">
-                    即将上线 · 「东瀛游侠」APP
+                    <span data-i18n="t_1120">即将上线</span> · 「<span data-i18n-en="Dongying Youxia"><span data-i18n-ja="<span data-i18n="t_6096">東瀛<span data-i18n="t_9989">游</span>侠</span>"></span></span>」<span data-i18n-en="<span data-i18n-ja="アプリ"></span>"><span data-i18n-ja="アプリ"></span></span>
                 </h2>
                 <p class="text-white/80 text-sm sm:text-base mb-8 max-w-xl mx-auto">
-                    在日华人一站式生活平台，连接服务、交易、社交与社区
+                    <span data-i18n-en="Chinese in Japan"><span data-i18n-ja="<span data-i18n="t_2791"><span data-i18n="t_7124">在</span>日本华人</span>"></span></span><span data-i18n-en="All-in-one"><span data-i18n-ja="<span data-i18n="t_1994">一件式<span data-i18n="t_6941">中</span></span>"></span></span><span data-i18n="t_687"><span data-i18n="t_2376">生活</span>平台</span>，<span data-i18n="t_1424"><span data-i18n="t_9660">连接</span><span data-i18n="t_8816">服务</span></span>、<span data-i18n="t_6820">交易</span>、<span data-i18n="t_8476"><span data-i18n="t_3130">社交</span><span data-i18n="t_1188">与</span><span data-i18n="t_1714">社区</span></span>
                 </p>
                 <button
                     @click="expanded = true; $nextTick(() => document.getElementById('app-expanded').scrollIntoView({ behavior: 'smooth', block: 'start' }))"
                     class="app-expand-btn group">
                     <span class="app-expand-btn-bg"></span>
                     <span class="app-expand-btn-text">
-                        <span>点击展开</span>
+                        <span><span data-i18n="t_6532">点击展开</span></span>
                         <svg class="w-5 h-5 transition-transform group-hover:translate-y-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
@@ -1023,19 +1026,19 @@
             </div>
         </div>
 
-        <!-- 展开后的内容 -->
+        <!-- <span data-i18n="t_6442">展开后<span data-i18n="t_5594">的</span><span data-i18n="t_7637">内容</span></span> -->
         <div id="app-expanded" x-show="expanded" x-collapse.duration.500ms class="bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
-            <!-- 顶部装饰 -->
+            <!-- <span data-i18n="t_1479">顶部装饰</span> -->
             <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-500 to-transparent"></div>
 
-            <!-- 收起按钮 - top-20 让它位于全局导航栏(h-20)下方 -->
+            <!-- <span data-i18n="t_7173"><span data-i18n="t_2160">收起</span>按钮</span> - top-20 <span data-i18n="t_1530">让它位于全局<span data-i18n="t_2269">导航</span>栏</span>(h-20)<span data-i18n="t_9499">下方</span> -->
             <div class="sticky top-20 z-40 bg-slate-900/95 backdrop-blur-md border-b border-white/10">
                 <div class="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center">
                     <div class="flex items-center gap-3">
                         <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-pink-500 flex items-center justify-center text-white font-bold text-sm">
-                            游
+                            <span data-i18n="t_9989">游</span>
                         </div>
-                        <span class="text-white font-semibold text-sm">东瀛游侠</span>
+                        <span class="text-white font-semibold text-sm"><span data-i18n-en="Dongying Youxia"><span data-i18n-ja="<span data-i18n="t_6096">東瀛<span data-i18n="t_9989">游</span>侠</span>"></span></span></span>
                         <span class="hidden sm:inline px-2 py-0.5 bg-orange-500/20 text-orange-400 text-xs rounded-full">Beta</span>
                     </div>
                     <button @click="expanded = false; $nextTick(() => document.getElementById('app-preview').scrollIntoView({ behavior: 'smooth' }))"
@@ -1043,12 +1046,12 @@
                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
                         </svg>
-                        <span>收起</span>
+                        <span><span data-i18n="t_2160">收起</span></span>
                     </button>
                 </div>
             </div>
 
-            <!-- Hero区域 -->
+            <!-- Hero<span data-i18n="t_6244">区域</span> -->
             <div class="relative pt-8 pb-16 sm:py-24 overflow-hidden">
                 <div class="absolute inset-0">
                     <div class="absolute top-20 left-10 w-72 h-72 bg-orange-500/20 rounded-full blur-3xl"></div>
@@ -1057,135 +1060,135 @@
                 <div class="max-w-6xl mx-auto px-4 relative z-10">
                     <div class="text-center mb-12">
                         <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6 font-heading">
-                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-red-400 to-pink-400">东瀛游侠</span>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-red-400 to-pink-400"><span data-i18n-en="Dongying Youxia"><span data-i18n-ja="<span data-i18n="t_6096">東瀛<span data-i18n="t_9989">游</span>侠</span>"></span></span></span>
                         </h1>
-                        <p class="text-xl sm:text-2xl text-white/60 mb-4">在日华人的一站式生活与社交平台</p>
+                        <p class="text-xl sm:text-2xl text-white/60 mb-4"><span data-i18n-en="Chinese in Japan"><span data-i18n-ja="<span data-i18n="t_2791"><span data-i18n="t_7124">在</span>日本华人</span>"></span></span><span data-i18n="t_5594">的</span><span data-i18n-en="All-in-one"><span data-i18n-ja="<span data-i18n="t_1994">一件式<span data-i18n="t_6941">中</span></span>"></span></span><span data-i18n="t_981"><span data-i18n="t_2376">生活</span><span data-i18n="t_1188">与</span></span><span data-i18n-en="Social Platform"><span data-i18n-ja="ソーシャルプラットフォーム"></span></span></p>
                         <p class="text-white/40 text-sm max-w-2xl mx-auto leading-relaxed">
-                            把"服务、交易、招聘、社交、活动、内容社区"统一在一个App里。无论是找服务、找房、找工作、找朋友，还是买卖闲置、逛本地商家、发动态提问答疑，都能在同一个江湖体系里完成。
+                            <span data-i18n="t_2937">把</span>"<span data-i18n="t_8816">服务</span>、<span data-i18n="t_6820">交易</span>、<span data-i18n="t_5228">招聘</span>、<span data-i18n="t_3130">社交</span>、<span data-i18n="t_63">活动</span>、<span data-i18n="t_7139"><span data-i18n="t_7637">内容</span><span data-i18n="t_1714">社区</span></span>"<span data-i18n="t_69">统一<span data-i18n="t_7124">在</span>一个</span>App<span data-i18n="t_3472">里</span>。<span data-i18n="t_3839">无论<span data-i18n="t_2645">是</span><span data-i18n="t_4211">找<span data-i18n="t_8816">服务</span></span></span>、<span data-i18n="t_9282">找房</span>、<span data-i18n="t_8604">找工作</span>、<span data-i18n="t_6181">找朋友</span>，<span data-i18n="t_3044">还<span data-i18n="t_2645">是</span><span data-i18n="t_925">买卖</span><span data-i18n="t_8417">闲置</span></span>、<span data-i18n="t_846">逛本地商家</span>、<span data-i18n="t_1724"><span data-i18n="t_7846">发动态</span><span data-i18n="t_6632">提问答疑</span></span>，<span data-i18n="t_4288">都能<span data-i18n="t_7124">在</span>同一个江湖体系<span data-i18n="t_3472">里</span>完成</span>。
                         </p>
                     </div>
 
-                    <!-- 核心价值 -->
+                    <!-- <span data-i18n="t_7586">核心价值</span> -->
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div class="dy-value-card">
                             <div class="dy-value-icon">🎯</div>
-                            <h4 class="text-white font-bold mb-1">一站式</h4>
-                            <p class="text-white/50 text-xs">生活服务、商业交易、社交活动、内容社区全覆盖</p>
+                            <h4 class="text-white font-bold mb-1"><span data-i18n-en="All-in-one"><span data-i18n-ja="<span data-i18n="t_1994">一件式<span data-i18n="t_6941">中</span></span>"></span></span></h4>
+                            <p class="text-white/50 text-xs"><span data-i18n-en="Lifestyle Services"><span data-i18n-ja="<span data-i18n="t_2376">生活</span>サービス"></span></span>、<span data-i18n="t_2890">商业<span data-i18n="t_6820">交易</span></span>、<span data-i18n="t_6241"><span data-i18n="t_3130">社交</span><span data-i18n="t_63">活动</span></span>、<span data-i18n="t_6240"><span data-i18n="t_7139"><span data-i18n="t_7637">内容</span><span data-i18n="t_1714">社区</span></span>全<span data-i18n="t_4936">覆盖</span></span></p>
                         </div>
                         <div class="dy-value-card">
                             <div class="dy-value-icon">🔗</div>
-                            <h4 class="text-white font-bold mb-1">强连接</h4>
-                            <p class="text-white/50 text-xs">聊天、通知、评价、信誉与成就贯穿全链路</p>
+                            <h4 class="text-white font-bold mb-1"><span data-i18n="t_5742">强<span data-i18n="t_9660">连接</span></span></h4>
+                            <p class="text-white/50 text-xs"><span data-i18n="t_7272">聊天</span>、<span data-i18n="t_684">通知</span>、<span data-i18n="t_3634">评价</span>、<span data-i18n="t_519">信誉<span data-i18n="t_1188">与</span>成就贯穿全链路</span></p>
                         </div>
                         <div class="dy-value-card">
                             <div class="dy-value-icon">📍</div>
-                            <h4 class="text-white font-bold mb-1">本地化</h4>
-                            <p class="text-white/50 text-xs">地区筛选、在日场景、华人社区关系网络</p>
+                            <h4 class="text-white font-bold mb-1"><span data-i18n="t_3904">本地化</span></h4>
+                            <p class="text-white/50 text-xs"><span data-i18n="t_7471"><span data-i18n="t_197">地区</span>筛选</span>、<span data-i18n="t_5502"><span data-i18n="t_7124">在</span>日<span data-i18n="t_4463">场景</span></span>、<span data-i18n="t_5183">华人<span data-i18n="t_1714">社区</span>关系网络</span></p>
                         </div>
                         <div class="dy-value-card">
                             <div class="dy-value-icon">🚀</div>
-                            <h4 class="text-white font-bold mb-1">可持续</h4>
-                            <p class="text-white/50 text-xs">成长积分、成就系统、信誉体系驱动长期活跃</p>
+                            <h4 class="text-white font-bold mb-1"><span data-i18n="t_3349">可持续</span></h4>
+                            <p class="text-white/50 text-xs"><span data-i18n="t_8682">成长积分</span>、<span data-i18n="t_5822">成就<span data-i18n="t_9178">系统</span></span>、<span data-i18n="t_2782">信誉体系驱动长期活跃</span></p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 功能模块矩阵 -->
+            <!-- <span data-i18n="t_754">功能<span data-i18n="t_8004">模块</span><span data-i18n="t_5682">矩阵</span></span> -->
             <div class="py-12 bg-slate-800/50">
                 <div class="max-w-6xl mx-auto px-4">
-                    <h2 class="text-2xl sm:text-3xl font-bold text-white text-center mb-4">功能模块矩阵</h2>
-                    <p class="text-white/40 text-center mb-12 text-sm">江湖化模块统一入口，内容与交易强关联</p>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white text-center mb-4"><span data-i18n="t_754">功能<span data-i18n="t_8004">模块</span><span data-i18n="t_5682">矩阵</span></span></h2>
+                    <p class="text-white/40 text-center mb-12 text-sm"><span data-i18n="t_6968">江湖化<span data-i18n="t_8004">模块</span>统一入口</span>，<span data-i18n="t_1241"><span data-i18n="t_7637">内容</span><span data-i18n="t_5654"><span data-i18n="t_1188">与</span><span data-i18n="t_6820">交易</span></span>强关联</span></p>
 
                     <div class="grid md:grid-cols-2 gap-6">
-                        <!-- 生活服务与交易 -->
+                        <!-- <span data-i18n-en="Lifestyle Services"><span data-i18n-ja="<span data-i18n="t_2376">生活</span>サービス"></span></span><span data-i18n="t_5654"><span data-i18n="t_1188">与</span><span data-i18n="t_6820">交易</span></span> -->
                         <div class="dy-module-card">
                             <div class="dy-module-header bg-gradient-to-r from-blue-500 to-cyan-500">
                                 <span class="text-2xl">🏪</span>
-                                <h3 class="text-lg font-bold text-white">生活服务与交易</h3>
+                                <h3 class="text-lg font-bold text-white"><span data-i18n-en="Lifestyle Services"><span data-i18n-ja="<span data-i18n="t_2376">生活</span>サービス"></span></span><span data-i18n="t_5654"><span data-i18n="t_1188">与</span><span data-i18n="t_6820">交易</span></span></h3>
                             </div>
                             <div class="dy-module-content">
                                 <div class="dy-feature-item">
-                                    <span class="dy-feature-badge bg-blue-500/20 text-blue-400">镖局快马</span>
-                                    <p>服务/跑腿/技能发布，支持急单、议价、评价与聊天</p>
+                                    <span class="dy-feature-badge bg-blue-500/20 text-blue-400"><span data-i18n="t_5981">镖局快马</span></span>
+                                    <p><span data-i18n="t_8816">服务</span>/<span data-i18n="t_108">跑腿</span>/<span data-i18n="t_557">技能发布</span>，<span data-i18n="t_366"><span data-i18n="t_5084">支持</span>急单</span>、<span data-i18n="t_1298">议价</span>、<span data-i18n="t_2124"><span data-i18n="t_3634">评价</span><span data-i18n="t_1188">与</span><span data-i18n="t_7272">聊天</span></span></p>
                                 </div>
                                 <div class="dy-feature-item">
-                                    <span class="dy-feature-badge bg-cyan-500/20 text-cyan-400">神州宝库</span>
-                                    <p>店铺+商品+订单体系，支持店铺咨询、下单与支付</p>
+                                    <span class="dy-feature-badge bg-cyan-500/20 text-cyan-400"><span data-i18n="t_559">神州<span data-i18n="t_1264">宝</span>库</span></span>
+                                    <p><span data-i18n="t_9983">店铺</span>+<span data-i18n="t_47">商品</span>+<span data-i18n="t_4570"><span data-i18n="t_8512">订单</span>体系</span>，<span data-i18n="t_5011"><span data-i18n="t_5084">支持</span><span data-i18n="t_9983">店铺</span>咨询</span>、<span data-i18n="t_880"><span data-i18n="t_5522">下单</span><span data-i18n="t_1188">与</span></span><span data-i18n-en="Payment"><span data-i18n-ja="<span data-i18n="t_5837">決済</span>"></span></span></p>
                                 </div>
                                 <div class="dy-feature-item">
-                                    <span class="dy-feature-badge bg-teal-500/20 text-teal-400">侠客集市</span>
-                                    <p>二手闲置交易，支持分类筛选、议价与交易记录</p>
+                                    <span class="dy-feature-badge bg-teal-500/20 text-teal-400"><span data-i18n="t_1006">侠客集市</span></span>
+                                    <p><span data-i18n="t_2762"><span data-i18n="t_6088">二手<span data-i18n="t_8417">闲置</span></span><span data-i18n="t_6820">交易</span></span>，<span data-i18n="t_5551"><span data-i18n="t_4424"><span data-i18n="t_5084">支持</span>分类</span>筛选</span>、<span data-i18n="t_3774"><span data-i18n="t_1298">议价</span><span data-i18n="t_1188">与</span><span data-i18n="t_2016"><span data-i18n="t_6820">交易</span>记录</span></span></p>
                                 </div>
                                 <div class="dy-feature-item">
-                                    <span class="dy-feature-badge bg-emerald-500/20 text-emerald-400">客栈驿站</span>
-                                    <p>房源/租售/仓储/办公信息发布与筛选</p>
+                                    <span class="dy-feature-badge bg-emerald-500/20 text-emerald-400"><span data-i18n="t_6622">客栈驿站</span></span>
+                                    <p><span data-i18n="t_267">房源</span>/<span data-i18n="t_6026">租售</span>/<span data-i18n="t_1016">仓储</span>/<span data-i18n="t_9991"><span data-i18n="t_8903">办公</span>信息发布<span data-i18n="t_1188">与</span>筛选</span></p>
                                 </div>
                                 <div class="dy-feature-item">
-                                    <span class="dy-feature-badge bg-green-500/20 text-green-400">江湖食肆</span>
-                                    <p>餐厅与菜品检索、设施筛选、评论与咨询</p>
+                                    <span class="dy-feature-badge bg-green-500/20 text-green-400"><span data-i18n="t_4823">江湖食肆</span></span>
+                                    <p><span data-i18n="t_9396">餐厅<span data-i18n="t_1188">与</span>菜品检索</span>、<span data-i18n="t_9168">设施筛选</span>、<span data-i18n="t_4870"><span data-i18n="t_2847">评论</span><span data-i18n="t_1188">与</span>咨询</span></p>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- 招聘与职业 -->
+                        <!-- <span data-i18n="t_3099"><span data-i18n="t_5228">招聘</span><span data-i18n="t_1188">与</span>职业</span> -->
                         <div class="dy-module-card">
                             <div class="dy-module-header bg-gradient-to-r from-purple-500 to-pink-500">
                                 <span class="text-2xl">💼</span>
-                                <h3 class="text-lg font-bold text-white">招聘与职业</h3>
+                                <h3 class="text-lg font-bold text-white"><span data-i18n="t_3099"><span data-i18n="t_5228">招聘</span><span data-i18n="t_1188">与</span>职业</span></h3>
                             </div>
                             <div class="dy-module-content">
                                 <div class="dy-feature-item">
-                                    <span class="dy-feature-badge bg-purple-500/20 text-purple-400">江湖揭榜</span>
-                                    <p>求职简历与招聘岗位双向展示</p>
+                                    <span class="dy-feature-badge bg-purple-500/20 text-purple-400"><span data-i18n="t_9630">江湖揭榜</span></span>
+                                    <p><span data-i18n="t_1152"><span data-i18n="t_6801">求职</span>简历<span data-i18n="t_1188">与</span><span data-i18n="t_5228">招聘</span>岗位双向展示</span></p>
                                 </div>
                                 <div class="dy-feature-item">
-                                    <span class="dy-feature-badge bg-pink-500/20 text-pink-400">智能匹配</span>
-                                    <p>支持筛选、详情、投递/邀请与沟通</p>
+                                    <span class="dy-feature-badge bg-pink-500/20 text-pink-400"><span data-i18n="t_165">智能匹配</span></span>
+                                    <p><span data-i18n="t_9741"><span data-i18n="t_5084">支持</span>筛选</span>、<span data-i18n="t_912">详情</span>、<span data-i18n="t_1871">投递</span>/<span data-i18n="t_7132">邀请<span data-i18n="t_1188">与</span>沟通</span></p>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- 社交与社区 -->
+                        <!-- <span data-i18n="t_8476"><span data-i18n="t_3130">社交</span><span data-i18n="t_1188">与</span><span data-i18n="t_1714">社区</span></span> -->
                         <div class="dy-module-card">
                             <div class="dy-module-header bg-gradient-to-r from-orange-500 to-yellow-500">
                                 <span class="text-2xl">👥</span>
-                                <h3 class="text-lg font-bold text-white">社交与社区</h3>
+                                <h3 class="text-lg font-bold text-white"><span data-i18n="t_8476"><span data-i18n="t_3130">社交</span><span data-i18n="t_1188">与</span><span data-i18n="t_1714">社区</span></span></h3>
                             </div>
                             <div class="dy-module-content">
                                 <div class="dy-feature-item">
-                                    <span class="dy-feature-badge bg-orange-500/20 text-orange-400">英雄结义</span>
-                                    <p>同乡会、俱乐部、聚会活动、相亲等本地社交</p>
+                                    <span class="dy-feature-badge bg-orange-500/20 text-orange-400"><span data-i18n="t_7418">英雄结义</span></span>
+                                    <p><span data-i18n="t_9517">同乡会</span>、<span data-i18n="t_3599">俱乐部</span>、<span data-i18n="t_9507">聚会<span data-i18n="t_63">活动</span></span>、<span data-i18n="t_3048">相亲等本地<span data-i18n="t_3130">社交</span></span></p>
                                 </div>
                                 <div class="dy-feature-item">
-                                    <span class="dy-feature-badge bg-yellow-500/20 text-yellow-400">游侠动态</span>
-                                    <p>发布动态、点赞评论、举报与内容互动</p>
+                                    <span class="dy-feature-badge bg-yellow-500/20 text-yellow-400"><span data-i18n="t_9727"><span data-i18n="t_9989">游</span>侠动态</span></span>
+                                    <p><span data-i18n="t_4254">发布动态</span>、<span data-i18n="t_4911"><span data-i18n="t_1420">点赞</span><span data-i18n="t_2847">评论</span></span>、<span data-i18n="t_4807">举报<span data-i18n="t_1188">与</span><span data-i18n="t_7637">内容</span><span data-i18n="t_9205">互动</span></span></p>
                                 </div>
                                 <div class="dy-feature-item">
-                                    <span class="dy-feature-badge bg-amber-500/20 text-amber-400">侠客问道</span>
-                                    <p>问答社区，支持分类、悬赏、已解决标记</p>
+                                    <span class="dy-feature-badge bg-amber-500/20 text-amber-400"><span data-i18n="t_2763">侠客问道</span></span>
+                                    <p><span data-i18n="t_9120">问答<span data-i18n="t_1714">社区</span></span>，<span data-i18n="t_4424"><span data-i18n="t_5084">支持</span>分类</span>、<span data-i18n="t_2292">悬赏</span>、<span data-i18n="t_1737">已解决标记</span></p>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- 交易与支付 -->
+                        <!-- <span data-i18n="t_3868"><span data-i18n="t_6820">交易</span><span data-i18n="t_1188">与</span></span><span data-i18n-en="Payment"><span data-i18n-ja="<span data-i18n="t_5837">決済</span>"></span></span> -->
                         <div class="dy-module-card">
                             <div class="dy-module-header bg-gradient-to-r from-green-500 to-emerald-500">
                                 <span class="text-2xl">💰</span>
-                                <h3 class="text-lg font-bold text-white">交易与支付闭环</h3>
+                                <h3 class="text-lg font-bold text-white"><span data-i18n="t_3868"><span data-i18n="t_6820">交易</span><span data-i18n="t_1188">与</span></span><span data-i18n-en="Payment"><span data-i18n-ja="<span data-i18n="t_5837">決済</span>"></span></span><span data-i18n="t_141">闭环</span></h3>
                             </div>
                             <div class="dy-module-content">
                                 <div class="dy-feature-item">
-                                    <span class="dy-feature-badge bg-green-500/20 text-green-400">购物车</span>
-                                    <p>下单、支付、订单状态更新</p>
+                                    <span class="dy-feature-badge bg-green-500/20 text-green-400"><span data-i18n="t_5970">购物车</span></span>
+                                    <p><span data-i18n="t_5522">下单</span>、<span data-i18n-en="Payment"><span data-i18n-ja="<span data-i18n="t_5837">決済</span>"></span></span>、<span data-i18n="t_8243"><span data-i18n="t_8512">订单</span>状态更新</span></p>
                                 </div>
                                 <div class="dy-feature-item">
-                                    <span class="dy-feature-badge bg-emerald-500/20 text-emerald-400">交易记录</span>
-                                    <p>多维度评价系统</p>
+                                    <span class="dy-feature-badge bg-emerald-500/20 text-emerald-400"><span data-i18n="t_2016"><span data-i18n="t_6820">交易</span>记录</span></span>
+                                    <p><span data-i18n="t_8895">多维度<span data-i18n="t_3634">评价</span><span data-i18n="t_9178">系统</span></span></p>
                                 </div>
                                 <div class="dy-feature-item">
-                                    <span class="dy-feature-badge bg-teal-500/20 text-teal-400">游侠币</span>
-                                    <p>消费返还/抵扣/过期机制</p>
+                                    <span class="dy-feature-badge bg-teal-500/20 text-teal-400"><span data-i18n="t_6649"><span data-i18n="t_9989">游</span>侠币</span></span>
+                                    <p><span data-i18n="t_7309">消费返还</span>/<span data-i18n="t_4109">抵扣</span>/<span data-i18n="t_4929">过期机制</span></p>
                                 </div>
                             </div>
                         </div>
@@ -1193,279 +1196,279 @@
                 </div>
             </div>
 
-            <!-- 典型使用场景 + 官网结构图 共用一个 Alpine 作用域 -->
+            <!-- <span data-i18n="t_2599">典型<span data-i18n="t_6270"><span data-i18n="t_7144">使<span data-i18n="t_8030">用</span></span><span data-i18n="t_4463">场景</span></span></span> + <span data-i18n-en="Official Site"><span data-i18n-ja="<span data-i18n="t_2064">公式</span>サイト"></span></span><span data-i18n="t_7462">结构图</span> <span data-i18n="t_5378">共<span data-i18n="t_8030">用</span>一个</span> Alpine <span data-i18n="t_4008">作<span data-i18n="t_8030">用</span>域</span> -->
             <div x-data="{
                 activeModal: null,
                 modalData: {
                     'product': {
                         icon: '💎',
-                        title: '产品定位',
-                        subtitle: '打造SaaS交互社区',
-                        desc: '东瀛游侠是一款面向在日华人的一站式生活与社交平台，将服务、交易、招聘、社交、活动、内容社区统一在一个江湖体系里。',
-                        points: ['SaaS化运营模式', '社区化内容生态', '本地化服务网络', '游戏化成长体系']
+                        title: '<span data-i18n="t_4075">产品定位</span>',
+                        subtitle: '<span data-i18n="t_5130">打造</span>SaaS<span data-i18n="t_784">交互<span data-i18n="t_1714">社区</span></span>',
+                        desc: '<span data-i18n-en="Dongying Youxia"><span data-i18n-ja="<span data-i18n="t_6096">東瀛<span data-i18n="t_9989">游</span>侠</span>"></span></span><span data-i18n="t_5296"><span data-i18n="t_2645">是</span>一款面向</span><span data-i18n-en="Chinese in Japan"><span data-i18n-ja="<span data-i18n="t_2791"><span data-i18n="t_7124">在</span>日本华人</span>"></span></span><span data-i18n="t_5594">的</span><span data-i18n-en="All-in-one"><span data-i18n-ja="<span data-i18n="t_1994">一件式<span data-i18n="t_6941">中</span></span>"></span></span><span data-i18n="t_981"><span data-i18n="t_2376">生活</span><span data-i18n="t_1188">与</span></span><span data-i18n-en="Social Platform"><span data-i18n-ja="ソーシャルプラットフォーム"></span></span>，<span data-i18n="t_3427">将<span data-i18n="t_8816">服务</span></span>、<span data-i18n="t_6820">交易</span>、<span data-i18n="t_5228">招聘</span>、<span data-i18n="t_3130">社交</span>、<span data-i18n="t_63">活动</span>、<span data-i18n="t_6606"><span data-i18n="t_7139"><span data-i18n="t_7637">内容</span><span data-i18n="t_1714">社区</span></span><span data-i18n="t_69">统一<span data-i18n="t_7124">在</span>一个</span>江湖体系<span data-i18n="t_3472">里</span></span>。',
+                        points: ['SaaS<span data-i18n="t_7328">化运营模式</span>', '<span data-i18n="t_4701"><span data-i18n="t_1714">社区</span>化<span data-i18n="t_7637">内容</span>生态</span>', '<span data-i18n="t_9986"><span data-i18n="t_3904">本地化</span><span data-i18n="t_8816">服务</span>网络</span>', '<span data-i18n="t_6578"><span data-i18n="t_9989">游</span>戏化成长体系</span>']
                     },
                     'features': {
                         icon: '⚙️',
-                        title: '核心功能',
-                        subtitle: '八大核心模块',
-                        desc: '覆盖生活服务、交易、招聘、社交等全场景需求，打造完整的在日华人生活闭环。',
-                        points: ['镖局快马 - 服务跑腿', '神州宝库 - 店铺商城', '侠客集市 - 二手交易', '客栈驿站 - 房产租售', '江湖食肆 - 餐饮美食', '江湖揭榜 - 招聘求职', '英雄结义 - 社交活动', '侠客问道 - 问答社区']
+                        title: '<span data-i18n="t_7113">核心功能</span>',
+                        subtitle: '<span data-i18n="t_9528">八大核心<span data-i18n="t_8004">模块</span></span>',
+                        desc: '<span data-i18n="t_4936">覆盖</span><span data-i18n-en="Lifestyle Services"><span data-i18n-ja="<span data-i18n="t_2376">生活</span>サービス"></span></span>、<span data-i18n="t_6820">交易</span>、<span data-i18n="t_5228">招聘</span>、<span data-i18n="t_9790"><span data-i18n="t_3130">社交</span>等全<span data-i18n="t_4463">场景</span>需求</span>，<span data-i18n="t_1607"><span data-i18n="t_5130">打造</span>完整<span data-i18n="t_5594">的</span></span><span data-i18n-en="Chinese in Japan"><span data-i18n-ja="<span data-i18n="t_2791"><span data-i18n="t_7124">在</span>日本华人</span>"></span></span><span data-i18n="t_4353"><span data-i18n="t_2376">生活</span><span data-i18n="t_141">闭环</span></span>。',
+                        points: ['<span data-i18n="t_5981">镖局快马</span> - <span data-i18n="t_974"><span data-i18n="t_8816">服务</span><span data-i18n="t_108">跑腿</span></span>', '<span data-i18n="t_559">神州<span data-i18n="t_1264">宝</span>库</span> - <span data-i18n="t_9444"><span data-i18n="t_9983">店铺</span><span data-i18n="t_9560">商城</span></span>', '<span data-i18n="t_1006">侠客集市</span> - <span data-i18n="t_7108">二手<span data-i18n="t_6820">交易</span></span>', '<span data-i18n="t_6622">客栈驿站</span> - <span data-i18n="t_6060">房产<span data-i18n="t_6026">租售</span></span>', '<span data-i18n="t_4823">江湖食肆</span> - <span data-i18n="t_7078"><span data-i18n="t_6075">餐饮</span>美食</span>', '<span data-i18n="t_9630">江湖揭榜</span> - <span data-i18n="t_4760"><span data-i18n="t_5228">招聘</span><span data-i18n="t_6801">求职</span></span>', '<span data-i18n="t_7418">英雄结义</span> - <span data-i18n="t_6241"><span data-i18n="t_3130">社交</span><span data-i18n="t_63">活动</span></span>', '<span data-i18n="t_2763">侠客问道</span> - <span data-i18n="t_9120">问答<span data-i18n="t_1714">社区</span></span>']
                     },
                     'scenes': {
                         icon: '🎯',
-                        title: '使用场景',
-                        subtitle: '日本生活场景全覆盖',
-                        desc: '无论是初来乍到还是长期定居，东瀛游侠都能满足你在日本的各种生活需求。',
-                        points: ['找服务：紧急跑腿、技能服务', '找工作：岗位投递、简历管理', '找房源：租房买卖、办公仓储', '找人脉：同乡会、俱乐部活动', '买卖交易：二手市集、商城购物', '解决问题：发动态、提问答疑']
+                        title: '<span data-i18n="t_6270"><span data-i18n="t_7144">使<span data-i18n="t_8030">用</span></span><span data-i18n="t_4463">场景</span></span>',
+                        subtitle: '<span data-i18n="t_3967">日本<span data-i18n="t_2376">生活</span><span data-i18n="t_4463">场景</span>全<span data-i18n="t_4936">覆盖</span></span>',
+                        desc: '<span data-i18n="t_3681">无论<span data-i18n="t_2645">是</span>初来乍到还<span data-i18n="t_2645">是</span>长期定居</span>，<span data-i18n-en="Dongying Youxia"><span data-i18n-ja="<span data-i18n="t_6096">東瀛<span data-i18n="t_9989">游</span>侠</span>"></span></span><span data-i18n="t_8350">都能满足<span data-i18n="t_2267">你</span><span data-i18n="t_7124">在</span>日本<span data-i18n="t_5594">的</span>各种<span data-i18n="t_2376">生活</span>需求</span>。',
+                        points: ['<span data-i18n="t_4211">找<span data-i18n="t_8816">服务</span></span>：<span data-i18n="t_8006">紧急<span data-i18n="t_108">跑腿</span></span>、<span data-i18n="t_7890">技能<span data-i18n="t_8816">服务</span></span>', '<span data-i18n="t_8604">找工作</span>：<span data-i18n="t_720">岗位<span data-i18n="t_1871">投递</span></span>、<span data-i18n="t_7098">简历管理</span>', '<span data-i18n="t_5323">找<span data-i18n="t_267">房源</span></span>：<span data-i18n="t_7340"><span data-i18n="t_6832">租房</span><span data-i18n="t_925">买卖</span></span>、<span data-i18n="t_2093"><span data-i18n="t_8903">办公</span><span data-i18n="t_1016">仓储</span></span>', '<span data-i18n="t_4630">找人脉</span>：<span data-i18n="t_9517">同乡会</span>、<span data-i18n="t_8311"><span data-i18n="t_3599">俱乐部</span><span data-i18n="t_63">活动</span></span>', '<span data-i18n="t_4053"><span data-i18n="t_925">买卖</span><span data-i18n="t_6820">交易</span></span>：<span data-i18n="t_9616">二手市集</span>、<span data-i18n="t_853"><span data-i18n="t_9560">商城</span>购物</span>', '<span data-i18n="t_460">解决问题</span>：<span data-i18n="t_7846">发动态</span>、<span data-i18n="t_6632">提问答疑</span>']
                     },
                     'highlights': {
                         icon: '✨',
-                        title: '特色亮点',
-                        subtitle: '差异化竞争优势',
-                        desc: '独特的江湖化设计理念，让用户在获取服务的同时享受沉浸式体验。',
-                        points: ['江湖化模块命名与UI设计', '信誉与成就系统驱动活跃', '举报与审核闭环保障安全', '站内聊天贯穿全链路']
+                        title: '<span data-i18n="t_9132">特色亮点</span>',
+                        subtitle: '<span data-i18n="t_3227">差异化竞争优势</span>',
+                        desc: '<span data-i18n="t_5267">独特<span data-i18n="t_5594">的</span>江湖化<span data-i18n="t_1566">设计</span>理念</span>，<span data-i18n="t_4856">让<span data-i18n="t_8030">用</span>户<span data-i18n="t_7124">在</span>获取<span data-i18n="t_8816">服务</span><span data-i18n="t_5594">的</span>同时享受沉浸式<span data-i18n="t_1610">体验</span></span>。',
+                        points: ['<span data-i18n="t_6115">江湖化<span data-i18n="t_8004">模块</span>命名<span data-i18n="t_1188">与</span></span>UI<span data-i18n="t_1566">设计</span>', '<span data-i18n="t_7308">信誉<span data-i18n="t_1188">与</span><span data-i18n="t_5822">成就<span data-i18n="t_9178">系统</span></span>驱动活跃</span>', '<span data-i18n="t_7947">举报<span data-i18n="t_1188">与</span><span data-i18n="t_8609">审核</span><span data-i18n="t_141">闭环</span>保障<span data-i18n="t_9777">安全</span></span>', '<span data-i18n="t_1036">站内<span data-i18n="t_7272">聊天</span>贯穿全链路</span>']
                     },
                     'users': {
                         icon: '👥',
-                        title: '用户人群',
-                        subtitle: '三大核心用户群体',
-                        desc: '精准定位在日华人社区，服务个人用户、商家和组织者。',
-                        points: ['个人用户：生活服务、交友求助', '商家服务者：获客成交、长期经营', '社区组织者：运营活动、沉淀圈子']
+                        title: '<span data-i18n="t_5713"><span data-i18n="t_8030">用</span>户人群</span>',
+                        subtitle: '<span data-i18n="t_4100">三大核心<span data-i18n="t_8030">用</span>户群体</span>',
+                        desc: '<span data-i18n="t_1095">精准定位</span><span data-i18n-en="Chinese in Japan"><span data-i18n-ja="<span data-i18n="t_2791"><span data-i18n="t_7124">在</span>日本华人</span>"></span></span><span data-i18n="t_1714">社区</span>，<span data-i18n="t_8222"><span data-i18n="t_8816">服务</span><span data-i18n="t_6642">个人<span data-i18n="t_8030">用</span>户</span></span>、<span data-i18n="t_2915">商家<span data-i18n="t_2529">和</span>组织者</span>。',
+                        points: ['<span data-i18n="t_6642">个人<span data-i18n="t_8030">用</span>户</span>：<span data-i18n-en="Lifestyle Services"><span data-i18n-ja="<span data-i18n="t_2376">生活</span>サービス"></span></span>、<span data-i18n="t_2338"><span data-i18n="t_2753">交友</span><span data-i18n="t_7098">求助</span></span>', '<span data-i18n="t_7747">商家<span data-i18n="t_8816">服务</span>者</span>：<span data-i18n="t_756"><span data-i18n="t_1898">获客</span><span data-i18n="t_2857">成交</span></span>、<span data-i18n="t_1580">长期经营</span>', '<span data-i18n="t_1862"><span data-i18n="t_1714">社区</span>组织者</span>：<span data-i18n="t_7886">运营<span data-i18n="t_63">活动</span></span>、<span data-i18n="t_6595">沉淀圈子</span>']
                     },
                     'security': {
                         icon: '🛡️',
-                        title: '安全合规',
-                        subtitle: '构建可信社区环境',
-                        desc: '完善的安全机制和合规体系，保护用户隐私和交易安全。',
-                        points: ['实名认证体系', '交易资金保障', '内容审核机制', '隐私数据保护']
+                        title: '<span data-i18n="t_9504"><span data-i18n="t_9777">安全</span><span data-i18n="t_3491">合</span>规</span>',
+                        subtitle: '<span data-i18n="t_5215">构建可信<span data-i18n="t_1714">社区</span>环境</span>',
+                        desc: '<span data-i18n="t_1515">完善<span data-i18n="t_5594">的</span><span data-i18n="t_9777">安全</span>机制<span data-i18n="t_2529">和</span><span data-i18n="t_3491">合</span>规体系</span>，<span data-i18n="t_6410">保护<span data-i18n="t_8030">用</span>户隐<span data-i18n="t_2002">私</span><span data-i18n="t_2529">和</span><span data-i18n="t_6820">交易</span><span data-i18n="t_9777">安全</span></span>。',
+                        points: ['<span data-i18n="t_7209">实名认证体系</span>', '<span data-i18n="t_4870"><span data-i18n="t_6820">交易</span>资金保障</span>', '<span data-i18n="t_920"><span data-i18n="t_7637">内容</span><span data-i18n="t_8609">审核</span>机制</span>', '<span data-i18n="t_799">隐<span data-i18n="t_2002">私</span>数据保护</span>']
                     },
                     'download': {
                         icon: '📲',
-                        title: '下载体验',
-                        subtitle: '多端支持即将上线',
-                        desc: '支持iOS、Android和Web多端访问，随时随地使用东瀛游侠。',
-                        points: ['iOS App Store', 'Android 应用商店', 'Web网页版', '微信小程序(规划中)']
+                        title: '<span data-i18n="t_5237"><span data-i18n="t_7110">下载</span><span data-i18n="t_1610">体验</span></span>',
+                        subtitle: '<span data-i18n="t_1742"><span data-i18n="t_9857">多端<span data-i18n="t_5084">支持</span></span><span data-i18n="t_1120">即将上线</span></span>',
+                        desc: '<span data-i18n="t_5084">支持</span>iOS、Android<span data-i18n="t_2529">和</span>Web<span data-i18n="t_635">多端<span data-i18n="t_3220">访问</span></span>，<span data-i18n="t_552">随时随地<span data-i18n="t_7144">使<span data-i18n="t_8030">用</span></span></span><span data-i18n-en="Dongying Youxia"><span data-i18n-ja="<span data-i18n="t_6096">東瀛<span data-i18n="t_9989">游</span>侠</span>"></span></span>。',
+                        points: ['iOS App Store', 'Android <span data-i18n="t_9614">应<span data-i18n="t_8030">用</span>商店</span>', 'Web<span data-i18n="t_7827"><span data-i18n="t_7834">网页</span>版</span>', '<span data-i18n="t_7307">微信</span><span data-i18n-en="Mini Program"><span data-i18n-ja="ミニプログラム"></span></span>(<span data-i18n="t_4021">规划<span data-i18n="t_6941">中</span></span>)']
                     },
                     'life_service': {
                         icon: '🏪',
-                        title: '生活服务',
-                        subtitle: '镖局快马 + 江湖食肆',
-                        desc: '涵盖日常生活中的各类服务需求，从跑腿代办到美食探店，一站解决。',
-                        points: ['紧急跑腿：代购、代取、代送', '技能服务：翻译、搬家、维修', '餐饮美食：餐厅检索、菜品推荐', '设施筛选：停车场、包间、wifi', '评论系统：真实用户点评参考']
+                        title: '<span data-i18n-en="Lifestyle Services"><span data-i18n-ja="<span data-i18n="t_2376">生活</span>サービス"></span></span>',
+                        subtitle: '<span data-i18n="t_5981">镖局快马</span> + <span data-i18n="t_4823">江湖食肆</span>',
+                        desc: '<span data-i18n="t_1356">涵盖日常<span data-i18n="t_2376">生活</span><span data-i18n="t_6941">中</span><span data-i18n="t_5594">的</span>各类<span data-i18n="t_8816">服务</span>需求</span>，<span data-i18n="t_7782">从<span data-i18n="t_108">跑腿</span>代办到美食探店</span>，<span data-i18n="t_4985">一站解决</span>。',
+                        points: ['<span data-i18n="t_8006">紧急<span data-i18n="t_108">跑腿</span></span>：<span data-i18n="t_9834">代购</span>、<span data-i18n="t_7552">代取</span>、<span data-i18n="t_7043">代送</span>', '<span data-i18n="t_7890">技能<span data-i18n="t_8816">服务</span></span>：<span data-i18n="t_7618">翻译</span>、<span data-i18n="t_7031">搬家</span>、<span data-i18n="t_4616">维修</span>', '<span data-i18n="t_7078"><span data-i18n="t_6075">餐饮</span>美食</span>：<span data-i18n="t_2232">餐厅检索</span>、<span data-i18n="t_5560">菜品推荐</span>', '<span data-i18n="t_9168">设施筛选</span>：<span data-i18n="t_2111">停车场</span>、<span data-i18n="t_4699">包间</span>、wifi', '<span data-i18n="t_6891"><span data-i18n="t_2847">评论</span><span data-i18n="t_9178">系统</span></span>：<span data-i18n="t_5828">真实<span data-i18n="t_8030">用</span>户点评参考</span>']
                     },
                     'job_career': {
                         icon: '💼',
-                        title: '招聘职业',
-                        subtitle: '江湖揭榜',
-                        desc: '在日华人专属的招聘求职平台，双向匹配，高效对接。',
-                        points: ['简历管理：一键投递多个岗位', '岗位筛选：行业、地区、薪资', '企业认证：真实可靠的招聘方', '即时沟通：在线聊天快速响应', '面试预约：日程管理一目了然']
+                        title: '<span data-i18n="t_6303"><span data-i18n="t_5228">招聘</span>职业</span>',
+                        subtitle: '<span data-i18n="t_9630">江湖揭榜</span>',
+                        desc: '<span data-i18n-en="Chinese in Japan"><span data-i18n-ja="<span data-i18n="t_2791"><span data-i18n="t_7124">在</span>日本华人</span>"></span></span><span data-i18n="t_2663">专属<span data-i18n="t_5594">的</span><span data-i18n="t_4760"><span data-i18n="t_5228">招聘</span><span data-i18n="t_6801">求职</span></span>平台</span>，<span data-i18n="t_2507">双向匹配</span>，<span data-i18n="t_7905">高效<span data-i18n="t_331">对接</span></span>。',
+                        points: ['<span data-i18n="t_7098">简历管理</span>：<span data-i18n="t_7898">一键<span data-i18n="t_1871">投递</span>多个岗位</span>', '<span data-i18n="t_9920">岗位筛选</span>：<span data-i18n="t_8133">行业</span>、<span data-i18n="t_197">地区</span>、<span data-i18n="t_2521">薪资</span>', '<span data-i18n="t_8042">企业认证</span>：<span data-i18n="t_1767">真实可靠<span data-i18n="t_5594">的</span><span data-i18n="t_5228">招聘</span>方</span>', '<span data-i18n="t_1756">即时沟通</span>：<span data-i18n="t_9039"><span data-i18n="t_7124">在</span>线<span data-i18n="t_7272">聊天</span>快速响应</span>', '<span data-i18n="t_4936">面试<span data-i18n="t_7093">预约</span></span>：<span data-i18n="t_6057">日程管理一目了然</span>']
                     },
                     'social_community': {
                         icon: '👥',
-                        title: '社交社区',
-                        subtitle: '英雄结义',
-                        desc: '连接在日华人，建立真实的社交关系网络。',
-                        points: ['同乡会：找到老乡，倍感亲切', '俱乐部：兴趣相投，志同道合', '线下活动：聚餐、运动、旅行', '相亲交友：缘分从这里开始', '圈子沉淀：长期关系持续经营']
+                        title: '<span data-i18n="t_9456"><span data-i18n="t_3130">社交</span><span data-i18n="t_1714">社区</span></span>',
+                        subtitle: '<span data-i18n="t_7418">英雄结义</span>',
+                        desc: '<span data-i18n="t_9660">连接</span><span data-i18n-en="Chinese in Japan"><span data-i18n-ja="<span data-i18n="t_2791"><span data-i18n="t_7124">在</span>日本华人</span>"></span></span>，<span data-i18n="t_9445">建立真实<span data-i18n="t_5594">的</span><span data-i18n="t_3130">社交</span>关系网络</span>。',
+                        points: ['<span data-i18n="t_9517">同乡会</span>：<span data-i18n="t_7206">找到老乡</span>，<span data-i18n="t_9832">倍感亲切</span>', '<span data-i18n="t_3599">俱乐部</span>：<span data-i18n="t_8086">兴趣相投</span>，<span data-i18n="t_475">志同道<span data-i18n="t_3491">合</span></span>', '<span data-i18n="t_9659">线下<span data-i18n="t_63">活动</span></span>：<span data-i18n="t_2978">聚餐</span>、<span data-i18n="t_1094">运动</span>、<span data-i18n="t_4345">旅行</span>', '<span data-i18n="t_4160">相亲<span data-i18n="t_2753">交友</span></span>：<span data-i18n="t_871">缘分从这<span data-i18n="t_3472">里</span>开始</span>', '<span data-i18n="t_1373">圈子沉淀</span>：<span data-i18n="t_596">长期关系持续经营</span>']
                     },
                     'content_qa': {
                         icon: '❓',
-                        title: '内容问答',
-                        subtitle: '侠客问道 + 游侠动态',
-                        desc: '知识共享与经验交流的社区平台。',
-                        points: ['提问求助：生活难题快速解答', '悬赏问答：重金求解专业问题', '经验分享：老司机带路不迷茫', '动态发布：分享日常精彩瞬间', '互动评论：点赞、评论、转发']
+                        title: '<span data-i18n="t_3036"><span data-i18n="t_7637">内容</span>问答</span>',
+                        subtitle: '<span data-i18n="t_2763">侠客问道</span> + <span data-i18n="t_9727"><span data-i18n="t_9989">游</span>侠动态</span>',
+                        desc: '<span data-i18n="t_3002">知识共享<span data-i18n="t_1188">与</span>经验交流<span data-i18n="t_5594">的</span><span data-i18n="t_1714">社区</span>平台</span>。',
+                        points: ['<span data-i18n="t_9957">提问<span data-i18n="t_7098">求助</span></span>：<span data-i18n="t_9776"><span data-i18n="t_2376">生活</span>难题快速解答</span>', '<span data-i18n="t_7785"><span data-i18n="t_2292">悬赏</span>问答</span>：<span data-i18n="t_3229">重金求解专业问题</span>', '<span data-i18n="t_9436">经验分享</span>：<span data-i18n="t_4915">老司机带路不迷茫</span>', '<span data-i18n="t_7918">动态发布</span>：<span data-i18n="t_4491">分享日常精彩瞬间</span>', '<span data-i18n="t_1542"><span data-i18n="t_9205">互动</span><span data-i18n="t_2847">评论</span></span>：<span data-i18n="t_1420">点赞</span>、<span data-i18n="t_2847">评论</span>、<span data-i18n="t_4005">转发</span>']
                     },
                     'message_notify': {
                         icon: '💬',
-                        title: '消息通知',
-                        subtitle: '全链路消息中心',
-                        desc: '不错过任何重要信息，实时掌握动态。',
-                        points: ['私聊消息：一对一沟通无障碍', '群聊功能：多人讨论高效协作', '系统通知：订单、审核、活动', '消息聚合：分类清晰易管理', '推送提醒：重要消息即时到达']
+                        title: '<span data-i18n="t_2399"><span data-i18n="t_6288">消息</span><span data-i18n="t_684">通知</span></span>',
+                        subtitle: '<span data-i18n="t_3765">全链路<span data-i18n="t_6288">消息</span><span data-i18n="t_6941">中</span>心</span>',
+                        desc: '<span data-i18n="t_8417">不错过任何重要信息</span>，<span data-i18n="t_9722">实时掌握动态</span>。',
+                        points: ['<span data-i18n="t_3149"><span data-i18n="t_2002">私</span>聊<span data-i18n="t_6288">消息</span></span>：<span data-i18n="t_6329">一对一沟通无障碍</span>', '<span data-i18n="t_867">群聊功能</span>：<span data-i18n="t_7926">多人讨论高效协作</span>', '<span data-i18n="t_9565"><span data-i18n="t_9178">系统</span><span data-i18n="t_684">通知</span></span>：<span data-i18n="t_8512">订单</span>、<span data-i18n="t_8609">审核</span>、<span data-i18n="t_63">活动</span>', '<span data-i18n="t_12"><span data-i18n="t_6288">消息</span><span data-i18n="t_9144">聚<span data-i18n="t_3491">合</span></span></span>：<span data-i18n="t_551">分类清晰易管理</span>', '<span data-i18n="t_606"><span data-i18n="t_6706">推送</span>提醒</span>：<span data-i18n="t_2506">重要<span data-i18n="t_6288">消息</span>即时到达</span>']
                     },
                     'payment_order': {
                         icon: '💰',
-                        title: '支付订单',
-                        subtitle: '交易闭环保障',
-                        desc: '安全便捷的支付体验，完整的交易保障。',
-                        points: ['多种支付：微信、支付宝、信用卡', '购物车：批量下单更方便', '订单追踪：实时状态更新', '交易评价：双向评价机制', '游侠币：消费返还、抵扣优惠']
+                        title: '<span data-i18n-en="Payment"><span data-i18n-ja="<span data-i18n="t_5837">決済</span>"></span></span><span data-i18n="t_8512">订单</span>',
+                        subtitle: '<span data-i18n="t_8188"><span data-i18n="t_6820">交易</span><span data-i18n="t_141">闭环</span>保障</span>',
+                        desc: '<span data-i18n="t_8263"><span data-i18n="t_9777">安全</span>便捷<span data-i18n="t_5594">的</span></span><span data-i18n-en="Payment"><span data-i18n-ja="<span data-i18n="t_5837">決済</span>"></span></span><span data-i18n="t_1610">体验</span>，<span data-i18n="t_8290">完整<span data-i18n="t_5594">的</span><span data-i18n="t_4894"><span data-i18n="t_6820">交易</span>保障</span></span>。',
+                        points: ['<span data-i18n="t_9908">多种</span><span data-i18n-en="Payment"><span data-i18n-ja="<span data-i18n="t_5837">決済</span>"></span></span>：<span data-i18n="t_7307">微信</span>、<span data-i18n-en="Payment"><span data-i18n-ja="<span data-i18n="t_5837">決済</span>"></span></span><span data-i18n="t_1264">宝</span>、<span data-i18n="t_6388">信<span data-i18n="t_8030">用</span>卡</span>', '<span data-i18n="t_5970">购物车</span>：<span data-i18n="t_1005">批量<span data-i18n="t_5522">下单</span>更方便</span>', '<span data-i18n="t_3871"><span data-i18n="t_8512">订单</span>追踪</span>：<span data-i18n="t_2257">实时状态更新</span>', '<span data-i18n="t_1455"><span data-i18n="t_6820">交易</span><span data-i18n="t_3634">评价</span></span>：<span data-i18n="t_9479">双向<span data-i18n="t_3634">评价</span>机制</span>', '<span data-i18n="t_6649"><span data-i18n="t_9989">游</span>侠币</span>：<span data-i18n="t_7309">消费返还</span>、<span data-i18n="t_4649"><span data-i18n="t_4109">抵扣</span>优惠</span>']
                     },
                     'scene_service': {
                         icon: '🔧',
-                        title: '找服务',
-                        subtitle: '紧急跑腿、技能服务',
-                        desc: '急事不急，总有人帮你搞定。',
-                        points: ['代购代办：机场接送、排队取号', '技能服务：翻译陪同、搬家清洁', '急单加急：紧急需求优先处理', '议价系统：灵活定价双方满意', '服务评价：选择靠谱的服务者']
+                        title: '<span data-i18n="t_4211">找<span data-i18n="t_8816">服务</span></span>',
+                        subtitle: '<span data-i18n="t_8006">紧急<span data-i18n="t_108">跑腿</span></span>、<span data-i18n="t_7890">技能<span data-i18n="t_8816">服务</span></span>',
+                        desc: '<span data-i18n="t_1024">急事不急</span>，<span data-i18n="t_1271">总有人帮<span data-i18n="t_2267">你</span>搞定</span>。',
+                        points: ['<span data-i18n="t_4767"><span data-i18n="t_9834">代购</span>代办</span>：<span data-i18n="t_4418">机场接送</span>、<span data-i18n="t_981">排队取号</span>', '<span data-i18n="t_7890">技能<span data-i18n="t_8816">服务</span></span>：<span data-i18n="t_5910"><span data-i18n="t_7618">翻译</span>陪同</span>、<span data-i18n="t_5945"><span data-i18n="t_7031">搬家</span>清洁</span>', '<span data-i18n="t_4102">急单加急</span>：<span data-i18n="t_9501">紧急需求优先处理</span>', '<span data-i18n="t_8456"><span data-i18n="t_1298">议价</span><span data-i18n="t_9178">系统</span></span>：<span data-i18n="t_1658">灵活定价双方满意</span>', '<span data-i18n="t_8632"><span data-i18n="t_8816">服务</span><span data-i18n="t_3634">评价</span></span>：<span data-i18n="t_5003">选择靠谱<span data-i18n="t_5594">的</span><span data-i18n="t_8816">服务</span>者</span>']
                     },
                     'scene_job': {
                         icon: '💼',
-                        title: '找工作',
-                        subtitle: '查看岗位、投递简历',
-                        desc: '在日华人求职首选，机会触手可及。',
-                        points: ['海量岗位：餐饮、IT、贸易、翻译', '简历优化：专业模板一键生成', '智能推荐：匹配你的技能经验', '薪资透明：明码标价不踩坑', '入职跟踪：从投递到入职全程']
+                        title: '<span data-i18n="t_8604">找工作</span>',
+                        subtitle: '<span data-i18n="t_9738">查看岗位</span>、<span data-i18n="t_1769"><span data-i18n="t_1871">投递</span>简历</span>',
+                        desc: '<span data-i18n-en="Chinese in Japan"><span data-i18n-ja="<span data-i18n="t_2791"><span data-i18n="t_7124">在</span>日本华人</span>"></span></span><span data-i18n="t_8211"><span data-i18n="t_6801">求职</span>首选</span>，<span data-i18n="t_88">机会触手可及</span>。',
+                        points: ['<span data-i18n="t_5846">海量岗位</span>：<span data-i18n="t_6075">餐饮</span>、IT、<span data-i18n="t_3921">贸易</span>、<span data-i18n="t_7618">翻译</span>', '<span data-i18n="t_5693">简历优化</span>：<span data-i18n="t_1084">专业模板一键生成</span>', '<span data-i18n="t_2409">智能推荐</span>：<span data-i18n="t_2375">匹配<span data-i18n="t_2267">你</span><span data-i18n="t_5594">的</span>技能经验</span>', '<span data-i18n="t_2439"><span data-i18n="t_2521">薪资</span>透明</span>：<span data-i18n="t_5264">明码标价不踩坑</span>', '<span data-i18n="t_5785">入职跟踪</span>：<span data-i18n="t_6321">从<span data-i18n="t_1871">投递</span>到入职全程</span>']
                     },
                     'scene_house': {
                         icon: '🏠',
-                        title: '找房源',
-                        subtitle: '租房/买卖/办公',
-                        desc: '安居乐业，从找到合适的房子开始。',
-                        points: ['租房信息：公寓、合租、整租', '买卖房产：二手房、新房咨询', '办公场地：写字楼、共享办公', '仓储物流：仓库、物流中转', '地图筛选：按区域精准查找']
+                        title: '<span data-i18n="t_5323">找<span data-i18n="t_267">房源</span></span>',
+                        subtitle: '<span data-i18n="t_6832">租房</span>/<span data-i18n="t_925">买卖</span>/<span data-i18n="t_8903">办公</span>',
+                        desc: '<span data-i18n="t_9941">安居乐业</span>，<span data-i18n="t_5074">从找到<span data-i18n="t_3491">合</span>适<span data-i18n="t_5594">的</span>房子开始</span>。',
+                        points: ['<span data-i18n="t_3963"><span data-i18n="t_6832">租房</span>信息</span>：<span data-i18n="t_3406">公寓</span>、<span data-i18n="t_8459"><span data-i18n="t_3491">合</span>租</span>、<span data-i18n="t_8085">整租</span>', '<span data-i18n="t_9670"><span data-i18n="t_925">买卖</span>房产</span>：<span data-i18n="t_8430">二手房</span>、<span data-i18n="t_9992">新房咨询</span>', '<span data-i18n="t_5778"><span data-i18n="t_8903">办公</span>场地</span>：<span data-i18n="t_6278">写字楼</span>、<span data-i18n="t_4732">共享<span data-i18n="t_8903">办公</span></span>', '<span data-i18n="t_3139"><span data-i18n="t_1016">仓储</span>物流</span>：<span data-i18n="t_4106">仓库</span>、<span data-i18n="t_9310">物流<span data-i18n="t_6941">中</span>转</span>', '<span data-i18n="t_1074"><span data-i18n="t_4282">地图</span>筛选</span>：<span data-i18n="t_2961">按<span data-i18n="t_6244">区域</span>精准查找</span>']
                     },
                     'scene_network': {
                         icon: '🤝',
-                        title: '找人脉',
-                        subtitle: '同乡会、俱乐部',
-                        desc: '他乡遇故知，人脉即资源。',
-                        points: ['同乡组织：按省份、城市聚合', '兴趣俱乐部：运动、音乐、摄影', '行业圈子：同行交流互助', '线下活动：定期聚会拓展人脉', '人脉推荐：认识朋友的朋友']
+                        title: '<span data-i18n="t_4630">找人脉</span>',
+                        subtitle: '<span data-i18n="t_9517">同乡会</span>、<span data-i18n="t_3599">俱乐部</span>',
+                        desc: '<span data-i18n="t_3325">他乡遇故知</span>，<span data-i18n="t_4747">人脉即资源</span>。',
+                        points: ['<span data-i18n="t_720">同乡组织</span>：<span data-i18n="t_2897">按省份</span>、<span data-i18n="t_873">城市<span data-i18n="t_9144">聚<span data-i18n="t_3491">合</span></span></span>', '<span data-i18n="t_6079">兴趣<span data-i18n="t_3599">俱乐部</span></span>：<span data-i18n="t_1094">运动</span>、<span data-i18n="t_4151">音乐</span>、<span data-i18n="t_6294">摄影</span>', '<span data-i18n="t_5893"><span data-i18n="t_8133">行业</span>圈子</span>：<span data-i18n="t_3818">同行交流互助</span>', '<span data-i18n="t_9659">线下<span data-i18n="t_63">活动</span></span>：<span data-i18n="t_304">定期聚会拓展人脉</span>', '<span data-i18n="t_5">人脉推荐</span>：<span data-i18n="t_3981">认识朋友<span data-i18n="t_5594">的</span>朋友</span>']
                     },
                     'scene_trade': {
                         icon: '🛒',
-                        title: '买卖交易',
-                        subtitle: '二手市集、商城',
-                        desc: '买卖不求人，闲置变现金。',
-                        points: ['二手闲置：低价淘好物', '商家店铺：品质有保障', '分类齐全：电子、家具、服饰', '议价功能：讨价还价更灵活', '交易保障：平台担保更安心']
+                        title: '<span data-i18n="t_4053"><span data-i18n="t_925">买卖</span><span data-i18n="t_6820">交易</span></span>',
+                        subtitle: '<span data-i18n="t_9616">二手市集</span>、<span data-i18n="t_9560">商城</span>',
+                        desc: '<span data-i18n="t_9884"><span data-i18n="t_925">买卖</span>不求人</span>，<span data-i18n="t_1156"><span data-i18n="t_8417">闲置</span>变现金</span>。',
+                        points: ['<span data-i18n="t_6088">二手<span data-i18n="t_8417">闲置</span></span>：<span data-i18n="t_5237">低价淘好物</span>', '<span data-i18n="t_1508">商家<span data-i18n="t_9983">店铺</span></span>：<span data-i18n="t_7597">品质有保障</span>', '<span data-i18n="t_6388">分类齐全</span>：<span data-i18n="t_9528">电子</span>、<span data-i18n="t_9505">家具</span>、<span data-i18n="t_710">服饰</span>', '<span data-i18n="t_8805"><span data-i18n="t_1298">议价</span>功能</span>：<span data-i18n="t_1563">讨价还价更灵活</span>', '<span data-i18n="t_4894"><span data-i18n="t_6820">交易</span>保障</span>：<span data-i18n="t_9287">平台担保更安心</span>']
                     },
                     'scene_help': {
                         icon: '❓',
-                        title: '解决问题',
-                        subtitle: '发动态、提问答疑',
-                        desc: '有问题？社区里总有人能帮你。',
-                        points: ['快速提问：描述问题等待解答', '悬赏求助：重要问题重金求解', '经验搜索：别人踩过的坑你绕行', '动态求助：朋友圈式广而告之', '专家解答：认证用户权威回复']
+                        title: '<span data-i18n="t_460">解决问题</span>',
+                        subtitle: '<span data-i18n="t_7846">发动态</span>、<span data-i18n="t_6632">提问答疑</span>',
+                        desc: '<span data-i18n="t_5579">有问题</span>？<span data-i18n="t_3282"><span data-i18n="t_1714">社区</span><span data-i18n="t_3472">里</span>总有人能帮<span data-i18n="t_2267">你</span></span>。',
+                        points: ['<span data-i18n="t_2714">快速提问</span>：<span data-i18n="t_1918">描述问题等待解答</span>', '<span data-i18n="t_1004"><span data-i18n="t_2292">悬赏</span><span data-i18n="t_7098">求助</span></span>：<span data-i18n="t_1131">重要问题重金求解</span>', '<span data-i18n="t_5282">经验搜索</span>：<span data-i18n="t_2906">别人踩过<span data-i18n="t_5594">的</span>坑<span data-i18n="t_2267">你</span>绕行</span>', '<span data-i18n="t_7230">动态<span data-i18n="t_7098">求助</span></span>：<span data-i18n="t_9405">朋友圈式广而告之</span>', '<span data-i18n="t_887">专家解答</span>：<span data-i18n="t_9813">认证<span data-i18n="t_8030">用</span>户权威回复</span>']
                     }
                 },
                 openModal(key) { this.activeModal = key; document.body.style.overflow = 'hidden'; },
                 closeModal() { this.activeModal = null; document.body.style.overflow = ''; }
             }" @keydown.escape.window="closeModal()">
 
-            <!-- 典型使用场景 -->
+            <!-- <span data-i18n="t_2599">典型<span data-i18n="t_6270"><span data-i18n="t_7144">使<span data-i18n="t_8030">用</span></span><span data-i18n="t_4463">场景</span></span></span> -->
             <div class="py-16">
                 <div class="max-w-6xl mx-auto px-4">
-                    <h2 class="text-2xl sm:text-3xl font-bold text-white text-center mb-4">典型使用场景</h2>
-                    <p class="text-orange-400/60 text-center mb-12 text-xs">点击查看详情</p>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white text-center mb-4"><span data-i18n="t_2599">典型<span data-i18n="t_6270"><span data-i18n="t_7144">使<span data-i18n="t_8030">用</span></span><span data-i18n="t_4463">场景</span></span></span></h2>
+                    <p class="text-orange-400/60 text-center mb-12 text-xs"><span data-i18n="t_9701"><span data-i18n="t_3097">点击查看</span><span data-i18n="t_912">详情</span></span></p>
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
                         <div class="dy-scene-card dy-flow-clickable" @click="openModal('scene_service')">
                             <div class="dy-scene-icon">🔧</div>
-                            <span>找服务</span>
-                            <p>紧急跑腿、技能服务</p>
+                            <span><span data-i18n="t_4211">找<span data-i18n="t_8816">服务</span></span></span>
+                            <p><span data-i18n="t_8006">紧急<span data-i18n="t_108">跑腿</span></span>、<span data-i18n="t_7890">技能<span data-i18n="t_8816">服务</span></span></p>
                         </div>
                         <div class="dy-scene-card dy-flow-clickable" @click="openModal('scene_job')">
                             <div class="dy-scene-icon">💼</div>
-                            <span>找工作</span>
-                            <p>查看岗位、投递简历</p>
+                            <span><span data-i18n="t_8604">找工作</span></span>
+                            <p><span data-i18n="t_9738">查看岗位</span>、<span data-i18n="t_1769"><span data-i18n="t_1871">投递</span>简历</span></p>
                         </div>
                         <div class="dy-scene-card dy-flow-clickable" @click="openModal('scene_house')">
                             <div class="dy-scene-icon">🏠</div>
-                            <span>找房源</span>
-                            <p>租房/买卖/办公</p>
+                            <span><span data-i18n="t_5323">找<span data-i18n="t_267">房源</span></span></span>
+                            <p><span data-i18n="t_6832">租房</span>/<span data-i18n="t_925">买卖</span>/<span data-i18n="t_8903">办公</span></p>
                         </div>
                         <div class="dy-scene-card dy-flow-clickable" @click="openModal('scene_network')">
                             <div class="dy-scene-icon">🤝</div>
-                            <span>找人脉</span>
-                            <p>同乡会、俱乐部</p>
+                            <span><span data-i18n="t_4630">找人脉</span></span>
+                            <p><span data-i18n="t_9517">同乡会</span>、<span data-i18n="t_3599">俱乐部</span></p>
                         </div>
                         <div class="dy-scene-card dy-flow-clickable" @click="openModal('scene_trade')">
                             <div class="dy-scene-icon">🛒</div>
-                            <span>买卖交易</span>
-                            <p>二手市集、商城</p>
+                            <span><span data-i18n="t_4053"><span data-i18n="t_925">买卖</span><span data-i18n="t_6820">交易</span></span></span>
+                            <p><span data-i18n="t_9616">二手市集</span>、<span data-i18n="t_9560">商城</span></p>
                         </div>
                         <div class="dy-scene-card dy-flow-clickable" @click="openModal('scene_help')">
                             <div class="dy-scene-icon">❓</div>
-                            <span>解决问题</span>
-                            <p>发动态、提问答疑</p>
+                            <span><span data-i18n="t_460">解决问题</span></span>
+                            <p><span data-i18n="t_7846">发动态</span>、<span data-i18n="t_6632">提问答疑</span></p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 官网结构图（信息架构） -->
+            <!-- <span data-i18n-en="Official Site"><span data-i18n-ja="<span data-i18n="t_2064">公式</span>サイト"></span></span><span data-i18n="t_7462">结构图</span>（<span data-i18n="t_4272">信息架构</span>） -->
             <div class="py-12 bg-slate-800/30">
                 <div class="max-w-5xl mx-auto px-4">
-                    <h2 class="text-2xl sm:text-3xl font-bold text-white text-center mb-4">信息架构</h2>
-                    <p class="text-white/40 text-center mb-2 text-sm">官网结构与功能导航</p>
-                    <p class="text-orange-400/60 text-center mb-10 text-xs">点击各模块查看详情</p>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white text-center mb-4"><span data-i18n="t_4272">信息架构</span></h2>
+                    <p class="text-white/40 text-center mb-2 text-sm"><span data-i18n-en="Official Site"><span data-i18n-ja="<span data-i18n="t_2064">公式</span>サイト"></span></span><span data-i18n="t_117">结构<span data-i18n="t_1188">与</span>功能<span data-i18n="t_2269">导航</span></span></p>
+                    <p class="text-orange-400/60 text-center mb-10 text-xs"><span data-i18n="t_1312">点击各<span data-i18n="t_8004">模块</span>查看<span data-i18n="t_912">详情</span></span></p>
 
                     <div class="dy-flowchart">
-                        <!-- 顶层：官网首页 -->
+                        <!-- <span data-i18n="t_3459">顶层</span>：<span data-i18n-en="Official Site"><span data-i18n-ja="<span data-i18n="t_2064">公式</span>サイト"></span></span><span data-i18n-en="Home"><span data-i18n-ja="ホーム"></span></span> -->
                         <div class="flex justify-center mb-6">
                             <div class="dy-flow-node dy-flow-root">
                                 <span>🏠</span>
-                                <p>官网首页</p>
+                                <p><span data-i18n-en="Official Site"><span data-i18n-ja="<span data-i18n="t_2064">公式</span>サイト"></span></span><span data-i18n-en="Home"><span data-i18n-ja="ホーム"></span></span></p>
                             </div>
                         </div>
 
-                        <!-- 连接线 -->
+                        <!-- <span data-i18n="t_1932"><span data-i18n="t_9660">连接</span>线</span> -->
                         <div class="flex justify-center mb-2">
                             <div class="w-px h-6 bg-gradient-to-b from-orange-500 to-orange-500/30"></div>
                         </div>
 
-                        <!-- 分支线 -->
+                        <!-- <span data-i18n="t_1946">分支线</span> -->
                         <div class="flex justify-center mb-2">
                             <div class="dy-flow-branches"></div>
                         </div>
 
-                        <!-- 第二层：主要模块 - 可点击 -->
+                        <!-- <span data-i18n="t_3926">第二层</span>：<span data-i18n="t_6533">主要<span data-i18n="t_8004">模块</span></span> - <span data-i18n="t_7343">可点击</span> -->
                         <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-2 sm:gap-3 mb-8">
                             <div class="dy-flow-node dy-flow-secondary dy-flow-clickable" @click="openModal('product')">
                                 <span>💎</span>
-                                <p>产品定位</p>
+                                <p><span data-i18n="t_4075">产品定位</span></p>
                             </div>
                             <div class="dy-flow-node dy-flow-secondary dy-flow-highlight dy-flow-clickable" @click="openModal('features')">
                                 <span>⚙️</span>
-                                <p>核心功能</p>
+                                <p><span data-i18n="t_7113">核心功能</span></p>
                             </div>
                             <div class="dy-flow-node dy-flow-secondary dy-flow-clickable" @click="openModal('scenes')">
                                 <span>🎯</span>
-                                <p>使用场景</p>
+                                <p><span data-i18n="t_6270"><span data-i18n="t_7144">使<span data-i18n="t_8030">用</span></span><span data-i18n="t_4463">场景</span></span></p>
                             </div>
                             <div class="dy-flow-node dy-flow-secondary dy-flow-clickable" @click="openModal('highlights')">
                                 <span>✨</span>
-                                <p>特色亮点</p>
+                                <p><span data-i18n="t_9132">特色亮点</span></p>
                             </div>
                             <div class="dy-flow-node dy-flow-secondary dy-flow-clickable" @click="openModal('users')">
                                 <span>👥</span>
-                                <p>用户人群</p>
+                                <p><span data-i18n="t_5713"><span data-i18n="t_8030">用</span>户人群</span></p>
                             </div>
                             <div class="dy-flow-node dy-flow-secondary dy-flow-clickable" @click="openModal('security')">
                                 <span>🛡️</span>
-                                <p>安全合规</p>
+                                <p><span data-i18n="t_9504"><span data-i18n="t_9777">安全</span><span data-i18n="t_3491">合</span>规</span></p>
                             </div>
                             <div class="dy-flow-node dy-flow-secondary dy-flow-clickable" @click="openModal('download')">
                                 <span>📲</span>
-                                <p>下载CTA</p>
+                                <p><span data-i18n="t_7110">下载</span>CTA</p>
                             </div>
                         </div>
 
-                        <!-- 核心功能展开 -->
+                        <!-- <span data-i18n="t_10"><span data-i18n="t_7113">核心功能</span>展开</span> -->
                         <div class="flex justify-center mb-2">
-                            <div class="text-white/30 text-xs">核心功能模块展开</div>
+                            <div class="text-white/30 text-xs"><span data-i18n="t_9818"><span data-i18n="t_7113">核心功能</span><span data-i18n="t_8004">模块</span>展开</span></div>
                         </div>
                         <div class="flex justify-center mb-2">
                             <div class="w-px h-4 bg-gradient-to-b from-cyan-500/50 to-cyan-500/20"></div>
                         </div>
 
-                        <!-- 第三层：核心功能子模块 - 可点击 -->
+                        <!-- <span data-i18n="t_3802">第三层</span>：<span data-i18n="t_8795"><span data-i18n="t_7113">核心功能</span>子<span data-i18n="t_8004">模块</span></span> - <span data-i18n="t_7343">可点击</span> -->
                         <div class="grid grid-cols-3 md:grid-cols-6 gap-2 sm:gap-3">
                             <div class="dy-flow-node dy-flow-tertiary dy-flow-clickable" @click="openModal('life_service')">
                                 <span>🏪</span>
-                                <p>生活服务</p>
+                                <p><span data-i18n-en="Lifestyle Services"><span data-i18n-ja="<span data-i18n="t_2376">生活</span>サービス"></span></span></p>
                             </div>
                             <div class="dy-flow-node dy-flow-tertiary dy-flow-clickable" @click="openModal('job_career')">
                                 <span>💼</span>
-                                <p>招聘职业</p>
+                                <p><span data-i18n="t_6303"><span data-i18n="t_5228">招聘</span>职业</span></p>
                             </div>
                             <div class="dy-flow-node dy-flow-tertiary dy-flow-clickable" @click="openModal('social_community')">
                                 <span>👥</span>
-                                <p>社交社区</p>
+                                <p><span data-i18n="t_9456"><span data-i18n="t_3130">社交</span><span data-i18n="t_1714">社区</span></span></p>
                             </div>
                             <div class="dy-flow-node dy-flow-tertiary dy-flow-clickable" @click="openModal('content_qa')">
                                 <span>❓</span>
-                                <p>内容问答</p>
+                                <p><span data-i18n="t_3036"><span data-i18n="t_7637">内容</span>问答</span></p>
                             </div>
                             <div class="dy-flow-node dy-flow-tertiary dy-flow-clickable" @click="openModal('message_notify')">
                                 <span>💬</span>
-                                <p>消息通知</p>
+                                <p><span data-i18n="t_2399"><span data-i18n="t_6288">消息</span><span data-i18n="t_684">通知</span></span></p>
                             </div>
                             <div class="dy-flow-node dy-flow-tertiary dy-flow-clickable" @click="openModal('payment_order')">
                                 <span>💰</span>
-                                <p>支付订单</p>
+                                <p><span data-i18n-en="Payment"><span data-i18n-ja="<span data-i18n="t_5837">決済</span>"></span></span><span data-i18n="t_8512">订单</span></p>
                             </div>
                         </div>
                     </div>
@@ -1473,31 +1476,31 @@
                 </div>
             </div>
 
-            <!-- 功能矩阵表 -->
+            <!-- <span data-i18n="t_1071"><span data-i18n="t_3257">功能<span data-i18n="t_5682">矩阵</span></span>表</span> -->
             <div class="py-12">
                 <div class="max-w-6xl mx-auto px-4">
-                    <h2 class="text-2xl sm:text-3xl font-bold text-white text-center mb-4">功能矩阵</h2>
-                    <p class="text-white/40 text-center mb-10 text-sm">场景 × 模块 对应关系</p>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white text-center mb-4"><span data-i18n="t_3257">功能<span data-i18n="t_5682">矩阵</span></span></h2>
+                    <p class="text-white/40 text-center mb-10 text-sm"><span data-i18n="t_4463">场景</span> × <span data-i18n="t_8004">模块</span> <span data-i18n="t_4633">对应关系</span></p>
 
                     <div class="overflow-x-auto">
                         <table class="dy-matrix-table">
                             <thead>
                                 <tr>
-                                    <th class="dy-matrix-header-cell">场景 / 模块</th>
-                                    <th class="dy-matrix-header-cell">镖局快马</th>
-                                    <th class="dy-matrix-header-cell">江湖食肆</th>
-                                    <th class="dy-matrix-header-cell">侠客集市</th>
-                                    <th class="dy-matrix-header-cell">神州宝库</th>
-                                    <th class="dy-matrix-header-cell">客栈驿站</th>
-                                    <th class="dy-matrix-header-cell">江湖揭榜</th>
-                                    <th class="dy-matrix-header-cell">英雄结义</th>
-                                    <th class="dy-matrix-header-cell">侠客问道</th>
-                                    <th class="dy-matrix-header-cell">游侠动态</th>
+                                    <th class="dy-matrix-header-cell"><span data-i18n="t_4463">场景</span> / <span data-i18n="t_8004">模块</span></th>
+                                    <th class="dy-matrix-header-cell"><span data-i18n="t_5981">镖局快马</span></th>
+                                    <th class="dy-matrix-header-cell"><span data-i18n="t_4823">江湖食肆</span></th>
+                                    <th class="dy-matrix-header-cell"><span data-i18n="t_1006">侠客集市</span></th>
+                                    <th class="dy-matrix-header-cell"><span data-i18n="t_559">神州<span data-i18n="t_1264">宝</span>库</span></th>
+                                    <th class="dy-matrix-header-cell"><span data-i18n="t_6622">客栈驿站</span></th>
+                                    <th class="dy-matrix-header-cell"><span data-i18n="t_9630">江湖揭榜</span></th>
+                                    <th class="dy-matrix-header-cell"><span data-i18n="t_7418">英雄结义</span></th>
+                                    <th class="dy-matrix-header-cell"><span data-i18n="t_2763">侠客问道</span></th>
+                                    <th class="dy-matrix-header-cell"><span data-i18n="t_9727"><span data-i18n="t_9989">游</span>侠动态</span></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td class="dy-matrix-row-header">找服务/跑腿</td>
+                                    <td class="dy-matrix-row-header"><span data-i18n="t_4211">找<span data-i18n="t_8816">服务</span></span>/<span data-i18n="t_108">跑腿</span></td>
                                     <td class="dy-matrix-cell dy-matrix-active">✔</td>
                                     <td class="dy-matrix-cell">-</td>
                                     <td class="dy-matrix-cell">-</td>
@@ -1509,7 +1512,7 @@
                                     <td class="dy-matrix-cell">-</td>
                                 </tr>
                                 <tr>
-                                    <td class="dy-matrix-row-header">本地餐饮与菜品</td>
+                                    <td class="dy-matrix-row-header"><span data-i18n="t_9040">本地<span data-i18n="t_6075">餐饮</span><span data-i18n="t_1188">与</span>菜品</span></td>
                                     <td class="dy-matrix-cell">-</td>
                                     <td class="dy-matrix-cell dy-matrix-active">✔</td>
                                     <td class="dy-matrix-cell">-</td>
@@ -1521,7 +1524,7 @@
                                     <td class="dy-matrix-cell">-</td>
                                 </tr>
                                 <tr>
-                                    <td class="dy-matrix-row-header">二手交易/闲置</td>
+                                    <td class="dy-matrix-row-header"><span data-i18n="t_7108">二手<span data-i18n="t_6820">交易</span></span>/<span data-i18n="t_8417">闲置</span></td>
                                     <td class="dy-matrix-cell">-</td>
                                     <td class="dy-matrix-cell">-</td>
                                     <td class="dy-matrix-cell dy-matrix-active">✔</td>
@@ -1533,7 +1536,7 @@
                                     <td class="dy-matrix-cell">-</td>
                                 </tr>
                                 <tr>
-                                    <td class="dy-matrix-row-header">店铺商城购物</td>
+                                    <td class="dy-matrix-row-header"><span data-i18n="t_2735"><span data-i18n="t_9983">店铺</span><span data-i18n="t_853"><span data-i18n="t_9560">商城</span>购物</span></span></td>
                                     <td class="dy-matrix-cell">-</td>
                                     <td class="dy-matrix-cell">-</td>
                                     <td class="dy-matrix-cell">-</td>
@@ -1545,7 +1548,7 @@
                                     <td class="dy-matrix-cell">-</td>
                                 </tr>
                                 <tr>
-                                    <td class="dy-matrix-row-header">租房/买卖/办公</td>
+                                    <td class="dy-matrix-row-header"><span data-i18n="t_6832">租房</span>/<span data-i18n="t_925">买卖</span>/<span data-i18n="t_8903">办公</span></td>
                                     <td class="dy-matrix-cell">-</td>
                                     <td class="dy-matrix-cell">-</td>
                                     <td class="dy-matrix-cell">-</td>
@@ -1557,7 +1560,7 @@
                                     <td class="dy-matrix-cell">-</td>
                                 </tr>
                                 <tr>
-                                    <td class="dy-matrix-row-header">招聘/求职</td>
+                                    <td class="dy-matrix-row-header"><span data-i18n="t_5228">招聘</span>/<span data-i18n="t_6801">求职</span></td>
                                     <td class="dy-matrix-cell">-</td>
                                     <td class="dy-matrix-cell">-</td>
                                     <td class="dy-matrix-cell">-</td>
@@ -1569,7 +1572,7 @@
                                     <td class="dy-matrix-cell">-</td>
                                 </tr>
                                 <tr>
-                                    <td class="dy-matrix-row-header">同乡会/俱乐部</td>
+                                    <td class="dy-matrix-row-header"><span data-i18n="t_9517">同乡会</span>/<span data-i18n="t_3599">俱乐部</span></td>
                                     <td class="dy-matrix-cell">-</td>
                                     <td class="dy-matrix-cell">-</td>
                                     <td class="dy-matrix-cell">-</td>
@@ -1581,7 +1584,7 @@
                                     <td class="dy-matrix-cell">-</td>
                                 </tr>
                                 <tr>
-                                    <td class="dy-matrix-row-header">问答与悬赏</td>
+                                    <td class="dy-matrix-row-header"><span data-i18n="t_136">问答<span data-i18n="t_1188">与</span><span data-i18n="t_2292">悬赏</span></span></td>
                                     <td class="dy-matrix-cell">-</td>
                                     <td class="dy-matrix-cell">-</td>
                                     <td class="dy-matrix-cell">-</td>
@@ -1593,7 +1596,7 @@
                                     <td class="dy-matrix-cell">-</td>
                                 </tr>
                                 <tr>
-                                    <td class="dy-matrix-row-header">内容动态/互动</td>
+                                    <td class="dy-matrix-row-header"><span data-i18n="t_1185"><span data-i18n="t_7637">内容</span>动态</span>/<span data-i18n="t_9205">互动</span></td>
                                     <td class="dy-matrix-cell">-</td>
                                     <td class="dy-matrix-cell">-</td>
                                     <td class="dy-matrix-cell">-</td>
@@ -1610,23 +1613,23 @@
                 </div>
             </div>
 
-            <!-- 弹窗 Modal -->
+            <!-- <span data-i18n="t_1843">弹窗</span> Modal -->
             <div x-show="activeModal" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
                  class="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-4">
-                <!-- 背景遮罩 -->
+                <!-- <span data-i18n="t_2730">背景遮罩</span> -->
                 <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" @click="closeModal()"></div>
 
-                <!-- 弹窗内容 -->
+                <!-- <span data-i18n="t_5306"><span data-i18n="t_1843">弹窗</span><span data-i18n="t_7637">内容</span></span> -->
                 <div x-show="activeModal" x-transition:enter="transition ease-out duration-200 delay-100" x-transition:enter-start="opacity-0 scale-95 translate-y-4" x-transition:enter-end="opacity-100 scale-100 translate-y-0"
                      class="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-white/10 shadow-2xl max-w-md w-full max-h-[85vh] sm:max-h-[80vh] overflow-y-auto">
-                    <!-- 关闭按钮 -->
+                    <!-- <span data-i18n="t_4665"><span data-i18n="t_5822">关闭</span>按钮</span> -->
                     <button @click="closeModal()" class="absolute top-3 right-3 sm:top-4 sm:right-4 text-white/40 hover:text-white transition-colors z-10">
                         <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
                     </button>
 
-                    <!-- 头部 -->
+                    <!-- <span data-i18n="t_3827">头部</span> -->
                     <div class="p-4 sm:p-6 pb-3 sm:pb-4 border-b border-white/10">
                         <div class="flex items-center gap-3 sm:gap-4">
                             <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-br from-orange-500 to-pink-500 flex items-center justify-center text-xl sm:text-2xl">
@@ -1639,7 +1642,7 @@
                         </div>
                     </div>
 
-                    <!-- 内容 -->
+                    <!-- <span data-i18n="t_7637">内容</span> -->
                     <div class="p-4 sm:p-6">
                         <p class="text-white/70 text-xs sm:text-sm leading-relaxed mb-4" x-text="modalData[activeModal]?.desc"></p>
 
@@ -1653,27 +1656,27 @@
                         </ul>
                     </div>
 
-                    <!-- 底部 -->
+                    <!-- <span data-i18n="t_2263">底部</span> -->
                     <div class="p-4 sm:p-6 pt-3 sm:pt-4 border-t border-white/10">
                         <button @click="closeModal()" class="w-full py-2 sm:py-2.5 bg-white/10 hover:bg-white/20 active:bg-white/30 rounded-lg text-white text-xs sm:text-sm font-medium transition-colors">
-                            关闭
+                            <span data-i18n="t_5822">关闭</span>
                         </button>
                     </div>
                 </div>
             </div>
 
-            <!-- 产品截图画廊 -->
+            <!-- <span data-i18n="t_7047">产品<span data-i18n="t_8463">截图</span>画廊</span> -->
             <div class="py-12 bg-slate-800/50 overflow-visible">
                 <div class="max-w-7xl mx-auto px-4 overflow-visible">
-                    <h2 class="text-2xl sm:text-3xl font-bold text-white text-center mb-4">产品预览</h2>
-                    <p class="text-white/40 text-center mb-12 text-sm">界面设计与功能展示</p>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white text-center mb-4"><span data-i18n="t_8823">产品预览</span></h2>
+                    <p class="text-white/40 text-center mb-12 text-sm"><span data-i18n="t_5828">界面<span data-i18n="t_1566">设计</span><span data-i18n="t_1188">与</span>功能展示</span></p>
 
                     <div class="dy-gallery" x-data="{
                         images: [],
                         currentIndex: 0,
                         lightboxOpen: false,
                         init() {
-                            // 加载图片（1-20）
+                            // <span data-i18n="t_6052">加载图片</span>（1-20）
                             for (let i = 1; i <= 20; i++) {
                                 const img = new Image();
                                 img.onload = () => {
@@ -1699,19 +1702,19 @@
                             this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
                         }
                     }" @keydown.escape.window="closeLightbox()" @keydown.arrow-right.window="lightboxOpen && next()" @keydown.arrow-left.window="lightboxOpen && prev()">
-                        <!-- 图片网格 -->
+                        <!-- <span data-i18n="t_2833">图片网格</span> -->
                         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 overflow-visible py-4">
                             <template x-for="(image, index) in images" :key="image.id">
                                 <div class="dy-gallery-item group" @click="openLightbox(index)">
-                                    <img :src="image.src" :alt="'东瀛游侠截图 ' + image.id" class="w-full h-auto rounded-lg shadow-lg transition-all duration-300 group-hover:scale-105 cursor-pointer">
+                                    <img :src="image.src" :alt="'<span data-i18n-en="Dongying Youxia"><span data-i18n-ja="<span data-i18n="t_6096">東瀛<span data-i18n="t_9989">游</span>侠</span>"></span></span><span data-i18n="t_8463">截图</span> ' + image.id" class="w-full h-auto rounded-lg shadow-lg transition-all duration-300 group-hover:scale-105 cursor-pointer">
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-end justify-center pb-3">
-                                        <span class="text-white text-xs">点击查看</span>
+                                        <span class="text-white text-xs"><span data-i18n="t_3097">点击查看</span></span>
                                     </div>
                                 </div>
                             </template>
                         </div>
 
-                        <!-- Lightbox 弹窗 -->
+                        <!-- Lightbox <span data-i18n="t_1843">弹窗</span> -->
                         <div x-show="lightboxOpen" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
                              class="fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center" @click.self="closeLightbox()">
                             <button @click="closeLightbox()" class="absolute top-4 right-4 text-white/60 hover:text-white p-2 z-10">
@@ -1738,63 +1741,63 @@
                 </div>
             </div>
 
-            <!-- 目标用户 & 技术栈 -->
+            <!-- <span data-i18n="t_2907">目标<span data-i18n="t_8030">用</span>户</span> & <span data-i18n="t_4968">技术栈</span> -->
             <div class="py-16">
                 <div class="max-w-6xl mx-auto px-4">
                     <div class="grid md:grid-cols-2 gap-8">
-                        <!-- 目标用户 -->
+                        <!-- <span data-i18n="t_2907">目标<span data-i18n="t_8030">用</span>户</span> -->
                         <div class="dy-info-card">
                             <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
                                 <span class="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-pink-500 flex items-center justify-center text-sm">👤</span>
-                                目标用户
+                                <span data-i18n="t_2907">目标<span data-i18n="t_8030">用</span>户</span>
                             </h3>
                             <div class="space-y-4">
                                 <div class="flex items-start gap-3">
                                     <span class="w-6 h-6 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 text-xs flex-shrink-0 mt-0.5">1</span>
                                     <div>
-                                        <h4 class="text-white font-medium text-sm">在日华人个人用户</h4>
-                                        <p class="text-white/40 text-xs">生活服务、交友、求助、交易</p>
+                                        <h4 class="text-white font-medium text-sm"><span data-i18n-en="Chinese in Japan"><span data-i18n-ja="<span data-i18n="t_2791"><span data-i18n="t_7124">在</span>日本华人</span>"></span></span><span data-i18n="t_6642">个人<span data-i18n="t_8030">用</span>户</span></h4>
+                                        <p class="text-white/40 text-xs"><span data-i18n-en="Lifestyle Services"><span data-i18n-ja="<span data-i18n="t_2376">生活</span>サービス"></span></span>、<span data-i18n="t_2753">交友</span>、<span data-i18n="t_7098">求助</span>、<span data-i18n="t_6820">交易</span></p>
                                     </div>
                                 </div>
                                 <div class="flex items-start gap-3">
                                     <span class="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center text-green-400 text-xs flex-shrink-0 mt-0.5">2</span>
                                     <div>
-                                        <h4 class="text-white font-medium text-sm">商家与服务提供者</h4>
-                                        <p class="text-white/40 text-xs">获客、成交、长期经营</p>
+                                        <h4 class="text-white font-medium text-sm"><span data-i18n="t_355">商家<span data-i18n="t_1188">与</span><span data-i18n="t_8816">服务</span>提供者</span></h4>
+                                        <p class="text-white/40 text-xs"><span data-i18n="t_1898">获客</span>、<span data-i18n="t_2857">成交</span>、<span data-i18n="t_1580">长期经营</span></p>
                                     </div>
                                 </div>
                                 <div class="flex items-start gap-3">
                                     <span class="w-6 h-6 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 text-xs flex-shrink-0 mt-0.5">3</span>
                                     <div>
-                                        <h4 class="text-white font-medium text-sm">社区组织者/活动方</h4>
-                                        <p class="text-white/40 text-xs">运营活动、沉淀圈子</p>
+                                        <h4 class="text-white font-medium text-sm"><span data-i18n="t_1862"><span data-i18n="t_1714">社区</span>组织者</span>/<span data-i18n="t_7644"><span data-i18n="t_63">活动</span>方</span></h4>
+                                        <p class="text-white/40 text-xs"><span data-i18n="t_7886">运营<span data-i18n="t_63">活动</span></span>、<span data-i18n="t_6595">沉淀圈子</span></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- 技术栈 -->
+                        <!-- <span data-i18n="t_4968">技术栈</span> -->
                         <div class="dy-info-card">
                             <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
                                 <span class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-sm">⚡</span>
-                                技术与平台
+                                <span data-i18n="t_2010">技术<span data-i18n="t_1188">与</span>平台</span>
                             </h3>
                             <div class="space-y-4">
                                 <div class="flex items-center gap-3 text-white/70 text-sm">
                                     <span class="text-lg">📱</span>
-                                    <span>多端支持：iOS / Android / Web</span>
+                                    <span><span data-i18n="t_9857">多端<span data-i18n="t_5084">支持</span></span>：iOS / Android / Web</span>
                                 </div>
                                 <div class="flex items-center gap-3 text-white/70 text-sm">
                                     <span class="text-lg">☁️</span>
-                                    <span>后端服务：Supabase</span>
+                                    <span><span data-i18n="t_5722">后端<span data-i18n="t_8816">服务</span></span>：Supabase</span>
                                 </div>
                                 <div class="flex items-center gap-3 text-white/70 text-sm">
                                     <span class="text-lg">🔔</span>
-                                    <span>推送、消息、支付全面接入</span>
+                                    <span><span data-i18n="t_6706">推送</span>、<span data-i18n="t_6288">消息</span>、<span data-i18n-en="Payment"><span data-i18n-ja="<span data-i18n="t_5837">決済</span>"></span></span><span data-i18n="t_4625">全面接入</span></span>
                                 </div>
                                 <div class="flex items-center gap-3 text-white/70 text-sm">
                                     <span class="text-lg">🛡️</span>
-                                    <span>成长系统 + 内容审核机制</span>
+                                    <span><span data-i18n="t_3386">成长<span data-i18n="t_9178">系统</span></span> + <span data-i18n="t_920"><span data-i18n="t_7637">内容</span><span data-i18n="t_8609">审核</span>机制</span></span>
                                 </div>
                             </div>
                         </div>
@@ -1802,94 +1805,94 @@
                 </div>
             </div>
 
-            <!-- 底部CTA -->
+            <!-- <span data-i18n="t_2263">底部</span>CTA -->
             <div class="py-16 relative overflow-hidden" x-data="{ showAndroidModal: false }">
                 <div class="absolute inset-0 bg-gradient-to-r from-orange-500/10 via-red-500/10 to-pink-500/10"></div>
                 <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
-                    <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4">立即下载体验</h2>
-                    <p class="text-white/50 mb-8 text-sm">东瀛游侠，开启在日华人生活新方式</p>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4"><span data-i18n="t_4669">立即<span data-i18n="t_5237"><span data-i18n="t_7110">下载</span><span data-i18n="t_1610">体验</span></span></span></h2>
+                    <p class="text-white/50 mb-8 text-sm"><span data-i18n-en="Dongying Youxia"><span data-i18n-ja="<span data-i18n="t_6096">東瀛<span data-i18n="t_9989">游</span>侠</span>"></span></span>，<span data-i18n="t_6927">开启</span><span data-i18n-en="Chinese in Japan"><span data-i18n-ja="<span data-i18n="t_2791"><span data-i18n="t_7124">在</span>日本华人</span>"></span></span><span data-i18n="t_2052"><span data-i18n="t_2376">生活</span>新方式</span></p>
 
-                    <!-- 下载按钮组 -->
+                    <!-- <span data-i18n="t_5389"><span data-i18n="t_7427"><span data-i18n="t_7110">下载</span>按钮</span>组</span> -->
                     <div class="flex flex-wrap justify-center gap-4 mb-6">
-                        <!-- iOS 下载按钮 (灰色不可用) -->
+                        <!-- iOS <span data-i18n="t_7427"><span data-i18n="t_7110">下载</span>按钮</span> (<span data-i18n="t_1012">灰色不可<span data-i18n="t_8030">用</span></span>) -->
                         <button disabled
                             class="px-6 py-3 bg-white/10 text-white/50 font-bold rounded-full cursor-not-allowed text-sm flex items-center gap-2 border border-white/20">
                             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
                             </svg>
-                            <span>iOS 下载</span>
+                            <span>iOS <span data-i18n="t_7110">下载</span></span>
                         </button>
-                        <!-- Android 下载按钮 -->
+                        <!-- Android <span data-i18n="t_7427"><span data-i18n="t_7110">下载</span>按钮</span> -->
                         <button @click="showAndroidModal = true"
                             class="px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold rounded-full hover:shadow-lg hover:shadow-green-500/30 hover:scale-105 transition-all text-sm flex items-center gap-2">
                             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24c-1.4-.59-2.94-.92-4.47-.92s-3.07.33-4.47.92L5.65 5.67c-.19-.29-.58-.38-.87-.2-.28.18-.37.54-.22.83L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25c-.69 0-1.25-.56-1.25-1.25S6.31 12.75 7 12.75s1.25.56 1.25 1.25-.56 1.25-1.25 1.25zm10 0c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25z"/>
                             </svg>
-                            <span>Android 下载</span>
+                            <span>Android <span data-i18n="t_7110">下载</span></span>
                         </button>
                     </div>
 
-                    <!-- 状态提示 -->
+                    <!-- <span data-i18n="t_1209">状态提示</span> -->
                     <div class="flex flex-col items-center gap-2 mb-6">
                         <div class="flex items-center gap-2 text-yellow-400 text-sm">
                             <span class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>
-                            <span>当前状态：上架审核中</span>
+                            <span><span data-i18n="t_589">当前状态</span>：<span data-i18n="t_5183"><span data-i18n="t_174">上架</span><span data-i18n="t_8609">审核</span><span data-i18n="t_6941">中</span></span></span>
                         </div>
-                        <p class="text-orange-400 text-xs">当前仅支持安卓手机测试使用</p>
-                        <p class="text-white/40 text-xs">安卓用户请在设置中开启「允许安装未知来源应用」</p>
+                        <p class="text-orange-400 text-xs"><span data-i18n="t_8277">当前仅<span data-i18n="t_5084">支持</span>安卓手机测试<span data-i18n="t_7144">使<span data-i18n="t_8030">用</span></span></span></p>
+                        <p class="text-white/40 text-xs"><span data-i18n="t_8664">安卓<span data-i18n="t_8030">用</span>户请<span data-i18n="t_7124">在</span><span data-i18n="t_9214">设置</span><span data-i18n="t_6941">中</span><span data-i18n="t_6927">开启</span></span>「<span data-i18n="t_9876">允许安装未知来源应<span data-i18n="t_8030">用</span></span>」</p>
                     </div>
 
-                    <!-- 其他按钮 -->
+                    <!-- <span data-i18n="t_8959">其他按钮</span> -->
                     <div class="flex flex-wrap justify-center gap-4">
                         <a href="https://dongyingyouxia.com/" target="_blank" rel="noopener noreferrer"
                             class="px-6 py-3 bg-white/10 text-white font-bold rounded-full hover:bg-white/20 transition-all text-sm">
-                            访问官网
+                            <span data-i18n="t_3220">访问</span><span data-i18n-en="Official Site"><span data-i18n-ja="<span data-i18n="t_2064">公式</span>サイト"></span></span>
                         </a>
                         <button @click="expanded = false; $nextTick(() => document.getElementById('app-preview').scrollIntoView({ behavior: 'smooth' }))"
                                 class="px-6 py-3 bg-white/10 text-white font-bold rounded-full hover:bg-white/20 transition-all text-sm flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
                             </svg>
-                            收起详情
+                            <span data-i18n="t_451"><span data-i18n="t_2160">收起</span><span data-i18n="t_912">详情</span></span>
                         </button>
                     </div>
                 </div>
 
-                <!-- Android 下载弹窗 -->
+                <!-- Android <span data-i18n="t_9410"><span data-i18n="t_7110">下载</span><span data-i18n="t_1843">弹窗</span></span> -->
                 <div x-show="showAndroidModal" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
                      class="fixed inset-0 z-[9999] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4" @click.self="showAndroidModal = false">
                     <div x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90"
                          class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl">
-                        <!-- Android 图标 -->
+                        <!-- Android <span data-i18n="t_1736">图标</span> -->
                         <div class="w-20 h-20 mx-auto mb-6 bg-green-100 rounded-full flex items-center justify-center">
                             <svg class="w-10 h-10 text-green-500" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24c-1.4-.59-2.94-.92-4.47-.92s-3.07.33-4.47.92L5.65 5.67c-.19-.29-.58-.38-.87-.2-.28.18-.37.54-.22.83L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25c-.69 0-1.25-.56-1.25-1.25S6.31 12.75 7 12.75s1.25.56 1.25 1.25-.56 1.25-1.25 1.25zm10 0c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25z"/>
                             </svg>
                         </div>
 
-                        <h3 class="text-2xl font-bold text-gray-800 text-center mb-4">Android 下载提示</h3>
+                        <h3 class="text-2xl font-bold text-gray-800 text-center mb-4">Android <span data-i18n="t_6502"><span data-i18n="t_7110">下载</span>提示</span></h3>
 
                         <p class="text-gray-600 text-center mb-4 leading-relaxed">
-                            安卓手机请先在设置中开启「允许安装未知来源应用」权限，然后再进行下载安装。
+                            <span data-i18n="t_1230">安卓手机请先<span data-i18n="t_7124">在</span><span data-i18n="t_9214">设置</span><span data-i18n="t_6941">中</span><span data-i18n="t_6927">开启</span></span>「<span data-i18n="t_9876">允许安装未知来源应<span data-i18n="t_8030">用</span></span>」<span data-i18n="t_7186">权限</span>，<span data-i18n="t_7847">然后再进行<span data-i18n="t_7110">下载</span>安装</span>。
                         </p>
 
                         <p class="text-gray-400 text-sm text-center mb-8">
-                            设置路径：设置 → 安全 → 允许未知来源
+                            <span data-i18n="t_4969"><span data-i18n="t_9214">设置</span>路径</span>：<span data-i18n="t_9214">设置</span> → <span data-i18n="t_9777">安全</span> → <span data-i18n="t_6144">允许未知来源</span>
                         </p>
 
-                        <!-- 下载按钮 -->
+                        <!-- <span data-i18n="t_7427"><span data-i18n="t_7110">下载</span>按钮</span> -->
                         <a href="https://pub-3e154ce6d5c8487f833628106145e7a2.r2.dev/APK/dongyingyouxia_v2.0.0.apk"
                            class="flex items-center justify-center gap-2 w-full py-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold rounded-2xl hover:shadow-lg hover:shadow-green-500/30 transition-all mb-4">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
                             </svg>
-                            <span>开始下载</span>
+                            <span><span data-i18n="t_8196">开始<span data-i18n="t_7110">下载</span></span></span>
                         </a>
 
-                        <!-- 取消按钮 -->
+                        <!-- <span data-i18n="t_2232"><span data-i18n="t_6264">取消</span>按钮</span> -->
                         <button @click="showAndroidModal = false"
                                 class="w-full py-4 bg-gray-100 text-gray-600 font-bold rounded-2xl hover:bg-gray-200 transition-all">
-                            取消
+                            <span data-i18n="t_6264">取消</span>
                         </button>
                     </div>
                 </div>
@@ -1897,14 +1900,14 @@
         </div>
     </section>
 
-    <!-- 板块间隔 -->
+    <!-- <span data-i18n="t_9059">板块间隔</span> -->
     <div class="py-8 sm:py-12 bg-slate-100">
         <div class="max-w-4xl mx-auto px-4 text-center">
             <p class="text-slate-400 text-sm font-mono tracking-wider">// MORE PROJECTS</p>
         </div>
     </div>
 
-    <!-- 正在开发APP展示区 - 徐记烤鸭 -->
+    <!-- <span data-i18n="t_1054">正<span data-i18n="t_7124">在</span><span data-i18n="t_4057">开发</span></span><span data-i18n-en="<span data-i18n-ja="アプリ"></span>"><span data-i18n-ja="アプリ"></span></span><span data-i18n="t_1358">展示区</span> - <span data-i18n="t_8744">徐记烤鸭</span> -->
     <section id="roastduck-preview" class="relative overflow-hidden">
         <div class="py-12 sm:py-16 relative">
             <div class="absolute inset-0 bg-gradient-to-r from-amber-600 via-orange-600 to-red-700"></div>
@@ -1915,14 +1918,14 @@
                     <span>In Development</span>
                 </div>
                 <h2 class="text-2xl sm:text-4xl md:text-5xl font-bold text-white mb-4 font-heading">
-                    正在开发 · 「徐记烤鸭」APP+网页
+                    <span data-i18n="t_1054">正<span data-i18n="t_7124">在</span><span data-i18n="t_4057">开发</span></span> · 「<span data-i18n="t_8744">徐记烤鸭</span>」<span data-i18n-en="<span data-i18n-ja="アプリ"></span>"><span data-i18n-ja="アプリ"></span></span>+<span data-i18n="t_7834">网页</span>
                 </h2>
                 <p class="text-white/80 text-sm sm:text-base mb-8 max-w-xl mx-auto">
-                    北京果木挂炉烤鸭，传承百年技艺，地道北京味
+                    <span data-i18n="t_3874">北京果木挂炉烤鸭</span>，<span data-i18n="t_8010">传承百年技艺</span>，<span data-i18n="t_5176">地道北京味</span>
                 </p>
                 <a href="https://roastduck.zencode.jp/" target="_blank" rel="noopener noreferrer"
                     class="inline-flex items-center gap-3 px-8 py-4 bg-white text-amber-700 font-bold rounded-full hover:shadow-lg hover:shadow-white/30 hover:scale-105 transition-all text-sm group">
-                    <span>访问网站</span>
+                    <span><span data-i18n="t_1849"><span data-i18n="t_3220">访问</span>网站</span></span>
                     <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                     </svg>
@@ -1939,32 +1942,32 @@
                     <h4 class="font-bold text-slate-900 mb-3 sm:mb-4 font-heading text-sm sm:text-base">
                         ZenCode<span class="text-[0.5em] text-emerald-500 align-baseline">.jp</span>
                     </h4>
-                    <p class="text-slate-500 text-xs sm:text-sm">赋能在日华商，让生意更简单。</p>
+                    <p class="text-slate-500 text-xs sm:text-sm"><span data-i18n="t_674">赋能<span data-i18n="t_7124">在</span>日华商</span>，<span data-i18n="t_1479">让生意更简单</span>。</p>
                 </div>
 
                 <div>
-                    <h4 class="font-bold text-slate-900 mb-3 sm:mb-4 text-sm sm:text-base">信任保障</h4>
+                    <h4 class="font-bold text-slate-900 mb-3 sm:mb-4 text-sm sm:text-base"><span data-i18n="t_5219">信任保障</span></h4>
                     <div class="flex flex-col gap-1.5 sm:gap-2 opacity-70 text-xs sm:text-sm text-slate-500">
-                        <span>🛡️ SSL安全认证</span>
-                        <span>💳 聚合支付对接</span>
-                        <span>☁️ AWS 技术合作伙伴</span>
+                        <span>🛡️ SSL<span data-i18n="t_3570"><span data-i18n="t_9777">安全</span>认证</span></span>
+                        <span>💳 <span data-i18n="t_9144">聚<span data-i18n="t_3491">合</span></span><span data-i18n-en="Payment"><span data-i18n-ja="<span data-i18n="t_5837">決済</span>"></span></span><span data-i18n="t_331">对接</span></span>
+                        <span>☁️ AWS <span data-i18n="t_7278">技术<span data-i18n="t_3491">合</span>作伙伴</span></span>
                     </div>
                 </div>
 
                 <div>
-                    <h4 class="font-bold text-slate-900 mb-3 sm:mb-4 text-sm sm:text-base">联系我们</h4>
-                    <p class="text-slate-500 text-xs sm:text-sm mb-1">📍 东京 / 大阪 / 远程支持</p>
+                    <h4 class="font-bold text-slate-900 mb-3 sm:mb-4 text-sm sm:text-base"><span data-i18n-en="Contact Us"><span data-i18n-ja="お<span data-i18n="t_4679">問</span>い<span data-i18n="t_3491">合</span>わせ"></span></span></h4>
+                    <p class="text-slate-500 text-xs sm:text-sm mb-1">📍 <span data-i18n="t_4110">东京</span> / <span data-i18n="t_3630">大阪</span> / <span data-i18n="t_287">远程<span data-i18n="t_5084">支持</span></span></p>
                     <p class="text-slate-500 text-xs sm:text-sm break-all">📧 contact@zencode.jp</p>
                 </div>
 
                 <div class="footer-lab-section col-span-2 sm:col-span-1">
-                    <h4 class="font-bold text-slate-900 mb-2 sm:mb-4 text-sm sm:text-base">快速导航</h4>
+                    <h4 class="font-bold text-slate-900 mb-2 sm:mb-4 text-sm sm:text-base"><span data-i18n="t_3739">快速<span data-i18n="t_2269">导航</span></span></h4>
                     <div class="flex flex-wrap gap-2">
-                        <a href="cases.html" class="footer-nav-btn btn-cases"><span>成功案例</span></a>
-                        <a href="experience/experience.html" class="footer-nav-btn btn-demo"><span>小程序演示</span></a>
-                        <a href="solutions.html" class="footer-nav-btn btn-solutions"><span>解决方案</span></a>
-                        <a href="pricing.html" class="footer-nav-btn btn-pricing"><span>服务定价</span></a>
-                        <a href="gallery.html" class="footer-nav-btn btn-gallery"><span>代码欣赏</span></a>
+                        <a href="cases.html" class="footer-nav-btn btn-cases"><span><span data-i18n="t_7781">成功案例</span></span></a>
+                        <a href="experience/experience.html" class="footer-nav-btn btn-demo"><span><span data-i18n-en="Mini Program"><span data-i18n-ja="ミニプログラム"></span></span><span data-i18n="t_2934">演示</span></span></a>
+                        <a href="solutions.html" class="footer-nav-btn btn-solutions"><span><span data-i18n="Solutions"><span data-i18n="t_7451">解决方案</span></span></span></a>
+                        <a href="pricing.html" class="footer-nav-btn btn-pricing"><span><span data-i18n="t_3901"><span data-i18n="t_8816">服务</span>定价</span></span></a>
+                        <a href="gallery.html" class="footer-nav-btn btn-gallery"><span><span data-i18n="t_4331">代码欣赏</span></span></a>
                     </div>
                 </div>
 
@@ -1978,6 +1981,29 @@
         </div>
     </footer>
     <script src="js/logo-particles.js"></script>
+  <!-- Language Switcher -->
+  <div class="fixed top-4 right-4 z-50">
+    <select id="lang-switch" class="bg-gray-800 text-white px-3 py-2 rounded-lg cursor-pointer">
+      <option value="zh"><span data-i18n="t_3823"><span data-i18n="t_6941">中</span>文</span></option>
+      <option value="en">EN</option>
+      <option value="ja"><span data-i18n="t_6364">日本語</span></option>
+    </select>
+  </div>
+
+  <script>
+    i18next.init({
+      lng: "zh",
+      resources: {
+        zh: { translation: {} },
+        en: { translation: JSON.parse(document.getElementById("i18n-en").textContent) },
+        ja: { translation: JSON.parse(document.getElementById("i18n-ja").textContent) }
+      }
+    });
+    document.getElementById("lang-switch").addEventListener("change", function() {
+      i18next.changeLanguage(this.value);
+      document.querySelectorAll("[data-i18n]").forEach(el => el.textContent = i18next.t(el.dataset.i18n));
+    });
+  </script>
 </body>
 
 </html>
