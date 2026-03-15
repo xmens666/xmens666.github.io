@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#1A1A1A">
     <title>ZenCode.jp — Full-Stack Developer in Tokyo</title>
     <meta name="description" content="ZenCode - 东京全栈开发者。网站、APP、API、数据库，从零到上线一手包办。">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -32,9 +33,13 @@
             --charcoal-light: #2A2A2A;
             --slate: #6B7280;
             --text-secondary: #8B8680;
+            --safe-top: env(safe-area-inset-top, 0px);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+            --safe-left: env(safe-area-inset-left, 0px);
+            --safe-right: env(safe-area-inset-right, 0px);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         html { scroll-behavior: smooth; }
 
         body {
@@ -90,10 +95,12 @@
             text-decoration: none; transition: all 0.3s;
         }
         .nav-cta:hover { background: var(--gold-light); }
+        .nav-cta:active { background: var(--gold); transform: scale(0.97); }
 
         .lang-btn {
             background: none; border: 1px solid rgba(255,255,255,0.2);
             color: rgba(255,255,255,0.65); padding: 6px 14px;
+            min-height: 44px; min-width: 44px;
             font-size: 0.75rem; font-family: 'JetBrains Mono', monospace;
             font-weight: 600; cursor: pointer; transition: all 0.3s;
         }
@@ -114,33 +121,37 @@
 
         .mobile-menu-btn {
             display: none; background: none; border: none; cursor: pointer; padding: 8px;
+            min-width: 44px; min-height: 44px;
         }
         .mobile-menu-btn svg { width: 24px; height: 24px; }
         .mobile-menu-btn path { stroke: #fff; transition: stroke 0.3s; }
         .scrolled .mobile-menu-btn path { stroke: var(--charcoal); }
 
         .mobile-menu {
-            position: fixed; top: 0; right: 0; bottom: 0; width: 320px;
-            background: var(--charcoal); z-index: 200; padding: 80px 32px 32px;
+            position: fixed; top: 0; right: 0; bottom: 0; width: 100%; max-width: 360px;
+            background: var(--charcoal); z-index: 200;
+            padding: 80px 32px calc(32px + var(--safe-bottom)) 32px;
             border-left: 3px solid var(--rolex-green);
+            overflow-y: auto; -webkit-overflow-scrolling: touch;
         }
         .mobile-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 199; }
         .mobile-menu a {
-            display: block; color: rgba(255,255,255,0.7); text-decoration: none;
-            padding: 16px 0; font-size: 0.95rem; font-weight: 600;
+            display: flex; align-items: center; color: rgba(255,255,255,0.7); text-decoration: none;
+            padding: 16px 0; min-height: 56px; font-size: 0.95rem; font-weight: 600;
             letter-spacing: 0.04em; text-transform: uppercase;
             border-bottom: 1px solid rgba(255,255,255,0.06);
         }
-        .mobile-menu a:hover { color: var(--gold); }
+        .mobile-menu a:hover, .mobile-menu a:active { color: var(--gold); }
         .mobile-close {
             position: absolute; top: 20px; right: 20px; background: none;
             border: none; color: rgba(255,255,255,0.5); cursor: pointer; font-size: 1.5rem;
+            min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center;
         }
 
         @media (max-width: 768px) {
             .nav-links, .nav-cta { display: none; }
             .mobile-menu-btn { display: block; }
-            .nav-inner { padding: 0 20px; }
+            .nav-inner { padding: 0 calc(20px + var(--safe-right)) 0 calc(20px + var(--safe-left)); }
         }
 
         /* ===== HERO ===== */
@@ -195,6 +206,7 @@
             cursor: pointer; transition: background 0.3s;
         }
         .btn-primary:hover { background: var(--rolex-green-light); }
+        .btn-primary:active { background: var(--rolex-green-dark); transform: scale(0.98); }
         .btn-secondary {
             display: inline-flex; align-items: center; gap: 10px;
             padding: 16px 36px; background: transparent; color: rgba(255,255,255,0.6);
@@ -203,6 +215,7 @@
             border: 2px solid rgba(255,255,255,0.12); transition: all 0.3s;
         }
         .btn-secondary:hover { border-color: rgba(255,255,255,0.3); color: #fff; }
+        .btn-secondary:active { background: rgba(255,255,255,0.05); transform: scale(0.98); }
 
         .hero-stack {
             margin-top: 100px; display: grid; grid-template-columns: repeat(4, 1fr);
@@ -224,10 +237,19 @@
         }
 
         @media (max-width: 768px) {
-            .hero-inner { padding: 120px 20px 60px; }
-            .hero-stack { grid-template-columns: repeat(2, 1fr); gap: 28px 0; }
+            .hero-inner { padding: calc(100px + var(--safe-top)) 20px 60px; }
+            .hero-stack { grid-template-columns: repeat(2, 1fr); gap: 28px 0; margin-top: 60px; }
             .hero-stack-item:nth-child(2) { border-right: none; }
-            .hero-desc { font-size: 0.95rem; }
+            .hero-desc { font-size: 0.95rem; margin-bottom: 36px; }
+            .hero-actions { flex-direction: column; }
+            .hero-actions .btn-primary,
+            .hero-actions .btn-secondary { width: 100%; justify-content: center; min-height: 52px; }
+            .hero-badge { margin-bottom: 28px; }
+            .hero h1 { margin-bottom: 20px; }
+        }
+        @media (max-width: 375px) {
+            .hero-stack { grid-template-columns: 1fr; gap: 20px 0; }
+            .hero-stack-item { border-right: none !important; }
         }
 
         /* ===== SECTIONS ===== */
@@ -260,7 +282,7 @@
         }
         .service-card:nth-child(2n) { border-right: none; }
         .service-card:nth-child(n+3) { border-bottom: none; }
-        .service-card:hover { background: var(--cream); }
+        .service-card:hover, .service-card:active { background: var(--cream); }
         .service-icon {
             width: 56px; height: 56px; background: var(--rolex-green);
             display: flex; align-items: center; justify-content: center;
@@ -299,7 +321,7 @@
             border: 2px solid rgba(255,255,255,0.06);
             overflow: hidden; transition: border-color 0.3s;
         }
-        .work-card:hover { border-color: var(--rolex-green); }
+        .work-card:hover, .work-card:active { border-color: var(--rolex-green); }
         .work-card-img {
             width: 100%; aspect-ratio: 16/10; object-fit: cover;
             display: block; background: #222; filter: grayscale(20%);
@@ -352,8 +374,15 @@
         .process-step p { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.65; }
 
         @media (max-width: 768px) {
+            .process-steps { grid-template-columns: repeat(2, 1fr); }
+            .process-step { border-bottom: 1px solid var(--cream-dark); }
+            .process-step:nth-child(2n) { border-right: none; }
+            .process-step:nth-child(n+3) { border-bottom: none; }
+            .process-step::before { transform: scaleX(1); }
+        }
+        @media (max-width: 480px) {
             .process-steps { grid-template-columns: 1fr; }
-            .process-step { border-right: none; border-bottom: 1px solid var(--cream-dark); }
+            .process-step { border-right: none !important; border-bottom: 1px solid var(--cream-dark); }
             .process-step:last-child { border-bottom: none; }
         }
 
@@ -386,6 +415,14 @@
             border: 2px solid rgba(255,255,255,0.15);
             display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
         }
+        @media (max-width: 768px) {
+            .tech-strip { padding: 60px 20px; }
+            .tech-logos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px 16px; }
+            .tech-strip h2 { font-size: 1.3rem; margin-bottom: 36px; }
+        }
+        @media (max-width: 480px) {
+            .tech-logos { grid-template-columns: repeat(3, 1fr); }
+        }
 
         /* ===== CTA SECTION ===== */
         .cta-section {
@@ -402,6 +439,10 @@
             color: var(--charcoal); margin-bottom: 20px;
         }
         .cta-section p { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 48px; }
+        @media (max-width: 768px) {
+            .cta-section { padding: 80px 20px; }
+            .cta-section .btn-primary { width: 100%; max-width: 320px; justify-content: center; min-height: 52px; }
+        }
 
         /* ===== FOOTER ===== */
         .site-footer {
@@ -430,8 +471,8 @@
             font-family: 'JetBrains Mono', monospace;
         }
         .footer-links a {
-            display: block; color: rgba(255,255,255,0.45); text-decoration: none;
-            font-size: 0.85rem; padding: 5px 0; transition: color 0.2s;
+            display: flex; align-items: center; color: rgba(255,255,255,0.45); text-decoration: none;
+            font-size: 0.85rem; padding: 5px 0; min-height: 44px; transition: color 0.2s;
         }
         .footer-links a:hover { color: var(--gold); }
         .footer-bottom {
@@ -444,11 +485,11 @@
         @media (max-width: 768px) {
             .footer-inner { flex-direction: column; gap: 32px; }
             .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
-            .site-footer { padding: 48px 20px 24px; }
+            .site-footer { padding: 48px 20px calc(24px + var(--safe-bottom)); }
         }
 
         /* ===== WECHAT FLOAT ===== */
-        .wechat-float { position: fixed; bottom: 28px; right: 28px; z-index: 90; }
+        .wechat-float { position: fixed; bottom: calc(28px + var(--safe-bottom)); right: calc(28px + var(--safe-right)); z-index: 90; }
         .wechat-btn {
             width: 56px; height: 56px; background: var(--rolex-green);
             border: 2px solid var(--rolex-green-light);
@@ -456,6 +497,7 @@
             box-shadow: 0 4px 24px rgba(0,96,57,0.35); transition: transform 0.2s;
         }
         .wechat-btn:hover { transform: translateY(-2px); }
+        .wechat-btn:active { transform: scale(0.95); }
         .wechat-btn svg { width: 26px; height: 26px; fill: #fff; }
         .wechat-popup {
             position: absolute; bottom: 68px; right: 0; background: #fff;
@@ -507,7 +549,7 @@
                     </div>
                 </div>
                 <a href="contact.html" class="nav-cta" x-text="t('nav_cta')">Free Consultation</a>
-                <button class="mobile-menu-btn" @click="mobileMenuOpen = true">
+                <button class="mobile-menu-btn" @click="mobileMenuOpen = true" aria-label="Open menu">
                     <svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
                 </button>
             </div>
@@ -519,17 +561,17 @@
         <div>
             <div class="mobile-overlay" @click="mobileMenuOpen = false"></div>
             <div class="mobile-menu">
-                <button class="mobile-close" @click="mobileMenuOpen = false">&times;</button>
+                <button class="mobile-close" @click="mobileMenuOpen = false" aria-label="Close menu">&times;</button>
                 <a href="solutions.html" @click="mobileMenuOpen = false" x-text="t('nav_solutions')">Solutions</a>
                 <a href="pricing.html" @click="mobileMenuOpen = false" x-text="t('nav_pricing')">Pricing</a>
                 <a href="techstack.html" @click="mobileMenuOpen = false" x-text="t('nav_tech')">Tech</a>
                 <a href="cases.html" @click="mobileMenuOpen = false" x-text="t('nav_cases')">Cases</a>
                 <a href="about.html" @click="mobileMenuOpen = false" x-text="t('nav_about')">About</a>
-                <a href="contact.html" @click="mobileMenuOpen = false" style="color:var(--gold);margin-top:16px;border:none;" x-text="t('nav_cta')">Consultation</a>
+                <a href="contact.html" @click="mobileMenuOpen = false" style="color:#fff;margin-top:16px;border:none;background:var(--rolex-green);padding:16px 24px;min-height:52px;display:flex;align-items:center;justify-content:center;font-size:0.9rem;" x-text="t('nav_cta')">Consultation</a>
                 <div style="display:flex;gap:8px;margin-top:24px;">
-                    <button @click="lang='zh';mobileMenuOpen=false" style="padding:8px 16px;background:rgba(255,255,255,0.06);border:none;color:rgba(255,255,255,0.6);cursor:pointer;font-size:0.85rem;font-weight:600;" :style="lang==='zh'?'color:var(--gold)':''">中文</button>
-                    <button @click="lang='en';mobileMenuOpen=false" style="padding:8px 16px;background:rgba(255,255,255,0.06);border:none;color:rgba(255,255,255,0.6);cursor:pointer;font-size:0.85rem;font-weight:600;" :style="lang==='en'?'color:var(--gold)':''">EN</button>
-                    <button @click="lang='ja';mobileMenuOpen=false" style="padding:8px 16px;background:rgba(255,255,255,0.06);border:none;color:rgba(255,255,255,0.6);cursor:pointer;font-size:0.85rem;font-weight:600;" :style="lang==='ja'?'color:var(--gold)':''">日本語</button>
+                    <button @click="lang='zh';mobileMenuOpen=false" style="flex:1;padding:12px 16px;min-height:44px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);cursor:pointer;font-size:0.85rem;font-weight:600;" :style="lang==='zh'?'color:var(--gold);border-color:var(--gold)':''">中文</button>
+                    <button @click="lang='en';mobileMenuOpen=false" style="flex:1;padding:12px 16px;min-height:44px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);cursor:pointer;font-size:0.85rem;font-weight:600;" :style="lang==='en'?'color:var(--gold);border-color:var(--gold)':''">EN</button>
+                    <button @click="lang='ja';mobileMenuOpen=false" style="flex:1;padding:12px 16px;min-height:44px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);cursor:pointer;font-size:0.85rem;font-weight:600;" :style="lang==='ja'?'color:var(--gold);border-color:var(--gold)':''">日本語</button>
                 </div>
             </div>
         </div>
