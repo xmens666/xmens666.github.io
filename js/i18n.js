@@ -10,6 +10,7 @@ const I18N = {
   nav_tech:        { zh: '技术栈',   en: 'Tech Stack',  ja: '技術スタック' },
   nav_cases:       { zh: '成功案例', en: 'Case Studies', ja: '実績' },
   nav_demo:        { zh: '小程序演示', en: 'Mini-app Demo', ja: 'ミニアプリ' },
+  nav_gallery:     { zh: 'Visual Lab', en: 'Visual Lab', ja: 'Visual Lab' },
   nav_about:       { zh: '关于我们', en: 'About Us',    ja: '私たちについて' },
   nav_cta:         { zh: '免费咨询方案', en: 'Free Consultation', ja: '無料相談' },
   nav_lang_switch: { zh: 'Switch to English', en: '日本語に切替', ja: '切换到中文' },
