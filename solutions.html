@@ -217,7 +217,7 @@
 
 <body class="bg-brand-black text-slate-200 selection:bg-blue-500 selection:text-white" x-data="{
         mobileMenuOpen: false,
-        lang: 'zh',
+        lang: (localStorage.getItem('zencode_lang') || 'zh'),
         filter: 'all',
         setLang(l) { this.lang = l; applyTranslations(l); },
         t(key) { const e = I18N[key]; return e ? (e[this.lang] || e.zh || key) : key; },

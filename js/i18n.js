@@ -130,8 +130,8 @@ const I18N = {
   duck_cta:        { zh: '访问网站', en: 'Visit Website', ja: 'サイトを見る' },
 };
 
-// Current language state
-let _currentLang = 'zh';
+// Current language state (restore from localStorage)
+let _currentLang = (typeof localStorage !== 'undefined' && localStorage.getItem('zencode_lang')) || 'zh';
 
 // Get translation by key
 function t(key) {
@@ -143,6 +143,7 @@ function t(key) {
 // Apply all translations to elements with data-i18n attribute
 function applyTranslations(lang) {
   _currentLang = lang || 'zh';
+  try { localStorage.setItem('zencode_lang', _currentLang); } catch(e) {}
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     const val = t(key);
