@@ -238,14 +238,14 @@
                             class="text-blue-500">.Gallery</span></span>
                 </a>
                 <div class="hidden md:flex items-center gap-2 ml-auto mr-6">
-                    <a href="index.html" class="glass-nav-btn glass-nav-blue"><span x-show="lang==='zh'" x-cloak>首页</span><span x-show="lang==='en'" x-cloak>Home</span><span x-show="lang==='ja'" x-cloak>ホーム</span></a>
-                    <a href="solutions.html" class="glass-nav-btn glass-nav-blue"><span x-show="lang==='zh'" x-cloak>解决方案</span><span x-show="lang==='en'" x-cloak>Solutions</span><span x-show="lang==='ja'" x-cloak>ソリューション</span></a>
-                    <a href="pricing.html" class="glass-nav-btn glass-nav-green"><span x-show="lang==='zh'" x-cloak>服务定价</span><span x-show="lang==='en'" x-cloak>Pricing</span><span x-show="lang==='ja'" x-cloak>料金プラン</span></a>
-                    <a href="techstack.html" class="glass-nav-btn glass-nav-blue"><span x-show="lang==='zh'" x-cloak>技术栈</span><span x-show="lang==='en'" x-cloak>Tech Stack</span><span x-show="lang==='ja'" x-cloak>技術スタック</span></a>
-                    <a href="cases.html" class="glass-nav-btn glass-nav-purple glass-nav-active"><span x-show="lang==='zh'" x-cloak>成功案例</span><span x-show="lang==='en'" x-cloak>Cases</span><span x-show="lang==='ja'" x-cloak>実績</span></a>
-                    <a href="experience/experience.html" class="glass-nav-btn glass-nav-orange"><span x-show="lang==='zh'" x-cloak>小程序演示</span><span x-show="lang==='en'" x-cloak>Mini App Demo</span><span x-show="lang==='ja'" x-cloak>ミニアプリ</span></a>
+                    <a href="index.html" class="glass-nav-btn glass-nav-blue"><span x-show="lang==='zh'">首页</span><span x-show="lang==='en'" x-cloak>Home</span><span x-show="lang==='ja'" x-cloak>ホーム</span></a>
+                    <a href="solutions.html" class="glass-nav-btn glass-nav-blue"><span x-show="lang==='zh'">解决方案</span><span x-show="lang==='en'" x-cloak>Solutions</span><span x-show="lang==='ja'" x-cloak>ソリューション</span></a>
+                    <a href="pricing.html" class="glass-nav-btn glass-nav-green"><span x-show="lang==='zh'">服务定价</span><span x-show="lang==='en'" x-cloak>Pricing</span><span x-show="lang==='ja'" x-cloak>料金プラン</span></a>
+                    <a href="techstack.html" class="glass-nav-btn glass-nav-blue"><span x-show="lang==='zh'">技术栈</span><span x-show="lang==='en'" x-cloak>Tech Stack</span><span x-show="lang==='ja'" x-cloak>技術スタック</span></a>
+                    <a href="cases.html" class="glass-nav-btn glass-nav-purple glass-nav-active"><span x-show="lang==='zh'">成功案例</span><span x-show="lang==='en'" x-cloak>Cases</span><span x-show="lang==='ja'" x-cloak>実績</span></a>
+                    <a href="experience/experience.html" class="glass-nav-btn glass-nav-orange"><span x-show="lang==='zh'">小程序演示</span><span x-show="lang==='en'" x-cloak>Mini App Demo</span><span x-show="lang==='ja'" x-cloak>ミニアプリ</span></a>
                     <a href="gallery.html" class="glass-nav-btn glass-nav-orange">Visual Lab</a>
-                    <a href="about.html" class="glass-nav-btn glass-nav-pink"><span x-show="lang==='zh'" x-cloak>关于我们</span><span x-show="lang==='en'" x-cloak>About</span><span x-show="lang==='ja'" x-cloak>会社概要</span></a>
+                    <a href="about.html" class="glass-nav-btn glass-nav-pink"><span x-show="lang==='zh'">关于我们</span><span x-show="lang==='en'" x-cloak>About</span><span x-show="lang==='ja'" x-cloak>会社概要</span></a>
                     <button class="glass-nav-btn glass-nav-blue" @click="setLang(lang === 'zh' ? 'en' : lang === 'en' ? 'ja' : 'zh')">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
                         <span x-text="lang === 'zh' ? '中文' : lang === 'en' ? 'EN' : '日本語'" style="margin-left:4px"></span>
@@ -253,7 +253,7 @@
                 </div>
                 <div class="flex items-center gap-4">
                     <a href="index.html#contact"
-                        class="hidden md:inline-block px-5 py-2 rounded-full bg-white text-black text-sm font-bold hover:bg-slate-200 transition"><span x-show="lang==='zh'" x-cloak>立即咨询</span><span x-show="lang==='en'" x-cloak>Consult Now</span><span x-show="lang==='ja'" x-cloak>お問い合わせ</span></a>
+                        class="hidden md:inline-block px-5 py-2 rounded-full bg-white text-black text-sm font-bold hover:bg-slate-200 transition"><span x-show="lang==='zh'">立即咨询</span><span x-show="lang==='en'" x-cloak>Consult Now</span><span x-show="lang==='ja'" x-cloak>お問い合わせ</span></a>
                     <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 text-white flex items-center justify-center hover:bg-white/20 transition">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -297,27 +297,27 @@
                 <nav class="flex flex-col gap-1">
                     <a href="index.html" @click="mobileMenuOpen = false"
                         class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                        <span x-show="lang==='zh'" x-cloak>首页</span><span x-show="lang==='en'" x-cloak>Home</span><span x-show="lang==='ja'" x-cloak>ホーム</span>
+                        <span x-show="lang==='zh'">首页</span><span x-show="lang==='en'" x-cloak>Home</span><span x-show="lang==='ja'" x-cloak>ホーム</span>
                     </a>
                     <a href="solutions.html" @click="mobileMenuOpen = false"
                         class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                        <span x-show="lang==='zh'" x-cloak>解决方案</span><span x-show="lang==='en'" x-cloak>Solutions</span><span x-show="lang==='ja'" x-cloak>ソリューション</span>
+                        <span x-show="lang==='zh'">解决方案</span><span x-show="lang==='en'" x-cloak>Solutions</span><span x-show="lang==='ja'" x-cloak>ソリューション</span>
                     </a>
                     <a href="pricing.html" @click="mobileMenuOpen = false"
                         class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                        <span x-show="lang==='zh'" x-cloak>服务定价</span><span x-show="lang==='en'" x-cloak>Pricing</span><span x-show="lang==='ja'" x-cloak>料金プラン</span>
+                        <span x-show="lang==='zh'">服务定价</span><span x-show="lang==='en'" x-cloak>Pricing</span><span x-show="lang==='ja'" x-cloak>料金プラン</span>
                     </a>
                     <a href="techstack.html" @click="mobileMenuOpen = false"
                         class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                        <span x-show="lang==='zh'" x-cloak>技术栈</span><span x-show="lang==='en'" x-cloak>Tech Stack</span><span x-show="lang==='ja'" x-cloak>技術スタック</span>
+                        <span x-show="lang==='zh'">技术栈</span><span x-show="lang==='en'" x-cloak>Tech Stack</span><span x-show="lang==='ja'" x-cloak>技術スタック</span>
                     </a>
                     <a href="cases.html" @click="mobileMenuOpen = false"
                         class="text-base font-bold text-purple-400 bg-purple-500/10 py-3 px-4 rounded-lg">
-                        <span x-show="lang==='zh'" x-cloak>成功案例</span><span x-show="lang==='en'" x-cloak>Cases</span><span x-show="lang==='ja'" x-cloak>実績</span>
+                        <span x-show="lang==='zh'">成功案例</span><span x-show="lang==='en'" x-cloak>Cases</span><span x-show="lang==='ja'" x-cloak>実績</span>
                     </a>
                     <a href="experience/experience.html" @click="mobileMenuOpen = false"
                         class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                        <span x-show="lang==='zh'" x-cloak>小程序演示</span><span x-show="lang==='en'" x-cloak>Mini App Demo</span><span x-show="lang==='ja'" x-cloak>ミニアプリ</span>
+                        <span x-show="lang==='zh'">小程序演示</span><span x-show="lang==='en'" x-cloak>Mini App Demo</span><span x-show="lang==='ja'" x-cloak>ミニアプリ</span>
                     </a>
                     <a href="gallery.html" @click="mobileMenuOpen = false"
                         class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
@@ -325,7 +325,7 @@
                     </a>
                     <a href="about.html" @click="mobileMenuOpen = false"
                         class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                        <span x-show="lang==='zh'" x-cloak>关于我们</span><span x-show="lang==='en'" x-cloak>About</span><span x-show="lang==='ja'" x-cloak>会社概要</span>
+                        <span x-show="lang==='zh'">关于我们</span><span x-show="lang==='en'" x-cloak>About</span><span x-show="lang==='ja'" x-cloak>会社概要</span>
                     </a>
                 </nav>
 
@@ -340,7 +340,7 @@
                 <div class="mt-8 px-4">
                     <a href="contact.html" @click="mobileMenuOpen = false"
                         class="block w-full text-center py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold text-sm shadow-lg shadow-purple-500/30">
-                        <span x-show="lang==='zh'" x-cloak>免费咨询方案</span><span x-show="lang==='en'" x-cloak>Get Free Quote</span><span x-show="lang==='ja'" x-cloak>無料見積り</span>
+                        <span x-show="lang==='zh'">免费咨询方案</span><span x-show="lang==='en'" x-cloak>Get Free Quote</span><span x-show="lang==='ja'" x-cloak>無料見積り</span>
                     </a>
                 </div>
             </div>
@@ -359,11 +359,11 @@
                 <span>HALL OF FAME</span>
             </div>
             <h1 class=”text-5xl md:text-7xl font-bold font-heading mb-6 tracking-tight”>
-                <span class=”block text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60” x-show=”lang==='zh'” x-cloak>用作品说话</span>
+                <span class=”block text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60” x-show=”lang==='zh'”>用作品说话</span>
                 <span class=”block text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60” x-show=”lang==='en'” x-cloak>Our Work Speaks</span>
                 <span class=”block text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60” x-show=”lang==='ja'” x-cloak>実績で語る</span>
             </h1>
-            <p class=”text-slate-400 text-lg md:text-xl max-w-2xl mx-auto font-light” x-show=”lang==='zh'” x-cloak>
+            <p class=”text-slate-400 text-lg md:text-xl max-w-2xl mx-auto font-light” x-show=”lang==='zh'”>
                 这里展示的<span class=”font-bold text-emerald-400”>每一个 APP</span>，都是一台正在为客户<span
                     class=”font-bold text-emerald-400”>日夜运转</span>的”<span class=”font-bold text-emerald-400”>印钞机</span>”。
             </p>
@@ -404,7 +404,7 @@
             <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-16">
                 <button @click="activeFilter = 'all'"
                     :class="activeFilter === 'all' ? 'bg-white text-black' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'"
-                    class="filter-btn px-6 py-2 rounded-full text-sm font-bold transition-all border border-white/10 backdrop-blur-sm"><span x-show="lang==='zh'" x-cloak>全部案例</span><span x-show="lang==='en'" x-cloak>All Cases</span><span x-show="lang==='ja'" x-cloak>すべて</span></button>
+                    class="filter-btn px-6 py-2 rounded-full text-sm font-bold transition-all border border-white/10 backdrop-blur-sm"><span x-show="lang==='zh'">全部案例</span><span x-show="lang==='en'" x-cloak>All Cases</span><span x-show="lang==='ja'" x-cloak>すべて</span></button>
 
                 <button @click="activeFilter = 'app'"
                     :class="activeFilter === 'app' ? 'bg-blue-600 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'"
@@ -412,11 +412,11 @@
 
                 <button @click="activeFilter = 'miniapp'"
                     :class="activeFilter === 'miniapp' ? 'bg-emerald-600 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'"
-                    class="filter-btn px-6 py-2 rounded-full text-sm font-bold transition-all border border-white/10 backdrop-blur-sm inline-flex items-center gap-1"><svg class="w-4 h-4 inline-block" viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="12" cy="12" r="6"/></svg> <span x-show="lang==='zh'" x-cloak>小程序</span><span x-show="lang==='en'" x-cloak>Mini App</span><span x-show="lang==='ja'" x-cloak>ミニアプリ</span></button>
+                    class="filter-btn px-6 py-2 rounded-full text-sm font-bold transition-all border border-white/10 backdrop-blur-sm inline-flex items-center gap-1"><svg class="w-4 h-4 inline-block" viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="12" cy="12" r="6"/></svg> <span x-show="lang==='zh'">小程序</span><span x-show="lang==='en'" x-cloak>Mini App</span><span x-show="lang==='ja'" x-cloak>ミニアプリ</span></button>
 
                 <button @click="activeFilter = 'web'"
                     :class="activeFilter === 'web' ? 'bg-purple-600 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'"
-                    class="filter-btn px-6 py-2 rounded-full text-sm font-bold transition-all border border-white/10 backdrop-blur-sm inline-flex items-center gap-1"><svg class="w-4 h-4 inline-block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> <span x-show="lang==='zh'" x-cloak>网页</span><span x-show="lang==='en'" x-cloak>Website</span><span x-show="lang==='ja'" x-cloak>ウェブ</span></button>
+                    class="filter-btn px-6 py-2 rounded-full text-sm font-bold transition-all border border-white/10 backdrop-blur-sm inline-flex items-center gap-1"><svg class="w-4 h-4 inline-block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> <span x-show="lang==='zh'">网页</span><span x-show="lang==='en'" x-cloak>Website</span><span x-show="lang==='ja'" x-cloak>ウェブ</span></button>
             </div>
 
 
@@ -470,7 +470,7 @@
         <div class="absolute inset-0 bg-blue-900/10"></div>
         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
         <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
-            <h2 class="text-4xl md:text-5xl font-bold font-heading mb-8 flex flex-col gap-4" x-show="lang==='zh'" x-cloak>
+            <h2 class="text-4xl md:text-5xl font-bold font-heading mb-8 flex flex-col gap-4" x-show="lang==='zh'">
                 <span>您的想法，</span>
                 <span>我们帮您实现。</span>
             </h2>
@@ -483,7 +483,7 @@
                 <span>私たちが実現します。</span>
             </h2>
             <a href="contact.html"
-                class="inline-flex items-center justify-center px-10 py-5 text-lg font-bold text-white bg-blue-600 rounded-full hover:bg-blue-500 transition-all shadow-[0_0_40px_rgba(37,99,235,0.5)]"><span x-show="lang==='zh'" x-cloak>开始您的项目</span><span x-show="lang==='en'" x-cloak>Start Your Project</span><span x-show="lang==='ja'" x-cloak>プロジェクトを始める</span></a>
+                class="inline-flex items-center justify-center px-10 py-5 text-lg font-bold text-white bg-blue-600 rounded-full hover:bg-blue-500 transition-all shadow-[0_0_40px_rgba(37,99,235,0.5)]"><span x-show="lang==='zh'">开始您的项目</span><span x-show="lang==='en'" x-cloak>Start Your Project</span><span x-show="lang==='ja'" x-cloak>プロジェクトを始める</span></a>
         </div>
     </section>
 
