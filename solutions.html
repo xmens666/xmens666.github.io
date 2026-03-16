@@ -10,6 +10,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/i18n.js"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&family=Outfit:wght@400;700&display=swap"
@@ -25,8 +26,8 @@
                         heading: ['Nunito', 'Yuanti SC', 'YouYuan', 'Noto Sans SC', 'sans-serif'],
                     },
                     colors: {
-                        'brand-black': '#0a0a0a', // 更深邃的黑
-                        'card-dark': '#121212',   // 卡片背景色
+                        'brand-black': '#0a0a0a',
+                        'card-dark': '#121212',
                     }
                 }
             }
@@ -37,7 +38,7 @@
             display: none !important;
         }
 
-        /* 手机端侧边栏菜单 */
+        /* Mobile slide-in menu */
         .mobile-menu-overlay {
             position: fixed;
             inset: 0;
@@ -63,7 +64,7 @@
             overflow-y: auto;
         }
 
-        /* 隐藏滚动条 */
+        /* Hide scrollbar */
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -218,15 +219,16 @@
         mobileMenuOpen: false,
         lang: 'zh',
         filter: 'all',
+        setLang(l) { this.lang = l; applyTranslations(l); },
+        t(key) { const e = I18N[key]; return e ? (e[this.lang] || e.zh || key) : key; },
         cases: [
-            { 
-                id: 1, 
-                title: '蜀味·私厨', 
-                cat: 'food', 
-                desc: '扫码点餐、外卖配送范围自动计算、会员储值系统。', 
-                url: 'test-index/case-restaurant.html', 
-                icon: '🍜',
-                // 颜色配置：橙色
+            {
+                id: 1,
+                title: {zh: '蜀味·私厨', en: 'Shumi Kitchen', ja: '蜀味キッチン'},
+                cat: 'food',
+                desc: {zh: '扫码点餐、外卖配送范围自动计算、会员储值系统。', en: 'QR ordering, delivery range calculation, membership prepaid system.', ja: 'QR注文、配達範囲自動計算、会員プリペイド。'},
+                url: 'test-index/case-restaurant.html',
+                icon: '<svg width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;><path d=&quot;M3 15h18v2a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2z&quot;/><path d=&quot;M3 15c0-4 3-7 9-7s9 3 9 7&quot;/><path d=&quot;M8 4c0 0-1 2 0 3&quot;/><path d=&quot;M12 3c0 0-1 2 0 3&quot;/><path d=&quot;M16 4c0 0-1 2 0 3&quot;/></svg>',
                 styles: {
                     border: 'hover:border-orange-500/50',
                     iconBg: 'bg-orange-500/10',
@@ -235,14 +237,13 @@
                     text: 'text-orange-500'
                 }
             },
-            { 
-                id: 2, 
-                title: '大力搬家', 
-                cat: 'service', 
-                desc: '自动距离估价、楼层费用计算、预约排期管理。', 
-                url: 'test-index/case-moving.html', 
-                icon: '🚚',
-                // 颜色配置：蓝色
+            {
+                id: 2,
+                title: {zh: '大力搬家', en: 'Power Moving', ja: 'パワー引越し'},
+                cat: 'service',
+                desc: {zh: '自动距离估价、楼层费用计算、预约排期管理。', en: 'Auto distance pricing, floor-based fees, booking management.', ja: '自動距離見積、階層料金計算、予約管理。'},
+                url: 'test-index/case-moving.html',
+                icon: '<svg width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;><path d=&quot;M1 14h12V4H5l-4 4v6z&quot;/><path d=&quot;M13 6h4l5 5v3h-9V6z&quot;/><circle cx=&quot;6.5&quot; cy=&quot;16.5&quot; r=&quot;2.5&quot;/><circle cx=&quot;17.5&quot; cy=&quot;16.5&quot; r=&quot;2.5&quot;/></svg>',
                 styles: {
                     border: 'hover:border-blue-500/50',
                     iconBg: 'bg-blue-500/10',
@@ -251,14 +252,13 @@
                     text: 'text-blue-500'
                 }
             },
-            { 
-                id: 3, 
-                title: '樱花优选', 
-                cat: 'retail', 
-                desc: '跨境电商系统、秒杀倒计时、实时汇率计算。', 
-                url: 'test-index/case-store.html', 
-                icon: '🛍️',
-                // 颜色配置：粉色
+            {
+                id: 3,
+                title: {zh: '樱花优选', en: 'Sakura Select', ja: '桜セレクト'},
+                cat: 'retail',
+                desc: {zh: '跨境电商系统、秒杀倒计时、实时汇率计算。', en: 'Cross-border e-commerce, flash sale countdown, real-time exchange rates.', ja: '越境EC、タイムセール、リアルタイム為替。'},
+                url: 'test-index/case-store.html',
+                icon: '<svg width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;><path d=&quot;M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z&quot;/><line x1=&quot;3&quot; y1=&quot;6&quot; x2=&quot;21&quot; y2=&quot;6&quot;/><path d=&quot;M16 10a4 4 0 0 1-8 0&quot;/></svg>',
                 styles: {
                     border: 'hover:border-pink-500/50',
                     iconBg: 'bg-pink-500/10',
@@ -267,14 +267,13 @@
                     text: 'text-pink-500'
                 }
             },
-            { 
-                id: 4, 
-                title: '富士行', 
-                cat: 'service', 
-                desc: '行程定制拖拽、高端车型360°展示、多语言切换。', 
-                url: 'test-index/case-travel.html', 
-                icon: '🗻',
-                // 颜色配置：金色/黄色
+            {
+                id: 4,
+                title: {zh: '富士行', en: 'Fuji Travel', ja: '富士トラベル'},
+                cat: 'service',
+                desc: {zh: '行程定制拖拽、高端车型360°展示、多语言切换。', en: 'Drag-and-drop itinerary, 360° luxury car showcase, multi-language.', ja: 'ドラッグ＆ドロップ行程、高級車360°表示、多言語。'},
+                url: 'test-index/case-travel.html',
+                icon: '<svg width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;><path d=&quot;M3 20l5-8 4 4 4-6 5 10H3z&quot;/><circle cx=&quot;18&quot; cy=&quot;5&quot; r=&quot;2&quot;/></svg>',
                 styles: {
                     border: 'hover:border-yellow-500/50',
                     iconBg: 'bg-yellow-500/10',
@@ -283,14 +282,13 @@
                     text: 'text-yellow-500'
                 }
             },
-            { 
-                id: 5, 
-                title: '安居东京', 
-                cat: 'pro', 
-                desc: '地图找房功能、VR看房集成、条件筛选匹配。', 
-                url: 'test-index/case-realestate.html', 
-                icon: '🏢',
-                // 颜色配置：靛蓝
+            {
+                id: 5,
+                title: {zh: '安居东京', en: 'Tokyo Home', ja: '安居東京'},
+                cat: 'pro',
+                desc: {zh: '地图找房功能、VR看房集成、条件筛选匹配。', en: 'Map-based search, VR tours, advanced filtering.', ja: '地図検索、VR内覧、条件マッチング。'},
+                url: 'test-index/case-realestate.html',
+                icon: '<svg width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;><rect x=&quot;4&quot; y=&quot;2&quot; width=&quot;16&quot; height=&quot;20&quot; rx=&quot;2&quot;/><path d=&quot;M9 22V12h6v10&quot;/><path d=&quot;M8 6h.01&quot;/><path d=&quot;M16 6h.01&quot;/><path d=&quot;M8 10h.01&quot;/><path d=&quot;M16 10h.01&quot;/></svg>',
                 styles: {
                     border: 'hover:border-indigo-500/50',
                     iconBg: 'bg-indigo-500/10',
@@ -299,14 +297,13 @@
                     text: 'text-indigo-500'
                 }
             },
-            { 
-                id: 6, 
-                title: '极速车行', 
-                cat: 'retail', 
-                desc: '贷款计算器、实时库存同步、车况透明公示。', 
-                url: 'test-index/case-cars.html', 
-                icon: '🏎️',
-                // 颜色配置：荧光绿
+            {
+                id: 6,
+                title: {zh: '极速车行', en: 'Speed Auto', ja: 'スピードオート'},
+                cat: 'retail',
+                desc: {zh: '贷款计算器、实时库存同步、车况透明公示。', en: 'Loan calculator, real-time inventory sync, transparent vehicle reports.', ja: 'ローン計算、在庫リアルタイム同期、車両情報透明化。'},
+                url: 'test-index/case-cars.html',
+                icon: '<svg width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;><path d=&quot;M5 17h14v-5l-2-4H7L5 12v5z&quot;/><circle cx=&quot;7.5&quot; cy=&quot;17.5&quot; r=&quot;1.5&quot;/><circle cx=&quot;16.5&quot; cy=&quot;17.5&quot; r=&quot;1.5&quot;/><path d=&quot;M5 14h14&quot;/></svg>',
                 styles: {
                     border: 'hover:border-green-400/50',
                     iconBg: 'bg-green-400/10',
@@ -315,14 +312,13 @@
                     text: 'text-green-400'
                 }
             },
-            { 
-                id: 7, 
-                title: 'NaLi Beauty', 
-                cat: 'service', 
-                desc: '画廊式选款、技师排班预约、会员管理系统。', 
-                url: 'test-index/case-beauty.html', 
-                icon: '💅',
-                // 颜色配置：玫瑰红
+            {
+                id: 7,
+                title: {zh: 'NaLi Beauty', en: 'NaLi Beauty', ja: 'NaLi Beauty'},
+                cat: 'service',
+                desc: {zh: '画廊式选款、技师排班预约、会员管理系统。', en: 'Gallery-style browsing, stylist booking, membership management.', ja: 'ギャラリー式メニュー、スタイリスト予約、会員管理。'},
+                url: 'test-index/case-beauty.html',
+                icon: '<svg width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;><path d=&quot;M12 2l2.09 6.26L20 9.27l-4.91 3.82L16.18 20 12 16.77 7.82 20l1.09-6.91L4 9.27l5.91-1.01L12 2z&quot;/></svg>',
                 styles: {
                     border: 'hover:border-rose-400/50',
                     iconBg: 'bg-rose-400/10',
@@ -331,14 +327,13 @@
                     text: 'text-rose-400'
                 }
             },
-            { 
-                id: 8, 
-                title: '快修哥', 
-                cat: 'tech', 
-                desc: '维修进度实时追踪、故障代码自查、透明报价。', 
-                url: 'test-index/case-repair.html', 
-                icon: '🔧',
-                // 颜色配置：翠绿
+            {
+                id: 8,
+                title: {zh: '快修哥', en: 'QuickFix', ja: 'クイックフィックス'},
+                cat: 'tech',
+                desc: {zh: '维修进度实时追踪、故障代码自查、透明报价。', en: 'Real-time repair tracking, fault code lookup, transparent pricing.', ja: '修理進捗リアルタイム追跡、故障コード検索、明朗会計。'},
+                url: 'test-index/case-repair.html',
+                icon: '<svg width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;><path d=&quot;M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z&quot;/></svg>',
                 styles: {
                     border: 'hover:border-emerald-400/50',
                     iconBg: 'bg-emerald-400/10',
@@ -347,14 +342,13 @@
                     text: 'text-emerald-400'
                 }
             },
-            { 
-                id: 9, 
-                title: '稳拿法务', 
-                cat: 'pro', 
-                desc: '签证成功率评估、办案流程可视化、资料云存储。', 
-                url: 'test-index/case-legal.html', 
-                icon: '⚖️',
-                // 颜色配置：灰色/银色
+            {
+                id: 9,
+                title: {zh: '稳拿法务', en: 'SureLaw', ja: 'シュアロー法務'},
+                cat: 'pro',
+                desc: {zh: '签证成功率评估、办案流程可视化、资料云存储。', en: 'Visa success rate assessment, case flow visualization, cloud storage.', ja: 'ビザ成功率評価、案件フロー可視化、クラウド保管。'},
+                url: 'test-index/case-legal.html',
+                icon: '<svg width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;><path d=&quot;M12 3v18&quot;/><path d=&quot;M3 9l3-3 3 3&quot;/><path d=&quot;M15 9l3-3 3 3&quot;/><path d=&quot;M3 9c0 3 1.5 4 3 4s3-1 3-4&quot;/><path d=&quot;M15 9c0 3 1.5 4 3 4s3-1 3-4&quot;/><path d=&quot;M8 21h8&quot;/></svg>',
                 styles: {
                     border: 'hover:border-slate-300/50',
                     iconBg: 'bg-slate-300/10',
@@ -363,14 +357,13 @@
                     text: 'text-slate-300'
                 }
             },
-            { 
-                id: 10, 
-                title: '邻里邦', 
-                cat: 'tech', 
-                desc: '闲置物品交易、招聘求职版块、社区论坛功能。', 
-                url: 'test-index/case-community.html', 
-                icon: '💬',
-                // 颜色配置：紫色
+            {
+                id: 10,
+                title: {zh: '邻里邦', en: 'NeighborHub', ja: 'ネイバーハブ'},
+                cat: 'tech',
+                desc: {zh: '闲置物品交易、招聘求职版块、社区论坛功能。', en: 'Second-hand marketplace, job board, community forum.', ja: 'フリマ、求人掲示板、コミュニティフォーラム。'},
+                url: 'test-index/case-community.html',
+                icon: '<svg width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;><path d=&quot;M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z&quot;/></svg>',
                 styles: {
                     border: 'hover:border-purple-500/50',
                     iconBg: 'bg-purple-500/10',
@@ -380,7 +373,7 @@
                 }
             }
         ]
-    }">
+    }" x-effect="applyTranslations(lang)">
 
     <nav
         class="fixed w-full z-50 bg-brand-black/90 backdrop-blur-md border-b border-white/5 transition-all duration-300">
@@ -394,19 +387,38 @@
                 </a>
 
                 <div class="hidden md:flex items-center gap-2">
-                    <a href="index.html" class="glass-nav-btn glass-nav-blue">首页</a>
-                    <a href="solutions.html" class="glass-nav-btn glass-nav-cyan" style="background: rgba(0, 210, 255, 0.2); border-color: rgba(0, 210, 255, 0.5); color: #00D2FF;">解决方案</a>
-                    <a href="pricing.html" class="glass-nav-btn glass-nav-green">服务定价</a>
-                    <a href="techstack.html" class="glass-nav-btn glass-nav-blue">技术栈</a>
-                    <a href="cases.html" class="glass-nav-btn glass-nav-purple">成功案例</a>
-                    <a href="experience/experience.html" class="glass-nav-btn glass-nav-orange">小程序演示</a>
-                    <a href="about.html" class="glass-nav-btn glass-nav-pink">关于我们</a>
+                    <a href="index.html" class="glass-nav-btn glass-nav-blue">
+                        <span x-show="lang==='zh'">首页</span><span x-show="lang==='en'" x-cloak>Home</span><span x-show="lang==='ja'" x-cloak>ホーム</span>
+                    </a>
+                    <a href="solutions.html" class="glass-nav-btn glass-nav-cyan" style="background: rgba(0, 210, 255, 0.2); border-color: rgba(0, 210, 255, 0.5); color: #00D2FF;">
+                        <span x-show="lang==='zh'">解决方案</span><span x-show="lang==='en'" x-cloak>Solutions</span><span x-show="lang==='ja'" x-cloak>ソリューション</span>
+                    </a>
+                    <a href="pricing.html" class="glass-nav-btn glass-nav-green">
+                        <span x-show="lang==='zh'">服务定价</span><span x-show="lang==='en'" x-cloak>Pricing</span><span x-show="lang==='ja'" x-cloak>料金</span>
+                    </a>
+                    <a href="techstack.html" class="glass-nav-btn glass-nav-blue">
+                        <span x-show="lang==='zh'">技术栈</span><span x-show="lang==='en'" x-cloak>Tech Stack</span><span x-show="lang==='ja'" x-cloak>技術スタック</span>
+                    </a>
+                    <a href="cases.html" class="glass-nav-btn glass-nav-purple">
+                        <span x-show="lang==='zh'">成功案例</span><span x-show="lang==='en'" x-cloak>Cases</span><span x-show="lang==='ja'" x-cloak>実績</span>
+                    </a>
+                    <a href="experience/experience.html" class="glass-nav-btn glass-nav-orange">
+                        <span x-show="lang==='zh'">小程序演示</span><span x-show="lang==='en'" x-cloak>Mini-app Demo</span><span x-show="lang==='ja'" x-cloak>ミニアプリ</span>
+                    </a>
+                    <a href="about.html" class="glass-nav-btn glass-nav-pink">
+                        <span x-show="lang==='zh'">关于我们</span><span x-show="lang==='en'" x-cloak>About</span><span x-show="lang==='ja'" x-cloak>私たちについて</span>
+                    </a>
                 </div>
 
                 <div class="flex items-center gap-4">
+                    <button @click="setLang(lang === 'zh' ? 'en' : lang === 'en' ? 'ja' : 'zh')"
+                        class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-white/15 bg-white/5 text-slate-300 text-xs font-medium hover:bg-white/10 hover:border-white/25 transition-all duration-300">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        <span x-text="lang === 'zh' ? '中文' : lang === 'en' ? 'EN' : '日本語'"></span>
+                    </button>
                     <a href="contact.html"
                         class="hidden md:inline-block bg-white text-black px-5 py-2 rounded-full font-bold text-sm hover:bg-slate-200 transition">
-                        联系我们
+                        <span x-show="lang==='zh'">联系我们</span><span x-show="lang==='en'" x-cloak>Contact</span><span x-show="lang==='ja'" x-cloak>お問い合わせ</span>
                     </a>
                     <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 text-white flex items-center justify-center hover:bg-white/20 transition">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -447,35 +459,44 @@
                     </svg>
                 </button>
 
+                <!-- Language Switcher -->
+                <div class="flex items-center justify-center gap-2 mb-4 px-4">
+                    <button @click="setLang(lang === 'zh' ? 'en' : lang === 'en' ? 'ja' : 'zh')"
+                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-white/15 bg-white/5 text-slate-300 text-xs font-medium hover:bg-white/10 hover:border-white/25 transition-all duration-300">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        <span x-text="lang === 'zh' ? '中文' : lang === 'en' ? 'EN' : '日本語'"></span>
+                    </button>
+                </div>
+
                 <!-- Navigation Links -->
                 <nav class="flex flex-col gap-1">
                     <a href="index.html" @click="mobileMenuOpen = false"
                         class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                        首页
+                        <span x-show="lang==='zh'">首页</span><span x-show="lang==='en'" x-cloak>Home</span><span x-show="lang==='ja'" x-cloak>ホーム</span>
                     </a>
                     <a href="solutions.html" @click="mobileMenuOpen = false"
                         class="text-base font-bold text-cyan-400 bg-cyan-500/10 py-3 px-4 rounded-lg">
-                        解决方案
+                        <span x-show="lang==='zh'">解决方案</span><span x-show="lang==='en'" x-cloak>Solutions</span><span x-show="lang==='ja'" x-cloak>ソリューション</span>
                     </a>
                     <a href="pricing.html" @click="mobileMenuOpen = false"
                         class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                        服务定价
+                        <span x-show="lang==='zh'">服务定价</span><span x-show="lang==='en'" x-cloak>Pricing</span><span x-show="lang==='ja'" x-cloak>料金</span>
                     </a>
                     <a href="techstack.html" @click="mobileMenuOpen = false"
                         class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                        技术栈
+                        <span x-show="lang==='zh'">技术栈</span><span x-show="lang==='en'" x-cloak>Tech Stack</span><span x-show="lang==='ja'" x-cloak>技術スタック</span>
                     </a>
                     <a href="cases.html" @click="mobileMenuOpen = false"
                         class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                        成功案例
+                        <span x-show="lang==='zh'">成功案例</span><span x-show="lang==='en'" x-cloak>Cases</span><span x-show="lang==='ja'" x-cloak>実績</span>
                     </a>
                     <a href="experience/experience.html" @click="mobileMenuOpen = false"
                         class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                        小程序演示
+                        <span x-show="lang==='zh'">小程序演示</span><span x-show="lang==='en'" x-cloak>Mini-app Demo</span><span x-show="lang==='ja'" x-cloak>ミニアプリ</span>
                     </a>
                     <a href="about.html" @click="mobileMenuOpen = false"
                         class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                        关于我们
+                        <span x-show="lang==='zh'">关于我们</span><span x-show="lang==='en'" x-cloak>About</span><span x-show="lang==='ja'" x-cloak>私たちについて</span>
                     </a>
                 </nav>
 
@@ -483,7 +504,7 @@
                 <div class="mt-8 px-4">
                     <a href="contact.html" @click="mobileMenuOpen = false"
                         class="block w-full text-center py-3 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold text-sm shadow-lg shadow-blue-500/30">
-                        免费咨询方案
+                        <span x-show="lang==='zh'">免费咨询方案</span><span x-show="lang==='en'" x-cloak>Free Consultation</span><span x-show="lang==='ja'" x-cloak>無料相談</span>
                     </a>
                 </div>
             </div>
@@ -500,19 +521,26 @@
                     flex flex-col gap-1 md:gap-2
                     leading-snug md:leading-tight
                     mb-3 md:mb-4">
-                <span>拒绝“通用模板”</span>
+                <span>
+                    <span x-show="lang==='zh'">拒绝"通用模板"</span>
+                    <span x-show="lang==='en'" x-cloak>No Generic Templates</span>
+                    <span x-show="lang==='ja'" x-cloak>テンプレート不使用</span>
+                </span>
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
-                    为每个行业注入数字灵魂
+                    <span x-show="lang==='zh'">为每个行业注入数字灵魂</span>
+                    <span x-show="lang==='en'" x-cloak>Digital Solutions for Every Industry</span>
+                    <span x-show="lang==='ja'" x-cloak>業界ごとのデジタルソリューション</span>
                 </span>
             </h1>
 
             <p class="text-slate-400 max-w-2xl mx-auto
                     text-sm md:text-lg
                     font-light leading-snug md:leading-relaxed">
-                将您的成功经验，转化为只属于您的<span class="font-bold text-emerald-400">专属 APP</span>，让优势成为<span
-                    class="font-bold text-emerald-400">长期壁垒</span>。
+                <span x-show="lang==='zh'">将您的成功经验，转化为只属于您的<span class="font-bold text-emerald-400">专属 APP</span>，让优势成为<span class="font-bold text-emerald-400">长期壁垒</span>。</span>
+                <span x-show="lang==='en'" x-cloak>Transform your expertise into a custom <span class="font-bold text-emerald-400">APP</span>, turning your edge into a <span class="font-bold text-emerald-400">lasting advantage</span>.</span>
+                <span x-show="lang==='ja'" x-cloak>成功体験を専用<span class="font-bold text-emerald-400">APP</span>に変え、優位性を<span class="font-bold text-emerald-400">長期的な強み</span>に。</span>
             </p>
-            
+
         </div>
     </header>
 
@@ -527,27 +555,27 @@
             <button @click="filter = 'food'"
                 :class="filter === 'food' ? 'bg-orange-500 text-white' : 'bg-white/5 text-slate-400 hover:text-orange-500 hover:bg-orange-500/10'"
                 class="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 border border-white/5">
-                餐饮美食
+                <span x-show="lang==='zh'">餐饮美食</span><span x-show="lang==='en'" x-cloak>F&amp;B</span><span x-show="lang==='ja'" x-cloak>飲食</span>
             </button>
             <button @click="filter = 'retail'"
                 :class="filter === 'retail' ? 'bg-pink-500 text-white' : 'bg-white/5 text-slate-400 hover:text-pink-500 hover:bg-pink-500/10'"
                 class="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 border border-white/5">
-                零售电商
+                <span x-show="lang==='zh'">零售电商</span><span x-show="lang==='en'" x-cloak>Retail</span><span x-show="lang==='ja'" x-cloak>小売</span>
             </button>
             <button @click="filter = 'service'"
                 :class="filter === 'service' ? 'bg-blue-500 text-white' : 'bg-white/5 text-slate-400 hover:text-blue-500 hover:bg-blue-500/10'"
                 class="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 border border-white/5">
-                生活服务
+                <span x-show="lang==='zh'">生活服务</span><span x-show="lang==='en'" x-cloak>Services</span><span x-show="lang==='ja'" x-cloak>サービス</span>
             </button>
             <button @click="filter = 'pro'"
                 :class="filter === 'pro' ? 'bg-indigo-500 text-white' : 'bg-white/5 text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10'"
                 class="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 border border-white/5">
-                专业咨询
+                <span x-show="lang==='zh'">专业咨询</span><span x-show="lang==='en'" x-cloak>Professional</span><span x-show="lang==='ja'" x-cloak>プロフェッショナル</span>
             </button>
             <button @click="filter = 'tech'"
                 :class="filter === 'tech' ? 'bg-emerald-500 text-white' : 'bg-white/5 text-slate-400 hover:text-emerald-500 hover:bg-emerald-500/10'"
                 class="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 border border-white/5">
-                平台技术
+                <span x-show="lang==='zh'">平台技术</span><span x-show="lang==='en'" x-cloak>Platform</span><span x-show="lang==='ja'" x-cloak>プラットフォーム</span>
             </button>
         </div>
 
@@ -562,15 +590,17 @@
 
                     <div class="w-14 h-14 rounded-xl flex items-center justify-center text-2xl mb-6 transition duration-300 border border-white/5"
                         :class="[item.styles.iconBg, item.styles.iconText, item.styles.iconHoverBg, 'group-hover:text-white']">
-                        <span x-text="item.icon"></span>
+                        <span x-html="item.icon"></span>
                     </div>
 
-                    <h3 class="text-xl font-bold text-white mb-3" x-text="item.title"></h3>
-                    <p class="text-slate-400 text-sm mb-6 leading-relaxed" x-text="item.desc"></p>
+                    <h3 class="text-xl font-bold text-white mb-3" x-text="item.title[lang]"></h3>
+                    <p class="text-slate-400 text-sm mb-6 leading-relaxed" x-text="item.desc[lang]"></p>
 
                     <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider opacity-80 group-hover:opacity-100 transition transform group-hover:translate-x-2"
                         :class="item.styles.text">
-                        <span>查看案例</span>
+                        <span>
+                            <span x-show="lang==='zh'">查看案例</span><span x-show="lang==='en'" x-cloak>View Case</span><span x-show="lang==='ja'" x-cloak>事例を見る</span>
+                        </span>
                         <span class="text-lg leading-none">&rarr;</span>
                     </div>
                 </a>
@@ -584,13 +614,21 @@
             </div>
 
             <div class="relative z-10">
-                <h2 class="text-2xl font-bold text-white mb-4">没找到您的行业？</h2>
+                <h2 class="text-2xl font-bold text-white mb-4">
+                    <span x-show="lang==='zh'">没找到您的行业？</span>
+                    <span x-show="lang==='en'" x-cloak>Can't find your industry?</span>
+                    <span x-show="lang==='ja'" x-cloak>お探しの業界が見つかりませんか？</span>
+                </h2>
                 <p class="text-slate-400 mb-8 max-w-lg mx-auto">
-                    别担心，我们擅长定制开发。告诉我们您的需求，我们为您量身打造第 11 个成功案例。
+                    <span x-show="lang==='zh'">别担心，我们擅长定制开发。告诉我们您的需求，我们为您量身打造第 11 个成功案例。</span>
+                    <span x-show="lang==='en'" x-cloak>Don't worry, we specialize in custom development. Tell us your needs, and we'll craft your success story.</span>
+                    <span x-show="lang==='ja'" x-cloak>ご安心ください、カスタム開発が得意です。ご要望をお聞かせください。</span>
                 </p>
                 <a href="contact.html"
                     class="inline-block px-8 py-3 bg-white text-black font-bold rounded hover:bg-slate-200 transition shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-                    预约免费咨询
+                    <span x-show="lang==='zh'">预约免费咨询</span>
+                    <span x-show="lang==='en'" x-cloak>Book Free Consultation</span>
+                    <span x-show="lang==='ja'" x-cloak>無料相談を予約</span>
                 </a>
             </div>
         </div>
@@ -610,15 +648,13 @@
             let width, height;
             let particles = [];
 
-            // 🎨 配置项：你可以修改这里的颜色
             const config = {
-                particleCount: 60,        // 粒子数量（手机上会自动减半）
-                connectionDist: 150,      // 连线距离
-                mouseDist: 250,           // 鼠标感应范围
-                colors: ['#00C2FF', '#00FFA3', '#BD00FF'] // 你的品牌色：蓝、绿、紫
+                particleCount: 60,
+                connectionDist: 150,
+                mouseDist: 250,
+                colors: ['#00C2FF', '#00FFA3', '#BD00FF']
             };
 
-            // 鼠标位置追踪
             let mouse = { x: null, y: null };
             window.addEventListener('mousemove', (e) => {
                 mouse.x = e.clientX;
@@ -629,20 +665,18 @@
                 mouse.y = null;
             });
 
-            // 初始化画布尺寸
             function resize() {
                 width = canvas.width = window.innerWidth;
                 height = canvas.height = window.innerHeight;
                 initParticles();
             }
 
-            // 粒子类
             class Particle {
                 constructor() {
                     this.x = Math.random() * width;
                     this.y = Math.random() * height;
-                    this.vx = (Math.random() - 0.5) * 0.5; // 速度 X
-                    this.vy = (Math.random() - 0.5) * 0.5; // 速度 Y
+                    this.vx = (Math.random() - 0.5) * 0.5;
+                    this.vy = (Math.random() - 0.5) * 0.5;
                     this.size = Math.random() * 2 + 1;
                     this.color = config.colors[Math.floor(Math.random() * config.colors.length)];
                 }
@@ -651,11 +685,9 @@
                     this.x += this.vx;
                     this.y += this.vy;
 
-                    // 碰到边界反弹
                     if (this.x < 0 || this.x > width) this.vx *= -1;
                     if (this.y < 0 || this.y > height) this.vy *= -1;
 
-                    // 鼠标互动：如果鼠标靠近，粒子会轻微逃离或被吸引（这里做轻微排斥，制造波动感）
                     if (mouse.x != null) {
                         let dx = mouse.x - this.x;
                         let dy = mouse.y - this.y;
@@ -664,7 +696,6 @@
                             const forceDirectionX = dx / distance;
                             const forceDirectionY = dy / distance;
                             const force = (config.mouseDist - distance) / config.mouseDist;
-                            // 负号表示排斥，正号表示吸引。这里用微弱排斥让背景“活”起来
                             this.vx -= forceDirectionX * force * 0.05;
                             this.vy -= forceDirectionY * force * 0.05;
                         }
@@ -681,7 +712,6 @@
 
             function initParticles() {
                 particles = [];
-                // 手机端减少粒子数量，保证性能
                 let count = window.innerWidth < 768 ? config.particleCount / 2 : config.particleCount;
                 for (let i = 0; i < count; i++) {
                     particles.push(new Particle());
@@ -691,12 +721,10 @@
             function animate() {
                 ctx.clearRect(0, 0, width, height);
 
-                // 1. 更新并绘制所有粒子
                 for (let i = 0; i < particles.length; i++) {
                     particles[i].update();
                     particles[i].draw();
 
-                    // 2. 绘制连线 (神经网络效果)
                     for (let j = i; j < particles.length; j++) {
                         let dx = particles[i].x - particles[j].x;
                         let dy = particles[i].y - particles[j].y;
@@ -704,9 +732,8 @@
 
                         if (distance < config.connectionDist) {
                             ctx.beginPath();
-                            // 线条透明度基于距离：越近越亮
                             let opacity = 1 - (distance / config.connectionDist);
-                            ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.15})`; // 线条颜色微白
+                            ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.15})`;
                             ctx.lineWidth = 1;
                             ctx.moveTo(particles[i].x, particles[i].y);
                             ctx.lineTo(particles[j].x, particles[j].y);
@@ -714,7 +741,6 @@
                         }
                     }
 
-                    // 3. 绘制鼠标连线 (高亮互动)
                     if (mouse.x != null) {
                         let dx = mouse.x - particles[i].x;
                         let dy = mouse.y - particles[i].y;
@@ -722,9 +748,7 @@
                         if (distance < config.mouseDist) {
                             ctx.beginPath();
                             let opacity = 1 - (distance / config.mouseDist);
-                            // 鼠标连线使用粒子的颜色，看起来更炫酷
                             ctx.strokeStyle = particles[i].color.replace(')', `, ${opacity * 0.4})`).replace('rgb', 'rgba').replace('#', '#');
-                            // 简单的颜色转换处理，如果是hex需额外处理，这里简化处理直接用白色带透明度叠加
                             ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.3})`;
                             ctx.lineWidth = 1;
                             ctx.moveTo(particles[i].x, particles[i].y);
