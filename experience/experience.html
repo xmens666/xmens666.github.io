@@ -1089,7 +1089,7 @@
             animateNumber('mgr-orders', state.orders);
         }
 
-        // 添加日志并支持“接单”操作
+        // 添加日志并支持"接单"操作
         function addManagerLog(type, title, sub, isReplyable, orderId = null) {
             const container = document.getElementById('manager-logs');
             const isOrder = type === 'order';
