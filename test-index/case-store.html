@@ -11,13 +11,13 @@
     <link rel="manifest" href="../site.webmanifest">
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
         rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Noto Sans SC', 'sans-serif'] },
+                    fontFamily: { sans: ['Noto Sans SC', 'Noto Sans JP', 'sans-serif'] },
                     colors: {
                         'mall-pink': '#E11D48',
                         'mall-bg': '#F3F4F6',
@@ -27,6 +27,8 @@
         }
     </script>
     <style>
+        [x-cloak] { display: none !important; }
+
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -89,17 +91,27 @@
     </style>
 </head>
 
-<body class="bg-neutral-50 text-slate-800" x-data="{ cart: 2 }">
+<body class="bg-neutral-50 text-slate-800" x-data="{ cart: 2, lang: localStorage.getItem('zencode_lang') || 'zh', setLang(l) { this.lang = l; localStorage.setItem('zencode_lang', l); } }">
 
     <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between h-20 items-center">
             <a href="../solutions.html" class="flex items-center gap-2 font-bold text-xl text-slate-900">
                 <span class="text-pink-600">&larr;</span> ZenCode<span class="text-slate-400">.jp</span>
             </a>
-            <a href="../solutions.html"
-                class="px-4 py-2 bg-slate-900 text-white rounded-full text-xs transition hover:bg-slate-800">
-                返回列表
-            </a>
+            <div class="flex items-center gap-3">
+                <!-- Language switcher -->
+                <div class="flex items-center gap-1 text-xs">
+                    <button @click="setLang('zh')" :class="lang === 'zh' ? 'bg-pink-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'" class="px-2 py-1 rounded-full transition">中文</button>
+                    <button @click="setLang('en')" :class="lang === 'en' ? 'bg-pink-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'" class="px-2 py-1 rounded-full transition">EN</button>
+                    <button @click="setLang('ja')" :class="lang === 'ja' ? 'bg-pink-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'" class="px-2 py-1 rounded-full transition">日本語</button>
+                </div>
+                <a href="../solutions.html"
+                    class="px-4 py-2 bg-slate-900 text-white rounded-full text-xs transition hover:bg-slate-800">
+                    <span x-show="lang === 'zh'">返回列表</span>
+                    <span x-show="lang === 'en'" x-cloak>Back</span>
+                    <span x-show="lang === 'ja'" x-cloak>一覧に戻る</span>
+                </a>
+            </div>
         </div>
     </nav>
 
@@ -115,20 +127,48 @@
                     E-COMMERCE
                 </div>
                 <h1 class="text-4xl md:text-5xl font-bold text-slate-900 leading-tight flex flex-col gap-4">
-                    <span>把“朋友圈微商”升级为</span>
-                    <span class="text-pink-600">24小时自动售货机</span>
+                    <span x-show="lang === 'zh'">把"朋友圈微商"升级为</span>
+                    <span x-show="lang === 'en'" x-cloak>Upgrade your "social media shop" to a</span>
+                    <span x-show="lang === 'ja'" x-cloak>「SNS物販」を</span>
+                    <span class="text-pink-600">
+                        <span x-show="lang === 'zh'">24小时自动售货机</span>
+                        <span x-show="lang === 'en'" x-cloak>24/7 Automated Store</span>
+                        <span x-show="lang === 'ja'" x-cloak>24時間自動販売機にアップグレード</span>
+                    </span>
                 </h1>
-                <p class="text-slate-500 text-lg leading-relaxed">
-                    **客户背景**：代购“小樱”主要经营日本药妆直邮国内，以及中国零食卖给在日华人。每天要在朋友圈发50条图文，手动记账算汇率算到头秃。<br><br>
-                    **ZenCode 方案**：搭建跨境电商小程序。后台一键切换人民币/日元定价。库存实时同步，再也不用担心“收了钱发现没货”的尴尬。
-                </p>
+                <div class="text-slate-500 text-lg leading-relaxed">
+                    <span x-show="lang === 'zh'">
+                        <p>**客户背景**：代购"小樱"主要经营日本药妆直邮国内，以及中国零食卖给在日华人。每天要在朋友圈发50条图文，手动记账算汇率算到头秃。</p>
+                        <br>
+                        <p>**ZenCode 方案**：搭建跨境电商小程序。后台一键切换人民币/日元定价。库存实时同步，再也不用担心"收了钱发现没货"的尴尬。</p>
+                    </span>
+                    <span x-show="lang === 'en'" x-cloak>
+                        <p>**Background**: "Sakura", a cross-border reseller, ships Japanese cosmetics to China and sells Chinese snacks to locals in Japan. She used to post 50+ items daily on social media and manually calculate exchange rates — exhausting.</p>
+                        <br>
+                        <p>**ZenCode Solution**: We built a cross-border e-commerce mini-app with one-click CNY/JPY pricing, real-time inventory sync, and no more "sold but out of stock" moments.</p>
+                    </span>
+                    <span x-show="lang === 'ja'" x-cloak>
+                        <p>**お客様の背景**：代理購入者「小桜」さんは日本のコスメを中国へ直送し、中国のお菓子を在日中国人に販売。毎日SNSに50件以上投稿し、為替レートを手計算する日々でした。</p>
+                        <br>
+                        <p>**ZenCodeのソリューション**：越境ECミニアプリを構築。管理画面からワンクリックで人民元／円の価格を切り替え。在庫もリアルタイム同期で、「入金後に在庫切れ」の心配もなくなりました。</p>
+                    </span>
+                </div>
                 <div class="flex flex-wrap gap-2">
-                    <span
-                        class="px-3 py-1 bg-white border border-slate-200 rounded text-xs text-slate-500">支付宝/微信支付接口</span>
-                    <span
-                        class="px-3 py-1 bg-white border border-slate-200 rounded text-xs text-slate-500">限时秒杀倒计时</span>
-                    <span
-                        class="px-3 py-1 bg-white border border-slate-200 rounded text-xs text-slate-500">满额包邮计算</span>
+                    <span class="px-3 py-1 bg-white border border-slate-200 rounded text-xs text-slate-500">
+                        <span x-show="lang === 'zh'">支付宝/微信支付接口</span>
+                        <span x-show="lang === 'en'" x-cloak>Alipay / WeChat Pay</span>
+                        <span x-show="lang === 'ja'" x-cloak>Alipay / WeChat Pay連携</span>
+                    </span>
+                    <span class="px-3 py-1 bg-white border border-slate-200 rounded text-xs text-slate-500">
+                        <span x-show="lang === 'zh'">限时秒杀倒计时</span>
+                        <span x-show="lang === 'en'" x-cloak>Flash Sale Countdown</span>
+                        <span x-show="lang === 'ja'" x-cloak>タイムセール・カウントダウン</span>
+                    </span>
+                    <span class="px-3 py-1 bg-white border border-slate-200 rounded text-xs text-slate-500">
+                        <span x-show="lang === 'zh'">满额包邮计算</span>
+                        <span x-show="lang === 'en'" x-cloak>Free Shipping Calculator</span>
+                        <span x-show="lang === 'ja'" x-cloak>送料無料計算</span>
+                    </span>
                 </div>
             </div>
 
@@ -139,7 +179,11 @@
                     <div class="bg-pink-600 p-4 pt-12 text-white sticky top-0 z-20">
                         <div class="bg-white/20 rounded-full px-4 py-2 flex items-center gap-2 backdrop-blur-sm">
                             <span class="opacity-70 text-sm">🔍</span>
-                            <span class="text-xs opacity-70">搜索：螺蛳粉 / 蒸汽眼罩</span>
+                            <span class="text-xs opacity-70">
+                                <span x-show="lang === 'zh'">搜索：螺蛳粉 / 蒸汽眼罩</span>
+                                <span x-show="lang === 'en'" x-cloak>Search: Snail noodles / Eye mask</span>
+                                <span x-show="lang === 'ja'" x-cloak>検索：ビーフン / 蒸気アイマスク</span>
+                            </span>
                         </div>
                     </div>
 
@@ -147,17 +191,32 @@
                         <div
                             class="h-32 bg-gradient-to-r from-pink-500 to-purple-500 p-4 flex flex-col justify-center text-white relative overflow-hidden">
                             <div class="relative z-10">
-                                <h3 class="font-bold text-lg">国货美食节</h3>
-                                <p class="text-xs opacity-90">全场满 5000円 包邮</p>
-                                <button class="mt-2 bg-white text-pink-600 text-xs px-3 py-1 rounded-full font-bold">去抢购
-                                    ></button>
+                                <h3 class="font-bold text-lg">
+                                    <span x-show="lang === 'zh'">国货美食节</span>
+                                    <span x-show="lang === 'en'" x-cloak>Chinese Food Fest</span>
+                                    <span x-show="lang === 'ja'" x-cloak>中華グルメフェア</span>
+                                </h3>
+                                <p class="text-xs opacity-90">
+                                    <span x-show="lang === 'zh'">全场满 5000円 包邮</span>
+                                    <span x-show="lang === 'en'" x-cloak>Free shipping over ¥5,000</span>
+                                    <span x-show="lang === 'ja'" x-cloak>5,000円以上で送料無料</span>
+                                </p>
+                                <button class="mt-2 bg-white text-pink-600 text-xs px-3 py-1 rounded-full font-bold">
+                                    <span x-show="lang === 'zh'">去抢购 ></span>
+                                    <span x-show="lang === 'en'" x-cloak>Shop Now ></span>
+                                    <span x-show="lang === 'ja'" x-cloak>今すぐ購入 ></span>
+                                </button>
                             </div>
                             <div class="absolute -right-4 -bottom-4 text-6xl opacity-20">🍜</div>
                         </div>
 
                         <div class="p-3">
                             <div class="flex justify-between items-center mb-2 px-1">
-                                <h3 class="font-bold text-slate-800 italic">⚡️ 限时秒杀</h3>
+                                <h3 class="font-bold text-slate-800 italic">
+                                    <span x-show="lang === 'zh'">⚡️ 限时秒杀</span>
+                                    <span x-show="lang === 'en'" x-cloak>⚡️ Flash Sale</span>
+                                    <span x-show="lang === 'ja'" x-cloak>⚡️ タイムセール</span>
+                                </h3>
                                 <div class="flex gap-1 text-xs">
                                     <span class="bg-slate-800 text-white px-1 rounded">02</span>:
                                     <span class="bg-slate-800 text-white px-1 rounded">15</span>:
@@ -169,19 +228,31 @@
                                     <img src="../img/caseapp/weilonglatiao.jpg" alt="卫龙辣条" class="w-full h-full object-cover">
                                 </div>
                                 <div class="flex-1">
-                                    <h4 class="text-sm font-medium line-clamp-2">卫龙大面筋 怀旧零食 80后90后儿时回忆</h4>
+                                    <h4 class="text-sm font-medium line-clamp-2">
+                                        <span x-show="lang === 'zh'">卫龙大面筋 怀旧零食 80后90后儿时回忆</span>
+                                        <span x-show="lang === 'en'" x-cloak>Weilong Spicy Strips — Classic Nostalgic Snack</span>
+                                        <span x-show="lang === 'ja'" x-cloak>衛龍スパイシーグルテン 懐かしのスナック</span>
+                                    </h4>
                                     <div class="mt-2 flex items-end justify-between">
                                         <div>
                                             <span class="text-pink-600 font-bold text-lg">¥50</span>
                                             <span class="text-slate-400 text-xs line-through">¥120</span>
                                         </div>
                                         <button class="bg-pink-600 text-white text-xs px-3 py-1 rounded-full"
-                                            @click="cart++">抢!</button>
+                                            @click="cart++">
+                                            <span x-show="lang === 'zh'">抢!</span>
+                                            <span x-show="lang === 'en'" x-cloak>Buy!</span>
+                                            <span x-show="lang === 'ja'" x-cloak>購入!</span>
+                                        </button>
                                     </div>
                                     <div class="w-full bg-pink-100 h-1.5 rounded-full mt-1">
                                         <div class="w-[80%] bg-pink-500 h-full rounded-full"></div>
                                     </div>
-                                    <div class="text-[10px] text-pink-500 mt-0.5">仅剩 12 件</div>
+                                    <div class="text-[10px] text-pink-500 mt-0.5">
+                                        <span x-show="lang === 'zh'">仅剩 12 件</span>
+                                        <span x-show="lang === 'en'" x-cloak>Only 12 left</span>
+                                        <span x-show="lang === 'ja'" x-cloak>残り12個</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -191,9 +262,17 @@
                                 <div class="aspect-square bg-slate-100 rounded mb-2 relative overflow-hidden">
                                     <img src="../img/caseapp/luosifen.jpg" alt="螺蛳粉" class="w-full h-full object-cover">
                                     <span
-                                        class="absolute top-0 left-0 bg-yellow-400 text-[10px] font-bold px-2 py-0.5 rounded-br">热销</span>
+                                        class="absolute top-0 left-0 bg-yellow-400 text-[10px] font-bold px-2 py-0.5 rounded-br">
+                                        <span x-show="lang === 'zh'">热销</span>
+                                        <span x-show="lang === 'en'" x-cloak>Hot</span>
+                                        <span x-show="lang === 'ja'" x-cloak>人気</span>
+                                    </span>
                                 </div>
-                                <h4 class="text-xs text-slate-700 h-8 line-clamp-2 leading-snug">好欢螺 螺蛳粉 加辣加臭版 400g</h4>
+                                <h4 class="text-xs text-slate-700 h-8 line-clamp-2 leading-snug">
+                                    <span x-show="lang === 'zh'">好欢螺 螺蛳粉 加辣加臭版 400g</span>
+                                    <span x-show="lang === 'en'" x-cloak>Haohuanluo Snail Noodles Extra Spicy 400g</span>
+                                    <span x-show="lang === 'ja'" x-cloak>好歓螺 ビーフン 激辛版 400g</span>
+                                </h4>
                                 <div class="mt-2 flex justify-between items-center">
                                     <span class="text-pink-600 font-bold text-sm">¥680</span>
                                     <button
@@ -205,7 +284,11 @@
                                 <div class="aspect-square bg-slate-100 rounded mb-2 overflow-hidden">
                                     <img src="../img/caseapp/laoganma.jpg" alt="老干妈" class="w-full h-full object-cover">
                                 </div>
-                                <h4 class="text-xs text-slate-700 h-8 line-clamp-2 leading-snug">老干妈 风味鸡油辣椒 280g</h4>
+                                <h4 class="text-xs text-slate-700 h-8 line-clamp-2 leading-snug">
+                                    <span x-show="lang === 'zh'">老干妈 风味鸡油辣椒 280g</span>
+                                    <span x-show="lang === 'en'" x-cloak>Lao Gan Ma Chili Oil with Chicken 280g</span>
+                                    <span x-show="lang === 'ja'" x-cloak>老干媽 鶏油ラー油 280g</span>
+                                </h4>
                                 <div class="mt-2 flex justify-between items-center">
                                     <span class="text-pink-600 font-bold text-sm">¥350</span>
                                     <button
@@ -218,9 +301,16 @@
                                     <img src="../img/caseapp/liziqi.jpg" alt="李子柒" class="w-full h-full object-cover">
                                     <div
                                         class="absolute inset-0 bg-black/50 flex items-center justify-center text-white text-xs font-bold rounded">
-                                        补货中</div>
+                                        <span x-show="lang === 'zh'">补货中</span>
+                                        <span x-show="lang === 'en'" x-cloak>Restocking</span>
+                                        <span x-show="lang === 'ja'" x-cloak>入荷待ち</span>
+                                    </div>
                                 </div>
-                                <h4 class="text-xs text-slate-700 h-8 line-clamp-2 leading-snug">李子柒 藕粉 坚果特别版</h4>
+                                <h4 class="text-xs text-slate-700 h-8 line-clamp-2 leading-snug">
+                                    <span x-show="lang === 'zh'">李子柒 藕粉 坚果特别版</span>
+                                    <span x-show="lang === 'en'" x-cloak>Liziqi Lotus Root Powder Nut Edition</span>
+                                    <span x-show="lang === 'ja'" x-cloak>李子柒 蓮根粉 ナッツ特別版</span>
+                                </h4>
                                 <div class="mt-2 flex justify-between items-center">
                                     <span class="text-slate-400 font-bold text-sm">¥1,200</span>
                                     <button class="w-5 h-5 bg-slate-100 text-slate-300 rounded-full" disabled>+</button>
@@ -230,7 +320,11 @@
                                 <div class="aspect-square bg-slate-100 rounded mb-2 overflow-hidden">
                                     <img src="../img/caseapp/kangshifu.jpg" alt="康师傅" class="w-full h-full object-cover">
                                 </div>
-                                <h4 class="text-xs text-slate-700 h-8 line-clamp-2 leading-snug">康师傅 红烧牛肉面 5连包</h4>
+                                <h4 class="text-xs text-slate-700 h-8 line-clamp-2 leading-snug">
+                                    <span x-show="lang === 'zh'">康师傅 红烧牛肉面 5连包</span>
+                                    <span x-show="lang === 'en'" x-cloak>Master Kong Braised Beef Noodles 5-Pack</span>
+                                    <span x-show="lang === 'ja'" x-cloak>康師傅 紅焼牛肉麺 5袋入</span>
+                                </h4>
                                 <div class="mt-2 flex justify-between items-center">
                                     <span class="text-pink-600 font-bold text-sm">¥550</span>
                                     <button

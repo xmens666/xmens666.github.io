@@ -12,7 +12,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Noto+Sans+SC:wght@300;400&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Noto+Sans+SC:wght@300;400&family=Noto+Sans+JP:wght@300;400&display=swap"
         rel="stylesheet">
 
     <script>
@@ -20,7 +20,7 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Noto Sans SC', 'sans-serif'],
+                        sans: ['Noto Sans SC', 'Noto Sans JP', 'sans-serif'],
                         serif: ['Playfair Display', 'serif'],
                     },
                     colors: {
@@ -34,6 +34,8 @@
         }
     </script>
     <style>
+        [x-cloak] { display: none !important; }
+
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -120,6 +122,15 @@
                 width: 280px;
                 height: 560px;
             }
+
+            /* Language switcher mobile */
+            .lang-switcher {
+                gap: 0.25rem;
+            }
+            .lang-switcher button {
+                padding: 0.25rem 0.5rem !important;
+                font-size: 0.6rem !important;
+            }
         }
 
         /* Extra small screens */
@@ -135,7 +146,7 @@
     </style>
 </head>
 
-<body class="bg-cream text-charcoal" x-data="{ tab: 'gallery' }">
+<body class="bg-cream text-charcoal" x-data="{ tab: 'gallery', lang: localStorage.getItem('zencode_lang') || 'zh', setLang(l) { this.lang = l; localStorage.setItem('zencode_lang', l); } }">
 
     <nav class="fixed w-full z-50 bg-cream/80 backdrop-blur-md border-b border-[#E5E0D8]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between h-20 items-center">
@@ -143,10 +154,27 @@
                 <span class="text-sage">✿</span> ZenCode<span
                     class="text-gray-300 font-sans font-normal text-sm">.jp</span>
             </a>
-            <button
-                class="px-6 py-2 bg-sage/20 text-sage hover:bg-sage hover:text-white rounded-full text-xs transition duration-300">
-                Gallery Mode
-            </button>
+            <div class="flex items-center gap-3">
+                <!-- Language Switcher -->
+                <div class="lang-switcher flex gap-1">
+                    <button @click="setLang('zh')"
+                        class="px-2.5 py-1 rounded-full text-xs transition duration-300"
+                        :class="lang==='zh' ? 'bg-sage text-white' : 'bg-sage/10 text-sage hover:bg-sage/20'">中文</button>
+                    <button @click="setLang('en')"
+                        class="px-2.5 py-1 rounded-full text-xs transition duration-300"
+                        :class="lang==='en' ? 'bg-sage text-white' : 'bg-sage/10 text-sage hover:bg-sage/20'">EN</button>
+                    <button @click="setLang('ja')"
+                        class="px-2.5 py-1 rounded-full text-xs transition duration-300"
+                        :class="lang==='ja' ? 'bg-sage text-white' : 'bg-sage/10 text-sage hover:bg-sage/20'">日本語</button>
+                </div>
+                <!-- Back to List -->
+                <a href="../solutions.html"
+                    class="px-6 py-2 bg-sage/20 text-sage hover:bg-sage hover:text-white rounded-full text-xs transition duration-300">
+                    <span x-show="lang==='zh'">返回列表</span>
+                    <span x-show="lang==='en'" x-cloak>Back to List</span>
+                    <span x-show="lang==='ja'" x-cloak>一覧に戻る</span>
+                </a>
+            </div>
         </div>
     </nav>
 
@@ -161,37 +189,71 @@
             <div class="space-y-8">
                 <div
                     class="inline-flex items-center gap-2 px-4 py-1.5 bg-white border border-sage/30 rounded-full text-xs text-sage uppercase tracking-wider shadow-sm">
-                    <span>✨</span> Beauty & Salon Solution
+                    <span>✨</span>
+                    <span x-show="lang==='zh'">美容美甲解决方案</span>
+                    <span x-show="lang==='en'" x-cloak>Beauty & Salon Solution</span>
+                    <span x-show="lang==='ja'" x-cloak>ビューティー＆サロン ソリューション</span>
                 </div>
 
                 <h1 class="text-4xl md:text-6xl font-serif text-charcoal leading-tight flex flex-col gap-4">
-                    <span>把您的“作品集”变成</span>
-                    <span class="italic text-sage border-b-2 border-sage/30">自动预约单</span>
+                    <span x-show="lang==='zh'">把您的"作品集"变成</span>
+                    <span x-show="lang==='en'" x-cloak>Turn Your Portfolio into</span>
+                    <span x-show="lang==='ja'" x-cloak>あなたの"ポートフォリオ"を</span>
+                    <span class="italic text-sage border-b-2 border-sage/30">
+                        <span x-show="lang==='zh'">自动预约单</span>
+                        <span x-show="lang==='en'" x-cloak>Auto-Booking</span>
+                        <span x-show="lang==='ja'" x-cloak>自動予約に変える</span>
+                    </span>
                 </h1>
 
-                <p class="text-gray-500 text-lg font-light leading-relaxed">
-                    **客户背景**：银座人气美甲店 "NaLi"。技师技术很好，但每天要花大量时间在微信上发图给客人选款，还要人工确认排班表，非常容易撞单。<br><br>
-                    **ZenCode 方案**：开发“画廊式”预约小程序。客人像刷小红书一样浏览款式，看中直接点图预约。支持技师排班自动锁定，空闲时段一目了然。
-                </p>
+                <div class="text-gray-500 text-lg font-light leading-relaxed">
+                    <span x-show="lang==='zh'">
+                        <p><strong>客户背景</strong>：银座人气美甲店 "NaLi"。技师技术很好，但每天要花大量时间在微信上发图给客人选款，还要人工确认排班表，非常容易撞单。</p>
+                        <br>
+                        <p><strong>ZenCode 方案</strong>：开发"画廊式"预约小程序。客人像刷小红书一样浏览款式，看中直接点图预约。支持技师排班自动锁定，空闲时段一目了然。</p>
+                    </span>
+                    <span x-show="lang==='en'" x-cloak>
+                        <p><strong>Client Background</strong>: "NaLi," a popular nail salon in Ginza. Their technicians are highly skilled, but they spent hours each day sending design photos via messaging apps and manually coordinating schedules — double bookings were a constant headache.</p>
+                        <br>
+                        <p><strong>ZenCode Solution</strong>: We built a gallery-style booking mini-app. Clients browse nail designs like scrolling through a social feed, then tap to book instantly. Technician schedules auto-lock upon booking, with available time slots shown at a glance.</p>
+                    </span>
+                    <span x-show="lang==='ja'" x-cloak>
+                        <p><strong>お客様の背景</strong>：銀座の人気ネイルサロン「NaLi」。技術力は抜群ですが、毎日メッセージアプリでデザイン写真を送り、手動でスケジュールを調整する日々。ダブルブッキングが頻発していました。</p>
+                        <br>
+                        <p><strong>ZenCode のソリューション</strong>：ギャラリー形式の予約ミニアプリを開発。お客様はSNS感覚でデザインを閲覧し、気に入ったらタップするだけで即予約。技術者のスケジュールは予約時に自動ロックされ、空き時間が一目で分かります。</p>
+                    </span>
+                </div>
 
                 <div class="flex gap-6 pt-4">
                     <div class="text-center">
                         <div
                             class="w-12 h-12 bg-white rounded-full shadow-md flex items-center justify-center text-xl mx-auto mb-2 text-sage">
                             📅</div>
-                        <span class="text-xs text-gray-500">24h 自动预约</span>
+                        <span class="text-xs text-gray-500">
+                            <span x-show="lang==='zh'">24h 自动预约</span>
+                            <span x-show="lang==='en'" x-cloak>24h Auto-Booking</span>
+                            <span x-show="lang==='ja'" x-cloak>24時間自動予約</span>
+                        </span>
                     </div>
                     <div class="text-center">
                         <div
                             class="w-12 h-12 bg-white rounded-full shadow-md flex items-center justify-center text-xl mx-auto mb-2 text-dusty-rose">
                             💅</div>
-                        <span class="text-xs text-gray-500">款式绑定技师</span>
+                        <span class="text-xs text-gray-500">
+                            <span x-show="lang==='zh'">款式绑定技师</span>
+                            <span x-show="lang==='en'" x-cloak>Design-Linked Stylist</span>
+                            <span x-show="lang==='ja'" x-cloak>デザイン×担当紐付け</span>
+                        </span>
                     </div>
                     <div class="text-center">
                         <div
                             class="w-12 h-12 bg-white rounded-full shadow-md flex items-center justify-center text-xl mx-auto mb-2 text-sage">
                             💌</div>
-                        <span class="text-xs text-gray-500">术后关怀推送</span>
+                        <span class="text-xs text-gray-500">
+                            <span x-show="lang==='zh'">术后关怀推送</span>
+                            <span x-show="lang==='en'" x-cloak>Aftercare Reminders</span>
+                            <span x-show="lang==='ja'" x-cloak>施術後フォロー通知</span>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -205,13 +267,17 @@
                         <div class="flex gap-4 mt-4 text-sm border-b border-gray-100 pb-2">
                             <button @click="tab='gallery'" class="transition-colors pb-2 relative"
                                 :class="tab==='gallery' ? 'text-sage font-medium' : 'text-gray-400'">
-                                Gallery
+                                <span x-show="lang==='zh'">作品集</span>
+                                <span x-show="lang==='en'" x-cloak>Gallery</span>
+                                <span x-show="lang==='ja'" x-cloak>ギャラリー</span>
                                 <span x-show="tab==='gallery'"
                                     class="absolute bottom-0 left-0 w-full h-0.5 bg-sage rounded-full"></span>
                             </button>
                             <button @click="tab='booking'" class="transition-colors pb-2 relative"
                                 :class="tab==='booking' ? 'text-sage font-medium' : 'text-gray-400'">
-                                Booking
+                                <span x-show="lang==='zh'">预约</span>
+                                <span x-show="lang==='en'" x-cloak>Booking</span>
+                                <span x-show="lang==='ja'" x-cloak>予約</span>
                                 <span x-show="tab==='booking'"
                                     class="absolute bottom-0 left-0 w-full h-0.5 bg-sage rounded-full"></span>
                             </button>
@@ -224,13 +290,26 @@
                         x-transition:enter-end="opacity-100 translate-x-0">
 
                         <div class="flex gap-2 mb-4 overflow-x-auto no-scrollbar">
-                            <span class="px-3 py-1 bg-sage text-white text-xs rounded-full whitespace-nowrap">全部</span>
-                            <span
-                                class="px-3 py-1 bg-gray-100 text-gray-500 text-xs rounded-full whitespace-nowrap">法式</span>
-                            <span
-                                class="px-3 py-1 bg-gray-100 text-gray-500 text-xs rounded-full whitespace-nowrap">猫眼</span>
-                            <span
-                                class="px-3 py-1 bg-gray-100 text-gray-500 text-xs rounded-full whitespace-nowrap">晕染</span>
+                            <span class="px-3 py-1 bg-sage text-white text-xs rounded-full whitespace-nowrap">
+                                <span x-show="lang==='zh'">全部</span>
+                                <span x-show="lang==='en'" x-cloak>All</span>
+                                <span x-show="lang==='ja'" x-cloak>すべて</span>
+                            </span>
+                            <span class="px-3 py-1 bg-gray-100 text-gray-500 text-xs rounded-full whitespace-nowrap">
+                                <span x-show="lang==='zh'">法式</span>
+                                <span x-show="lang==='en'" x-cloak>French</span>
+                                <span x-show="lang==='ja'" x-cloak>フレンチ</span>
+                            </span>
+                            <span class="px-3 py-1 bg-gray-100 text-gray-500 text-xs rounded-full whitespace-nowrap">
+                                <span x-show="lang==='zh'">猫眼</span>
+                                <span x-show="lang==='en'" x-cloak>Cat Eye</span>
+                                <span x-show="lang==='ja'" x-cloak>キャッツアイ</span>
+                            </span>
+                            <span class="px-3 py-1 bg-gray-100 text-gray-500 text-xs rounded-full whitespace-nowrap">
+                                <span x-show="lang==='zh'">晕染</span>
+                                <span x-show="lang==='en'" x-cloak>Ombré</span>
+                                <span x-show="lang==='ja'" x-cloak>グラデーション</span>
+                            </span>
                         </div>
 
                         <div class="columns-2 gap-4 space-y-4">
@@ -239,7 +318,11 @@
                                     <img src="https://images.unsplash.com/photo-1632345031435-8727f6897d53?q=80&w=600&auto=format&fit=crop"
                                         class="w-full h-full object-cover" alt="Nail">
                                 </div>
-                                <h3 class="text-xs font-medium text-gray-700">冰透玉石晕染</h3>
+                                <h3 class="text-xs font-medium text-gray-700">
+                                    <span x-show="lang==='zh'">冰透玉石晕染</span>
+                                    <span x-show="lang==='en'" x-cloak>Icy Jade Ombré</span>
+                                    <span x-show="lang==='ja'" x-cloak>氷透翡翠グラデ</span>
+                                </h3>
                                 <p class="text-[10px] text-gray-400">By Lisa</p>
                                 <div
                                     class="absolute top-2 right-2 bg-white/80 p-1.5 rounded-full text-xs shadow-sm opacity-0 group-hover:opacity-100 transition">
@@ -251,7 +334,11 @@
                                     <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?q=80&w=600&auto=format&fit=crop"
                                         class="w-full h-full object-cover" alt="Nail">
                                 </div>
-                                <h3 class="text-xs font-medium text-gray-700">极简线条设计</h3>
+                                <h3 class="text-xs font-medium text-gray-700">
+                                    <span x-show="lang==='zh'">极简线条设计</span>
+                                    <span x-show="lang==='en'" x-cloak>Minimalist Lines</span>
+                                    <span x-show="lang==='ja'" x-cloak>ミニマルラインアート</span>
+                                </h3>
                                 <p class="text-[10px] text-gray-400">By Nana</p>
                             </div>
 
@@ -260,7 +347,11 @@
                                     <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?q=80&w=600&auto=format&fit=crop"
                                         class="w-full h-full object-cover" alt="Nail">
                                 </div>
-                                <h3 class="text-xs font-medium text-gray-700">莫兰迪跳色</h3>
+                                <h3 class="text-xs font-medium text-gray-700">
+                                    <span x-show="lang==='zh'">莫兰迪跳色</span>
+                                    <span x-show="lang==='en'" x-cloak>Morandi Color Pop</span>
+                                    <span x-show="lang==='ja'" x-cloak>モランディカラーMix</span>
+                                </h3>
                                 <p class="text-[10px] text-gray-400">By Lisa</p>
                             </div>
                         </div>
@@ -280,31 +371,59 @@
                             <div>
                                 <h3 class="font-serif text-lg">Lisa</h3>
                                 <div class="flex text-yellow-400 text-xs">★★★★★</div>
-                                <p class="text-xs text-gray-400">擅长晕染、手绘</p>
+                                <p class="text-xs text-gray-400">
+                                    <span x-show="lang==='zh'">擅长晕染、手绘</span>
+                                    <span x-show="lang==='en'" x-cloak>Specializes in ombré & hand-painting</span>
+                                    <span x-show="lang==='ja'" x-cloak>グラデーション・手描きが得意</span>
+                                </p>
                             </div>
                         </div>
 
-                        <h4 class="font-medium text-sm mb-3">选择时间 (1月)</h4>
+                        <h4 class="font-medium text-sm mb-3">
+                            <span x-show="lang==='zh'">选择时间 (1月)</span>
+                            <span x-show="lang==='en'" x-cloak>Select Date (Jan)</span>
+                            <span x-show="lang==='ja'" x-cloak>日付を選択（1月）</span>
+                        </h4>
                         <div class="grid grid-cols-4 gap-2 mb-6">
                             <div class="text-center p-2 rounded-lg bg-sage text-white text-xs">
-                                <div>周三</div>
+                                <div>
+                                    <span x-show="lang==='zh'">周三</span>
+                                    <span x-show="lang==='en'" x-cloak>Wed</span>
+                                    <span x-show="lang==='ja'" x-cloak>水</span>
+                                </div>
                                 <div class="font-bold text-lg">14</div>
                             </div>
                             <div class="text-center p-2 rounded-lg bg-gray-50 text-gray-400 text-xs">
-                                <div>周四</div>
+                                <div>
+                                    <span x-show="lang==='zh'">周四</span>
+                                    <span x-show="lang==='en'" x-cloak>Thu</span>
+                                    <span x-show="lang==='ja'" x-cloak>木</span>
+                                </div>
                                 <div class="font-bold text-lg">15</div>
                             </div>
                             <div class="text-center p-2 rounded-lg bg-gray-50 text-gray-400 text-xs">
-                                <div>周五</div>
+                                <div>
+                                    <span x-show="lang==='zh'">周五</span>
+                                    <span x-show="lang==='en'" x-cloak>Fri</span>
+                                    <span x-show="lang==='ja'" x-cloak>金</span>
+                                </div>
                                 <div class="font-bold text-lg">16</div>
                             </div>
                             <div class="text-center p-2 rounded-lg bg-gray-50 text-gray-400 text-xs">
-                                <div>周六</div>
+                                <div>
+                                    <span x-show="lang==='zh'">周六</span>
+                                    <span x-show="lang==='en'" x-cloak>Sat</span>
+                                    <span x-show="lang==='ja'" x-cloak>土</span>
+                                </div>
                                 <div class="font-bold text-lg">17</div>
                             </div>
                         </div>
 
-                        <h4 class="font-medium text-sm mb-3">可用时段</h4>
+                        <h4 class="font-medium text-sm mb-3">
+                            <span x-show="lang==='zh'">可用时段</span>
+                            <span x-show="lang==='en'" x-cloak>Available Slots</span>
+                            <span x-show="lang==='ja'" x-cloak>空き時間</span>
+                        </h4>
                         <div class="grid grid-cols-2 gap-3 mb-8">
                             <button
                                 class="py-2 border border-gray-200 rounded text-xs text-gray-300 line-through">10:00</button>
@@ -317,8 +436,16 @@
                         </div>
 
                         <button class="w-full py-3 bg-charcoal text-white rounded-xl text-sm font-medium shadow-lg"
-                            @click="alert('预约成功！')">确认预约</button>
-                        <button class="w-full py-3 mt-2 text-gray-400 text-xs" @click="tab='gallery'">返回作品集</button>
+                            @click="alert(lang==='zh'?'预约成功！':lang==='en'?'Booking confirmed!':'予約が完了しました！')">
+                            <span x-show="lang==='zh'">确认预约</span>
+                            <span x-show="lang==='en'" x-cloak>Confirm Booking</span>
+                            <span x-show="lang==='ja'" x-cloak>予約を確定</span>
+                        </button>
+                        <button class="w-full py-3 mt-2 text-gray-400 text-xs" @click="tab='gallery'">
+                            <span x-show="lang==='zh'">返回作品集</span>
+                            <span x-show="lang==='en'" x-cloak>Back to Gallery</span>
+                            <span x-show="lang==='ja'" x-cloak>ギャラリーに戻る</span>
+                        </button>
                     </div>
                 </div>
             </div>

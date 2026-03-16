@@ -12,7 +12,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link
-        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Noto+Sans+SC:wght@400;500;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap"
         rel="stylesheet">
 
     <script>
@@ -20,7 +20,7 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Nunito', 'Noto Sans SC', 'sans-serif'],
+                        sans: ['Nunito', 'Noto Sans SC', 'Noto Sans JP', 'sans-serif'],
                     },
                     colors: {
                         'pop-yellow': '#FFD23F',
@@ -33,6 +33,8 @@
         }
     </script>
     <style>
+        [x-cloak] { display: none !important; }
+
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -54,7 +56,7 @@
             nav .text-xl {
                 font-size: 1rem;
             }
-            nav button {
+            nav button, nav .lang-switcher span {
                 padding: 0.5rem 0.75rem;
                 font-size: 0.625rem;
             }
@@ -102,17 +104,27 @@
     </style>
 </head>
 
-<body class="bg-pop-bg text-gray-800">
+<body class="bg-pop-bg text-gray-800" x-data="{ lang: localStorage.getItem('zencode_lang') || 'zh', setLang(l) { this.lang = l; localStorage.setItem('zencode_lang', l); } }">
 
     <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between h-20 items-center">
             <a href="../solutions.html" class="flex items-center gap-2 font-black text-xl tracking-tight text-pop-purple">
                 ZenCode<span class="text-pop-blue">.jp</span>
             </a>
-            <button
-                class="px-4 py-2 bg-pop-purple text-white rounded-full font-bold text-xs shadow-lg shadow-pop-purple/30 hover:scale-105 transition">
-                Start Community
-            </button>
+            <div class="flex items-center gap-3">
+                <!-- Language Switcher -->
+                <div class="lang-switcher flex items-center bg-gray-100 rounded-full p-0.5 text-xs font-bold">
+                    <span @click="setLang('zh')" :class="lang === 'zh' ? 'bg-white shadow text-pop-purple' : 'text-gray-400 hover:text-gray-600'" class="px-2.5 py-1 rounded-full cursor-pointer transition">中文</span>
+                    <span @click="setLang('en')" :class="lang === 'en' ? 'bg-white shadow text-pop-purple' : 'text-gray-400 hover:text-gray-600'" class="px-2.5 py-1 rounded-full cursor-pointer transition">EN</span>
+                    <span @click="setLang('ja')" :class="lang === 'ja' ? 'bg-white shadow text-pop-purple' : 'text-gray-400 hover:text-gray-600'" class="px-2.5 py-1 rounded-full cursor-pointer transition">日本語</span>
+                </div>
+                <button
+                    class="px-4 py-2 bg-pop-purple text-white rounded-full font-bold text-xs shadow-lg shadow-pop-purple/30 hover:scale-105 transition">
+                    <span x-show="lang==='zh'">开启社区</span>
+                    <span x-show="lang==='en'" x-cloak>Start Community</span>
+                    <span x-show="lang==='ja'" x-cloak>コミュニティを始める</span>
+                </button>
+            </div>
         </div>
     </nav>
 
@@ -130,15 +142,35 @@
                 </div>
 
                 <h1 class="text-4xl md:text-6xl font-black text-gray-900 leading-tight flex flex-col gap-4">
-                    <span>把“老乡群”变成</span>
-                    <span
+                    <span x-show="lang==='zh'">把"老乡群"变成</span>
+                    <span x-show="lang==='en'" x-cloak>Turn chat groups into a</span>
+                    <span x-show="lang==='ja'" x-cloak>「同郷グループ」を</span>
+                    <span x-show="lang==='zh'"
                         class="text-transparent bg-clip-text bg-gradient-to-r from-pop-purple to-pop-blue">高活跃生活平台</span>
+                    <span x-show="lang==='en'" x-cloak
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-pop-purple to-pop-blue">thriving community platform</span>
+                    <span x-show="lang==='ja'" x-cloak
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-pop-purple to-pop-blue">活気ある生活プラットフォームに</span>
                 </h1>
 
-                <p class="text-gray-500 text-lg leading-relaxed">
-                    **客户背景**：拥有50个500人微信群的“日本生活通”。群里虽然热闹，但广告满天飞，有价值的信息无法沉淀，变现只能靠发广告。<br><br>
-                    **ZenCode 方案**：打造社区+闲置交易APP。发帖求助有积分，闲置买卖有担保。让用户从“潜水党”变成“内容创作者”。
-                </p>
+                <div x-show="lang==='zh'" class="text-gray-500 text-lg leading-relaxed">
+                    <p>
+                        **客户背景**：拥有50个500人微信群的"日本生活通"。群里虽然热闹，但广告满天飞，有价值的信息无法沉淀，变现只能靠发广告。<br><br>
+                        **ZenCode 方案**：打造社区+闲置交易APP。发帖求助有积分，闲置买卖有担保。让用户从"潜水党"变成"内容创作者"。
+                    </p>
+                </div>
+                <div x-show="lang==='en'" x-cloak class="text-gray-500 text-lg leading-relaxed">
+                    <p>
+                        **Background**: A community leader managing 50 WeChat groups of 500 members each. Despite being active, groups were flooded with ads, valuable info got buried, and monetization relied solely on advertising.<br><br>
+                        **ZenCode Solution**: Built a community + second-hand marketplace app. Users earn points for posting and helping others, with escrow for buy/sell transactions. Turned lurkers into active content creators.
+                    </p>
+                </div>
+                <div x-show="lang==='ja'" x-cloak class="text-gray-500 text-lg leading-relaxed">
+                    <p>
+                        **背景**：500人規模のWeChatグループを50個運営する「日本生活通」。グループは賑やかだが広告だらけで、有益な情報が埋もれ、収益化は広告頼みだった。<br><br>
+                        **ZenCode ソリューション**：コミュニティ＋フリマアプリを構築。投稿や助け合いでポイント獲得、売買にはエスクロー機能を搭載。ROM専をコンテンツクリエイターに変えた。
+                    </p>
+                </div>
 
                 <div class="flex gap-4">
                     <div class="flex -space-x-4">
@@ -153,7 +185,9 @@
                             +2k</div>
                     </div>
                     <div class="flex items-center text-sm font-bold text-gray-600">
-                        日活用户
+                        <span x-show="lang==='zh'">日活用户</span>
+                        <span x-show="lang==='en'" x-cloak>Daily Active Users</span>
+                        <span x-show="lang==='ja'" x-cloak>デイリーアクティブユーザー</span>
                     </div>
                 </div>
             </div>
@@ -164,28 +198,61 @@
 
                     <div class="px-4 pt-10 pb-2 bg-white sticky top-0 z-20 shadow-sm">
                         <div class="flex justify-between items-center mb-4">
-                            <h2 class="font-black text-xl text-gray-800">邻里邦</h2>
+                            <h2 class="font-black text-xl text-gray-800">
+                                <span x-show="lang==='zh'">邻里邦</span>
+                                <span x-show="lang==='en'" x-cloak>NeighborHub</span>
+                                <span x-show="lang==='ja'" x-cloak>ご近所バン</span>
+                            </h2>
                             <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">🔔</div>
                         </div>
                         <div class="flex gap-4 text-sm font-bold text-gray-400">
-                            <span class="text-pop-purple border-b-2 border-pop-purple pb-1">推荐</span>
-                            <span>二手</span>
-                            <span>求职</span>
-                            <span>房产</span>
+                            <span class="text-pop-purple border-b-2 border-pop-purple pb-1">
+                                <span x-show="lang==='zh'">推荐</span>
+                                <span x-show="lang==='en'" x-cloak>For You</span>
+                                <span x-show="lang==='ja'" x-cloak>おすすめ</span>
+                            </span>
+                            <span>
+                                <span x-show="lang==='zh'">二手</span>
+                                <span x-show="lang==='en'" x-cloak>Used</span>
+                                <span x-show="lang==='ja'" x-cloak>中古</span>
+                            </span>
+                            <span>
+                                <span x-show="lang==='zh'">求职</span>
+                                <span x-show="lang==='en'" x-cloak>Jobs</span>
+                                <span x-show="lang==='ja'" x-cloak>求人</span>
+                            </span>
+                            <span>
+                                <span x-show="lang==='zh'">房产</span>
+                                <span x-show="lang==='en'" x-cloak>Housing</span>
+                                <span x-show="lang==='ja'" x-cloak>不動産</span>
+                            </span>
                         </div>
                     </div>
 
                     <div class="flex-1 overflow-y-auto p-3 space-y-3 no-scrollbar">
 
+                        <!-- Post 1: Second-hand PS5 -->
                         <div class="bg-white p-3 rounded-2xl shadow-sm">
                             <div class="flex gap-3 mb-2">
                                 <img src="https://i.pravatar.cc/100?img=5" class="w-8 h-8 rounded-full">
                                 <div>
-                                    <div class="text-xs font-bold">东京小林</div>
-                                    <div class="text-[10px] text-gray-400">10分钟前 · 新宿区</div>
+                                    <div class="text-xs font-bold">
+                                        <span x-show="lang==='zh'">东京小林</span>
+                                        <span x-show="lang==='en'" x-cloak>Kobayashi@Tokyo</span>
+                                        <span x-show="lang==='ja'" x-cloak>東京の小林</span>
+                                    </div>
+                                    <div class="text-[10px] text-gray-400">
+                                        <span x-show="lang==='zh'">10分钟前 · 新宿区</span>
+                                        <span x-show="lang==='en'" x-cloak>10 min ago · Shinjuku</span>
+                                        <span x-show="lang==='ja'" x-cloak>10分前 · 新宿区</span>
+                                    </div>
                                 </div>
                             </div>
-                            <p class="text-sm font-bold mb-2">回国出闲置！PS5 99新 带两个手柄🎮</p>
+                            <p class="text-sm font-bold mb-2">
+                                <span x-show="lang==='zh'">回国出闲置！PS5 99新 带两个手柄🎮</span>
+                                <span x-show="lang==='en'" x-cloak>Moving back! PS5 like-new w/ 2 controllers 🎮</span>
+                                <span x-show="lang==='ja'" x-cloak>帰国セール！PS5 ほぼ新品 コントローラー2個付き🎮</span>
+                            </p>
                             <div class="rounded-xl overflow-hidden h-32 bg-gray-200 mb-2 relative">
                                 <img src="https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?q=80&w=400&auto=format&fit=crop"
                                     class="w-full h-full object-cover">
@@ -194,36 +261,89 @@
                                     ¥45,000</div>
                             </div>
                             <div class="flex justify-between items-center text-gray-500 text-xs">
-                                <span>🔥 23人想要</span>
-                                <button class="bg-pop-yellow text-black px-3 py-1 rounded-full font-bold">我想要</button>
+                                <span>
+                                    <span x-show="lang==='zh'">🔥 23人想要</span>
+                                    <span x-show="lang==='en'" x-cloak>🔥 23 interested</span>
+                                    <span x-show="lang==='ja'" x-cloak>🔥 23人が欲しい</span>
+                                </span>
+                                <button class="bg-pop-yellow text-black px-3 py-1 rounded-full font-bold">
+                                    <span x-show="lang==='zh'">我想要</span>
+                                    <span x-show="lang==='en'" x-cloak>Want it</span>
+                                    <span x-show="lang==='ja'" x-cloak>欲しい</span>
+                                </button>
                             </div>
                         </div>
 
+                        <!-- Post 2: Help request -->
                         <div class="bg-white p-3 rounded-2xl shadow-sm border-l-4 border-pop-blue">
                             <div class="flex gap-2 items-center mb-2">
                                 <span
-                                    class="bg-blue-100 text-pop-blue text-[10px] font-bold px-2 py-0.5 rounded">求助</span>
-                                <span class="text-xs font-bold text-gray-700">有人知道这就诊卡怎么填吗？</span>
+                                    class="bg-blue-100 text-pop-blue text-[10px] font-bold px-2 py-0.5 rounded">
+                                    <span x-show="lang==='zh'">求助</span>
+                                    <span x-show="lang==='en'" x-cloak>Help</span>
+                                    <span x-show="lang==='ja'" x-cloak>助けて</span>
+                                </span>
+                                <span class="text-xs font-bold text-gray-700">
+                                    <span x-show="lang==='zh'">有人知道这就诊卡怎么填吗？</span>
+                                    <span x-show="lang==='en'" x-cloak>How do I fill out this clinic form?</span>
+                                    <span x-show="lang==='ja'" x-cloak>この診察カードの書き方を教えて？</span>
+                                </span>
                             </div>
-                            <p class="text-xs text-gray-500 mb-2">第一次去日本医院，日语不太好，求大神指点...</p>
+                            <p class="text-xs text-gray-500 mb-2">
+                                <span x-show="lang==='zh'">第一次去日本医院，日语不太好，求大神指点...</span>
+                                <span x-show="lang==='en'" x-cloak>First time at a Japanese hospital, my Japanese isn't great. Need help...</span>
+                                <span x-show="lang==='ja'" x-cloak>初めて日本の病院に行くけど日本語が苦手で、教えてください...</span>
+                            </p>
                             <div class="flex gap-2 mt-2">
-                                <div class="bg-gray-50 px-2 py-1 rounded text-[10px] text-gray-500">💬 12 评论</div>
-                                <div class="bg-gray-50 px-2 py-1 rounded text-[10px] text-gray-500">👍 5 赞</div>
+                                <div class="bg-gray-50 px-2 py-1 rounded text-[10px] text-gray-500">
+                                    <span x-show="lang==='zh'">💬 12 评论</span>
+                                    <span x-show="lang==='en'" x-cloak>💬 12 comments</span>
+                                    <span x-show="lang==='ja'" x-cloak>💬 12 コメント</span>
+                                </div>
+                                <div class="bg-gray-50 px-2 py-1 rounded text-[10px] text-gray-500">
+                                    <span x-show="lang==='zh'">👍 5 赞</span>
+                                    <span x-show="lang==='en'" x-cloak>👍 5 likes</span>
+                                    <span x-show="lang==='ja'" x-cloak>👍 5 いいね</span>
+                                </div>
                             </div>
                         </div>
 
+                        <!-- Post 3: Job listing -->
                         <div
                             class="bg-gradient-to-r from-pop-purple to-indigo-600 p-3 rounded-2xl shadow-sm text-white">
                             <div class="flex justify-between items-start mb-2">
-                                <div class="text-xs font-bold opacity-80">高薪招聘</div>
-                                <span class="bg-white/20 px-2 py-0.5 rounded text-[10px]">急招</span>
+                                <div class="text-xs font-bold opacity-80">
+                                    <span x-show="lang==='zh'">高薪招聘</span>
+                                    <span x-show="lang==='en'" x-cloak>High Pay</span>
+                                    <span x-show="lang==='ja'" x-cloak>高収入求人</span>
+                                </div>
+                                <span class="bg-white/20 px-2 py-0.5 rounded text-[10px]">
+                                    <span x-show="lang==='zh'">急招</span>
+                                    <span x-show="lang==='en'" x-cloak>Urgent</span>
+                                    <span x-show="lang==='ja'" x-cloak>急募</span>
+                                </span>
                             </div>
-                            <h3 class="font-bold text-lg mb-1">池袋中华物产店 店长候补</h3>
-                            <div class="text-2xl font-black mb-2">35万<span
-                                    class="text-xs font-normal opacity-80">/月+提成</span></div>
+                            <h3 class="font-bold text-lg mb-1">
+                                <span x-show="lang==='zh'">池袋中华物产店 店长候补</span>
+                                <span x-show="lang==='en'" x-cloak>Ikebukuro Chinese Store — Asst. Manager</span>
+                                <span x-show="lang==='ja'" x-cloak>池袋中華物産店 店長候補</span>
+                            </h3>
+                            <div class="text-2xl font-black mb-2">
+                                <span x-show="lang==='zh'">35万<span class="text-xs font-normal opacity-80">/月+提成</span></span>
+                                <span x-show="lang==='en'" x-cloak>¥350k<span class="text-xs font-normal opacity-80">/mo + bonus</span></span>
+                                <span x-show="lang==='ja'" x-cloak>35万<span class="text-xs font-normal opacity-80">/月+歩合</span></span>
+                            </div>
                             <div class="flex gap-2">
-                                <span class="text-[10px] bg-white/10 px-2 py-1 rounded">签证支援</span>
-                                <span class="text-[10px] bg-white/10 px-2 py-1 rounded">交通费全包</span>
+                                <span class="text-[10px] bg-white/10 px-2 py-1 rounded">
+                                    <span x-show="lang==='zh'">签证支援</span>
+                                    <span x-show="lang==='en'" x-cloak>Visa Support</span>
+                                    <span x-show="lang==='ja'" x-cloak>ビザサポート</span>
+                                </span>
+                                <span class="text-[10px] bg-white/10 px-2 py-1 rounded">
+                                    <span x-show="lang==='zh'">交通费全包</span>
+                                    <span x-show="lang==='en'" x-cloak>Full Transit</span>
+                                    <span x-show="lang==='ja'" x-cloak>交通費全額</span>
+                                </span>
                             </div>
                         </div>
 
@@ -232,7 +352,10 @@
                     <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2">
                         <button
                             class="bg-black text-white px-6 py-3 rounded-full shadow-xl font-bold flex items-center gap-2 hover:scale-105 transition">
-                            <span class="text-xl">+</span> 发布
+                            <span class="text-xl">+</span>
+                            <span x-show="lang==='zh'">发布</span>
+                            <span x-show="lang==='en'" x-cloak>Post</span>
+                            <span x-show="lang==='ja'" x-cloak>投稿</span>
                         </button>
                     </div>
 

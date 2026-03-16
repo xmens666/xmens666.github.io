@@ -11,14 +11,14 @@
     <link rel="manifest" href="../site.webmanifest">
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
         rel="stylesheet">
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Noto Sans SC', 'sans-serif'] },
+                    fontFamily: { sans: ['Noto Sans SC', 'Noto Sans JP', 'sans-serif'] },
                     colors: {
                         'corp-blue': '#3B82F6',
                         'corp-dark': '#1E293B',
@@ -28,6 +28,8 @@
         }
     </script>
     <style>
+        [x-cloak] { display: none !important; }
+
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -90,15 +92,27 @@
     </style>
 </head>
 
-<body class="bg-white text-slate-800" x-data="{ view: 'map' }">
+<body class="bg-white text-slate-800" x-data="{ view: 'map', lang: localStorage.getItem('zencode_lang') || 'zh', setLang(l) { this.lang = l; localStorage.setItem('zencode_lang', l); } }">
 
     <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between h-20 items-center">
             <a href="../solutions.html" class="flex items-center gap-2 font-bold text-xl text-slate-900">
                 <span class="text-indigo-600">&larr;</span> ZenCode<span class="text-slate-400">.jp</span>
             </a>
-            <a href="../solutions.html"
-                class="px-4 py-2 bg-slate-100 text-slate-600 hover:bg-slate-200 rounded-lg text-xs font-bold transition">返回案例库</a>
+            <div class="flex items-center gap-3">
+                <!-- Language switcher -->
+                <div class="flex items-center gap-1 text-xs">
+                    <button @click="setLang('zh')" :class="lang === 'zh' ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'" class="px-2 py-1 rounded transition font-bold">中文</button>
+                    <button @click="setLang('en')" :class="lang === 'en' ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'" class="px-2 py-1 rounded transition font-bold">EN</button>
+                    <button @click="setLang('ja')" :class="lang === 'ja' ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'" class="px-2 py-1 rounded transition font-bold">日本語</button>
+                </div>
+                <a href="../solutions.html"
+                    class="px-4 py-2 bg-slate-100 text-slate-600 hover:bg-slate-200 rounded-lg text-xs font-bold transition">
+                    <span x-show="lang === 'zh'">返回案例库</span>
+                    <span x-show="lang === 'en'" x-cloak>Back to Cases</span>
+                    <span x-show="lang === 'ja'" x-cloak>事例一覧に戻る</span>
+                </a>
+            </div>
         </div>
     </nav>
 
@@ -116,31 +130,76 @@
                 </div>
 
                 <h1 class="text-4xl md:text-5xl font-bold text-slate-900 leading-tight flex flex-col gap-4">
-                    <span>房源信息多而不乱</span>
-                    <span class="text-indigo-600">地图找房</span>让成交快人一步
+                    <span x-show="lang === 'zh'">房源信息多而不乱</span>
+                    <span x-show="lang === 'en'" x-cloak>Listings organized, not overwhelming</span>
+                    <span x-show="lang === 'ja'" x-cloak>物件情報を整理して見やすく</span>
+
+                    <span x-show="lang === 'zh'" class="text-indigo-600">地图找房<span class="text-slate-900">让成交快人一步</span></span>
+                    <span x-show="lang === 'en'" x-cloak class="text-indigo-600">Map Search<span class="text-slate-900"> closes deals faster</span></span>
+                    <span x-show="lang === 'ja'" x-cloak class="text-indigo-600">地図検索<span class="text-slate-900">で成約をスピードアップ</span></span>
                 </h1>
 
-                <p class="text-slate-500 text-lg leading-relaxed">
-                    **客户背景**：不动产中介“安居东京”。手握大量房源，但还在用微信发长图。客户想找“离高田马场车站徒步10分钟内”的房子，销售找房找半天，客户体验差。<br><br>
-                    **ZenCode 方案**：开发地图找房APP。集成 Google Maps API，支持“画圈找房”、“条件筛选（南向/宠物/二楼以上）”。支持 VR 看房链接跳转。
-                </p>
+                <div class="text-slate-500 text-lg leading-relaxed">
+                    <span x-show="lang === 'zh'">
+                        <p><strong>客户背景</strong>：不动产中介"安居东京"。手握大量房源，但还在用微信发长图。客户想找"离高田马场车站徒步10分钟内"的房子，销售找房找半天，客户体验差。</p>
+                        <br>
+                        <p><strong>ZenCode 方案</strong>：开发地图找房APP。集成 Google Maps API，支持"画圈找房"、"条件筛选（南向/宠物/二楼以上）"。支持 VR 看房链接跳转。</p>
+                    </span>
+                    <span x-show="lang === 'en'" x-cloak>
+                        <p><strong>Client Background</strong>: Real estate agency "Anju Tokyo" had a large inventory but relied on sending long images via WeChat. When clients wanted properties within a 10-minute walk from Takadanobaba Station, agents spent ages searching — poor client experience.</p>
+                        <br>
+                        <p><strong>ZenCode Solution</strong>: Built a map-based property search app. Integrated Google Maps API with "draw-to-search", advanced filters (south-facing / pet-friendly / 2F+), and VR viewing links.</p>
+                    </span>
+                    <span x-show="lang === 'ja'" x-cloak>
+                        <p><strong>クライアント背景</strong>：不動産仲介「安居東京」。豊富な物件情報を持ちながら、WeChatで長い画像を送るだけ。「高田馬場駅から徒歩10分以内」の物件を探すのに時間がかかり、顧客体験が悪かった。</p>
+                        <br>
+                        <p><strong>ZenCode ソリューション</strong>：地図検索アプリを開発。Google Maps APIを統合し、「円を描いて検索」「条件絞り込み（南向き／ペット可／2階以上）」に対応。VR内見リンクにも対応。</p>
+                    </span>
+                </div>
 
                 <div class="bg-slate-50 rounded-xl p-6 border border-slate-200">
                     <h4 class="font-bold text-slate-700 mb-4 flex items-center gap-2">
-                        <span class="w-2 h-2 bg-indigo-500 rounded-full"></span> 核心功能展示
+                        <span class="w-2 h-2 bg-indigo-500 rounded-full"></span>
+                        <span x-show="lang === 'zh'">核心功能展示</span>
+                        <span x-show="lang === 'en'" x-cloak>Core Features</span>
+                        <span x-show="lang === 'ja'" x-cloak>主要機能</span>
                     </h4>
                     <ul class="space-y-3 text-sm text-slate-600">
                         <li class="flex justify-between border-b border-slate-200 pb-2">
-                            <span>🗺️ 地图可视化</span>
-                            <span class="text-indigo-600 font-bold">定位精准</span>
+                            <span>
+                                <span x-show="lang === 'zh'">&#x1f5fa;&#xfe0f; 地图可视化</span>
+                                <span x-show="lang === 'en'" x-cloak>&#x1f5fa;&#xfe0f; Map Visualization</span>
+                                <span x-show="lang === 'ja'" x-cloak>&#x1f5fa;&#xfe0f; 地図ビジュアライゼーション</span>
+                            </span>
+                            <span class="text-indigo-600 font-bold">
+                                <span x-show="lang === 'zh'">定位精准</span>
+                                <span x-show="lang === 'en'" x-cloak>Pinpoint Accuracy</span>
+                                <span x-show="lang === 'ja'" x-cloak>高精度な位置情報</span>
+                            </span>
                         </li>
                         <li class="flex justify-between border-b border-slate-200 pb-2">
-                            <span>🕶️ VR / 视频看房</span>
-                            <span class="text-indigo-600 font-bold">沉浸体验</span>
+                            <span>
+                                <span x-show="lang === 'zh'">&#x1f576;&#xfe0f; VR / 视频看房</span>
+                                <span x-show="lang === 'en'" x-cloak>&#x1f576;&#xfe0f; VR / Video Viewing</span>
+                                <span x-show="lang === 'ja'" x-cloak>&#x1f576;&#xfe0f; VR／動画内見</span>
+                            </span>
+                            <span class="text-indigo-600 font-bold">
+                                <span x-show="lang === 'zh'">沉浸体验</span>
+                                <span x-show="lang === 'en'" x-cloak>Immersive</span>
+                                <span x-show="lang === 'ja'" x-cloak>没入体験</span>
+                            </span>
                         </li>
                         <li class="flex justify-between">
-                            <span>🤖 CRM 客户管理</span>
-                            <span class="text-indigo-600 font-bold">需求自动匹配</span>
+                            <span>
+                                <span x-show="lang === 'zh'">&#x1f916; CRM 客户管理</span>
+                                <span x-show="lang === 'en'" x-cloak>&#x1f916; CRM Management</span>
+                                <span x-show="lang === 'ja'" x-cloak>&#x1f916; CRM 顧客管理</span>
+                            </span>
+                            <span class="text-indigo-600 font-bold">
+                                <span x-show="lang === 'zh'">需求自动匹配</span>
+                                <span x-show="lang === 'en'" x-cloak>Auto Matching</span>
+                                <span x-show="lang === 'ja'" x-cloak>ニーズ自動マッチング</span>
+                            </span>
                         </li>
                     </ul>
                 </div>
@@ -153,17 +212,25 @@
                     <div
                         class="absolute top-0 left-0 w-full z-30 pt-10 px-4 bg-gradient-to-b from-white/90 to-transparent pb-4">
                         <div class="bg-white shadow-lg rounded-lg flex items-center p-2 border border-slate-100">
-                            <span class="text-slate-400 pl-2">🔍</span>
-                            <input type="text" placeholder="输入车站名、地名..."
+                            <span class="text-slate-400 pl-2">&#x1f50d;</span>
+                            <input type="text" :placeholder="lang === 'zh' ? '输入车站名、地名...' : lang === 'en' ? 'Station name, area...' : '駅名・地名を入力...'"
                                 class="w-full text-xs p-2 outline-none text-slate-700">
                         </div>
                         <div class="flex gap-2 mt-2 overflow-x-auto no-scrollbar">
                             <button
                                 class="bg-indigo-600 text-white text-[10px] px-3 py-1 rounded-full whitespace-nowrap shadow-md">1R/1K</button>
                             <button
-                                class="bg-white text-slate-600 text-[10px] px-3 py-1 rounded-full whitespace-nowrap shadow border border-slate-100">租金↓</button>
+                                class="bg-white text-slate-600 text-[10px] px-3 py-1 rounded-full whitespace-nowrap shadow border border-slate-100">
+                                <span x-show="lang === 'zh'">租金&#x2193;</span>
+                                <span x-show="lang === 'en'" x-cloak>Rent&#x2193;</span>
+                                <span x-show="lang === 'ja'" x-cloak>家賃&#x2193;</span>
+                            </button>
                             <button
-                                class="bg-white text-slate-600 text-[10px] px-3 py-1 rounded-full whitespace-nowrap shadow border border-slate-100">离车站近</button>
+                                class="bg-white text-slate-600 text-[10px] px-3 py-1 rounded-full whitespace-nowrap shadow border border-slate-100">
+                                <span x-show="lang === 'zh'">离车站近</span>
+                                <span x-show="lang === 'en'" x-cloak>Near Station</span>
+                                <span x-show="lang === 'ja'" x-cloak>駅近</span>
+                            </button>
                         </div>
                     </div>
 
@@ -180,7 +247,7 @@
                             class="absolute top-1/3 left-1/4 animate-bounce hover:scale-110 transition cursor-pointer z-10">
                             <div
                                 class="bg-indigo-600 text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg border border-white">
-                                8.5万
+                                8.5<span x-show="lang === 'zh'">万</span><span x-show="lang === 'en'" x-cloak>万</span><span x-show="lang === 'ja'" x-cloak>万</span>
                                 <div
                                     class="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-indigo-600 rotate-45">
                                 </div>
@@ -190,7 +257,7 @@
                         <div class="absolute bottom-1/3 right-1/3 hover:scale-110 transition cursor-pointer z-10">
                             <div
                                 class="bg-slate-700 text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg border border-white opacity-80">
-                                12.8万
+                                12.8<span x-show="lang === 'zh'">万</span><span x-show="lang === 'en'" x-cloak>万</span><span x-show="lang === 'ja'" x-cloak>万</span>
                                 <div
                                     class="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-slate-700 rotate-45">
                                 </div>
@@ -200,7 +267,7 @@
                         <div class="absolute top-1/4 right-10 hover:scale-110 transition cursor-pointer z-10">
                             <div
                                 class="bg-slate-700 text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg border border-white opacity-80">
-                                7.2万
+                                7.2<span x-show="lang === 'zh'">万</span><span x-show="lang === 'en'" x-cloak>万</span><span x-show="lang === 'ja'" x-cloak>万</span>
                                 <div
                                     class="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-slate-700 rotate-45">
                                 </div>
@@ -216,22 +283,53 @@
                             <div class="w-24 h-24 bg-slate-200 rounded-lg shrink-0 overflow-hidden relative">
                                 <img src="../img/caseapp/xinsu.jpeg" alt="新宿 Grand Tower" class="w-full h-full object-cover">
                                 <span
-                                    class="absolute top-0 left-0 bg-indigo-600 text-white text-[8px] px-1.5 py-0.5 z-10">VR看房</span>
+                                    class="absolute top-0 left-0 bg-indigo-600 text-white text-[8px] px-1.5 py-0.5 z-10">
+                                    <span x-show="lang === 'zh'">VR看房</span>
+                                    <span x-show="lang === 'en'" x-cloak>VR Tour</span>
+                                    <span x-show="lang === 'ja'" x-cloak>VR内見</span>
+                                </span>
                             </div>
                             <div class="flex-1">
-                                <h3 class="font-bold text-slate-800 text-sm mb-1">新宿 Grand Tower 20F</h3>
-                                <p class="text-xs text-slate-500 mb-2">山手线 新宿站 徒步5分</p>
+                                <h3 class="font-bold text-slate-800 text-sm mb-1">
+                                    <span x-show="lang === 'zh'">新宿 Grand Tower 20F</span>
+                                    <span x-show="lang === 'en'" x-cloak>Shinjuku Grand Tower 20F</span>
+                                    <span x-show="lang === 'ja'" x-cloak>新宿グランドタワー 20F</span>
+                                </h3>
+                                <p class="text-xs text-slate-500 mb-2">
+                                    <span x-show="lang === 'zh'">山手线 新宿站 徒步5分</span>
+                                    <span x-show="lang === 'en'" x-cloak>Yamanote Line, Shinjuku Stn, 5 min walk</span>
+                                    <span x-show="lang === 'ja'" x-cloak>山手線 新宿駅 徒歩5分</span>
+                                </p>
                                 <div class="flex flex-wrap gap-1 mb-2">
-                                    <span class="text-[8px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">南向</span>
-                                    <span class="text-[8px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">电梯</span>
-                                    <span
-                                        class="text-[8px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">宠物可</span>
+                                    <span class="text-[8px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">
+                                        <span x-show="lang === 'zh'">南向</span>
+                                        <span x-show="lang === 'en'" x-cloak>South</span>
+                                        <span x-show="lang === 'ja'" x-cloak>南向き</span>
+                                    </span>
+                                    <span class="text-[8px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">
+                                        <span x-show="lang === 'zh'">电梯</span>
+                                        <span x-show="lang === 'en'" x-cloak>Elevator</span>
+                                        <span x-show="lang === 'ja'" x-cloak>EV付</span>
+                                    </span>
+                                    <span class="text-[8px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">
+                                        <span x-show="lang === 'zh'">宠物可</span>
+                                        <span x-show="lang === 'en'" x-cloak>Pet OK</span>
+                                        <span x-show="lang === 'ja'" x-cloak>ペット可</span>
+                                    </span>
                                 </div>
                                 <div class="flex justify-between items-end">
-                                    <div class="text-indigo-600 font-bold text-lg">8.5<span class="text-xs">万/月</span>
+                                    <div class="text-indigo-600 font-bold text-lg">8.5<span class="text-xs">
+                                        <span x-show="lang === 'zh'">万/月</span>
+                                        <span x-show="lang === 'en'" x-cloak>万/mo</span>
+                                        <span x-show="lang === 'ja'" x-cloak>万/月</span>
+                                    </span>
                                     </div>
                                     <button
-                                        class="bg-indigo-50 text-indigo-600 text-xs px-3 py-1.5 rounded font-bold">详情</button>
+                                        class="bg-indigo-50 text-indigo-600 text-xs px-3 py-1.5 rounded font-bold">
+                                        <span x-show="lang === 'zh'">详情</span>
+                                        <span x-show="lang === 'en'" x-cloak>Details</span>
+                                        <span x-show="lang === 'ja'" x-cloak>詳細</span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -240,20 +338,36 @@
                     <div
                         class="bg-white border-t border-slate-100 py-3 px-6 flex justify-between text-[10px] text-slate-400 z-50">
                         <div class="flex flex-col items-center text-indigo-600">
-                            <span class="text-lg">🗺️</span>
-                            <span>找房</span>
+                            <span class="text-lg">&#x1f5fa;&#xfe0f;</span>
+                            <span>
+                                <span x-show="lang === 'zh'">找房</span>
+                                <span x-show="lang === 'en'" x-cloak>Search</span>
+                                <span x-show="lang === 'ja'" x-cloak>検索</span>
+                            </span>
                         </div>
                         <div class="flex flex-col items-center hover:text-indigo-600">
-                            <span class="text-lg">❤️</span>
-                            <span>收藏</span>
+                            <span class="text-lg">&#x2764;&#xfe0f;</span>
+                            <span>
+                                <span x-show="lang === 'zh'">收藏</span>
+                                <span x-show="lang === 'en'" x-cloak>Saved</span>
+                                <span x-show="lang === 'ja'" x-cloak>お気に入り</span>
+                            </span>
                         </div>
                         <div class="flex flex-col items-center hover:text-indigo-600">
-                            <span class="text-lg">💬</span>
-                            <span>消息</span>
+                            <span class="text-lg">&#x1f4ac;</span>
+                            <span>
+                                <span x-show="lang === 'zh'">消息</span>
+                                <span x-show="lang === 'en'" x-cloak>Messages</span>
+                                <span x-show="lang === 'ja'" x-cloak>メッセージ</span>
+                            </span>
                         </div>
                         <div class="flex flex-col items-center hover:text-indigo-600">
-                            <span class="text-lg">👤</span>
-                            <span>我的</span>
+                            <span class="text-lg">&#x1f464;</span>
+                            <span>
+                                <span x-show="lang === 'zh'">我的</span>
+                                <span x-show="lang === 'en'" x-cloak>Profile</span>
+                                <span x-show="lang === 'ja'" x-cloak>マイページ</span>
+                            </span>
                         </div>
                     </div>
 

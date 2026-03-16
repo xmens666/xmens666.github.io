@@ -11,7 +11,7 @@
     <link rel="manifest" href="../site.webmanifest">
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
         rel="stylesheet">
 
     <script>
@@ -19,7 +19,7 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Noto Sans SC', 'sans-serif'],
+                        sans: ['Noto Sans SC', 'Noto Sans JP', 'sans-serif'],
                     },
                     colors: {
                         'brand-blue': '#2563EB',
@@ -30,6 +30,8 @@
         }
     </script>
     <style>
+        [x-cloak] { display: none !important; }
+
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -120,7 +122,7 @@
     </style>
 </head>
 
-<body class="bg-slate-50 text-slate-800" x-data="{ lang: 'zh' }">
+<body class="bg-slate-50 text-slate-800" x-data="{ lang: localStorage.getItem('zencode_lang') || 'zh', setLang(l) { this.lang = l; localStorage.setItem('zencode_lang', l); } }">
 
     <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -128,10 +130,18 @@
                 <a href="../solutions.html" class="flex items-center gap-2 font-bold text-xl text-slate-900">
                     <span class="text-blue-600">&larr;</span> ZenCode<span class="text-slate-400">.jp</span>
                 </a>
-                <div class="flex gap-4 text-sm font-medium">
+                <div class="flex gap-2 sm:gap-4 text-sm font-medium items-center">
+                    <!-- Language Switcher -->
+                    <div class="flex items-center gap-1 text-xs">
+                        <button @click="setLang('zh')" class="px-2 py-1 rounded transition" :class="lang === 'zh' ? 'bg-blue-600 text-white' : 'text-slate-500 hover:text-slate-800'">中文</button>
+                        <button @click="setLang('en')" class="px-2 py-1 rounded transition" :class="lang === 'en' ? 'bg-blue-600 text-white' : 'text-slate-500 hover:text-slate-800'">EN</button>
+                        <button @click="setLang('ja')" class="px-2 py-1 rounded transition" :class="lang === 'ja' ? 'bg-blue-600 text-white' : 'text-slate-500 hover:text-slate-800'">日本語</button>
+                    </div>
                     <a href="../solutions.html"
                         class="px-4 py-2 bg-slate-900 text-white rounded-full text-xs transition hover:bg-slate-800">
-                        返回列表
+                        <span x-show="lang==='zh'">返回列表</span>
+                        <span x-show="lang==='en'" x-cloak>Back to List</span>
+                        <span x-show="lang==='ja'" x-cloak>一覧に戻る</span>
                     </a>
                 </div>
             </div>
@@ -152,39 +162,68 @@
                 </div>
 
                 <h1 class="text-4xl md:text-5xl font-bold text-slate-900 leading-tight flex flex-col gap-4">
-                    <span>告别微信反复扯皮</span>
-                    <span class="text-blue-600">标准化报价</span>才是信任的开始
+                    <span x-show="lang==='zh'">告别微信反复扯皮</span>
+                    <span x-show="lang==='en'" x-cloak>No More Endless WeChat Haggling</span>
+                    <span x-show="lang==='ja'" x-cloak>WeChatでの値段交渉はもう不要</span>
+
+                    <span x-show="lang==='zh'" class="text-blue-600">标准化报价<span class="text-slate-900">才是信任的开始</span></span>
+                    <span x-show="lang==='en'" x-cloak class="text-blue-600">Transparent Pricing <span class="text-slate-900">Builds Trust</span></span>
+                    <span x-show="lang==='ja'" x-cloak class="text-blue-600">明朗な料金体系<span class="text-slate-900">が信頼の第一歩</span></span>
                 </h1>
 
-                <p class="text-slate-500 text-lg leading-relaxed">
-                    **客户背景**：东京老牌华人搬家团队“大力搬家”。拥有5台卡车，但每天客服要在微信上花4小时回复“从新宿搬到上野多少钱？”这种重复问题。<br><br>
-                    **ZenCode 方案**：开发“自助估价+预约”系统。用户输入距离和楼层，系统按后台设定公式自动报价。同意价格后直接支付定金锁定档期。
-                </p>
+                <div class="text-slate-500 text-lg leading-relaxed">
+                    <span x-show="lang==='zh'">
+                        <b>客户背景</b>：东京老牌华人搬家团队"大力搬家"。拥有5台卡车，但每天客服要在微信上花4小时回复"从新宿搬到上野多少钱？"这种重复问题。<br><br>
+                        <b>ZenCode 方案</b>：开发"自助估价+预约"系统。用户输入距离和楼层，系统按后台设定公式自动报价。同意价格后直接支付定金锁定档期。
+                    </span>
+                    <span x-show="lang==='en'" x-cloak>
+                        <b>Client</b>: Dali Moving — a well-established Chinese moving team in Tokyo. They run 5 trucks, but their staff spent 4 hours daily answering repetitive WeChat questions like "How much from Shinjuku to Ueno?"<br><br>
+                        <b>ZenCode Solution</b>: A self-service quoting & booking system. Users enter distance and floor info, and the system auto-calculates the price. Once accepted, a deposit locks in the schedule.
+                    </span>
+                    <span x-show="lang==='ja'" x-cloak>
+                        <b>お客様</b>：東京で長年活動する中国系引越しチーム「大力引越し」。トラック5台を運用しているが、毎日4時間も「新宿から上野までいくら？」などのWeChat問い合わせ対応に追われていた。<br><br>
+                        <b>ZenCode ソリューション</b>：セルフ見積もり＆予約システムを開発。距離と階数を入力すると自動で料金を算出。納得したらデポジットを支払い、スケジュールを確定。
+                    </span>
+                </div>
 
                 <ul class="space-y-4 text-slate-600">
                     <li class="flex items-center gap-3">
                         <div
                             class="w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xs">
                             ✓</div>
-                        <span>客服工作量减少 <b>80%</b></span>
+                        <span>
+                            <span x-show="lang==='zh'">客服工作量减少 <b>80%</b></span>
+                            <span x-show="lang==='en'" x-cloak>Customer service workload reduced by <b>80%</b></span>
+                            <span x-show="lang==='ja'" x-cloak>カスタマーサポートの業務量 <b>80%</b> 削減</span>
+                        </span>
                     </li>
                     <li class="flex items-center gap-3">
                         <div
                             class="w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xs">
                             ✓</div>
-                        <span>空驶率降低，排班更满</span>
+                        <span>
+                            <span x-show="lang==='zh'">空驶率降低，排班更满</span>
+                            <span x-show="lang==='en'" x-cloak>Less empty runs, fuller schedules</span>
+                            <span x-show="lang==='ja'" x-cloak>空車率が低下し、スケジュールの稼働率が向上</span>
+                        </span>
                     </li>
                     <li class="flex items-center gap-3">
                         <div
                             class="w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xs">
                             ✓</div>
-                        <span>定金制度，杜绝客户临时鸽子</span>
+                        <span>
+                            <span x-show="lang==='zh'">定金制度，杜绝客户临时鸽子</span>
+                            <span x-show="lang==='en'" x-cloak>Deposit system eliminates last-minute cancellations</span>
+                            <span x-show="lang==='ja'" x-cloak>デポジット制度でドタキャンを防止</span>
+                        </span>
                     </li>
                 </ul>
 
                 <button
                     class="px-8 py-3 rounded bg-slate-900 text-white font-bold hover:bg-blue-600 transition shadow-lg">
-                    为我的车队定制
+                    <span x-show="lang==='zh'">为我的车队定制</span>
+                    <span x-show="lang==='en'" x-cloak>Customize for My Fleet</span>
+                    <span x-show="lang==='ja'" x-cloak>自社の車両に合わせてカスタマイズ</span>
                 </button>
             </div>
 
@@ -194,8 +233,16 @@
 
                     <div class="bg-blue-600 p-6 pt-12 text-white shadow-md z-20 relative">
                         <div class="flex justify-between items-center mb-4">
-                            <span class="font-bold text-lg">大力搬家</span>
-                            <span class="text-xs bg-blue-500 px-2 py-1 rounded">东京全境</span>
+                            <span class="font-bold text-lg">
+                                <span x-show="lang==='zh'">大力搬家</span>
+                                <span x-show="lang==='en'" x-cloak>Dali Moving</span>
+                                <span x-show="lang==='ja'" x-cloak>大力引越し</span>
+                            </span>
+                            <span class="text-xs bg-blue-500 px-2 py-1 rounded">
+                                <span x-show="lang==='zh'">东京全境</span>
+                                <span x-show="lang==='en'" x-cloak>All Tokyo</span>
+                                <span x-show="lang==='ja'" x-cloak>東京全域</span>
+                            </span>
                         </div>
                         <div class="flex items-center gap-2 text-xs opacity-80">
                             <div class="w-6 h-6 rounded-full border border-white flex items-center justify-center"
@@ -209,28 +256,49 @@
                         </div>
                     </div>
 
+                    <!-- Step 1: Address -->
                     <div x-show="step === 1" class="p-6 space-y-6 h-full bg-slate-50 transition"
                         x-transition:enter="transition ease-out duration-300 transform"
                         x-transition:enter-start="opacity-0 translate-x-10"
                         x-transition:enter-end="opacity-100 translate-x-0">
                         <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
-                            <label class="text-xs text-slate-400 block mb-2 font-bold">从哪里搬？(出发地)</label>
+                            <label class="text-xs text-slate-400 block mb-2 font-bold">
+                                <span x-show="lang==='zh'">从哪里搬？(出发地)</span>
+                                <span x-show="lang==='en'" x-cloak>Moving from? (Origin)</span>
+                                <span x-show="lang==='ja'" x-cloak>どこから？（出発地）</span>
+                            </label>
                             <div class="flex items-center gap-2 border-b border-slate-100 pb-2">
                                 <span class="text-green-500">●</span>
-                                <span class="text-slate-700 font-medium">新宿区高田马场 2-14</span>
+                                <span class="text-slate-700 font-medium">
+                                    <span x-show="lang==='zh'">新宿区高田马场 2-14</span>
+                                    <span x-show="lang==='en'" x-cloak>Takadanobaba 2-14, Shinjuku</span>
+                                    <span x-show="lang==='ja'" x-cloak>新宿区高田馬場 2-14</span>
+                                </span>
                             </div>
                         </div>
                         <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
-                            <label class="text-xs text-slate-400 block mb-2 font-bold">搬到哪里？(目的地)</label>
+                            <label class="text-xs text-slate-400 block mb-2 font-bold">
+                                <span x-show="lang==='zh'">搬到哪里？(目的地)</span>
+                                <span x-show="lang==='en'" x-cloak>Moving to? (Destination)</span>
+                                <span x-show="lang==='ja'" x-cloak>どこへ？（目的地）</span>
+                            </label>
                             <div class="flex items-center gap-2 border-b border-slate-100 pb-2">
                                 <span class="text-red-500">●</span>
-                                <span class="text-slate-700 font-medium">埼玉县川口市西川口</span>
+                                <span class="text-slate-700 font-medium">
+                                    <span x-show="lang==='zh'">埼玉县川口市西川口</span>
+                                    <span x-show="lang==='en'" x-cloak>Nishikawaguchi, Kawaguchi, Saitama</span>
+                                    <span x-show="lang==='ja'" x-cloak>埼玉県川口市西川口</span>
+                                </span>
                             </div>
                         </div>
 
                         <div>
                             <div class="flex justify-between text-sm mb-2">
-                                <span class="text-slate-500">预估距离</span>
+                                <span class="text-slate-500">
+                                    <span x-show="lang==='zh'">预估距离</span>
+                                    <span x-show="lang==='en'" x-cloak>Est. Distance</span>
+                                    <span x-show="lang==='ja'" x-cloak>推定距離</span>
+                                </span>
                                 <span class="font-bold text-blue-600" x-text="distance + ' km'"></span>
                             </div>
                             <input type="range" min="1" max="50" x-model="distance"
@@ -238,55 +306,101 @@
                         </div>
 
                         <button @click="step = 2"
-                            class="w-full py-3 bg-blue-600 text-white rounded-lg font-bold shadow-lg shadow-blue-500/30 mt-8">下一步：物品信息</button>
+                            class="w-full py-3 bg-blue-600 text-white rounded-lg font-bold shadow-lg shadow-blue-500/30 mt-8">
+                            <span x-show="lang==='zh'">下一步：物品信息</span>
+                            <span x-show="lang==='en'" x-cloak>Next: Item Details</span>
+                            <span x-show="lang==='ja'" x-cloak>次へ：荷物情報</span>
+                        </button>
                     </div>
 
+                    <!-- Step 2: Items -->
                     <div x-show="step === 2" style="display: none;" class="p-6 space-y-6 h-full bg-slate-50"
                         x-transition:enter="transition ease-out duration-300 transform"
                         x-transition:enter-start="opacity-0 translate-x-10"
                         x-transition:enter-end="opacity-100 translate-x-0">
 
                         <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
-                            <label class="text-xs text-slate-400 block mb-3 font-bold">楼层情况</label>
+                            <label class="text-xs text-slate-400 block mb-3 font-bold">
+                                <span x-show="lang==='zh'">楼层情况</span>
+                                <span x-show="lang==='en'" x-cloak>Floor Info</span>
+                                <span x-show="lang==='ja'" x-cloak>階数情報</span>
+                            </label>
                             <div class="flex justify-between gap-2">
                                 <button class="flex-1 py-2 border rounded-lg text-sm"
                                     :class="floor===0 ? 'border-blue-500 bg-blue-50 text-blue-600' : 'border-slate-200'"
-                                    @click="floor=0">电梯</button>
+                                    @click="floor=0">
+                                    <span x-show="lang==='zh'">电梯</span>
+                                    <span x-show="lang==='en'" x-cloak>Elevator</span>
+                                    <span x-show="lang==='ja'" x-cloak>エレベーター</span>
+                                </button>
                                 <button class="flex-1 py-2 border rounded-lg text-sm"
                                     :class="floor===2 ? 'border-blue-500 bg-blue-50 text-blue-600' : 'border-slate-200'"
-                                    @click="floor=2">2楼无梯</button>
+                                    @click="floor=2">
+                                    <span x-show="lang==='zh'">2楼无梯</span>
+                                    <span x-show="lang==='en'" x-cloak>2F No Lift</span>
+                                    <span x-show="lang==='ja'" x-cloak>2階 階段</span>
+                                </button>
                                 <button class="flex-1 py-2 border rounded-lg text-sm"
                                     :class="floor===3 ? 'border-blue-500 bg-blue-50 text-blue-600' : 'border-slate-200'"
-                                    @click="floor=3">3楼+</button>
+                                    @click="floor=3">
+                                    <span x-show="lang==='zh'">3楼+</span>
+                                    <span x-show="lang==='en'" x-cloak>3F+</span>
+                                    <span x-show="lang==='ja'" x-cloak>3階以上</span>
+                                </button>
                             </div>
                         </div>
 
                         <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
-                            <label class="text-xs text-slate-400 block mb-3 font-bold">大型家电</label>
+                            <label class="text-xs text-slate-400 block mb-3 font-bold">
+                                <span x-show="lang==='zh'">大型家电</span>
+                                <span x-show="lang==='en'" x-cloak>Large Appliances</span>
+                                <span x-show="lang==='ja'" x-cloak>大型家電</span>
+                            </label>
                             <div class="space-y-3">
                                 <label class="flex items-center gap-3 p-2 hover:bg-slate-50 rounded cursor-pointer">
                                     <input type="checkbox" class="w-4 h-4 accent-blue-600" checked>
-                                    <span class="text-sm">冰箱 (单门/双门)</span>
+                                    <span class="text-sm">
+                                        <span x-show="lang==='zh'">冰箱 (单门/双门)</span>
+                                        <span x-show="lang==='en'" x-cloak>Fridge (Single/Double Door)</span>
+                                        <span x-show="lang==='ja'" x-cloak>冷蔵庫（1ドア/2ドア）</span>
+                                    </span>
                                 </label>
                                 <label class="flex items-center gap-3 p-2 hover:bg-slate-50 rounded cursor-pointer">
                                     <input type="checkbox" class="w-4 h-4 accent-blue-600">
-                                    <span class="text-sm">洗衣机</span>
+                                    <span class="text-sm">
+                                        <span x-show="lang==='zh'">洗衣机</span>
+                                        <span x-show="lang==='en'" x-cloak>Washing Machine</span>
+                                        <span x-show="lang==='ja'" x-cloak>洗濯機</span>
+                                    </span>
                                 </label>
                                 <label class="flex items-center gap-3 p-2 hover:bg-slate-50 rounded cursor-pointer">
                                     <input type="checkbox" class="w-4 h-4 accent-blue-600" checked>
-                                    <span class="text-sm">双人床 / 床垫</span>
+                                    <span class="text-sm">
+                                        <span x-show="lang==='zh'">双人床 / 床垫</span>
+                                        <span x-show="lang==='en'" x-cloak>Double Bed / Mattress</span>
+                                        <span x-show="lang==='ja'" x-cloak>ダブルベッド / マットレス</span>
+                                    </span>
                                 </label>
                             </div>
                         </div>
 
                         <div class="flex gap-3 mt-8">
                             <button @click="step = 1"
-                                class="flex-1 py-3 bg-slate-200 text-slate-600 rounded-lg font-bold">上一步</button>
+                                class="flex-1 py-3 bg-slate-200 text-slate-600 rounded-lg font-bold">
+                                <span x-show="lang==='zh'">上一步</span>
+                                <span x-show="lang==='en'" x-cloak>Back</span>
+                                <span x-show="lang==='ja'" x-cloak>戻る</span>
+                            </button>
                             <button @click="step = 3"
-                                class="flex-1 py-3 bg-blue-600 text-white rounded-lg font-bold shadow-lg shadow-blue-500/30">查看报价</button>
+                                class="flex-1 py-3 bg-blue-600 text-white rounded-lg font-bold shadow-lg shadow-blue-500/30">
+                                <span x-show="lang==='zh'">查看报价</span>
+                                <span x-show="lang==='en'" x-cloak>View Quote</span>
+                                <span x-show="lang==='ja'" x-cloak>見積もりを見る</span>
+                            </button>
                         </div>
                     </div>
 
+                    <!-- Step 3: Quote -->
                     <div x-show="step === 3" style="display: none;"
                         class="p-6 h-full bg-slate-50 flex flex-col items-center justify-center text-center"
                         x-transition:enter="transition ease-out duration-300 transform"
@@ -296,26 +410,54 @@
                             class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-3xl mb-4">
                             🚚
                         </div>
-                        <h3 class="text-slate-500 text-sm mb-2">预估费用 (含高速费)</h3>
+                        <h3 class="text-slate-500 text-sm mb-2">
+                            <span x-show="lang==='zh'">预估费用 (含高速费)</span>
+                            <span x-show="lang==='en'" x-cloak>Estimated Cost (incl. tolls)</span>
+                            <span x-show="lang==='ja'" x-cloak>見積もり金額（高速代込み）</span>
+                        </h3>
                         <div class="text-4xl font-black text-slate-900 mb-8 tracking-tight">
                             ¥<span x-text="15000 + (distance * 200) + (floor * 2000)"></span>
                         </div>
 
                         <div
                             class="w-full bg-white rounded-xl p-4 text-left text-sm space-y-2 mb-8 border border-slate-100 shadow-sm">
-                            <div class="flex justify-between"><span
-                                    class="text-slate-400">基础出车费</span><span>¥15,000</span></div>
-                            <div class="flex justify-between"><span class="text-slate-400">距离费</span><span
-                                    x-text="'¥' + (distance * 200)"></span></div>
-                            <div class="flex justify-between"><span class="text-slate-400">楼层作业费</span><span
-                                    x-text="'¥' + (floor * 2000)"></span></div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">
+                                    <span x-show="lang==='zh'">基础出车费</span>
+                                    <span x-show="lang==='en'" x-cloak>Base Fee</span>
+                                    <span x-show="lang==='ja'" x-cloak>基本出張費</span>
+                                </span>
+                                <span>¥15,000</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">
+                                    <span x-show="lang==='zh'">距离费</span>
+                                    <span x-show="lang==='en'" x-cloak>Distance Fee</span>
+                                    <span x-show="lang==='ja'" x-cloak>距離料金</span>
+                                </span>
+                                <span x-text="'¥' + (distance * 200)"></span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">
+                                    <span x-show="lang==='zh'">楼层作业费</span>
+                                    <span x-show="lang==='en'" x-cloak>Floor Surcharge</span>
+                                    <span x-show="lang==='ja'" x-cloak>階数作業費</span>
+                                </span>
+                                <span x-text="'¥' + (floor * 2000)"></span>
+                            </div>
                         </div>
 
-                        <button @click="alert('演示结束')"
+                        <button @click="alert(lang==='zh' ? '演示结束' : lang==='en' ? 'Demo ended' : 'デモ終了')"
                             class="w-full py-4 bg-green-500 text-white rounded-xl font-bold shadow-xl shadow-green-500/30 animate-pulse">
-                            预约此价格
+                            <span x-show="lang==='zh'">预约此价格</span>
+                            <span x-show="lang==='en'" x-cloak>Book at This Price</span>
+                            <span x-show="lang==='ja'" x-cloak>この料金で予約する</span>
                         </button>
-                        <button @click="step=1" class="text-slate-400 text-xs mt-4 underline">重新计算</button>
+                        <button @click="step=1" class="text-slate-400 text-xs mt-4 underline">
+                            <span x-show="lang==='zh'">重新计算</span>
+                            <span x-show="lang==='en'" x-cloak>Recalculate</span>
+                            <span x-show="lang==='ja'" x-cloak>再計算する</span>
+                        </button>
                     </div>
 
                 </div>

@@ -12,7 +12,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap"
         rel="stylesheet">
 
     <script>
@@ -20,7 +20,7 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'Noto Sans SC', 'sans-serif'],
+                        sans: ['Inter', 'Noto Sans SC', 'Noto Sans JP', 'sans-serif'],
                     },
                     colors: {
                         'tech-blue': '#3B82F6', // 专业蓝
@@ -31,6 +31,8 @@
         }
     </script>
     <style>
+        [x-cloak] { display: none !important; }
+
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -93,17 +95,35 @@
     </style>
 </head>
 
-<body class="bg-slate-950 text-slate-200" x-data="{ activeStep: 2 }">
+<body class="bg-slate-950 text-slate-200"
+    x-data="{ activeStep: 2, lang: localStorage.getItem('zencode_lang') || 'zh', setLang(l) { this.lang = l; localStorage.setItem('zencode_lang', l); } }">
 
     <nav class="fixed w-full z-50 bg-slate-950/80 backdrop-blur-md border-b border-white/5">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between h-20 items-center">
             <a href="../solutions.html" class="flex items-center gap-2 font-bold text-xl text-white">
-                <span class="text-blue-500">&larr;</span> ZenCode<span class="text-white/30">.jp</span>
+                <span class="text-blue-500">&larr;</span>
+                <span x-show="lang==='zh'">返回</span>
+                <span x-show="lang==='en'" x-cloak>Back</span>
+                <span x-show="lang==='ja'" x-cloak>戻る</span>
             </a>
-            <div
-                class="px-3 py-1 bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs rounded-full flex items-center gap-2">
-                <span class="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></span>
-                24h Service
+            <!-- Language Switcher -->
+            <div class="flex items-center gap-2">
+                <div class="flex bg-slate-800/60 rounded-full border border-slate-700/50 p-0.5 text-xs">
+                    <button @click="setLang('zh')"
+                        :class="lang==='zh' ? 'bg-blue-500 text-white shadow' : 'text-slate-400 hover:text-white'"
+                        class="px-2.5 py-1 rounded-full transition-all font-medium">中文</button>
+                    <button @click="setLang('en')"
+                        :class="lang==='en' ? 'bg-blue-500 text-white shadow' : 'text-slate-400 hover:text-white'"
+                        class="px-2.5 py-1 rounded-full transition-all font-medium">EN</button>
+                    <button @click="setLang('ja')"
+                        :class="lang==='ja' ? 'bg-blue-500 text-white shadow' : 'text-slate-400 hover:text-white'"
+                        class="px-2.5 py-1 rounded-full transition-all font-medium">日本語</button>
+                </div>
+                <div
+                    class="px-3 py-1 bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs rounded-full flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></span>
+                    24h Service
+                </div>
             </div>
         </div>
     </nav>
@@ -126,30 +146,54 @@
                             d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
                         </path>
                     </svg>
-                    数码维修行业解决方案
+                    <span x-show="lang==='zh'">数码维修行业解决方案</span>
+                    <span x-show="lang==='en'" x-cloak>Electronics Repair Solutions</span>
+                    <span x-show="lang==='ja'" x-cloak>デジタル修理業界ソリューション</span>
                 </div>
 
                 <h1 class="text-4xl md:text-6xl font-bold text-white flex flex-col gap-4">
-                    <span>维修过程全透明</span>
+                    <span x-show="lang==='zh'">维修过程全透明</span>
+                    <span x-show="lang==='en'" x-cloak>Fully Transparent Repairs</span>
+                    <span x-show="lang==='ja'" x-cloak>修理プロセスを完全可視化</span>
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">
-                        拒绝暗箱操作
+                        <span x-show="lang==='zh'">拒绝暗箱操作</span>
+                        <span x-show="lang==='en'" x-cloak>No More Black Boxes</span>
+                        <span x-show="lang==='ja'" x-cloak>不透明な作業にサヨナラ</span>
                     </span>
                 </h1>
 
                 <p class="text-slate-400 text-lg leading-relaxed border-l-4 border-blue-500 pl-4">
-                    **客户痛点**：连锁手机维修店“快修哥”。常因“零件是否被偷换”、“维修进度不透明”等问题与客户产生纠纷，信任成本极高。<br><br>
-                    **ZenCode 方案**：开发透明维修小程序。全流程节点推送、维修台高清监控直播、更换零件溯源查询。让技术变现更体面。
+                    <span x-show="lang==='zh'">
+                        **客户痛点**：连锁手机维修店"快修哥"。常因"零件是否被偷换"、"维修进度不透明"等问题与客户产生纠纷，信任成本极高。<br><br>
+                        **ZenCode 方案**：开发透明维修小程序。全流程节点推送、维修台高清监控直播、更换零件溯源查询。让技术变现更体面。
+                    </span>
+                    <span x-show="lang==='en'" x-cloak>
+                        **Pain Point**: "Quick Fix Bro", a phone repair chain, frequently faced disputes over swapped parts and opaque repair progress — trust was costly.<br><br>
+                        **ZenCode Solution**: A transparent repair mini-app with real-time status updates, HD workbench live-streaming, and parts traceability. Making tech services trustworthy.
+                    </span>
+                    <span x-show="lang==='ja'" x-cloak>
+                        **課題**：スマホ修理チェーン「快修哥」では、「部品がすり替えられていないか」「修理の進捗が見えない」といった問題で顧客トラブルが頻発。信頼構築コストが非常に高い状況でした。<br><br>
+                        **ZenCode の解決策**：透明修理ミニアプリを開発。全工程のリアルタイム通知、修理台のHDライブ配信、交換部品のトレーサビリティ照会を実現。技術をスマートに収益化。
+                    </span>
                 </p>
 
                 <div class="flex gap-6 pt-4">
                     <div class="flex flex-col">
                         <span class="text-3xl font-bold text-white">100%</span>
-                        <span class="text-xs text-slate-500 mt-1">纠纷率下降</span>
+                        <span class="text-xs text-slate-500 mt-1">
+                            <span x-show="lang==='zh'">纠纷率下降</span>
+                            <span x-show="lang==='en'" x-cloak>Fewer Disputes</span>
+                            <span x-show="lang==='ja'" x-cloak>トラブル減少率</span>
+                        </span>
                     </div>
                     <div class="w-px h-12 bg-white/10"></div>
                     <div class="flex flex-col">
                         <span class="text-3xl font-bold text-white">HD</span>
-                        <span class="text-xs text-slate-500 mt-1">云端录像备份</span>
+                        <span class="text-xs text-slate-500 mt-1">
+                            <span x-show="lang==='zh'">云端录像备份</span>
+                            <span x-show="lang==='en'" x-cloak>Cloud Video Backup</span>
+                            <span x-show="lang==='ja'" x-cloak>クラウド録画バックアップ</span>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -172,7 +216,11 @@
                         <div class="bg-white pt-12 pb-4 px-5 shadow-sm sticky top-0 z-10">
                             <div class="flex items-center gap-2 mb-4">
                                 <span class="text-slate-400 text-lg">&larr;</span>
-                                <h2 class="font-bold text-lg text-slate-800">服务进度详情</h2>
+                                <h2 class="font-bold text-lg text-slate-800">
+                                    <span x-show="lang==='zh'">服务进度详情</span>
+                                    <span x-show="lang==='en'" x-cloak>Service Progress</span>
+                                    <span x-show="lang==='ja'" x-cloak>サービス進捗詳細</span>
+                                </h2>
                             </div>
 
                             <div class="bg-white border border-slate-100 rounded-xl p-3 flex gap-3 shadow-sm">
@@ -183,10 +231,16 @@
                                 </div>
                                 <div>
                                     <div class="font-bold text-sm">iPhone 13 Pro Max</div>
-                                    <div class="text-xs text-slate-500 mt-0.5">远峰蓝 · 256GB</div>
+                                    <div class="text-xs text-slate-500 mt-0.5">
+                                        <span x-show="lang==='zh'">远峰蓝 · 256GB</span>
+                                        <span x-show="lang==='en'" x-cloak>Sierra Blue · 256GB</span>
+                                        <span x-show="lang==='ja'" x-cloak>シエラブルー · 256GB</span>
+                                    </div>
                                     <div
                                         class="mt-2 inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-blue-100 text-blue-600">
-                                        维修中
+                                        <span x-show="lang==='zh'">维修中</span>
+                                        <span x-show="lang==='en'" x-cloak>Repairing</span>
+                                        <span x-show="lang==='ja'" x-cloak>修理中</span>
                                     </div>
                                 </div>
                             </div>
@@ -198,9 +252,15 @@
                                 <div class="flex justify-between items-center mb-3">
                                     <h3 class="font-bold text-sm flex items-center gap-2">
                                         <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-                                        维修台实况
+                                        <span x-show="lang==='zh'">维修台实况</span>
+                                        <span x-show="lang==='en'" x-cloak>Live Workbench</span>
+                                        <span x-show="lang==='ja'" x-cloak>修理台ライブ</span>
                                     </h3>
-                                    <span class="text-[10px] text-slate-400">工位 03</span>
+                                    <span class="text-[10px] text-slate-400">
+                                        <span x-show="lang==='zh'">工位 03</span>
+                                        <span x-show="lang==='en'" x-cloak>Station 03</span>
+                                        <span x-show="lang==='ja'" x-cloak>ブース 03</span>
+                                    </span>
                                 </div>
                                 <div class="relative w-full h-32 bg-slate-800 rounded-lg overflow-hidden group">
                                     <img src="https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?q=80&w=600&auto=format&fit=crop"
@@ -218,7 +278,11 @@
                             </div>
 
                             <div>
-                                <h3 class="font-bold text-sm mb-4 px-1">进度追踪</h3>
+                                <h3 class="font-bold text-sm mb-4 px-1">
+                                    <span x-show="lang==='zh'">进度追踪</span>
+                                    <span x-show="lang==='en'" x-cloak>Progress Tracking</span>
+                                    <span x-show="lang==='ja'" x-cloak>進捗トラッキング</span>
+                                </h3>
                                 <div class="relative pl-2">
                                     <div class="absolute left-[7px] top-2 bottom-2 w-0.5 bg-slate-200"></div>
 
@@ -227,8 +291,16 @@
                                             class="absolute left-0 top-1.5 w-4 h-4 bg-blue-500 rounded-full border-2 border-white z-10 shadow-sm">
                                         </div>
                                         <div>
-                                            <div class="text-sm font-bold text-slate-800">门店已收件</div>
-                                            <div class="text-xs text-slate-500 mt-0.5">10:42 · 接待员：Ken</div>
+                                            <div class="text-sm font-bold text-slate-800">
+                                                <span x-show="lang==='zh'">门店已收件</span>
+                                                <span x-show="lang==='en'" x-cloak>Device Received</span>
+                                                <span x-show="lang==='ja'" x-cloak>店舗で受付完了</span>
+                                            </div>
+                                            <div class="text-xs text-slate-500 mt-0.5">
+                                                <span x-show="lang==='zh'">10:42 · 接待员：Ken</span>
+                                                <span x-show="lang==='en'" x-cloak>10:42 · Receptionist: Ken</span>
+                                                <span x-show="lang==='ja'" x-cloak>10:42 · 受付担当：Ken</span>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -237,15 +309,31 @@
                                             class="absolute left-0 top-1.5 w-4 h-4 bg-blue-500 rounded-full border-2 border-white z-10 shadow-sm">
                                         </div>
                                         <div>
-                                            <div class="text-sm font-bold text-slate-800">故障检测完成</div>
-                                            <div class="text-xs text-slate-500 mt-0.5">11:15 · 确认主板无修，仅外屏破裂</div>
+                                            <div class="text-sm font-bold text-slate-800">
+                                                <span x-show="lang==='zh'">故障检测完成</span>
+                                                <span x-show="lang==='en'" x-cloak>Diagnosis Complete</span>
+                                                <span x-show="lang==='ja'" x-cloak>故障診断完了</span>
+                                            </div>
+                                            <div class="text-xs text-slate-500 mt-0.5">
+                                                <span x-show="lang==='zh'">11:15 · 确认主板无修，仅外屏破裂</span>
+                                                <span x-show="lang==='en'" x-cloak>11:15 · Motherboard OK, screen cracked only</span>
+                                                <span x-show="lang==='ja'" x-cloak>11:15 · 基板は正常、画面のみ破損と確認</span>
+                                            </div>
                                             <div class="mt-2 bg-slate-50 p-2 rounded border border-slate-100 text-xs">
                                                 <div class="flex justify-between mb-1">
-                                                    <span class="text-slate-500">原厂级外屏</span>
+                                                    <span class="text-slate-500">
+                                                        <span x-show="lang==='zh'">原厂级外屏</span>
+                                                        <span x-show="lang==='en'" x-cloak>OEM-grade Screen</span>
+                                                        <span x-show="lang==='ja'" x-cloak>純正級スクリーン</span>
+                                                    </span>
                                                     <span>¥12,000</span>
                                                 </div>
                                                 <div class="flex justify-between">
-                                                    <span class="text-slate-500">工时费</span>
+                                                    <span class="text-slate-500">
+                                                        <span x-show="lang==='zh'">工时费</span>
+                                                        <span x-show="lang==='en'" x-cloak>Labor</span>
+                                                        <span x-show="lang==='ja'" x-cloak>工賃</span>
+                                                    </span>
                                                     <span>¥3,000</span>
                                                 </div>
                                             </div>
@@ -257,8 +345,16 @@
                                             class="absolute left-0 top-1.5 w-4 h-4 bg-white border-4 border-blue-500 rounded-full z-10 shadow-sm">
                                         </div>
                                         <div>
-                                            <div class="text-sm font-bold text-blue-600">正在维修中</div>
-                                            <div class="text-xs text-slate-500 mt-0.5">预计 14:00 完成</div>
+                                            <div class="text-sm font-bold text-blue-600">
+                                                <span x-show="lang==='zh'">正在维修中</span>
+                                                <span x-show="lang==='en'" x-cloak>Repair In Progress</span>
+                                                <span x-show="lang==='ja'" x-cloak>修理作業中</span>
+                                            </div>
+                                            <div class="text-xs text-slate-500 mt-0.5">
+                                                <span x-show="lang==='zh'">预计 14:00 完成</span>
+                                                <span x-show="lang==='en'" x-cloak>ETA 14:00</span>
+                                                <span x-show="lang==='ja'" x-cloak>完了予定 14:00</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -269,7 +365,9 @@
                         <div class="absolute bottom-0 w-full p-4 bg-white border-t border-slate-100">
                             <button
                                 class="w-full bg-slate-900 text-white font-bold py-3 rounded-xl text-sm shadow-lg hover:bg-slate-800 transition">
-                                联系维修师
+                                <span x-show="lang==='zh'">联系维修师</span>
+                                <span x-show="lang==='en'" x-cloak>Contact Technician</span>
+                                <span x-show="lang==='ja'" x-cloak>修理担当に連絡</span>
                             </button>
                         </div>
 

@@ -32,6 +32,8 @@
         }
     </script>
     <style>
+        [x-cloak] { display: none !important; }
+
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -123,16 +125,23 @@
     </style>
 </head>
 
-<body class="bg-luxury-black text-slate-300" x-data="{ lang: 'zh' }">
+<body class="bg-luxury-black text-slate-300" x-data="{ lang: localStorage.getItem('zencode_lang') || 'zh', setLang(l) { this.lang = l; localStorage.setItem('zencode_lang', l); } }">
 
     <nav class="fixed w-full z-50 bg-luxury-black/80 backdrop-blur-md border-b border-white/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between h-20 items-center">
             <a href="../solutions.html" class="flex items-center gap-2 font-bold text-xl text-white">
                 <span class="text-luxury-gold">&larr;</span> ZenCode<span class="text-white/30">.jp</span>
             </a>
+            <div class="flex gap-4 text-sm">
+                <button @click="setLang('zh')" :class="lang==='zh' ? 'text-white' : 'text-white/40'">中文</button>
+                <button @click="setLang('en')" :class="lang==='en' ? 'text-white' : 'text-white/40'">EN</button>
+                <button @click="setLang('ja')" :class="lang==='ja' ? 'text-white' : 'text-white/40'">日本語</button>
+            </div>
             <a href="../solutions.html"
-                class="px-4 py-2 border border-luxury-gold/50 text-luxury-gold rounded-sm text-xs tracking-widest hover:bg-luxury-gold hover:text-black transition">BACK
-                TO LIST
+                class="px-4 py-2 border border-luxury-gold/50 text-luxury-gold rounded-sm text-xs tracking-widest hover:bg-luxury-gold hover:text-black transition">
+                <span x-show="lang==='zh'" x-cloak>返回列表</span>
+                <span x-show="lang==='en'" x-cloak>BACK TO LIST</span>
+                <span x-show="lang==='ja'" x-cloak>一覧に戻る</span>
             </a>
         </div>
     </nav>
@@ -151,24 +160,58 @@
                     <h4 class="text-luxury-gold font-serif tracking-[0.2em] text-sm uppercase mb-2">Private Tour &
                         Transfer</h4>
                     <h1 class="text-4xl md:text-6xl font-serif font-bold text-white leading-tight flex flex-col gap-4">
-                        <span>不仅仅是司机</span>
-                        <span class="italic text-luxury-gold">更是您的私人管家</span>
+                        <span>
+                            <span x-show="lang==='zh'" x-cloak>不仅仅是司机</span>
+                            <span x-show="lang==='en'" x-cloak>More Than a Driver</span>
+                            <span x-show="lang==='ja'" x-cloak>ドライバー以上の存在</span>
+                        </span>
+                        <span class="italic text-luxury-gold">
+                            <span x-show="lang==='zh'" x-cloak>更是您的私人管家</span>
+                            <span x-show="lang==='en'" x-cloak>Your Personal Concierge</span>
+                            <span x-show="lang==='ja'" x-cloak>あなた専属のコンシェルジュ</span>
+                        </span>
                     </h1>
                 </div>
 
-                <p class="text-slate-400 font-light leading-relaxed max-w-lg">
-                    **客户背景**：高端地接社“富士行”，主打埃尔法/海狮包车。苦于没有专业的展示平台，无法向客户直观展示“新车”、“正规绿牌”和“定制路线”，导致常被拿去跟黑车比价。<br><br>
-                    **ZenCode 方案**：开发高端定制游小程序。路线拖拽式定制、车型360度展示、司机评价体系。让服务溢价看得见。
+                <p class=”text-slate-400 font-light leading-relaxed max-w-lg”>
+                    <span x-show=”lang==='zh'” x-cloak>
+                        **客户背景**：高端地接社”富士行”，主打埃尔法/海狮包车。苦于没有专业的展示平台，无法向客户直观展示”新车”、”正规绿牌”和”定制路线”，导致常被拿去跟黑车比价。<br><br>
+                        **ZenCode 方案**：开发高端定制游小程序。路线拖拽式定制、车型360度展示、司机评价体系。让服务溢价看得见。
+                    </span>
+                    <span x-show=”lang==='en'” x-cloak>
+                        **Client**: “Fuji Travel”, a premium ground-transport agency offering Alphard/HiAce charters. Lacked a professional showcase — unable to highlight new vehicles, licensed green plates, or custom routes, often undercut by unlicensed competitors.<br><br>
+                        **ZenCode Solution**: A luxury mini-app with drag-and-drop route planning, 360° vehicle views, and a driver rating system — making the premium worth seeing.
+                    </span>
+                    <span x-show=”lang==='ja'” x-cloak>
+                        **クライアント**：高級ランドオペレーター「富士行」。アルファード／ハイエースの貸切を主力とするが、専用の展示プラットフォームがなく、新車・正規緑ナンバー・オーダーメイドルートを直感的に伝えられず、白タクと価格比較されがちだった。<br><br>
+                        **ZenCode ソリューション**：ルートのドラッグ＆ドロップ設計、車両360°ビュー、ドライバー評価システムを備えたラグジュアリーミニアプリを開発。サービスの付加価値を可視化。
+                    </span>
                 </p>
 
                 <div class="grid grid-cols-2 gap-8 pt-6 border-t border-white/10">
                     <div>
-                        <h3 class="text-white font-serif text-xl mb-1">多语言适配</h3>
-                        <p class="text-xs text-slate-500">中/英/日 自动切换，直接对接欧美高端客源。</p>
+                        <h3 class="text-white font-serif text-xl mb-1">
+                            <span x-show="lang==='zh'" x-cloak>多语言适配</span>
+                            <span x-show="lang==='en'" x-cloak>Multi-Language</span>
+                            <span x-show="lang==='ja'" x-cloak>多言語対応</span>
+                        </h3>
+                        <p class="text-xs text-slate-500">
+                            <span x-show="lang==='zh'" x-cloak>中/英/日 自动切换，直接对接欧美高端客源。</span>
+                            <span x-show="lang==='en'" x-cloak>Auto-switch between Chinese, English & Japanese — reaching premium international clients.</span>
+                            <span x-show="lang==='ja'" x-cloak>中/英/日の自動切替で、欧米のハイエンド顧客に直接アプローチ。</span>
+                        </p>
                     </div>
                     <div>
-                        <h3 class="text-white font-serif text-xl mb-1">智能排班</h3>
-                        <p class="text-xs text-slate-500">后台可视化的车辆调度系统，避免撞单。</p>
+                        <h3 class="text-white font-serif text-xl mb-1">
+                            <span x-show="lang==='zh'" x-cloak>智能排班</span>
+                            <span x-show="lang==='en'" x-cloak>Smart Scheduling</span>
+                            <span x-show="lang==='ja'" x-cloak>スマート配車</span>
+                        </h3>
+                        <p class="text-xs text-slate-500">
+                            <span x-show="lang==='zh'" x-cloak>后台可视化的车辆调度系统，避免撞单。</span>
+                            <span x-show="lang==='en'" x-cloak>Visual back-office vehicle dispatch system — no more double bookings.</span>
+                            <span x-show="lang==='ja'" x-cloak>バックオフィスの可視化配車システムで、ダブルブッキングを防止。</span>
+                        </p>
                     </div>
                 </div>
             </div>
