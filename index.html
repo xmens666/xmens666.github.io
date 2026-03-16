@@ -581,7 +581,7 @@
     </style>
 </head>
 
-<body x-data="{ lang: 'zh', scrolled: false, mobileMenuOpen: false, t(key) { const e = I18N[key]; return e ? (e[this.lang] || e.zh || key) : key; } }"
+<body x-data="{ lang: 'zh', scrolled: false, mobileMenuOpen: false, langOpen: false, t(key) { const e = I18N[key]; return e ? (e[this.lang] || e.zh || key) : key; } }"
       x-effect="applyTranslations(lang)"
       @scroll.window="scrolled = (window.pageYOffset > 50)">
 
@@ -603,7 +603,7 @@
                 <li><a href="about.html" x-text="t('nav_about')">About</a></li>
             </ul>
             <div class="nav-right">
-                <div style="position:relative" x-data="{ langOpen: false }">
+                <div style="position:relative">
                     <button class="lang-btn" @click="langOpen = !langOpen" @click.away="langOpen = false"
                             x-text="lang === 'zh' ? '中文' : lang === 'en' ? 'EN' : '日本語'"></button>
                     <div class="lang-dropdown" x-show="langOpen" x-transition x-cloak>
