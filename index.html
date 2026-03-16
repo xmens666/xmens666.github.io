@@ -581,7 +581,7 @@
     </style>
 </head>
 
-<body x-data="{ lang: 'zh', scrolled: false, mobileMenuOpen: false, t(key) { return t(key); } }"
+<body x-data="{ lang: 'zh', scrolled: false, mobileMenuOpen: false, t(key) { const e = I18N[key]; return e ? (e[this.lang] || e.zh || key) : key; } }"
       x-effect="applyTranslations(lang)"
       @scroll.window="scrolled = (window.pageYOffset > 50)">
 
