@@ -581,7 +581,7 @@
     </style>
 </head>
 
-<body x-data="{ lang: 'zh', scrolled: false, mobileMenuOpen: false, langOpen: false, t(key) { const e = I18N[key]; return e ? (e[this.lang] || e.zh || key) : key; } }"
+<body x-data="{ lang: 'zh', scrolled: false, mobileMenuOpen: false, langOpen: false, setLang(l) { this.lang = l; this.langOpen = false; applyTranslations(l); }, t(key) { const e = I18N[key]; return e ? (e[this.lang] || e.zh || key) : key; } }"
       x-effect="applyTranslations(lang)"
       @scroll.window="scrolled = (window.pageYOffset > 50)">
 
@@ -607,9 +607,9 @@
                     <button class="lang-btn" @click="langOpen = !langOpen"
                             x-text="lang === 'zh' ? '中文' : lang === 'en' ? 'EN' : '日本語'"></button>
                     <div class="lang-dropdown" x-show="langOpen" x-transition x-cloak>
-                        <button @click="lang = 'zh'; langOpen = false; applyTranslations('zh')" :class="lang === 'zh' ? 'active' : ''">中文</button>
-                        <button @click="lang = 'en'; langOpen = false; applyTranslations('en')" :class="lang === 'en' ? 'active' : ''">English</button>
-                        <button @click="lang = 'ja'; langOpen = false; applyTranslations('ja')" :class="lang === 'ja' ? 'active' : ''">日本語</button>
+                        <button @click="setLang('zh')" :class="lang === 'zh' ? 'active' : ''">中文</button>
+                        <button @click="setLang('en')" :class="lang === 'en' ? 'active' : ''">English</button>
+                        <button @click="setLang('ja')" :class="lang === 'ja' ? 'active' : ''">日本語</button>
                     </div>
                 </div>
                 <a href="contact.html" class="nav-cta" x-text="t('nav_cta')">Free Consultation</a>
@@ -632,9 +632,9 @@
         <a href="about.html" @click="mobileMenuOpen = false" x-text="t('nav_about')">About</a>
         <a href="contact.html" @click="mobileMenuOpen = false" class="mobile-menu-cta" x-text="t('nav_cta')">Consultation</a>
         <div class="mobile-lang-group">
-            <button @click="lang='zh';mobileMenuOpen=false" class="mobile-lang-btn" :class="lang==='zh' && 'active'">中文</button>
-            <button @click="lang='en';mobileMenuOpen=false" class="mobile-lang-btn" :class="lang==='en' && 'active'">EN</button>
-            <button @click="lang='ja';mobileMenuOpen=false" class="mobile-lang-btn" :class="lang==='ja' && 'active'">日本語</button>
+            <button @click="setLang('zh');mobileMenuOpen=false" class="mobile-lang-btn" :class="lang==='zh' && 'active'">中文</button>
+            <button @click="setLang('en');mobileMenuOpen=false" class="mobile-lang-btn" :class="lang==='en' && 'active'">EN</button>
+            <button @click="setLang('ja');mobileMenuOpen=false" class="mobile-lang-btn" :class="lang==='ja' && 'active'">日本語</button>
         </div>
     </div>
 
