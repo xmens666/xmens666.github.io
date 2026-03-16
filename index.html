@@ -46,7 +46,7 @@
 
         body {
             font-family: 'DM Sans', -apple-system, sans-serif;
-            background-color: #0D1117;
+            background-color: #0a1210;
             color: #e6edf3;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
@@ -54,16 +54,16 @@
         /* Green gradient overlay */
         body::before {
             content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
-            background: radial-gradient(ellipse at 20% 0%, rgba(0,96,57,0.15) 0%, transparent 50%),
-                        radial-gradient(ellipse at 80% 100%, rgba(0,80,45,0.1) 0%, transparent 50%);
+            background: radial-gradient(ellipse at 15% 0%, rgba(0,96,57,0.25) 0%, transparent 55%),
+                        radial-gradient(ellipse at 85% 80%, rgba(0,80,45,0.18) 0%, transparent 50%),
+                        radial-gradient(ellipse at 50% 50%, rgba(0,60,35,0.08) 0%, transparent 70%);
         }
         /* Grain noise texture */
         body::after {
             content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
             background: url('img/noise.png') repeat;
-            background-size: 128px 128px;
-            opacity: 0.035;
-            mix-blend-mode: screen;
+            background-size: 150px 150px;
+            opacity: 0.12;
         }
         body > * { position: relative; z-index: 1; }
 
@@ -146,23 +146,25 @@
 
         .mobile-menu {
             position: fixed; top: 0; right: 0; bottom: 0; width: 100%; max-width: 360px;
-            background: var(--charcoal); z-index: 200;
+            background: #0c1614; z-index: 200;
             padding: 80px 32px calc(32px + var(--safe-bottom)) 32px;
-            border-left: 3px solid var(--rolex-green);
+            border-left: 1px solid rgba(0,122,72,0.3);
             overflow-y: auto; -webkit-overflow-scrolling: touch;
+            box-shadow: -10px 0 40px rgba(0,0,0,0.5);
         }
-        .mobile-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 199; }
+        .mobile-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 199; backdrop-filter: blur(4px); }
         .mobile-menu a {
             display: flex; align-items: center; color: rgba(255,255,255,0.7); text-decoration: none;
             padding: 16px 0; min-height: 56px; font-size: 0.95rem; font-weight: 600;
             letter-spacing: 0.04em; text-transform: uppercase;
             border-bottom: 1px solid rgba(255,255,255,0.06);
         }
-        .mobile-menu a:hover, .mobile-menu a:active { color: var(--gold); }
+        .mobile-menu a:hover, .mobile-menu a:active { color: var(--rolex-green-light); }
         .mobile-close {
-            position: absolute; top: 20px; right: 20px; background: none;
-            border: none; color: rgba(255,255,255,0.5); cursor: pointer; font-size: 1.5rem;
-            min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center;
+            position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 50%;
+            color: rgba(255,255,255,0.6); cursor: pointer; font-size: 1.5rem;
+            width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
         }
 
         @media (max-width: 768px) {
@@ -588,11 +590,11 @@
                 <a href="techstack.html" @click="mobileMenuOpen = false" x-text="t('nav_tech')">Tech</a>
                 <a href="cases.html" @click="mobileMenuOpen = false" x-text="t('nav_cases')">Cases</a>
                 <a href="about.html" @click="mobileMenuOpen = false" x-text="t('nav_about')">About</a>
-                <a href="contact.html" @click="mobileMenuOpen = false" style="color:#fff;margin-top:16px;border:none;background:var(--rolex-green);padding:16px 24px;min-height:52px;display:flex;align-items:center;justify-content:center;font-size:0.9rem;" x-text="t('nav_cta')">Consultation</a>
+                <a href="contact.html" @click="mobileMenuOpen = false" style="color:#fff;margin-top:16px;border:none;background:var(--rolex-green);padding:16px 24px;min-height:52px;display:flex;align-items:center;justify-content:center;font-size:0.9rem;border-radius:10px;" x-text="t('nav_cta')">Consultation</a>
                 <div style="display:flex;gap:8px;margin-top:24px;">
-                    <button @click="lang='zh';mobileMenuOpen=false" style="flex:1;padding:12px 16px;min-height:44px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);cursor:pointer;font-size:0.85rem;font-weight:600;" :style="lang==='zh'?'color:var(--gold);border-color:var(--gold)':''">中文</button>
-                    <button @click="lang='en';mobileMenuOpen=false" style="flex:1;padding:12px 16px;min-height:44px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);cursor:pointer;font-size:0.85rem;font-weight:600;" :style="lang==='en'?'color:var(--gold);border-color:var(--gold)':''">EN</button>
-                    <button @click="lang='ja';mobileMenuOpen=false" style="flex:1;padding:12px 16px;min-height:44px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);cursor:pointer;font-size:0.85rem;font-weight:600;" :style="lang==='ja'?'color:var(--gold);border-color:var(--gold)':''">日本語</button>
+                    <button @click="lang='zh';mobileMenuOpen=false" style="flex:1;padding:12px 16px;min-height:44px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:rgba(255,255,255,0.6);cursor:pointer;font-size:0.85rem;font-weight:600;" :style="lang==='zh'?'color:var(--rolex-green-light);border-color:var(--rolex-green)':''">中文</button>
+                    <button @click="lang='en';mobileMenuOpen=false" style="flex:1;padding:12px 16px;min-height:44px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:rgba(255,255,255,0.6);cursor:pointer;font-size:0.85rem;font-weight:600;" :style="lang==='en'?'color:var(--rolex-green-light);border-color:var(--rolex-green)':''">EN</button>
+                    <button @click="lang='ja';mobileMenuOpen=false" style="flex:1;padding:12px 16px;min-height:44px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:rgba(255,255,255,0.6);cursor:pointer;font-size:0.85rem;font-weight:600;" :style="lang==='ja'?'color:var(--rolex-green-light);border-color:var(--rolex-green)':''">日本語</button>
                 </div>
             </div>
         </div>
@@ -760,7 +762,7 @@
                 <span x-show="lang==='en'" x-cloak>The following projects are live — visit them to see our work in action.</span>
                 <span x-show="lang==='ja'" x-cloak>以下のプロジェクトは稼働中です。直接アクセスしてご覧ください。</span>
             </p>
-            <div class="work-grid" style="grid-template-columns:repeat(2,1fr);">
+            <div class="work-grid">
                 <a href="https://happygo.jp" target="_blank" rel="noopener" class="work-card" style="text-decoration:none;color:inherit;transition:transform 0.3s;cursor:pointer;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='none'">
                     <img src="img/web_1.png" alt="HappyGo" class="work-card-img" loading="lazy">
                     <div class="work-card-body">
@@ -795,6 +797,24 @@
                         <div style="margin-top:12px;font-size:0.8rem;color:var(--gold);font-weight:600;">dongyingyouxia.com →</div>
                     </div>
                 </a>
+                <div class="work-card">
+                    <img src="img/wechat_mockup.png" alt="WeChat Mini Program" class="work-card-img" loading="lazy">
+                    <div class="work-card-body">
+                        <h3>
+                            <span x-show="lang==='zh'">微信小程序</span>
+                            <span x-show="lang==='en'" x-cloak>WeChat Mini Program</span>
+                            <span x-show="lang==='ja'" x-cloak>WeChatミニプログラム</span>
+                        </h3>
+                        <p>
+                            <span x-show="lang==='zh'">扫码即用的预约系统。自助下单、自动结算、会员管理，让您的店铺 24 小时在线接单。</span>
+                            <span x-show="lang==='en'" x-cloak>Scan-to-use booking system. Self-service ordering, auto billing, member management — your store open 24/7.</span>
+                            <span x-show="lang==='ja'" x-cloak>スキャンで予約。セルフ注文、自動決済、会員管理で24時間オンライン受付。</span>
+                        </p>
+                        <div class="work-card-tags">
+                            <span>小程序</span><span>预约</span><span>支付</span><span>会员</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
