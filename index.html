@@ -114,18 +114,7 @@
         }
         .scrolled .lang-btn { border-color: rgba(255,255,255,0.15); color: rgba(255,255,255,0.55); }
 
-        .lang-dropdown {
-            position: absolute; top: 100%; right: 0; margin-top: 8px;
-            background: var(--charcoal-light); border: 1px solid rgba(255,255,255,0.1);
-            overflow: hidden; min-width: 120px; border-radius: 8px;
-        }
-        .lang-dropdown button {
-            display: block; width: 100%; text-align: left; padding: 12px 16px;
-            font-size: 0.85rem; font-weight: 500; border: none; background: none;
-            cursor: pointer; color: rgba(255,255,255,0.6); transition: background 0.2s;
-        }
-        .lang-dropdown button:hover { background: rgba(255,255,255,0.05); }
-        .lang-dropdown button.active { color: var(--rolex-green-light); font-weight: 700; }
+        .lang-btn { display: inline-flex; align-items: center; border-radius: 8px; }
 
         .mobile-menu-btn {
             display: none; background: none; border: none; cursor: pointer; padding: 8px;
@@ -581,7 +570,7 @@
     </style>
 </head>
 
-<body x-data="{ lang: 'zh', scrolled: false, mobileMenuOpen: false, langOpen: false, setLang(l) { this.lang = l; this.langOpen = false; applyTranslations(l); }, t(key) { const e = I18N[key]; return e ? (e[this.lang] || e.zh || key) : key; } }"
+<body x-data="{ lang: 'zh', scrolled: false, mobileMenuOpen: false, setLang(l) { this.lang = l; applyTranslations(l); }, t(key) { const e = I18N[key]; return e ? (e[this.lang] || e.zh || key) : key; } }"
       x-effect="applyTranslations(lang)"
       @scroll.window="scrolled = (window.pageYOffset > 50)">
 
@@ -603,15 +592,10 @@
                 <li><a href="about.html" x-text="t('nav_about')">About</a></li>
             </ul>
             <div class="nav-right">
-                <div style="position:relative" @click.away="langOpen = false">
-                    <button class="lang-btn" @click="langOpen = !langOpen"
-                            x-text="lang === 'zh' ? '中文' : lang === 'en' ? 'EN' : '日本語'"></button>
-                    <div class="lang-dropdown" x-show="langOpen" x-transition x-cloak>
-                        <button @click="setLang('zh')" :class="lang === 'zh' ? 'active' : ''">中文</button>
-                        <button @click="setLang('en')" :class="lang === 'en' ? 'active' : ''">English</button>
-                        <button @click="setLang('ja')" :class="lang === 'ja' ? 'active' : ''">日本語</button>
-                    </div>
-                </div>
+                <button class="lang-btn" @click="setLang(lang === 'zh' ? 'en' : lang === 'en' ? 'ja' : 'zh')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    <span x-text="lang === 'zh' ? '中文' : lang === 'en' ? 'EN' : '日本語'"></span>
+                </button>
                 <a href="contact.html" class="nav-cta" x-text="t('nav_cta')">Free Consultation</a>
                 <button class="mobile-menu-btn" @click="mobileMenuOpen = true" aria-label="Open menu">
                     <svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
