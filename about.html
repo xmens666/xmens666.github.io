@@ -10,6 +10,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/i18n.js"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
     <script src="js/vanta.topology.min.js"></script>
@@ -165,7 +166,7 @@
     </style>
 </head>
 
-<body class="bg-brand-black text-brand-gray font-sans selection:bg-brand-cyan selection:text-brand-black" x-data="{ mobileMenuOpen: false }">
+<body class="bg-brand-black text-brand-gray font-sans selection:bg-brand-cyan selection:text-brand-black" x-data="{ lang: (localStorage.getItem('zencode_lang') || 'zh'), mobileMenuOpen: false, setLang(l) { this.lang = l; applyTranslations(l); }, t(key) { const e = I18N[key]; return e ? (e[this.lang] || e.zh || key) : key; } }">
 
     <!-- PC端: Vanta.js Background -->
     <div id="vanta-bg" class="pc-only-bg"></div>
@@ -185,19 +186,23 @@
                     </a>
 
                     <div class="hidden md:flex items-center gap-2 ml-auto mr-6">
-                        <a href="index.html" class="glass-nav-btn glass-nav-blue">首页</a>
-                        <a href="solutions.html" class="glass-nav-btn glass-nav-cyan">解决方案</a>
-                        <a href="pricing.html" class="glass-nav-btn glass-nav-green">服务定价</a>
-                        <a href="techstack.html" class="glass-nav-btn glass-nav-blue">技术栈</a>
-                        <a href="cases.html" class="glass-nav-btn glass-nav-purple">成功案例</a>
-                        <a href="experience/experience.html" class="glass-nav-btn glass-nav-orange">小程序演示</a>
-                        <a href="about.html" class="glass-nav-btn glass-nav-pink glass-nav-active">关于我们</a>
+                        <a href="index.html" class="glass-nav-btn glass-nav-blue"><span x-show="lang==='zh'" x-cloak>首页</span><span x-show="lang==='en'" x-cloak>Home</span><span x-show="lang==='ja'" x-cloak>ホーム</span></a>
+                        <a href="solutions.html" class="glass-nav-btn glass-nav-cyan"><span x-show="lang==='zh'" x-cloak>解决方案</span><span x-show="lang==='en'" x-cloak>Solutions</span><span x-show="lang==='ja'" x-cloak>ソリューション</span></a>
+                        <a href="pricing.html" class="glass-nav-btn glass-nav-green"><span x-show="lang==='zh'" x-cloak>服务定价</span><span x-show="lang==='en'" x-cloak>Pricing</span><span x-show="lang==='ja'" x-cloak>料金プラン</span></a>
+                        <a href="techstack.html" class="glass-nav-btn glass-nav-blue"><span x-show="lang==='zh'" x-cloak>技术栈</span><span x-show="lang==='en'" x-cloak>Tech Stack</span><span x-show="lang==='ja'" x-cloak>技術スタック</span></a>
+                        <a href="cases.html" class="glass-nav-btn glass-nav-purple"><span x-show="lang==='zh'" x-cloak>成功案例</span><span x-show="lang==='en'" x-cloak>Cases</span><span x-show="lang==='ja'" x-cloak>実績</span></a>
+                        <a href="experience/experience.html" class="glass-nav-btn glass-nav-orange"><span x-show="lang==='zh'" x-cloak>小程序演示</span><span x-show="lang==='en'" x-cloak>Mini App Demo</span><span x-show="lang==='ja'" x-cloak>ミニアプリ</span></a>
+                        <a href="about.html" class="glass-nav-btn glass-nav-pink glass-nav-active"><span x-show="lang==='zh'" x-cloak>关于我们</span><span x-show="lang==='en'" x-cloak>About Us</span><span x-show="lang==='ja'" x-cloak>会社概要</span></a>
+                        <button class="glass-nav-btn glass-nav-blue" @click="setLang(lang === 'zh' ? 'en' : lang === 'en' ? 'ja' : 'zh')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                            <span x-text="lang === 'zh' ? '中文' : lang === 'en' ? 'EN' : '日本語'" style="margin-left:4px"></span>
+                        </button>
                     </div>
 
                     <div class="flex items-center gap-4">
                         <a href="contact.html"
                             class="hidden md:inline-block px-5 py-2 border border-brand-cyan text-brand-cyan rounded hover:bg-brand-cyan hover:text-black transition duration-300">
-                            联系我们
+                            <span x-show="lang==='zh'" x-cloak>联系我们</span><span x-show="lang==='en'" x-cloak>Contact</span><span x-show="lang==='ja'" x-cloak>お問い合わせ</span>
                         </a>
                         <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 text-white flex items-center justify-center hover:bg-white/20 transition">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -243,39 +248,45 @@
                     <nav class="flex flex-col gap-1">
                         <a href="index.html" @click="mobileMenuOpen = false"
                             class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                            首页
+                            <span x-show="lang==='zh'" x-cloak>首页</span><span x-show="lang==='en'" x-cloak>Home</span><span x-show="lang==='ja'" x-cloak>ホーム</span>
                         </a>
                         <a href="solutions.html" @click="mobileMenuOpen = false"
                             class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                            解决方案
+                            <span x-show="lang==='zh'" x-cloak>解决方案</span><span x-show="lang==='en'" x-cloak>Solutions</span><span x-show="lang==='ja'" x-cloak>ソリューション</span>
                         </a>
                         <a href="pricing.html" @click="mobileMenuOpen = false"
                             class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                            服务定价
+                            <span x-show="lang==='zh'" x-cloak>服务定价</span><span x-show="lang==='en'" x-cloak>Pricing</span><span x-show="lang==='ja'" x-cloak>料金プラン</span>
                         </a>
                         <a href="techstack.html" @click="mobileMenuOpen = false"
                             class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                            技术栈
+                            <span x-show="lang==='zh'" x-cloak>技术栈</span><span x-show="lang==='en'" x-cloak>Tech Stack</span><span x-show="lang==='ja'" x-cloak>技術スタック</span>
                         </a>
                         <a href="cases.html" @click="mobileMenuOpen = false"
                             class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                            成功案例
+                            <span x-show="lang==='zh'" x-cloak>成功案例</span><span x-show="lang==='en'" x-cloak>Cases</span><span x-show="lang==='ja'" x-cloak>実績</span>
                         </a>
                         <a href="experience/experience.html" @click="mobileMenuOpen = false"
                             class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                            小程序演示
+                            <span x-show="lang==='zh'" x-cloak>小程序演示</span><span x-show="lang==='en'" x-cloak>Mini App Demo</span><span x-show="lang==='ja'" x-cloak>ミニアプリ</span>
                         </a>
                         <a href="about.html" @click="mobileMenuOpen = false"
                             class="text-base font-bold text-brand-cyan bg-brand-cyan/10 py-3 px-4 rounded-lg">
-                            关于我们
+                            <span x-show="lang==='zh'" x-cloak>关于我们</span><span x-show="lang==='en'" x-cloak>About Us</span><span x-show="lang==='ja'" x-cloak>会社概要</span>
                         </a>
                     </nav>
+
+                    <div class="flex gap-2 px-4 mt-4">
+                        <button @click="setLang('zh');mobileMenuOpen=false" class="flex-1 py-2 rounded-lg text-sm font-bold transition" :class="lang==='zh' ? 'bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/50' : 'bg-white/5 text-white/50 border border-white/10'">中文</button>
+                        <button @click="setLang('en');mobileMenuOpen=false" class="flex-1 py-2 rounded-lg text-sm font-bold transition" :class="lang==='en' ? 'bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/50' : 'bg-white/5 text-white/50 border border-white/10'">EN</button>
+                        <button @click="setLang('ja');mobileMenuOpen=false" class="flex-1 py-2 rounded-lg text-sm font-bold transition" :class="lang==='ja' ? 'bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/50' : 'bg-white/5 text-white/50 border border-white/10'">日本語</button>
+                    </div>
 
                     <!-- CTA Button -->
                     <div class="mt-8 px-4">
                         <a href="contact.html" @click="mobileMenuOpen = false"
                             class="block w-full text-center py-3 rounded-full bg-gradient-to-r from-brand-cyan to-blue-500 text-black font-bold text-sm shadow-lg shadow-brand-cyan/30">
-                            免费咨询方案
+                            <span x-show="lang==='zh'" x-cloak>免费咨询方案</span><span x-show="lang==='en'" x-cloak>Get Free Quote</span><span x-show="lang==='ja'" x-cloak>無料見積り</span>
                         </a>
                     </div>
                 </div>
@@ -291,17 +302,20 @@
                             // SINCE 2024 · TOKYO
                         </div>
                         <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight flex flex-col gap-1 md:gap-4">
-                            <span>用代码构建的</span>
+                            <span x-show="lang==='zh'" x-cloak>用代码构建的</span>
+                            <span x-show="lang==='en'" x-cloak>Building</span>
+                            <span x-show="lang==='ja'" x-cloak>コードで構築する</span>
                             <span
                                 class="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-blue-500 text-glow">
-                                商业秩序
+                                <span x-show="lang==='zh'" x-cloak>商业秩序</span>
+                                <span x-show="lang==='en'" x-cloak>Business Order with Code</span>
+                                <span x-show="lang==='ja'" x-cloak>ビジネスの秩序</span>
                             </span>
                         </h1>
                         <p class="hero-desc text-lg text-slate-400 leading-relaxed mb-8 border-l-2 border-brand-cyan pl-6">
-                            ZenCode <span class="font-bold text-emerald-400">成立于东京</span>。我们不仅是程序员，更是您的<span
-                                class="font-bold text-emerald-400">商业架构师</span>。我们致力于<span
-                                class="font-bold text-emerald-400">消除技术壁垒</span>，通过数字化手段，让在日华人的商业智慧<span
-                                class="font-bold text-emerald-400">无限放大</span>。
+                            <span x-show="lang==='zh'" x-cloak>ZenCode <span class="font-bold text-emerald-400">成立于东京</span>。我们不仅是程序员，更是您的<span class="font-bold text-emerald-400">商业架构师</span>。我们致力于<span class="font-bold text-emerald-400">消除技术壁垒</span>，通过数字化手段，让在日华人的商业智慧<span class="font-bold text-emerald-400">无限放大</span>。</span>
+                            <span x-show="lang==='en'" x-cloak>ZenCode was <span class="font-bold text-emerald-400">founded in Tokyo</span>. We're not just programmers — we're your <span class="font-bold text-emerald-400">business architects</span>. We're dedicated to <span class="font-bold text-emerald-400">removing tech barriers</span> and amplifying the business wisdom of Chinese entrepreneurs in Japan through <span class="font-bold text-emerald-400">digital solutions</span>.</span>
+                            <span x-show="lang==='ja'" x-cloak>ZenCodeは<span class="font-bold text-emerald-400">東京で設立</span>されました。私たちは単なるプログラマーではなく、あなたの<span class="font-bold text-emerald-400">ビジネスアーキテクト</span>です。<span class="font-bold text-emerald-400">技術の壁を取り除き</span>、デジタルの力で在日華人のビジネスの知恵を<span class="font-bold text-emerald-400">無限に拡大</span>します。</span>
                         </p>
 
                         <div class="font-mono text-xs text-brand-teal">
@@ -371,7 +385,11 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-16">
                     <h2 class="text-3xl font-bold text-white">Why <span class="text-brand-cyan">ZenCode</span>?</h2>
-                    <p class="text-slate-500 mt-4">我们不仅仅是外包，而是您的技术合伙人</p>
+                    <p class="text-slate-500 mt-4">
+                        <span x-show="lang==='zh'" x-cloak>我们不仅仅是外包，而是您的技术合伙人</span>
+                        <span x-show="lang==='en'" x-cloak>More than outsourcing — we're your tech partner</span>
+                        <span x-show="lang==='ja'" x-cloak>外注ではなく、あなたの技術パートナーです</span>
+                    </p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -379,11 +397,15 @@
                         class="bg-brand-dark/60 backdrop-blur-md p-8 rounded-2xl border border-white/5 hover:border-brand-cyan/50 transition duration-300 group">
                         <div
                             class="w-12 h-12 bg-black rounded-lg flex items-center justify-center text-brand-cyan mb-6 group-hover:scale-110 transition">
-                            ⚡️
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-3">极速交付</h3>
+                        <h3 class="text-xl font-bold text-white mb-3">
+                            <span x-show="lang==='zh'" x-cloak>极速交付</span><span x-show="lang==='en'" x-cloak>Fast Delivery</span><span x-show="lang==='ja'" x-cloak>高速デリバリー</span>
+                        </h3>
                         <p class="text-slate-400 text-sm leading-relaxed">
-                            深知在日华人的商业机会稍纵即逝。我们采用模块化开发体系，将平均交付周期缩短了 40%。
+                            <span x-show="lang==='zh'" x-cloak>深知在日华人的商业机会稍纵即逝。我们采用模块化开发体系，将平均交付周期缩短了 40%。</span>
+                            <span x-show="lang==='en'" x-cloak>We know business opportunities for Chinese entrepreneurs in Japan are fleeting. Our modular development system cuts average delivery time by 40%.</span>
+                            <span x-show="lang==='ja'" x-cloak>ビジネスチャンスは一瞬です。モジュール式開発により、平均納期を40%短縮しました。</span>
                         </p>
                     </div>
 
@@ -391,11 +413,15 @@
                         class="bg-brand-dark/60 backdrop-blur-md p-8 rounded-2xl border border-white/5 hover:border-brand-cyan/50 transition duration-300 group">
                         <div
                             class="w-12 h-12 bg-black rounded-lg flex items-center justify-center text-brand-cyan mb-6 group-hover:scale-110 transition">
-                            💎
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9z"/><path d="M11 3l1 6h10"/><path d="M2 9h20"/><path d="M13 3l-1 6H2"/></svg>
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-3">透明定价</h3>
+                        <h3 class="text-xl font-bold text-white mb-3">
+                            <span x-show="lang==='zh'" x-cloak>透明定价</span><span x-show="lang==='en'" x-cloak>Transparent Pricing</span><span x-show="lang==='ja'" x-cloak>透明な料金体系</span>
+                        </h3>
                         <p class="text-slate-400 text-sm leading-relaxed">
-                            每一行代码都有价值，每一分预算都有去处。提供详细的功能报价单，杜绝后期隐形消费。
+                            <span x-show="lang==='zh'" x-cloak>每一行代码都有价值，每一分预算都有去处。提供详细的功能报价单，杜绝后期隐形消费。</span>
+                            <span x-show="lang==='en'" x-cloak>Every line of code has value, every penny of budget is accounted for. We provide detailed feature-level quotes with zero hidden costs.</span>
+                            <span x-show="lang==='ja'" x-cloak>すべてのコードに価値があり、すべての予算に行き先があります。詳細な機能別見積もりで、隠れたコストはゼロです。</span>
                         </p>
                     </div>
 
@@ -403,11 +429,15 @@
                         class="bg-brand-dark/60 backdrop-blur-md p-8 rounded-2xl border border-white/5 hover:border-brand-cyan/50 transition duration-300 group">
                         <div
                             class="w-12 h-12 bg-black rounded-lg flex items-center justify-center text-brand-cyan mb-6 group-hover:scale-110 transition">
-                            🇯🇵
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-3">懂日本市场</h3>
+                        <h3 class="text-xl font-bold text-white mb-3">
+                            <span x-show="lang==='zh'" x-cloak>懂日本市场</span><span x-show="lang==='en'" x-cloak>Japan Market Expert</span><span x-show="lang==='ja'" x-cloak>日本市場に精通</span>
+                        </h3>
                         <p class="text-slate-400 text-sm leading-relaxed">
-                            熟悉 Paypay/Line Pay 接口对接、Google Maps API 集成，以及日本用户的 UI/UX 使用习惯。
+                            <span x-show="lang==='zh'" x-cloak>熟悉 Paypay/Line Pay 接口对接、Google Maps API 集成，以及日本用户的 UI/UX 使用习惯。</span>
+                            <span x-show="lang==='en'" x-cloak>Experienced with PayPay/Line Pay integration, Google Maps API, and Japanese user UI/UX conventions.</span>
+                            <span x-show="lang==='ja'" x-cloak>PayPay/Line Pay連携、Google Maps API統合、そして日本ユーザーのUI/UX習慣に精通しています。</span>
                         </p>
                     </div>
                 </div>
@@ -426,9 +456,13 @@
                             alt="Team Work">
                     </div>
                     <div class="order-1 lg:order-2 space-y-6">
-                        <h2 class="text-3xl font-bold text-white">多元化技术团队</h2>
+                        <h2 class="text-3xl font-bold text-white">
+                            <span x-show="lang==='zh'" x-cloak>多元化技术团队</span><span x-show="lang==='en'" x-cloak>Diverse Tech Team</span><span x-show="lang==='ja'" x-cloak>多様な技術チーム</span>
+                        </h2>
                         <p class="text-slate-400 leading-relaxed">
-                            我们的团队成员分布在全球各地的一线大厂工程师组成。既有深耕后端的资深架构师，也有对前端交互极度敏感的设计师。
+                            <span x-show="lang==='zh'" x-cloak>我们的团队成员分布在全球各地的一线大厂工程师组成。既有深耕后端的资深架构师，也有对前端交互极度敏感的设计师。</span>
+                            <span x-show="lang==='en'" x-cloak>Our team consists of top-tier engineers from around the globe. We have senior backend architects as well as designers with an acute sense for frontend interaction.</span>
+                            <span x-show="lang==='ja'" x-cloak>チームは世界中のトップクラスのエンジニアで構成されています。シニアバックエンドアーキテクトから、フロントエンドに精通したデザイナーまで揃っています。</span>
                         </p>
                         <ul class="space-y-4 font-mono text-sm text-brand-cyan">
                             <li class="flex items-center gap-3">
@@ -451,20 +485,24 @@
 
         <section class="py-24 bg-brand-black/80 backdrop-blur-sm text-center border-t border-white/10">
             <div class="max-w-3xl mx-auto px-4">
-                <h2 class="text-3xl font-bold text-white mb-6">准备好开始了吗？</h2>
+                <h2 class="text-3xl font-bold text-white mb-6">
+                    <span x-show="lang==='zh'" x-cloak>准备好开始了吗？</span><span x-show="lang==='en'" x-cloak>Ready to Start?</span><span x-show="lang==='ja'" x-cloak>始める準備はできましたか？</span>
+                </h2>
                 <p class="text-slate-400 mb-8">
-                    无论是从零开始打造品牌，还是现有系统的升级维护，我们随时待命。
+                    <span x-show="lang==='zh'" x-cloak>无论是从零开始打造品牌，还是现有系统的升级维护，我们随时待命。</span>
+                    <span x-show="lang==='en'" x-cloak>Whether building a brand from scratch or upgrading existing systems, we're ready when you are.</span>
+                    <span x-show="lang==='ja'" x-cloak>ゼロからのブランド構築でも、既存システムのアップグレードでも、いつでも対応いたします。</span>
                 </p>
                 <a href="contact.html"
                     class="inline-block px-10 py-4 bg-brand-cyan text-brand-black font-bold rounded hover:bg-white transition shadow-[0_0_20px_rgba(102,252,241,0.3)]">
-                    免费获取咨询方案
+                    <span x-show="lang==='zh'" x-cloak>免费获取咨询方案</span><span x-show="lang==='en'" x-cloak>Get Free Consultation</span><span x-show="lang==='ja'" x-cloak>無料相談を申し込む</span>
                 </a>
             </div>
         </section>
 
         <footer class="py-8 bg-brand-black/90 backdrop-blur-sm border-t border-white/5 text-center">
             <p class="text-xs text-slate-600 font-mono">
-                &copy; 2024 ZenCode.jp All Rights Reserved.
+                &copy; 2026 ZenCode.jp All Rights Reserved.
             </p>
         </footer>
     </div>

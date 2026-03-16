@@ -14,6 +14,8 @@
         href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&family=Outfit:wght@400;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <script src="js/i18n.js"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -25,6 +27,8 @@
         }
     </script>
     <style>
+        [x-cloak] { display: none !important; }
+
         /* 玻璃拟态效果 */
         .glass-panel {
             background: rgba(255, 255, 255, 0.03);
@@ -75,7 +79,7 @@
     </style>
 </head>
 
-<body class="bg-brand-green text-slate-200 min-h-screen flex flex-col relative overflow-x-hidden">
+<body class="bg-brand-green text-slate-200 min-h-screen flex flex-col relative overflow-x-hidden" x-data="{ lang: (localStorage.getItem('zencode_lang') || 'zh'), setLang(l) { this.lang = l; localStorage.setItem('zencode_lang', l); if (typeof applyTranslations === 'function') applyTranslations(l); }, t(key) { if (typeof I18N !== 'undefined') { const e = I18N[key]; return e ? (e[this.lang] || e.zh || key) : key; } return key; } }">
 
     <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10">
         <div class="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-accent-green/10 rounded-full blur-[120px]">
@@ -89,6 +93,10 @@
             <span class="text-accent-green font-bold text-2xl">&lt;</span>
             <span class="text-white font-bold text-xl group-hover:text-accent-green transition">ZenCode</span>
         </a>
+        <button class="px-3 py-1.5 rounded-lg border border-white/15 text-white/60 text-sm hover:text-white hover:border-white/30 transition flex items-center gap-1.5" @click="setLang(lang === 'zh' ? 'en' : lang === 'en' ? 'ja' : 'zh')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <span x-text="lang === 'zh' ? '中文' : lang === 'en' ? 'EN' : '日本語'"></span>
+        </button>
     </nav>
 
     <main class="flex-grow flex items-center justify-center px-4 py-10 relative z-10">
@@ -101,11 +109,21 @@
 
                 <div>
                     <h1 class="text-3xl font-bold text-white mb-6 font-heading">
-                        <span class="inline md:block">让我们开始</span>
-                        <span class="inline md:block text-accent-green ml-1 md:ml-0">对话</span>
+                        <span class="inline md:block" x-cloak>
+                            <template x-if="lang==='zh'"><span>让我们开始</span></template>
+                            <template x-if="lang==='en'"><span>Let's Start a</span></template>
+                            <template x-if="lang==='ja'"><span>はじめましょう</span></template>
+                        </span>
+                        <span class="inline md:block text-accent-green ml-1 md:ml-0" x-cloak>
+                            <template x-if="lang==='zh'"><span>对话</span></template>
+                            <template x-if="lang==='en'"><span>Conversation</span></template>
+                            <template x-if="lang==='ja'"><span>対話を</span></template>
+                        </span>
                     </h1>
-                    <p class="text-slate-400 mb-10 leading-relaxed">
-                        填写表格，我们的技术顾问将在当日通过邮件或微信与您联系。
+                    <p class="text-slate-400 mb-10 leading-relaxed" x-cloak>
+                        <template x-if="lang==='zh'"><span>填写表格，我们的技术顾问将在当日通过邮件或微信与您联系。</span></template>
+                        <template x-if="lang==='en'"><span>Fill out the form and our tech consultant will contact you via email or WeChat the same day.</span></template>
+                        <template x-if="lang==='ja'"><span>フォームにご記入いただければ、技術コンサルタントが当日中にメールまたはWeChatでご連絡いたします。</span></template>
                     </p>
 
                     <div class="space-y-6">
@@ -135,27 +153,29 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div class="space-y-2">
-                            <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">您的称呼</label>
-                            <input type="text" name="name" required placeholder="张先生"
+                            <label class="text-xs font-bold text-slate-400 uppercase tracking-wider" x-text="lang==='zh' ? '您的称呼' : lang==='en' ? 'Your Name' : 'お名前'"></label>
+                            <input type="text" name="name" required
+                                :placeholder="lang==='zh' ? '张先生' : lang==='en' ? 'Mr. Zhang' : '田中様'"
                                 class="input-field w-full rounded-xl px-4 py-3 text-white placeholder-slate-600">
                         </div>
                         <div class="space-y-2">
-                            <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">联系方式</label>
-                            <input type="text" name="contact" required placeholder="邮箱 或 微信号"
+                            <label class="text-xs font-bold text-slate-400 uppercase tracking-wider" x-text="lang==='zh' ? '联系方式' : lang==='en' ? 'Contact' : '連絡先'"></label>
+                            <input type="text" name="contact" required
+                                :placeholder="lang==='zh' ? '邮箱 或 微信号' : lang==='en' ? 'Email or WeChat' : 'メールまたはWeChat'"
                                 class="input-field w-full rounded-xl px-4 py-3 text-white placeholder-slate-600">
                         </div>
                     </div>
 
                     <div class="space-y-2">
-                        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">感兴趣的服务</label>
+                        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider" x-text="lang==='zh' ? '感兴趣的服务' : lang==='en' ? 'Service Interest' : 'ご興味のあるサービス'"></label>
                         <div class="relative">
                             <select name="service"
                                 class="input-field w-full rounded-xl px-4 py-3 text-white cursor-pointer pr-10">
-                                <option value="系统开发">📱 行业系统 / App 开发</option>
-                                <option value="网站建设">🌐 企业官网 / 落地页</option>
-                                <option value="平台定制">🚀 大型平台 (类似 Uber/淘宝)</option>
-                                <option value="AI客服">🤖 AI 智能客服 / 效率工具</option>
-                                <option value="其他咨询">💡 其他技术咨询</option>
+                                <option value="系统开发" x-text="lang==='zh' ? '📱 行业系统 / App 开发' : lang==='en' ? '📱 Industry System / App Dev' : '📱 業界システム / アプリ開発'"></option>
+                                <option value="网站建设" x-text="lang==='zh' ? '🌐 企业官网 / 落地页' : lang==='en' ? '🌐 Corporate Website / Landing Page' : '🌐 企業サイト / ランディングページ'"></option>
+                                <option value="平台定制" x-text="lang==='zh' ? '🚀 大型平台 (类似 Uber/淘宝)' : lang==='en' ? '🚀 Large Platform (Uber/Taobao-like)' : '🚀 大規模プラットフォーム (Uber/淘宝型)'"></option>
+                                <option value="AI客服" x-text="lang==='zh' ? '🤖 AI 智能客服 / 效率工具' : lang==='en' ? '🤖 AI Customer Service / Productivity Tools' : '🤖 AI カスタマーサービス / 効率化ツール'"></option>
+                                <option value="其他咨询" x-text="lang==='zh' ? '💡 其他技术咨询' : lang==='en' ? '💡 Other Technical Consulting' : '💡 その他技術コンサルティング'"></option>
                             </select>
                             <div
                                 class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-accent-green">
@@ -168,17 +188,21 @@
                     </div>
 
                     <div class="space-y-2">
-                        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">项目描述</label>
-                        <textarea name="message" rows="4" required placeholder="简单描述您的需求..."
+                        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider" x-text="lang==='zh' ? '项目描述' : lang==='en' ? 'Project Description' : 'プロジェクト概要'"></label>
+                        <textarea name="message" rows="4" required
+                            :placeholder="lang==='zh' ? '简单描述您的需求...' : lang==='en' ? 'Briefly describe your needs...' : 'ご要望を簡単にご記入ください...'"
                             class="input-field w-full rounded-xl px-4 py-3 text-white placeholder-slate-600"></textarea>
                     </div>
 
                     <button type="submit" id="submit-btn"
                         class="w-full py-4 bg-accent-green hover:bg-accent-green/90 text-black font-bold text-lg rounded-xl transition duration-300 shadow-[0_0_20px_rgba(0,255,163,0.3)] hover:shadow-[0_0_30px_rgba(0,255,163,0.5)] transform hover:-translate-y-1 active:translate-y-0 flex items-center justify-center gap-2">
-                        <span>🚀 发送邮件 (直达创始人)</span>
+                        <span class="flex items-center gap-2">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+                            <span x-text="lang==='zh' ? '发送邮件 (直达创始人)' : lang==='en' ? 'Send Email (Direct to Founder)' : 'メール送信（創業者直通）'"></span>
+                        </span>
                     </button>
 
-                    <p id="error-msg" class="text-red-500 text-sm text-center hidden">发送失败，请稍后重试。</p>
+                    <p id="error-msg" class="text-red-500 text-sm text-center hidden"></p>
                 </form>
 
                 <div id="success-view"
@@ -191,12 +215,16 @@
                         </svg>
                     </div>
                     <div>
-                        <h2 class="text-3xl font-bold text-white mb-2">发送成功！</h2>
-                        <p class="text-slate-400">感谢您的咨询。<br>我们的技术顾问已收到您的需求，将尽快与您联系。</p>
+                        <h2 class="text-3xl font-bold text-white mb-2" x-text="lang==='zh' ? '发送成功！' : lang==='en' ? 'Sent Successfully!' : '送信完了！'"></h2>
+                        <p class="text-slate-400" x-cloak>
+                            <template x-if="lang==='zh'"><span>感谢您的咨询。<br>我们的技术顾问已收到您的需求，将尽快与您联系。</span></template>
+                            <template x-if="lang==='en'"><span>Thank you for your inquiry.<br>Our tech consultant has received your request and will contact you shortly.</span></template>
+                            <template x-if="lang==='ja'"><span>お問い合わせありがとうございます。<br>技術コンサルタントがご要望を受け取りました。早急にご連絡いたします。</span></template>
+                        </p>
                     </div>
                     <a href="index.html"
-                        class="px-8 py-3 rounded-full border border-white/20 hover:bg-white hover:text-black transition text-sm font-bold">
-                        返回首页
+                        class="px-8 py-3 rounded-full border border-white/20 hover:bg-white hover:text-black transition text-sm font-bold"
+                        x-text="lang==='zh' ? '返回首页' : lang==='en' ? 'Back to Home' : 'ホームに戻る'">
                     </a>
                 </div>
 
@@ -205,6 +233,25 @@
     </main>
 
     <script>
+        function getErrorMsg(type) {
+            var lang = localStorage.getItem('zencode_lang') || 'zh';
+            if (type === 'network') {
+                if (lang === 'en') return 'Failed to send. Please check your network and try again.';
+                if (lang === 'ja') return '送信に失敗しました。ネットワークを確認して再度お試しください。';
+                return '发送失败，请检查网络后重试';
+            }
+            if (lang === 'en') return 'Failed to send. Please try again later.';
+            if (lang === 'ja') return '送信に失敗しました。後ほどお試しください。';
+            return '发送失败，请稍后重试。';
+        }
+
+        function getSendingText() {
+            var lang = localStorage.getItem('zencode_lang') || 'zh';
+            if (lang === 'en') return 'Sending...';
+            if (lang === 'ja') return '送信中...';
+            return '发送中...';
+        }
+
         var form = document.getElementById("my-form");
         var successView = document.getElementById("success-view");
         var submitBtn = document.getElementById("submit-btn");
@@ -212,12 +259,11 @@
 
         async function handleSubmit(event) {
             event.preventDefault();
-            var status = document.getElementById("my-form-status");
             var data = new FormData(event.target);
 
-            // 按钮变加载状态
+            // Button loading state
             var originalBtnText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<div class="spinner"></div> 发送中...';
+            submitBtn.innerHTML = '<div class="spinner"></div> ' + getSendingText();
             submitBtn.disabled = true;
             submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
 
@@ -229,31 +275,28 @@
                 }
             }).then(response => {
                 if (response.ok) {
-                    // 成功：淡出表单，显示成功界面
                     form.classList.add('opacity-0');
                     setTimeout(() => {
                         form.classList.add('hidden');
                         successView.classList.remove('hidden');
-                        // 简单的进场动画
                         successView.animate([
                             { opacity: 0, transform: 'scale(0.95)' },
                             { opacity: 1, transform: 'scale(1)' }
                         ], { duration: 500, fill: 'forwards' });
-                    }, 500); // 等待表单淡出
+                    }, 500);
                 } else {
-                    // 失败
                     response.json().then(data => {
                         if (Object.hasOwn(data, 'errors')) {
                             errorMsg.textContent = data["errors"].map(error => error["message"]).join(", ");
                         } else {
-                            errorMsg.textContent = "发送失败，请检查网络后重试";
+                            errorMsg.textContent = getErrorMsg('network');
                         }
                         errorMsg.classList.remove('hidden');
                         resetBtn();
                     })
                 }
             }).catch(error => {
-                errorMsg.textContent = "发送失败，请检查网络后重试";
+                errorMsg.textContent = getErrorMsg('network');
                 errorMsg.classList.remove('hidden');
                 resetBtn();
             });

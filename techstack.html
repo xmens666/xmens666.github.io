@@ -4,12 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>技术栈 - ZenCode.jp</title>
+    <title>Tech Stack - ZenCode.jp</title>
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/i18n.js"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&family=Outfit:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap"
@@ -182,7 +183,7 @@
     </style>
 </head>
 
-<body class="bg-brand-green text-slate-200 selection:bg-accent-green selection:text-black font-sans" x-data="{ mobileMenuOpen: false }">
+<body class="bg-brand-green text-slate-200 selection:bg-accent-green selection:text-black font-sans" x-data="{ mobileMenuOpen: false, lang: (localStorage.getItem('zencode_lang') || 'zh'), setLang(l) { this.lang = l; applyTranslations(l); }, t(key) { const e = I18N[key]; return e ? (e[this.lang] || e.zh || key) : key; } }">
 
     <!-- Particles.js container -->
     <div id="particles-js"></div>
@@ -199,18 +200,22 @@
                         <span class="text-white/30 font-light">Pro</span>
                     </a>
                     <div class="hidden md:flex items-center gap-2 ml-auto mr-6">
-                        <a href="index.html" class="glass-nav-btn glass-nav-blue">首页</a>
-                        <a href="solutions.html" class="glass-nav-btn glass-nav-blue">解决方案</a>
-                        <a href="pricing.html" class="glass-nav-btn glass-nav-green">服务定价</a>
-                        <a href="techstack.html" class="glass-nav-btn glass-nav-blue glass-nav-active">技术栈</a>
-                        <a href="cases.html" class="glass-nav-btn glass-nav-purple">成功案例</a>
-                        <a href="experience/experience.html" class="glass-nav-btn glass-nav-orange">小程序演示</a>
-                        <a href="about.html" class="glass-nav-btn glass-nav-pink">关于我们</a>
+                        <a href="index.html" class="glass-nav-btn glass-nav-blue"><span x-show="lang==='zh'">首页</span><span x-show="lang==='en'" x-cloak>Home</span><span x-show="lang==='ja'" x-cloak>ホーム</span></a>
+                        <a href="solutions.html" class="glass-nav-btn glass-nav-blue"><span x-show="lang==='zh'">解决方案</span><span x-show="lang==='en'" x-cloak>Solutions</span><span x-show="lang==='ja'" x-cloak>ソリューション</span></a>
+                        <a href="pricing.html" class="glass-nav-btn glass-nav-green"><span x-show="lang==='zh'">服务定价</span><span x-show="lang==='en'" x-cloak>Pricing</span><span x-show="lang==='ja'" x-cloak>料金プラン</span></a>
+                        <a href="techstack.html" class="glass-nav-btn glass-nav-blue glass-nav-active"><span x-show="lang==='zh'">技术栈</span><span x-show="lang==='en'" x-cloak>Tech Stack</span><span x-show="lang==='ja'" x-cloak>技術スタック</span></a>
+                        <a href="cases.html" class="glass-nav-btn glass-nav-purple"><span x-show="lang==='zh'">成功案例</span><span x-show="lang==='en'" x-cloak>Cases</span><span x-show="lang==='ja'" x-cloak>実績</span></a>
+                        <a href="experience/experience.html" class="glass-nav-btn glass-nav-orange"><span x-show="lang==='zh'">小程序演示</span><span x-show="lang==='en'" x-cloak>Mini App Demo</span><span x-show="lang==='ja'" x-cloak>ミニアプリ</span></a>
+                        <a href="about.html" class="glass-nav-btn glass-nav-pink"><span x-show="lang==='zh'">关于我们</span><span x-show="lang==='en'" x-cloak>About</span><span x-show="lang==='ja'" x-cloak>会社概要</span></a>
                     </div>
                     <div class="flex items-center gap-4">
+                        <button class="hidden md:inline-flex glass-nav-btn glass-nav-blue items-center" @click="setLang(lang === 'zh' ? 'en' : lang === 'en' ? 'ja' : 'zh')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                            <span x-text="lang === 'zh' ? '中文' : lang === 'en' ? 'EN' : '日本語'" style="margin-left:4px"></span>
+                        </button>
                         <a href="contact.html"
                             class="hidden md:inline-block bg-white text-black px-6 py-2 rounded-full font-bold text-sm hover:bg-accent-green hover:shadow-[0_0_15px_rgba(0,255,163,0.4)] transition duration-300">
-                            免费咨询
+                            <span x-show="lang==='zh'">免费咨询</span><span x-show="lang==='en'" x-cloak>Free Consultation</span><span x-show="lang==='ja'" x-cloak>無料相談</span>
                         </a>
                         <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 text-white flex items-center justify-center hover:bg-white/20 transition">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -255,39 +260,46 @@
                     <nav class="flex flex-col gap-1">
                         <a href="index.html" @click="mobileMenuOpen = false"
                             class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                            首页
+                            <span x-show="lang==='zh'">首页</span><span x-show="lang==='en'" x-cloak>Home</span><span x-show="lang==='ja'" x-cloak>ホーム</span>
                         </a>
                         <a href="solutions.html" @click="mobileMenuOpen = false"
                             class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                            解决方案
+                            <span x-show="lang==='zh'">解决方案</span><span x-show="lang==='en'" x-cloak>Solutions</span><span x-show="lang==='ja'" x-cloak>ソリューション</span>
                         </a>
                         <a href="pricing.html" @click="mobileMenuOpen = false"
                             class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                            服务定价
+                            <span x-show="lang==='zh'">服务定价</span><span x-show="lang==='en'" x-cloak>Pricing</span><span x-show="lang==='ja'" x-cloak>料金プラン</span>
                         </a>
                         <a href="techstack.html" @click="mobileMenuOpen = false"
                             class="text-base font-bold text-accent-blue bg-accent-blue/10 py-3 px-4 rounded-lg">
-                            技术栈
+                            <span x-show="lang==='zh'">技术栈</span><span x-show="lang==='en'" x-cloak>Tech Stack</span><span x-show="lang==='ja'" x-cloak>技術スタック</span>
                         </a>
                         <a href="cases.html" @click="mobileMenuOpen = false"
                             class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                            成功案例
+                            <span x-show="lang==='zh'">成功案例</span><span x-show="lang==='en'" x-cloak>Cases</span><span x-show="lang==='ja'" x-cloak>実績</span>
                         </a>
                         <a href="experience/experience.html" @click="mobileMenuOpen = false"
                             class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                            小程序演示
+                            <span x-show="lang==='zh'">小程序演示</span><span x-show="lang==='en'" x-cloak>Mini App Demo</span><span x-show="lang==='ja'" x-cloak>ミニアプリ</span>
                         </a>
                         <a href="about.html" @click="mobileMenuOpen = false"
                             class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                            关于我们
+                            <span x-show="lang==='zh'">关于我们</span><span x-show="lang==='en'" x-cloak>About</span><span x-show="lang==='ja'" x-cloak>会社概要</span>
                         </a>
                     </nav>
+
+                    <!-- Language Switcher -->
+                    <div class="flex gap-2 px-4 mt-4">
+                        <button @click="setLang('zh');mobileMenuOpen=false" class="flex-1 py-2 rounded-lg text-sm font-bold transition" :class="lang==='zh' ? 'bg-accent-green/20 text-accent-green border border-accent-green/50' : 'bg-white/5 text-white/50 border border-white/10'">中文</button>
+                        <button @click="setLang('en');mobileMenuOpen=false" class="flex-1 py-2 rounded-lg text-sm font-bold transition" :class="lang==='en' ? 'bg-accent-green/20 text-accent-green border border-accent-green/50' : 'bg-white/5 text-white/50 border border-white/10'">EN</button>
+                        <button @click="setLang('ja');mobileMenuOpen=false" class="flex-1 py-2 rounded-lg text-sm font-bold transition" :class="lang==='ja' ? 'bg-accent-green/20 text-accent-green border border-accent-green/50' : 'bg-white/5 text-white/50 border border-white/10'">日本語</button>
+                    </div>
 
                     <!-- CTA Button -->
                     <div class="mt-8 px-4">
                         <a href="contact.html" @click="mobileMenuOpen = false"
                             class="block w-full text-center py-3 rounded-full bg-gradient-to-r from-accent-green to-teal-500 text-black font-bold text-sm shadow-lg shadow-accent-green/30">
-                            免费咨询方案
+                            <span x-show="lang==='zh'">免费咨询方案</span><span x-show="lang==='en'" x-cloak>Get Free Quote</span><span x-show="lang==='ja'" x-cloak>無料見積り</span>
                         </a>
                     </div>
                 </div>
@@ -301,11 +313,11 @@
             <section class="mb-24">
                 <div class="flex items-center gap-4 mb-10">
                     <div class="w-12 h-12 rounded-xl bg-accent-blue/20 border border-accent-blue/30 flex items-center justify-center text-2xl">
-                        🎨
+                        <svg class="w-6 h-6 text-accent-blue" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 0 0-5.78 1.128 2.25 2.25 0 0 1-2.4 2.245 4.5 4.5 0 0 0 8.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 0 0 3.388-1.62m-5.043-.025a15.994 15.994 0 0 1 1.622-3.395m3.42 3.42a15.995 15.995 0 0 0 4.764-4.648l3.876-5.814a1.151 1.151 0 0 0-1.597-1.597L14.146 6.32a15.996 15.996 0 0 0-4.649 4.763m3.42 3.42a6.776 6.776 0 0 0-3.42-3.42"/></svg>
                     </div>
                     <div>
-                        <h2 class="section-title text-3xl font-bold text-white font-heading">前端技术</h2>
-                        <p class="text-slate-500 text-sm">Frontend Technologies</p>
+                        <h2 class="section-title text-3xl font-bold text-white font-heading"><span x-show="lang==='zh'">前端技术</span><span x-show="lang==='en'" x-cloak>Frontend</span><span x-show="lang==='ja'" x-cloak>フロントエンド</span></h2>
+                        <p class="text-slate-500 text-sm"><span x-show="lang==='zh'">Frontend Technologies</span><span x-show="lang==='en'" x-cloak>Frontend Technologies</span><span x-show="lang==='ja'" x-cloak>フロントエンド技術</span></p>
                     </div>
                     <div class="flex-1 h-px bg-gradient-to-r from-accent-blue/50 to-transparent ml-4"></div>
                 </div>
@@ -320,7 +332,7 @@
                             </svg>
                         </div>
                         <h3 class="text-white font-bold mb-1">React</h3>
-                        <p class="text-slate-500 text-xs">UI 框架</p>
+                        <p class="text-slate-500 text-xs"><span x-show="lang==='zh'">UI 框架</span><span x-show="lang==='en'" x-cloak>UI Framework</span><span x-show="lang==='ja'" x-cloak>UIフレームワーク</span></p>
                     </div>
 
                     <!-- Vue.js -->
@@ -331,7 +343,7 @@
                             </svg>
                         </div>
                         <h3 class="text-white font-bold mb-1">Vue.js</h3>
-                        <p class="text-slate-500 text-xs">渐进式框架</p>
+                        <p class="text-slate-500 text-xs"><span x-show="lang==='zh'">渐进式框架</span><span x-show="lang==='en'" x-cloak>Progressive Framework</span><span x-show="lang==='ja'" x-cloak>プログレッシブ</span></p>
                     </div>
 
                     <!-- Next.js -->
@@ -353,7 +365,7 @@
                             </svg>
                         </div>
                         <h3 class="text-white font-bold mb-1">TypeScript</h3>
-                        <p class="text-slate-500 text-xs">类型安全</p>
+                        <p class="text-slate-500 text-xs"><span x-show="lang==='zh'">类型安全</span><span x-show="lang==='en'" x-cloak>Type Safety</span><span x-show="lang==='ja'" x-cloak>型安全</span></p>
                     </div>
 
                     <!-- Tailwind CSS -->
@@ -364,7 +376,7 @@
                             </svg>
                         </div>
                         <h3 class="text-white font-bold mb-1">Tailwind</h3>
-                        <p class="text-slate-500 text-xs">原子化 CSS</p>
+                        <p class="text-slate-500 text-xs"><span x-show="lang==='zh'">原子化 CSS</span><span x-show="lang==='en'" x-cloak>Utility-first CSS</span><span x-show="lang==='ja'" x-cloak>ユーティリティCSS</span></p>
                     </div>
 
                     <!-- Flutter -->
@@ -375,7 +387,7 @@
                             </svg>
                         </div>
                         <h3 class="text-white font-bold mb-1">Flutter</h3>
-                        <p class="text-slate-500 text-xs">跨平台 App</p>
+                        <p class="text-slate-500 text-xs"><span x-show="lang==='zh'">跨平台 App</span><span x-show="lang==='en'" x-cloak>Cross-platform</span><span x-show="lang==='ja'" x-cloak>クロスプラットフォーム</span></p>
                     </div>
                 </div>
             </section>
@@ -384,11 +396,11 @@
             <section class="mb-24">
                 <div class="flex items-center gap-4 mb-10">
                     <div class="w-12 h-12 rounded-xl bg-accent-green/20 border border-accent-green/30 flex items-center justify-center text-2xl">
-                        <span>&#9881;</span>
+                        <svg class="w-6 h-6 text-accent-green" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
                     </div>
                     <div>
-                        <h2 class="section-title text-3xl font-bold text-white font-heading">后端技术</h2>
-                        <p class="text-slate-500 text-sm">Backend Technologies</p>
+                        <h2 class="section-title text-3xl font-bold text-white font-heading"><span x-show="lang==='zh'">后端技术</span><span x-show="lang==='en'" x-cloak>Backend</span><span x-show="lang==='ja'" x-cloak>バックエンド</span></h2>
+                        <p class="text-slate-500 text-sm"><span x-show="lang==='zh'">Backend Technologies</span><span x-show="lang==='en'" x-cloak>Backend Technologies</span><span x-show="lang==='ja'" x-cloak>バックエンド技術</span></p>
                     </div>
                     <div class="flex-1 h-px bg-gradient-to-r from-accent-green/50 to-transparent ml-4"></div>
                 </div>
@@ -402,7 +414,7 @@
                             </svg>
                         </div>
                         <h3 class="text-white font-bold mb-1">Node.js</h3>
-                        <p class="text-slate-500 text-xs">服务端 JS</p>
+                        <p class="text-slate-500 text-xs"><span x-show="lang==='zh'">服务端 JS</span><span x-show="lang==='en'" x-cloak>Server-side JS</span><span x-show="lang==='ja'" x-cloak>サーバーサイドJS</span></p>
                     </div>
 
                     <!-- Python -->
@@ -414,7 +426,7 @@
                             </svg>
                         </div>
                         <h3 class="text-white font-bold mb-1">Python</h3>
-                        <p class="text-slate-500 text-xs">AI / 数据处理</p>
+                        <p class="text-slate-500 text-xs"><span x-show="lang==='zh'">AI / 数据处理</span><span x-show="lang==='en'" x-cloak>AI / Data</span><span x-show="lang==='ja'" x-cloak>AI / データ処理</span></p>
                     </div>
 
                     <!-- Go -->
@@ -425,7 +437,7 @@
                             </svg>
                         </div>
                         <h3 class="text-white font-bold mb-1">Go</h3>
-                        <p class="text-slate-500 text-xs">高并发服务</p>
+                        <p class="text-slate-500 text-xs"><span x-show="lang==='zh'">高并发服务</span><span x-show="lang==='en'" x-cloak>High Concurrency</span><span x-show="lang==='ja'" x-cloak>高並行処理</span></p>
                     </div>
 
                     <!-- PostgreSQL -->
@@ -436,7 +448,7 @@
                             </svg>
                         </div>
                         <h3 class="text-white font-bold mb-1">PostgreSQL</h3>
-                        <p class="text-slate-500 text-xs">关系数据库</p>
+                        <p class="text-slate-500 text-xs"><span x-show="lang==='zh'">关系数据库</span><span x-show="lang==='en'" x-cloak>Relational DB</span><span x-show="lang==='ja'" x-cloak>リレーショナルDB</span></p>
                     </div>
 
                     <!-- Redis -->
@@ -447,7 +459,7 @@
                             </svg>
                         </div>
                         <h3 class="text-white font-bold mb-1">Redis</h3>
-                        <p class="text-slate-500 text-xs">缓存 / 队列</p>
+                        <p class="text-slate-500 text-xs"><span x-show="lang==='zh'">缓存 / 队列</span><span x-show="lang==='en'" x-cloak>Cache / Queue</span><span x-show="lang==='ja'" x-cloak>キャッシュ / キュー</span></p>
                     </div>
 
                     <!-- MongoDB -->
@@ -458,7 +470,7 @@
                             </svg>
                         </div>
                         <h3 class="text-white font-bold mb-1">MongoDB</h3>
-                        <p class="text-slate-500 text-xs">文档数据库</p>
+                        <p class="text-slate-500 text-xs"><span x-show="lang==='zh'">文档数据库</span><span x-show="lang==='en'" x-cloak>Document DB</span><span x-show="lang==='ja'" x-cloak>ドキュメントDB</span></p>
                     </div>
                 </div>
             </section>
@@ -467,11 +479,11 @@
             <section class="mb-24">
                 <div class="flex items-center gap-4 mb-10">
                     <div class="w-12 h-12 rounded-xl bg-accent-purple/20 border border-accent-purple/30 flex items-center justify-center text-2xl">
-                        <span>&#9729;</span>
+                        <svg class="w-6 h-6 text-accent-purple" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848 5.25 5.25 0 0 0-10.233 2.33A4.502 4.502 0 0 0 2.25 15Z"/></svg>
                     </div>
                     <div>
-                        <h2 class="section-title text-3xl font-bold text-white font-heading">云服务 & DevOps</h2>
-                        <p class="text-slate-500 text-sm">Cloud & DevOps</p>
+                        <h2 class="section-title text-3xl font-bold text-white font-heading"><span x-show="lang==='zh'">云服务 & DevOps</span><span x-show="lang==='en'" x-cloak>Cloud & DevOps</span><span x-show="lang==='ja'" x-cloak>クラウド & DevOps</span></h2>
+                        <p class="text-slate-500 text-sm"><span x-show="lang==='zh'">Cloud & DevOps</span><span x-show="lang==='en'" x-cloak>Cloud & DevOps</span><span x-show="lang==='ja'" x-cloak>クラウド & DevOps</span></p>
                     </div>
                     <div class="flex-1 h-px bg-gradient-to-r from-accent-purple/50 to-transparent ml-4"></div>
                 </div>
@@ -485,7 +497,7 @@
                             </svg>
                         </div>
                         <h3 class="text-white font-bold mb-1">AWS</h3>
-                        <p class="text-slate-500 text-xs">云基础设施</p>
+                        <p class="text-slate-500 text-xs"><span x-show="lang==='zh'">云基础设施</span><span x-show="lang==='en'" x-cloak>Cloud Infra</span><span x-show="lang==='ja'" x-cloak>クラウド基盤</span></p>
                     </div>
 
                     <!-- Vercel -->
@@ -496,7 +508,7 @@
                             </svg>
                         </div>
                         <h3 class="text-white font-bold mb-1">Vercel</h3>
-                        <p class="text-slate-500 text-xs">边缘部署</p>
+                        <p class="text-slate-500 text-xs"><span x-show="lang==='zh'">边缘部署</span><span x-show="lang==='en'" x-cloak>Edge Deploy</span><span x-show="lang==='ja'" x-cloak>エッジデプロイ</span></p>
                     </div>
 
                     <!-- Docker -->
@@ -507,7 +519,7 @@
                             </svg>
                         </div>
                         <h3 class="text-white font-bold mb-1">Docker</h3>
-                        <p class="text-slate-500 text-xs">容器化</p>
+                        <p class="text-slate-500 text-xs"><span x-show="lang==='zh'">容器化</span><span x-show="lang==='en'" x-cloak>Containerization</span><span x-show="lang==='ja'" x-cloak>コンテナ化</span></p>
                     </div>
 
                     <!-- GitHub -->
@@ -518,7 +530,7 @@
                             </svg>
                         </div>
                         <h3 class="text-white font-bold mb-1">GitHub</h3>
-                        <p class="text-slate-500 text-xs">版本控制</p>
+                        <p class="text-slate-500 text-xs"><span x-show="lang==='zh'">版本控制</span><span x-show="lang==='en'" x-cloak>Version Control</span><span x-show="lang==='ja'" x-cloak>バージョン管理</span></p>
                     </div>
 
                     <!-- Cloudflare -->
@@ -529,7 +541,7 @@
                             </svg>
                         </div>
                         <h3 class="text-white font-bold mb-1">Cloudflare</h3>
-                        <p class="text-slate-500 text-xs">CDN / 安全</p>
+                        <p class="text-slate-500 text-xs"><span x-show="lang==='zh'">CDN / 安全</span><span x-show="lang==='en'" x-cloak>CDN / Security</span><span x-show="lang==='ja'" x-cloak>CDN / セキュリティ</span></p>
                     </div>
 
                     <!-- Supabase -->
@@ -540,7 +552,7 @@
                             </svg>
                         </div>
                         <h3 class="text-white font-bold mb-1">Supabase</h3>
-                        <p class="text-slate-500 text-xs">BaaS 平台</p>
+                        <p class="text-slate-500 text-xs"><span x-show="lang==='zh'">BaaS 平台</span><span x-show="lang==='en'" x-cloak>BaaS Platform</span><span x-show="lang==='ja'" x-cloak>BaaSプラットフォーム</span></p>
                     </div>
                 </div>
             </section>
@@ -549,11 +561,11 @@
             <section class="mb-24">
                 <div class="flex items-center gap-4 mb-10">
                     <div class="w-12 h-12 rounded-xl bg-accent-orange/20 border border-accent-orange/30 flex items-center justify-center text-2xl">
-                        <span>&#129302;</span>
+                        <svg class="w-6 h-6 text-accent-orange" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z"/></svg>
                     </div>
                     <div>
-                        <h2 class="section-title text-3xl font-bold text-white font-heading">AI & 开发工具</h2>
-                        <p class="text-slate-500 text-sm">AI & Development Tools</p>
+                        <h2 class="section-title text-3xl font-bold text-white font-heading"><span x-show="lang==='zh'">AI & 开发工具</span><span x-show="lang==='en'" x-cloak>AI & Dev Tools</span><span x-show="lang==='ja'" x-cloak>AI & 開発ツール</span></h2>
+                        <p class="text-slate-500 text-sm"><span x-show="lang==='zh'">AI & Development Tools</span><span x-show="lang==='en'" x-cloak>AI & Development Tools</span><span x-show="lang==='ja'" x-cloak>AI & 開発ツール</span></p>
                     </div>
                     <div class="flex-1 h-px bg-gradient-to-r from-accent-orange/50 to-transparent ml-4"></div>
                 </div>
@@ -572,8 +584,8 @@
 
                     <!-- Claude -->
                     <div class="tech-icon glass-card bg-card-glass border border-white/10 rounded-2xl p-6 text-center hover:border-[#D4A574]/50 cursor-pointer group">
-                        <div class="w-16 h-16 mx-auto mb-4 rounded-xl bg-[#D4A574]/10 flex items-center justify-center text-3xl group-hover:animate-float">
-                            <span>&#129302;</span>
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-xl bg-[#D4A574]/10 flex items-center justify-center group-hover:animate-float">
+                            <svg class="w-10 h-10 text-[#D4A574]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456Z"/></svg>
                         </div>
                         <h3 class="text-white font-bold mb-1">Claude</h3>
                         <p class="text-slate-500 text-xs">Anthropic AI</p>
@@ -587,7 +599,7 @@
                             </svg>
                         </div>
                         <h3 class="text-white font-bold mb-1">Stripe</h3>
-                        <p class="text-slate-500 text-xs">支付集成</p>
+                        <p class="text-slate-500 text-xs"><span x-show="lang==='zh'">支付集成</span><span x-show="lang==='en'" x-cloak>Payments</span><span x-show="lang==='ja'" x-cloak>決済連携</span></p>
                     </div>
 
                     <!-- Figma -->
@@ -598,7 +610,7 @@
                             </svg>
                         </div>
                         <h3 class="text-white font-bold mb-1">Figma</h3>
-                        <p class="text-slate-500 text-xs">UI 设计</p>
+                        <p class="text-slate-500 text-xs"><span x-show="lang==='zh'">UI 设计</span><span x-show="lang==='en'" x-cloak>UI Design</span><span x-show="lang==='ja'" x-cloak>UIデザイン</span></p>
                     </div>
 
                     <!-- Line -->
@@ -609,7 +621,7 @@
                             </svg>
                         </div>
                         <h3 class="text-white font-bold mb-1">LINE</h3>
-                        <p class="text-slate-500 text-xs">消息推送</p>
+                        <p class="text-slate-500 text-xs"><span x-show="lang==='zh'">消息推送</span><span x-show="lang==='en'" x-cloak>Messaging</span><span x-show="lang==='ja'" x-cloak>メッセージ配信</span></p>
                     </div>
 
                     <!-- WeChat -->
@@ -620,7 +632,7 @@
                             </svg>
                         </div>
                         <h3 class="text-white font-bold mb-1">WeChat</h3>
-                        <p class="text-slate-500 text-xs">小程序开发</p>
+                        <p class="text-slate-500 text-xs"><span x-show="lang==='zh'">小程序开发</span><span x-show="lang==='en'" x-cloak>Mini Programs</span><span x-show="lang==='ja'" x-cloak>ミニプログラム</span></p>
                     </div>
                 </div>
             </section>
@@ -628,38 +640,38 @@
             <!-- Why Our Tech Stack -->
             <section class="glass-card bg-card-glass border border-white/10 rounded-3xl p-10 md:p-16">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 font-heading">为什么选择这些技术？</h2>
-                    <p class="text-slate-400 max-w-2xl mx-auto">我们精心挑选每一项技术，确保您的项目在各方面都达到最优</p>
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 font-heading"><span x-show="lang==='zh'">为什么选择这些技术？</span><span x-show="lang==='en'" x-cloak>Why This Tech Stack?</span><span x-show="lang==='ja'" x-cloak>なぜこの技術スタック？</span></h2>
+                    <p class="text-slate-400 max-w-2xl mx-auto"><span x-show="lang==='zh'">我们精心挑选每一项技术，确保您的项目在各方面都达到最优</span><span x-show="lang==='en'" x-cloak>Every technology is carefully selected to ensure optimal results for your project</span><span x-show="lang==='ja'" x-cloak>すべての技術を厳選し、プロジェクトの最適化を実現します</span></p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div class="text-center p-6">
-                        <div class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-accent-green/20 border border-accent-green/30 flex items-center justify-center text-3xl animate-pulse-border">
-                            <span>&#128640;</span>
+                        <div class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-accent-green/20 border border-accent-green/30 flex items-center justify-center animate-pulse-border">
+                            <svg class="w-8 h-8 text-accent-green" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 0 1-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 0 0 6.16-12.12A14.98 14.98 0 0 0 9.631 8.41m5.96 5.96a14.926 14.926 0 0 1-5.841 2.58m-.119-8.54a6 6 0 0 0-7.381 5.84h4.8m2.58-5.84a14.927 14.927 0 0 1-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 0 1-2.448-2.448 14.9 14.9 0 0 1 .06-.312m-2.24 2.39a4.493 4.493 0 0 0-1.757 4.306 4.493 4.493 0 0 0 4.306-1.758M16.5 9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/></svg>
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-3">极致性能</h3>
+                        <h3 class="text-xl font-bold text-white mb-3"><span x-show="lang==='zh'">极致性能</span><span x-show="lang==='en'" x-cloak>Peak Performance</span><span x-show="lang==='ja'" x-cloak>極限性能</span></h3>
                         <p class="text-slate-400 text-sm leading-relaxed">
-                            采用最新的编译优化和边缘计算技术，确保您的应用在全球范围内都能获得毫秒级响应
+                            <span x-show="lang==='zh'">采用最新的编译优化和边缘计算技术，确保您的应用在全球范围内都能获得毫秒级响应</span><span x-show="lang==='en'" x-cloak>Cutting-edge compilation optimization and edge computing ensure millisecond response times worldwide</span><span x-show="lang==='ja'" x-cloak>最新のコンパイル最適化とエッジコンピューティングで、世界中でミリ秒レベルのレスポンスを実現</span>
                         </p>
                     </div>
 
                     <div class="text-center p-6">
-                        <div class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-accent-blue/20 border border-accent-blue/30 flex items-center justify-center text-3xl animate-pulse-border" style="animation-delay: 0.5s;">
-                            <span>&#128295;</span>
+                        <div class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-accent-blue/20 border border-accent-blue/30 flex items-center justify-center animate-pulse-border" style="animation-delay: 0.5s;">
+                            <svg class="w-8 h-8 text-accent-blue" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.049.58.025 1.192-.14 1.743"/></svg>
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-3">易于维护</h3>
+                        <h3 class="text-xl font-bold text-white mb-3"><span x-show="lang==='zh'">易于维护</span><span x-show="lang==='en'" x-cloak>Easy Maintenance</span><span x-show="lang==='ja'" x-cloak>保守性抜群</span></h3>
                         <p class="text-slate-400 text-sm leading-relaxed">
-                            TypeScript + 完善的代码规范，让您的团队接手后也能快速理解和迭代开发
+                            <span x-show="lang==='zh'">TypeScript + 完善的代码规范，让您的团队接手后也能快速理解和迭代开发</span><span x-show="lang==='en'" x-cloak>TypeScript + robust coding standards enable your team to quickly understand and iterate</span><span x-show="lang==='ja'" x-cloak>TypeScript + 完全なコーディング規約で、チームの引き継ぎ後も迅速に理解・開発が可能</span>
                         </p>
                     </div>
 
                     <div class="text-center p-6">
-                        <div class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-accent-purple/20 border border-accent-purple/30 flex items-center justify-center text-3xl animate-pulse-border" style="animation-delay: 1s;">
-                            <span>&#128200;</span>
+                        <div class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-accent-purple/20 border border-accent-purple/30 flex items-center justify-center animate-pulse-border" style="animation-delay: 1s;">
+                            <svg class="w-8 h-8 text-accent-purple" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-3">无限扩展</h3>
+                        <h3 class="text-xl font-bold text-white mb-3"><span x-show="lang==='zh'">无限扩展</span><span x-show="lang==='en'" x-cloak>Infinite Scalability</span><span x-show="lang==='ja'" x-cloak>無限のスケーラビリティ</span></h3>
                         <p class="text-slate-400 text-sm leading-relaxed">
-                            微服务架构 + 云原生设计，从 10 用户到 100 万用户，架构始终稳如泰山
+                            <span x-show="lang==='zh'">微服务架构 + 云原生设计，从 10 用户到 100 万用户，架构始终稳如泰山</span><span x-show="lang==='en'" x-cloak>Microservices + cloud-native design scales rock-solid from 10 to 1 million users</span><span x-show="lang==='ja'" x-cloak>マイクロサービス + クラウドネイティブ設計で、10ユーザーから100万ユーザーまで安定稼働</span>
                         </p>
                     </div>
                 </div>
@@ -671,11 +683,11 @@
         <footer class="cta-footer py-20 text-center relative overflow-hidden" id="contact">
             <div class="absolute inset-0 bg-gradient-to-t from-accent-blue/10 to-transparent pointer-events-none"></div>
             <div class="relative z-10 px-4">
-                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 font-heading">想了解更多技术细节？</h2>
-                <p class="text-slate-400 mb-8 text-lg">我们的工程师随时准备为您解答技术选型问题</p>
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 font-heading"><span x-show="lang==='zh'">想了解更多技术细节？</span><span x-show="lang==='en'" x-cloak>Want More Technical Details?</span><span x-show="lang==='ja'" x-cloak>技術詳細をもっと知りたい？</span></h2>
+                <p class="text-slate-400 mb-8 text-lg"><span x-show="lang==='zh'">我们的工程师随时准备为您解答技术选型问题</span><span x-show="lang==='en'" x-cloak>Our engineers are ready to answer your technical questions anytime</span><span x-show="lang==='ja'" x-cloak>エンジニアがいつでも技術選定のご質問にお答えします</span></p>
                 <a href="index.html#contact"
                     class="inline-block bg-accent-green text-black text-lg px-10 py-4 rounded-full font-bold hover:scale-105 hover:shadow-[0_0_30px_rgba(0,255,163,0.5)] transition duration-300">
-                    预约技术咨询
+                    <span x-show="lang==='zh'">预约技术咨询</span><span x-show="lang==='en'" x-cloak>Book Tech Consultation</span><span x-show="lang==='ja'" x-cloak>技術相談を予約</span>
                 </a>
                 <p class="mt-8 text-slate-600 text-xs">&copy; 2026 ZenCode.jp. All Rights Reserved.</p>
             </div>

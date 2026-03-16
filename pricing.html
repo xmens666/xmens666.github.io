@@ -10,6 +10,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/i18n.js"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&family=Outfit:wght@400;700&display=swap"
@@ -155,118 +156,191 @@
 </head>
 
 <body class="bg-brand-green text-slate-200 selection:bg-accent-green selection:text-black font-sans" x-data="{
+        lang: (localStorage.getItem('zencode_lang') || 'zh'),
         mobileMenuOpen: false,
         filter: 'all',
+        setLang(l) { this.lang = l; applyTranslations(l); },
+        t(key) { const e = I18N[key]; return e ? (e[this.lang] || e.zh || key) : key; },
         packages: [
-            // === AI & 效率工具 (新增) ===
+            // === AI & 效率工具 ===
             {
-                id: 101, title: 'AI 智能客服机器人', cat: 'ai', price: '45.0', unit: '万円',
-                desc: '基于 ChatGPT 训练的企业专属客服。自动回答 90% 的常见问题，支持多语言切换。',
-                features: ['私有知识库训练', '7x24小时自动回复', '转接人工功能', '对话记录分析'],
-                icon: '🤖', badge: 'NEW',
+                id: 101, title: {zh: 'AI 智能客服机器人', en: 'AI Customer Service Bot', ja: 'AI\u30AB\u30B9\u30BF\u30DE\u30FC\u30B5\u30DD\u30FC\u30C8'}, cat: 'ai', price: '45.0', unit: '\u4E07\u5186',
+                desc: {zh: '\u57FA\u4E8E ChatGPT \u8BAD\u7EC3\u7684\u4F01\u4E1A\u4E13\u5C5E\u5BA2\u670D\u3002\u81EA\u52A8\u56DE\u7B54 90% \u7684\u5E38\u89C1\u95EE\u9898\uFF0C\u652F\u6301\u591A\u8BED\u8A00\u5207\u6362\u3002', en: 'Enterprise AI chatbot trained on ChatGPT. Automatically answers 90% of FAQs with multi-language support.', ja: 'ChatGPT\u3092\u30D9\u30FC\u30B9\u306B\u3057\u305F\u4F01\u696D\u5C02\u7528AI\u30C1\u30E3\u30C3\u30C8\u30DC\u30C3\u30C8\u3002FAQ\u306E90%\u3092\u81EA\u52D5\u5FDC\u7B54\u3001\u591A\u8A00\u8A9E\u5BFE\u5FDC\u3002'},
+                features: [
+                    {zh: '\u79C1\u6709\u77E5\u8BC6\u5E93\u8BAD\u7EC3', en: 'Private knowledge base training', ja: '\u30D7\u30E9\u30A4\u30D9\u30FC\u30C8\u30CA\u30EC\u30C3\u30B8\u30D9\u30FC\u30B9\u5B66\u7FD2'},
+                    {zh: '7x24\u5C0F\u65F6\u81EA\u52A8\u56DE\u590D', en: '24/7 auto-reply', ja: '24\u6642\u9593365\u65E5\u81EA\u52D5\u5FDC\u7B54'},
+                    {zh: '\u8F6C\u63A5\u4EBA\u5DE5\u529F\u80FD', en: 'Human handoff', ja: '\u6709\u4EBA\u5BFE\u5FDC\u3078\u306E\u5207\u66FF'},
+                    {zh: '\u5BF9\u8BDD\u8BB0\u5F55\u5206\u6790', en: 'Conversation analytics', ja: '\u4F1A\u8A71\u30ED\u30B0\u5206\u6790'}
+                ],
+                icon: '<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"11\" width=\"18\" height=\"10\" rx=\"2\"/><circle cx=\"12\" cy=\"5\" r=\"2\"/><path d=\"M12 7v4\"/><line x1=\"8\" y1=\"16\" x2=\"8\" y2=\"16\"/><line x1=\"16\" y1=\"16\" x2=\"16\" y2=\"16\"/></svg>', badge: 'NEW',
                 color: 'text-accent-purple', border: 'hover:border-accent-purple/50'
             },
             {
-                id: 102, title: '企业自动化工作流', cat: 'ai', price: '30.0', unit: '万円起',
-                desc: '连接您的各类软件（Line, Slack, Gmail）。实现发票自动归档、客户自动录入。',
-                features: ['Zapier/Make集成', '自动发票OCR识别', 'CRM数据同步', '每日报表推送'],
-                icon: '⚡', badge: 'HOT',
+                id: 102, title: {zh: '\u4F01\u4E1A\u81EA\u52A8\u5316\u5DE5\u4F5C\u6D41', en: 'Enterprise Automation', ja: '\u696D\u52D9\u81EA\u52D5\u5316\u30EF\u30FC\u30AF\u30D5\u30ED\u30FC'}, cat: 'ai', price: '30.0', unit: '\u4E07\u5186\u8D77',
+                desc: {zh: '\u8FDE\u63A5\u60A8\u7684\u5404\u7C7B\u8F6F\u4EF6\uFF08Line, Slack, Gmail\uFF09\u3002\u5B9E\u73B0\u53D1\u7968\u81EA\u52A8\u5F52\u6863\u3001\u5BA2\u6237\u81EA\u52A8\u5F55\u5165\u3002', en: 'Connect your tools (Line, Slack, Gmail). Automate invoice filing, customer data entry, and more.', ja: '\u5404\u7A2E\u30C4\u30FC\u30EB\uFF08Line\u3001Slack\u3001Gmail\uFF09\u3092\u9023\u643A\u3002\u8ACB\u6C42\u66F8\u306E\u81EA\u52D5\u4FDD\u5B58\u3001\u9867\u5BA2\u30C7\u30FC\u30BF\u306E\u81EA\u52D5\u767B\u9332\u3092\u5B9F\u73FE\u3002'},
+                features: [
+                    {zh: 'Zapier/Make\u96C6\u6210', en: 'Zapier/Make integration', ja: 'Zapier/Make\u9023\u643A'},
+                    {zh: '\u81EA\u52A8\u53D1\u7968OCR\u8BC6\u522B', en: 'Auto invoice OCR', ja: '\u8ACB\u6C42\u66F8OCR\u81EA\u52D5\u8AAD\u53D6'},
+                    {zh: 'CRM\u6570\u636E\u540C\u6B65', en: 'CRM data sync', ja: 'CRM\u30C7\u30FC\u30BF\u540C\u671F'},
+                    {zh: '\u6BCF\u65E5\u62A5\u8868\u63A8\u9001', en: 'Daily report push', ja: '\u65E5\u6B21\u30EC\u30DD\u30FC\u30C8\u914D\u4FE1'}
+                ],
+                icon: '<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polygon points=\"13 2 3 14 12 14 11 22 21 10 12 10 13 2\"/></svg>', badge: 'HOT',
                 color: 'text-yellow-400', border: 'hover:border-yellow-400/50'
             },
 
             // === 行业应用 App/SaaS ===
             {
-                id: 1, title: '餐饮点单系统', cat: 'app', price: '68.0', unit: '万円',
-                desc: '彻底取代昂贵的 UberEats。包含扫码点餐、后厨打印、外卖配送范围计算。',
-                features: ['微信/Line小程序', '云打印机对接', '多语言菜单', '会员储值功能'],
-                icon: '🍜', badge: 'HOT',
+                id: 1, title: {zh: '\u9910\u996E\u70B9\u5355\u7CFB\u7EDF', en: 'Restaurant Ordering System', ja: '\u98F2\u98DF\u5E97\u30AA\u30FC\u30C0\u30FC\u30B7\u30B9\u30C6\u30E0'}, cat: 'app', price: '68.0', unit: '\u4E07\u5186',
+                desc: {zh: '\u5F7B\u5E95\u53D6\u4EE3\u6602\u8D35\u7684 UberEats\u3002\u5305\u542B\u626B\u7801\u70B9\u9910\u3001\u540E\u53A8\u6253\u5370\u3001\u5916\u5356\u914D\u9001\u8303\u56F4\u8BA1\u7B97\u3002', en: 'Replace expensive UberEats. Includes QR ordering, kitchen printing, and delivery range calculation.', ja: '\u9AD8\u984D\u306AUberEats\u3092\u5B8C\u5168\u7F6E\u304D\u63DB\u3048\u3002QR\u6CE8\u6587\u3001\u30AD\u30C3\u30C1\u30F3\u5370\u5237\u3001\u914D\u9054\u7BC4\u56F2\u8A08\u7B97\u3092\u542B\u3080\u3002'},
+                features: [
+                    {zh: '\u5FAE\u4FE1/Line\u5C0F\u7A0B\u5E8F', en: 'WeChat/Line mini app', ja: 'WeChat/Line\u30DF\u30CB\u30A2\u30D7\u30EA'},
+                    {zh: '\u4E91\u6253\u5370\u673A\u5BF9\u63A5', en: 'Cloud printer integration', ja: '\u30AF\u30E9\u30A6\u30C9\u30D7\u30EA\u30F3\u30BF\u30FC\u9023\u643A'},
+                    {zh: '\u591A\u8BED\u8A00\u83DC\u5355', en: 'Multi-language menu', ja: '\u591A\u8A00\u8A9E\u30E1\u30CB\u30E5\u30FC'},
+                    {zh: '\u4F1A\u5458\u50A8\u503C\u529F\u80FD', en: 'Member prepaid card', ja: '\u4F1A\u54E1\u30D7\u30EA\u30DA\u30A4\u30C9\u6A5F\u80FD'}
+                ],
+                icon: '<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M18 8h1a4 4 0 0 1 0 8h-1\"/><path d=\"M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z\"/><line x1=\"6\" y1=\"1\" x2=\"6\" y2=\"4\"/><line x1=\"10\" y1=\"1\" x2=\"10\" y2=\"4\"/><line x1=\"14\" y1=\"1\" x2=\"14\" y2=\"4\"/></svg>', badge: 'HOT',
                 color: 'text-orange-500', border: 'hover:border-orange-500/50',
                 link: 'test-index/case-restaurant.html'
             },
             {
-                id: 2, title: '美业/诊所预约', cat: 'app', price: '78.0', unit: '万円',
-                desc: '美容/牙科/整骨院专用。可视化排班、病历管理、术后自动关怀提醒。',
-                features: ['技师/医生指名', '电子病历/卡', 'No-show 预警', 'Line 预约提醒'],
-                icon: '💅', badge: '',
+                id: 2, title: {zh: '\u7F8E\u4E1A/\u8BCA\u6240\u9884\u7EA6', en: 'Beauty/Clinic Booking', ja: '\u30B5\u30ED\u30F3\u30FB\u30AF\u30EA\u30CB\u30C3\u30AF\u4E88\u7D04'}, cat: 'app', price: '78.0', unit: '\u4E07\u5186',
+                desc: {zh: '\u7F8E\u5BB9/\u7259\u79D1/\u6574\u9AA8\u9662\u4E13\u7528\u3002\u53EF\u89C6\u5316\u6392\u73ED\u3001\u75C5\u5386\u7BA1\u7406\u3001\u672F\u540E\u81EA\u52A8\u5173\u6000\u63D0\u9192\u3002', en: 'For beauty salons, dental & chiropractic clinics. Visual scheduling, medical records, auto follow-up reminders.', ja: '\u7F8E\u5BB9/\u6B6F\u79D1/\u6574\u9AA8\u9662\u5C02\u7528\u3002\u30B7\u30D5\u30C8\u7BA1\u7406\u3001\u30AB\u30EB\u30C6\u7BA1\u7406\u3001\u8853\u5F8C\u81EA\u52D5\u30D5\u30A9\u30ED\u30FC\u901A\u77E5\u3002'},
+                features: [
+                    {zh: '\u6280\u5E08/\u533B\u751F\u6307\u540D', en: 'Stylist/doctor selection', ja: '\u30B9\u30BF\u30A4\u30EA\u30B9\u30C8/\u533B\u5E2B\u6307\u540D'},
+                    {zh: '\u7535\u5B50\u75C5\u5386/\u5361', en: 'Digital medical records', ja: '\u96FB\u5B50\u30AB\u30EB\u30C6'},
+                    {zh: 'No-show \u9884\u8B66', en: 'No-show alerts', ja: 'No-show\u30A2\u30E9\u30FC\u30C8'},
+                    {zh: 'Line \u9884\u7EA6\u63D0\u9192', en: 'Line booking reminders', ja: 'Line\u4E88\u7D04\u30EA\u30DE\u30A4\u30F3\u30C0\u30FC'}
+                ],
+                icon: '<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z\"/></svg>', badge: '',
                 color: 'text-pink-500', border: 'hover:border-pink-500/50',
                 link: 'test-index/case-beauty.html'
             },
             {
-                id: 103, title: '健身/瑜伽馆管理', cat: 'app', price: '85.0', unit: '万円',
-                desc: '支持团课预约、私教排课。结合智能门禁硬件，实现24小时无人值守模式。',
-                features: ['课程日历', '会员卡/次卡管理', 'QR扫码入场', '私教分润计算'],
-                icon: '🧘', badge: 'NEW',
+                id: 103, title: {zh: '\u5065\u8EAB/\u745C\u4F3D\u9986\u7BA1\u7406', en: 'Gym/Yoga Management', ja: '\u30B8\u30E0\u30FB\u30E8\u30AC\u30B9\u30BF\u30B8\u30AA\u7BA1\u7406'}, cat: 'app', price: '85.0', unit: '\u4E07\u5186',
+                desc: {zh: '\u652F\u6301\u56E2\u8BFE\u9884\u7EA6\u3001\u79C1\u6559\u6392\u8BFE\u3002\u7ED3\u5408\u667A\u80FD\u95E8\u7981\u786C\u4EF6\uFF0C\u5B9E\u73B024\u5C0F\u65F6\u65E0\u4EBA\u503C\u5B88\u6A21\u5F0F\u3002', en: 'Group class booking & personal training scheduling. Smart access control for 24/7 unmanned operation.', ja: '\u30B0\u30EB\u30FC\u30D7\u30EC\u30C3\u30B9\u30F3\u4E88\u7D04\u30FB\u30D1\u30FC\u30BD\u30CA\u30EB\u30C8\u30EC\u30FC\u30CB\u30F3\u30B0\u7BA1\u7406\u3002\u30B9\u30DE\u30FC\u30C8\u5165\u9000\u5BA4\u7BA1\u7406\u306724\u6642\u9593\u7121\u4EBA\u904B\u55B6\u3002'},
+                features: [
+                    {zh: '\u8BFE\u7A0B\u65E5\u5386', en: 'Class calendar', ja: '\u30EC\u30C3\u30B9\u30F3\u30AB\u30EC\u30F3\u30C0\u30FC'},
+                    {zh: '\u4F1A\u5458\u5361/\u6B21\u5361\u7BA1\u7406', en: 'Membership/punch card', ja: '\u4F1A\u54E1\u30AB\u30FC\u30C9/\u56DE\u6570\u5238\u7BA1\u7406'},
+                    {zh: 'QR\u626B\u7801\u5165\u573A', en: 'QR code check-in', ja: 'QR\u30B3\u30FC\u30C9\u5165\u5834'},
+                    {zh: '\u79C1\u6559\u5206\u6DA6\u8BA1\u7B97', en: 'Trainer commission calc', ja: '\u30C8\u30EC\u30FC\u30CA\u30FC\u6B69\u5408\u8A08\u7B97'}
+                ],
+                icon: '<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M18 20V10\"/><path d=\"M6 20V10\"/><path d=\"M2 14h20\"/><circle cx=\"12\" cy=\"4\" r=\"2\"/></svg>', badge: 'NEW',
                 color: 'text-teal-400', border: 'hover:border-teal-400/50'
             },
             {
-                id: 3, title: '旅游包车/地接', cat: 'app', price: '88.0', unit: '万円',
-                desc: '高端地接社必备。行程拖拽定制、车辆3D展示、司机调度后台。',
-                features: ['行程规划器', '询价单PDF生成', '车辆库存管理', '司机接单App'],
-                icon: '🗻', badge: '',
+                id: 3, title: {zh: '\u65C5\u6E38\u5305\u8F66/\u5730\u63A5', en: 'Travel & Charter', ja: '\u65C5\u884C\u30FB\u30C1\u30E3\u30FC\u30BF\u30FC'}, cat: 'app', price: '88.0', unit: '\u4E07\u5186',
+                desc: {zh: '\u9AD8\u7AEF\u5730\u63A5\u793E\u5FC5\u5907\u3002\u884C\u7A0B\u62D6\u62FD\u5B9A\u5236\u3001\u8F66\u8F863D\u5C55\u793A\u3001\u53F8\u673A\u8C03\u5EA6\u540E\u53F0\u3002', en: 'Essential for premium travel agencies. Drag-and-drop itinerary, 3D vehicle showcase, driver dispatch.', ja: '\u9AD8\u7D1A\u30E9\u30F3\u30C9\u30AA\u30DA\u30EC\u30FC\u30BF\u30FC\u5FC5\u643A\u3002\u884C\u7A0B\u30C9\u30E9\u30C3\u30B0&\u30C9\u30ED\u30C3\u30D7\u7DE8\u96C6\u30013D\u8ECA\u4E21\u5C55\u793A\u3001\u30C9\u30E9\u30A4\u30D0\u30FC\u914D\u8ECA\u7BA1\u7406\u3002'},
+                features: [
+                    {zh: '\u884C\u7A0B\u89C4\u5212\u5668', en: 'Itinerary planner', ja: '\u884C\u7A0B\u30D7\u30E9\u30F3\u30CA\u30FC'},
+                    {zh: '\u8BE2\u4EF7\u5355PDF\u751F\u6210', en: 'Quote PDF generator', ja: '\u898B\u7A4D\u66F8PDF\u751F\u6210'},
+                    {zh: '\u8F66\u8F86\u5E93\u5B58\u7BA1\u7406', en: 'Vehicle inventory', ja: '\u8ECA\u4E21\u5728\u5EAB\u7BA1\u7406'},
+                    {zh: '\u53F8\u673A\u63A5\u5355App', en: 'Driver dispatch app', ja: '\u30C9\u30E9\u30A4\u30D0\u30FC\u914D\u8ECA\u30A2\u30D7\u30EA'}
+                ],
+                icon: '<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 20h18L15 4l-3 6-3-6-6 16z\"/></svg>', badge: '',
                 color: 'text-blue-500', border: 'hover:border-blue-500/50',
                 link: 'test-index/case-travel.html'
             },
             {
-                id: 104, title: '民宿/酒店 PMS', cat: 'app', price: '120.0', unit: '万円',
-                desc: '中小酒店/民宿专用。房态管理、OTA渠道直连（Booking/Airbnb）、保洁排班。',
-                features: ['渠道房态同步', '自助入住平板', '护照扫描上传', '智能门锁联动'],
-                icon: '🏨', badge: 'NEW',
+                id: 104, title: {zh: '\u6C11\u5BBF/\u9152\u5E97 PMS', en: 'Hotel/B&B PMS', ja: '\u6C11\u6CCA\u30FB\u30DB\u30C6\u30EBPMS'}, cat: 'app', price: '120.0', unit: '\u4E07\u5186',
+                desc: {zh: '\u4E2D\u5C0F\u9152\u5E97/\u6C11\u5BBF\u4E13\u7528\u3002\u623F\u6001\u7BA1\u7406\u3001OTA\u6E20\u9053\u76F4\u8FDE\uFF08Booking/Airbnb\uFF09\u3001\u4FDD\u6D01\u6392\u73ED\u3002', en: 'For small hotels & B&Bs. Room status management, OTA channel sync (Booking/Airbnb), housekeeping schedule.', ja: '\u4E2D\u5C0F\u30DB\u30C6\u30EB/\u6C11\u6CCA\u5C02\u7528\u3002\u5BA2\u5BA4\u7BA1\u7406\u3001OTA\u30C1\u30E3\u30CD\u30EB\u9023\u643A\uFF08Booking/Airbnb\uFF09\u3001\u6E05\u6383\u30B7\u30D5\u30C8\u7BA1\u7406\u3002'},
+                features: [
+                    {zh: '\u6E20\u9053\u623F\u6001\u540C\u6B65', en: 'Channel room sync', ja: '\u30C1\u30E3\u30CD\u30EB\u5BA2\u5BA4\u540C\u671F'},
+                    {zh: '\u81EA\u52A9\u5165\u4F4F\u5E73\u677F', en: 'Self check-in tablet', ja: '\u30BB\u30EB\u30D5\u30C1\u30A7\u30C3\u30AF\u30A4\u30F3\u30BF\u30D6\u30EC\u30C3\u30C8'},
+                    {zh: '\u62A4\u7167\u626B\u63CF\u4E0A\u4F20', en: 'Passport scan upload', ja: '\u30D1\u30B9\u30DD\u30FC\u30C8\u30B9\u30AD\u30E3\u30F3'},
+                    {zh: '\u667A\u80FD\u95E8\u9501\u8054\u52A8', en: 'Smart lock integration', ja: '\u30B9\u30DE\u30FC\u30C8\u30ED\u30C3\u30AF\u9023\u643A'}
+                ],
+                icon: '<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 21V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14\"/><path d=\"M3 11h18\"/><path d=\"M9 21V15h6v6\"/></svg>', badge: 'NEW',
                 color: 'text-indigo-400', border: 'hover:border-indigo-400/50'
             },
 
             // === 电商与平台 ===
             {
-                id: 4, title: '跨境电商商城', cat: 'platform', price: '98.0', unit: '万円',
-                desc: '支持直邮/保税仓模式。实时汇率计算、秒杀倒计时、三级分销裂变。',
-                features: ['Stripe/支付宝支付', '物流追踪API', '分销裂变系统', '多币种结算'],
-                icon: '🛍️', badge: '',
+                id: 4, title: {zh: '\u8DE8\u5883\u7535\u5546\u5546\u57CE', en: 'Cross-border E-commerce', ja: '\u8D8A\u5883EC\u30E2\u30FC\u30EB'}, cat: 'platform', price: '98.0', unit: '\u4E07\u5186',
+                desc: {zh: '\u652F\u6301\u76F4\u90AE/\u4FDD\u7A0E\u4ED3\u6A21\u5F0F\u3002\u5B9E\u65F6\u6C47\u7387\u8BA1\u7B97\u3001\u79D2\u6740\u5012\u8BA1\u65F6\u3001\u4E09\u7EA7\u5206\u9500\u88C2\u53D8\u3002', en: 'Supports direct shipping & bonded warehouse. Real-time exchange rates, flash sales, 3-tier distribution.', ja: '\u76F4\u9001/\u4FDD\u7A0E\u5009\u5EAB\u5BFE\u5FDC\u3002\u30EA\u30A2\u30EB\u30BF\u30A4\u30E0\u70BA\u66FF\u8A08\u7B97\u3001\u30BF\u30A4\u30E0\u30BB\u30FC\u30EB\u30013\u968E\u5C64\u30C7\u30A3\u30B9\u30C8\u30EA\u30D3\u30E5\u30FC\u30B7\u30E7\u30F3\u3002'},
+                features: [
+                    {zh: 'Stripe/\u652F\u4ED8\u5B9D\u652F\u4ED8', en: 'Stripe/Alipay payment', ja: 'Stripe/Alipay\u6C7A\u6E08'},
+                    {zh: '\u7269\u6D41\u8FFD\u8E2AAPI', en: 'Logistics tracking API', ja: '\u7269\u6D41\u8FFD\u8DE1API'},
+                    {zh: '\u5206\u9500\u88C2\u53D8\u7CFB\u7EDF', en: 'Distribution system', ja: '\u30C7\u30A3\u30B9\u30C8\u30EA\u30D3\u30E5\u30FC\u30B7\u30E7\u30F3\u30B7\u30B9\u30C6\u30E0'},
+                    {zh: '\u591A\u5E01\u79CD\u7ED3\u7B97', en: 'Multi-currency settlement', ja: '\u591A\u901A\u8CA8\u6C7A\u6E08'}
+                ],
+                icon: '<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"9\" cy=\"21\" r=\"1\"/><circle cx=\"20\" cy=\"21\" r=\"1\"/><path d=\"M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6\"/></svg>', badge: '',
                 color: 'text-purple-500', border: 'hover:border-purple-500/50',
                 link: 'test-index/case-store.html'
             },
             {
-                id: 8, title: '二手车库存 ERP', cat: 'platform', price: '150.0', unit: '万円~',
-                desc: '车行专用 ERP。贷款计算器、车况检测报告生成、多店库存调拨。',
-                features: ['古物台账生成', '车检提醒', '进销存管理', '多店权限控制'],
-                icon: '🏎️', badge: '',
+                id: 8, title: {zh: '\u4E8C\u624B\u8F66\u5E93\u5B58 ERP', en: 'Used Car ERP', ja: '\u4E2D\u53E4\u8ECA\u5728\u5EABERP'}, cat: 'platform', price: '150.0', unit: '\u4E07\u5186~',
+                desc: {zh: '\u8F66\u884C\u4E13\u7528 ERP\u3002\u8D37\u6B3E\u8BA1\u7B97\u5668\u3001\u8F66\u51B5\u68C0\u6D4B\u62A5\u544A\u751F\u6210\u3001\u591A\u5E97\u5E93\u5B58\u8C03\u62E8\u3002', en: 'Dealer ERP. Loan calculator, vehicle inspection reports, multi-store inventory transfer.', ja: '\u30C7\u30A3\u30FC\u30E9\u30FC\u5C02\u7528ERP\u3002\u30ED\u30FC\u30F3\u8A08\u7B97\u6A5F\u3001\u8ECA\u4E21\u691C\u67FB\u30EC\u30DD\u30FC\u30C8\u751F\u6210\u3001\u591A\u5E97\u8217\u5728\u5EAB\u7BA1\u7406\u3002'},
+                features: [
+                    {zh: '\u53E4\u7269\u53F0\u8D26\u751F\u6210', en: 'Antique ledger generation', ja: '\u53E4\u7269\u53F0\u5E33\u751F\u6210'},
+                    {zh: '\u8F66\u68C0\u63D0\u9192', en: 'Inspection reminders', ja: '\u8ECA\u691C\u30EA\u30DE\u30A4\u30F3\u30C0\u30FC'},
+                    {zh: '\u8FDB\u9500\u5B58\u7BA1\u7406', en: 'Inventory management', ja: '\u5728\u5EAB\u7BA1\u7406'},
+                    {zh: '\u591A\u5E97\u6743\u9650\u63A7\u5236', en: 'Multi-store access control', ja: '\u591A\u5E97\u8217\u6A29\u9650\u7BA1\u7406'}
+                ],
+                icon: '<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 17m-2 0a2 2 0 1 0 4 0 2 2 0 1 0-4 0\"/><path d=\"M17 17m-2 0a2 2 0 1 0 4 0 2 2 0 1 0-4 0\"/><path d=\"M5 17H3v-6l2-5h9l4 5h1a2 2 0 0 1 2 2v4h-2\"/><path d=\"M9 17h6\"/></svg>', badge: '',
                 color: 'text-red-500', border: 'hover:border-red-500/50',
                 link: 'test-index/case-cars.html'
             },
             {
-                id: 9, title: '不动产找房平台', cat: 'platform', price: '280.0', unit: '万円~',
-                desc: '类似 Suumo 的垂直平台。地图找房、VR 看房集成、复杂的筛选算法。',
-                features: ['地图找房', 'VR/全景看房', '房源爬虫工具', '经纪人后台'],
-                icon: '🏠', badge: '',
+                id: 9, title: {zh: '\u4E0D\u52A8\u4EA7\u627E\u623F\u5E73\u53F0', en: 'Real Estate Platform', ja: '\u4E0D\u52D5\u7523\u691C\u7D22\u30D7\u30E9\u30C3\u30C8\u30D5\u30A9\u30FC\u30E0'}, cat: 'platform', price: '280.0', unit: '\u4E07\u5186~',
+                desc: {zh: '\u7C7B\u4F3C Suumo \u7684\u5782\u76F4\u5E73\u53F0\u3002\u5730\u56FE\u627E\u623F\u3001VR \u770B\u623F\u96C6\u6210\u3001\u590D\u6742\u7684\u7B5B\u9009\u7B97\u6CD5\u3002', en: 'Suumo-like vertical platform. Map search, VR tours, advanced filtering algorithms.', ja: 'Suumo\u306E\u3088\u3046\u306A\u7279\u5316\u578B\u30D7\u30E9\u30C3\u30C8\u30D5\u30A9\u30FC\u30E0\u3002\u5730\u56F3\u691C\u7D22\u3001VR\u5185\u898B\u3001\u9AD8\u5EA6\u306A\u7D5E\u308A\u8FBC\u307F\u30A2\u30EB\u30B4\u30EA\u30BA\u30E0\u3002'},
+                features: [
+                    {zh: '\u5730\u56FE\u627E\u623F', en: 'Map property search', ja: '\u5730\u56F3\u691C\u7D22'},
+                    {zh: 'VR/\u5168\u666F\u770B\u623F', en: 'VR/panoramic tours', ja: 'VR/\u30D1\u30CE\u30E9\u30DE\u5185\u898B'},
+                    {zh: '\u623F\u6E90\u722C\u866B\u5DE5\u5177', en: 'Property scraper tool', ja: '\u7269\u4EF6\u30B9\u30AF\u30EC\u30A4\u30D4\u30F3\u30B0\u30C4\u30FC\u30EB'},
+                    {zh: '\u7ECF\u7EAA\u4EBA\u540E\u53F0', en: 'Agent dashboard', ja: '\u30A8\u30FC\u30B8\u30A7\u30F3\u30C8\u7BA1\u7406\u753B\u9762'}
+                ],
+                icon: '<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/><polyline points=\"9 22 9 12 15 12 15 22\"/></svg>', badge: '',
                 color: 'text-emerald-500', border: 'hover:border-emerald-500/50',
                 link: 'test-index/case-realestate.html'
             },
              {
-                id: 105, title: '求职招聘平台', cat: 'platform', price: '180.0', unit: '万円',
-                desc: '针对特定行业（如IT/护理）的招聘站。包含简历解析、在线聊天、面试安排。',
-                features: ['简历在线预览', '企业主后台', '职位推荐算法', '站内直聊'],
-                icon: '💼', badge: '',
+                id: 105, title: {zh: '\u6C42\u804C\u62DB\u8058\u5E73\u53F0', en: 'Job Recruitment Platform', ja: '\u6C42\u4EBA\u30D7\u30E9\u30C3\u30C8\u30D5\u30A9\u30FC\u30E0'}, cat: 'platform', price: '180.0', unit: '\u4E07\u5186',
+                desc: {zh: '\u9488\u5BF9\u7279\u5B9A\u884C\u4E1A\uFF08\u5982IT/\u62A4\u7406\uFF09\u7684\u62DB\u8058\u7AD9\u3002\u5305\u542B\u7B80\u5386\u89E3\u6790\u3001\u5728\u7EBF\u804A\u5929\u3001\u9762\u8BD5\u5B89\u6392\u3002', en: 'Industry-specific job site (IT, nursing, etc). Resume parsing, in-app chat, interview scheduling.', ja: '\u7279\u5B9A\u696D\u754C\uFF08IT/\u4ECB\u8B77\u7B49\uFF09\u5411\u3051\u6C42\u4EBA\u30B5\u30A4\u30C8\u3002\u5C65\u6B74\u66F8\u89E3\u6790\u3001\u30A2\u30D7\u30EA\u5185\u30C1\u30E3\u30C3\u30C8\u3001\u9762\u63A5\u30B9\u30B1\u30B8\u30E5\u30FC\u30EB\u7BA1\u7406\u3002'},
+                features: [
+                    {zh: '\u7B80\u5386\u5728\u7EBF\u9884\u89C8', en: 'Online resume preview', ja: '\u5C65\u6B74\u66F8\u30AA\u30F3\u30E9\u30A4\u30F3\u30D7\u30EC\u30D3\u30E5\u30FC'},
+                    {zh: '\u4F01\u4E1A\u4E3B\u540E\u53F0', en: 'Employer dashboard', ja: '\u4F01\u696D\u7BA1\u7406\u753B\u9762'},
+                    {zh: '\u804C\u4F4D\u63A8\u8350\u7B97\u6CD5', en: 'Job recommendation engine', ja: '\u6C42\u4EBA\u30EC\u30B3\u30E1\u30F3\u30C9\u30A8\u30F3\u30B8\u30F3'},
+                    {zh: '\u7AD9\u5185\u76F4\u804A', en: 'In-app messaging', ja: '\u30A2\u30D7\u30EA\u5185\u30E1\u30C3\u30BB\u30FC\u30B8'}
+                ],
+                icon: '<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"2\" y=\"7\" width=\"20\" height=\"14\" rx=\"2\" ry=\"2\"/><path d=\"M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16\"/></svg>', badge: '',
                 color: 'text-sky-500', border: 'hover:border-sky-500/50'
             },
 
             // === 基础 Web 建设 ===
             {
-                id: 6, title: '企业品牌官网', cat: 'web', price: '25.0', unit: '万円',
-                desc: '在日企业的数字名片。响应式设计，适配手机/电脑，SEO 基础优化。',
-                features: ['高端UI设计', 'SEO基础配置', '询盘表单', 'CMS内容管理'],
-                icon: '🏢', badge: '',
+                id: 6, title: {zh: '\u4F01\u4E1A\u54C1\u724C\u5B98\u7F51', en: 'Corporate Website', ja: '\u4F01\u696D\u30D6\u30E9\u30F3\u30C9\u30B5\u30A4\u30C8'}, cat: 'web', price: '25.0', unit: '\u4E07\u5186',
+                desc: {zh: '\u5728\u65E5\u4F01\u4E1A\u7684\u6570\u5B57\u540D\u7247\u3002\u54CD\u5E94\u5F0F\u8BBE\u8BA1\uFF0C\u9002\u914D\u624B\u673A/\u7535\u8111\uFF0CSEO \u57FA\u7840\u4F18\u5316\u3002', en: 'Your digital business card in Japan. Responsive design for mobile & desktop with basic SEO.', ja: '\u5728\u65E5\u4F01\u696D\u306E\u30C7\u30B8\u30BF\u30EB\u540D\u523A\u3002\u30EC\u30B9\u30DD\u30F3\u30B7\u30D6\u30C7\u30B6\u30A4\u30F3\u3001SEO\u57FA\u672C\u8A2D\u5B9A\u6E08\u307F\u3002'},
+                features: [
+                    {zh: '\u9AD8\u7AEFUI\u8BBE\u8BA1', en: 'Premium UI design', ja: '\u30CF\u30A4\u30A8\u30F3\u30C9UI\u30C7\u30B6\u30A4\u30F3'},
+                    {zh: 'SEO\u57FA\u7840\u914D\u7F6E', en: 'Basic SEO setup', ja: 'SEO\u57FA\u672C\u8A2D\u5B9A'},
+                    {zh: '\u8BE2\u76D8\u8868\u5355', en: 'Inquiry form', ja: '\u304A\u554F\u3044\u5408\u308F\u305B\u30D5\u30A9\u30FC\u30E0'},
+                    {zh: 'CMS\u5185\u5BB9\u7BA1\u7406', en: 'CMS content management', ja: 'CMS\u30B3\u30F3\u30C6\u30F3\u30C4\u7BA1\u7406'}
+                ],
+                icon: '<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"4\" y=\"2\" width=\"16\" height=\"20\" rx=\"2\" ry=\"2\"/><line x1=\"9\" y1=\"6\" x2=\"9\" y2=\"6.01\"/><line x1=\"15\" y1=\"6\" x2=\"15\" y2=\"6.01\"/><line x1=\"9\" y1=\"10\" x2=\"9\" y2=\"10.01\"/><line x1=\"15\" y1=\"10\" x2=\"15\" y2=\"10.01\"/><line x1=\"9\" y1=\"14\" x2=\"9\" y2=\"14.01\"/><line x1=\"15\" y1=\"14\" x2=\"15\" y2=\"14.01\"/><path d=\"M9 18h6\"/></svg>', badge: '',
                 color: 'text-slate-300', border: 'hover:border-slate-300/50'
             },
             {
-                id: 7, title: '广告落地页 (LP)', cat: 'web', price: '12.0', unit: '万円',
-                desc: '专为广告投放设计。高转化率单页，适合展会、单一产品推广。',
-                features: ['A/B测试支持', '极速加载优化', '转化埋点', '动效设计'],
-                icon: '📑', badge: '',
+                id: 7, title: {zh: '\u5E7F\u544A\u843D\u5730\u9875 (LP)', en: 'Landing Page (LP)', ja: 'LP\uFF08\u30E9\u30F3\u30C7\u30A3\u30F3\u30B0\u30DA\u30FC\u30B8\uFF09'}, cat: 'web', price: '12.0', unit: '\u4E07\u5186',
+                desc: {zh: '\u4E13\u4E3A\u5E7F\u544A\u6295\u653E\u8BBE\u8BA1\u3002\u9AD8\u8F6C\u5316\u7387\u5355\u9875\uFF0C\u9002\u5408\u5C55\u4F1A\u3001\u5355\u4E00\u4EA7\u54C1\u63A8\u5E7F\u3002', en: 'Designed for ad campaigns. High-conversion single page for events and product promotion.', ja: '\u5E83\u544A\u904B\u7528\u5C02\u7528\u8A2D\u8A08\u3002\u9AD8\u30B3\u30F3\u30D0\u30FC\u30B8\u30E7\u30F3\u306E\u5358\u4E00\u30DA\u30FC\u30B8\u3001\u5C55\u793A\u4F1A\u3084\u5546\u54C1\u30D7\u30ED\u30E2\u30FC\u30B7\u30E7\u30F3\u306B\u6700\u9069\u3002'},
+                features: [
+                    {zh: 'A/B\u6D4B\u8BD5\u652F\u6301', en: 'A/B testing support', ja: 'A/B\u30C6\u30B9\u30C8\u5BFE\u5FDC'},
+                    {zh: '\u6781\u901F\u52A0\u8F7D\u4F18\u5316', en: 'Ultra-fast loading', ja: '\u8D85\u9AD8\u901F\u8AAD\u307F\u8FBC\u307F'},
+                    {zh: '\u8F6C\u5316\u57CB\u70B9', en: 'Conversion tracking', ja: '\u30B3\u30F3\u30D0\u30FC\u30B8\u30E7\u30F3\u30C8\u30E9\u30C3\u30AD\u30F3\u30B0'},
+                    {zh: '\u52A8\u6548\u8BBE\u8BA1', en: 'Motion design', ja: '\u30E2\u30FC\u30B7\u30E7\u30F3\u30C7\u30B6\u30A4\u30F3'}
+                ],
+                icon: '<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z\"/><polyline points=\"14 2 14 8 20 8\"/><line x1=\"16\" y1=\"13\" x2=\"8\" y2=\"13\"/><line x1=\"16\" y1=\"17\" x2=\"8\" y2=\"17\"/></svg>', badge: '',
                 color: 'text-cyan-400', border: 'hover:border-cyan-400/50'
             },
             {
-                id: 106, title: 'SEO/MEO 优化包', cat: 'web', price: '5.0', unit: '万円/月',
-                desc: '非开发类服务。提升 Google 排名，优化 Google Map 店铺展示。',
-                features: ['关键词挖掘', '外链建设', 'Google商家优化', '月度数据报告'],
-                icon: '📈', badge: '',
+                id: 106, title: {zh: 'SEO/MEO \u4F18\u5316\u5305', en: 'SEO/MEO Package', ja: 'SEO/MEO\u6700\u9069\u5316\u30D1\u30C3\u30AF'}, cat: 'web', price: '5.0', unit: '\u4E07\u5186/\u6708',
+                desc: {zh: '\u975E\u5F00\u53D1\u7C7B\u670D\u52A1\u3002\u63D0\u5347 Google \u6392\u540D\uFF0C\u4F18\u5316 Google Map \u5E97\u94FA\u5C55\u793A\u3002', en: 'Non-development service. Boost Google rankings and optimize Google Maps business listing.', ja: '\u975E\u958B\u767A\u30B5\u30FC\u30D3\u30B9\u3002Google\u691C\u7D22\u9806\u4F4D\u5411\u4E0A\u3001Google\u30DE\u30C3\u30D7\u5E97\u8217\u6700\u9069\u5316\u3002'},
+                features: [
+                    {zh: '\u5173\u952E\u8BCD\u6316\u6398', en: 'Keyword research', ja: '\u30AD\u30FC\u30EF\u30FC\u30C9\u8ABF\u67FB'},
+                    {zh: '\u5916\u94FE\u5EFA\u8BBE', en: 'Backlink building', ja: '\u88AB\u30EA\u30F3\u30AF\u69CB\u7BC9'},
+                    {zh: 'Google\u5546\u5BB6\u4F18\u5316', en: 'Google Business optimization', ja: 'Google\u30D3\u30B8\u30CD\u30B9\u6700\u9069\u5316'},
+                    {zh: '\u6708\u5EA6\u6570\u636E\u62A5\u544A', en: 'Monthly data report', ja: '\u6708\u6B21\u30C7\u30FC\u30BF\u30EC\u30DD\u30FC\u30C8'}
+                ],
+                icon: '<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"22 12 18 12 15 21 9 3 6 12 2 12\"/></svg>', badge: '',
                 color: 'text-lime-400', border: 'hover:border-lime-400/50'
             }
         ]
@@ -287,18 +361,22 @@
                         <span class="text-white/30 font-light">Pro</span>
                     </a>
                     <div class="hidden md:flex items-center gap-2 ml-auto mr-6">
-                        <a href="index.html" class="glass-nav-btn glass-nav-blue">首页</a>
-                        <a href="solutions.html" class="glass-nav-btn glass-nav-blue">解决方案</a>
-                        <a href="pricing.html" class="glass-nav-btn glass-nav-green glass-nav-active">服务定价</a>
-                        <a href="techstack.html" class="glass-nav-btn glass-nav-blue">技术栈</a>
-                        <a href="cases.html" class="glass-nav-btn glass-nav-purple">成功案例</a>
-                        <a href="experience/experience.html" class="glass-nav-btn glass-nav-orange">小程序演示</a>
-                        <a href="about.html" class="glass-nav-btn glass-nav-pink">关于我们</a>
+                        <a href="index.html" class="glass-nav-btn glass-nav-blue"><span x-show="lang==='zh'">首页</span><span x-show="lang==='en'" x-cloak>Home</span><span x-show="lang==='ja'" x-cloak>ホーム</span></a>
+                        <a href="solutions.html" class="glass-nav-btn glass-nav-blue"><span x-show="lang==='zh'">解决方案</span><span x-show="lang==='en'" x-cloak>Solutions</span><span x-show="lang==='ja'" x-cloak>ソリューション</span></a>
+                        <a href="pricing.html" class="glass-nav-btn glass-nav-green glass-nav-active"><span x-show="lang==='zh'">服务定价</span><span x-show="lang==='en'" x-cloak>Pricing</span><span x-show="lang==='ja'" x-cloak>料金プラン</span></a>
+                        <a href="techstack.html" class="glass-nav-btn glass-nav-blue"><span x-show="lang==='zh'">技术栈</span><span x-show="lang==='en'" x-cloak>Tech Stack</span><span x-show="lang==='ja'" x-cloak>技術スタック</span></a>
+                        <a href="cases.html" class="glass-nav-btn glass-nav-purple"><span x-show="lang==='zh'">成功案例</span><span x-show="lang==='en'" x-cloak>Cases</span><span x-show="lang==='ja'" x-cloak>実績</span></a>
+                        <a href="experience/experience.html" class="glass-nav-btn glass-nav-orange"><span x-show="lang==='zh'">小程序演示</span><span x-show="lang==='en'" x-cloak>Mini App Demo</span><span x-show="lang==='ja'" x-cloak>ミニアプリ</span></a>
+                        <a href="about.html" class="glass-nav-btn glass-nav-pink"><span x-show="lang==='zh'">关于我们</span><span x-show="lang==='en'" x-cloak>About</span><span x-show="lang==='ja'" x-cloak>会社概要</span></a>
                     </div>
                     <div class="flex items-center gap-4">
+                        <button class="hidden md:inline-flex items-center glass-nav-btn glass-nav-blue" @click="setLang(lang === 'zh' ? 'en' : lang === 'en' ? 'ja' : 'zh')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                            <span x-text="lang === 'zh' ? '中文' : lang === 'en' ? 'EN' : '日本語'" style="margin-left:4px"></span>
+                        </button>
                         <a href="contact.html"
                             class="hidden md:inline-block bg-white text-black px-6 py-2 rounded-full font-bold text-sm hover:bg-accent-green hover:shadow-[0_0_15px_rgba(0,255,163,0.4)] transition duration-300">
-                            免费咨询
+                            <span x-show="lang==='zh'">免费咨询</span><span x-show="lang==='en'" x-cloak>Free Consultation</span><span x-show="lang==='ja'" x-cloak>無料相談</span>
                         </a>
                         <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 text-white flex items-center justify-center hover:bg-white/20 transition">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -343,39 +421,46 @@
                     <nav class="flex flex-col gap-1">
                         <a href="index.html" @click="mobileMenuOpen = false"
                             class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                            首页
+                            <span x-show="lang==='zh'">首页</span><span x-show="lang==='en'" x-cloak>Home</span><span x-show="lang==='ja'" x-cloak>ホーム</span>
                         </a>
                         <a href="solutions.html" @click="mobileMenuOpen = false"
                             class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                            解决方案
+                            <span x-show="lang==='zh'">解决方案</span><span x-show="lang==='en'" x-cloak>Solutions</span><span x-show="lang==='ja'" x-cloak>ソリューション</span>
                         </a>
                         <a href="pricing.html" @click="mobileMenuOpen = false"
                             class="text-base font-bold text-accent-green bg-accent-green/10 py-3 px-4 rounded-lg">
-                            服务定价
+                            <span x-show="lang==='zh'">服务定价</span><span x-show="lang==='en'" x-cloak>Pricing</span><span x-show="lang==='ja'" x-cloak>料金プラン</span>
                         </a>
                         <a href="techstack.html" @click="mobileMenuOpen = false"
                             class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                            技术栈
+                            <span x-show="lang==='zh'">技术栈</span><span x-show="lang==='en'" x-cloak>Tech Stack</span><span x-show="lang==='ja'" x-cloak>技術スタック</span>
                         </a>
                         <a href="cases.html" @click="mobileMenuOpen = false"
                             class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                            成功案例
+                            <span x-show="lang==='zh'">成功案例</span><span x-show="lang==='en'" x-cloak>Cases</span><span x-show="lang==='ja'" x-cloak>実績</span>
                         </a>
                         <a href="experience/experience.html" @click="mobileMenuOpen = false"
                             class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                            小程序演示
+                            <span x-show="lang==='zh'">小程序演示</span><span x-show="lang==='en'" x-cloak>Mini App Demo</span><span x-show="lang==='ja'" x-cloak>ミニアプリ</span>
                         </a>
                         <a href="about.html" @click="mobileMenuOpen = false"
                             class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
-                            关于我们
+                            <span x-show="lang==='zh'">关于我们</span><span x-show="lang==='en'" x-cloak>About</span><span x-show="lang==='ja'" x-cloak>会社概要</span>
                         </a>
                     </nav>
+
+                    <!-- Language Switcher -->
+                    <div class="flex gap-2 px-4 mt-4">
+                        <button @click="setLang('zh');mobileMenuOpen=false" class="flex-1 py-2 rounded-lg text-sm font-bold transition" :class="lang==='zh' ? 'bg-accent-green/20 text-accent-green border border-accent-green/50' : 'bg-white/5 text-white/50 border border-white/10'">中文</button>
+                        <button @click="setLang('en');mobileMenuOpen=false" class="flex-1 py-2 rounded-lg text-sm font-bold transition" :class="lang==='en' ? 'bg-accent-green/20 text-accent-green border border-accent-green/50' : 'bg-white/5 text-white/50 border border-white/10'">EN</button>
+                        <button @click="setLang('ja');mobileMenuOpen=false" class="flex-1 py-2 rounded-lg text-sm font-bold transition" :class="lang==='ja' ? 'bg-accent-green/20 text-accent-green border border-accent-green/50' : 'bg-white/5 text-white/50 border border-white/10'">日本語</button>
+                    </div>
 
                     <!-- CTA Button -->
                     <div class="mt-8 px-4">
                         <a href="contact.html" @click="mobileMenuOpen = false"
                             class="block w-full text-center py-3 rounded-full bg-gradient-to-r from-accent-green to-teal-500 text-black font-bold text-sm shadow-lg shadow-accent-green/30">
-                            免费咨询方案
+                            <span x-show="lang==='zh'">免费咨询方案</span><span x-show="lang==='en'" x-cloak>Get Free Quote</span><span x-show="lang==='ja'" x-cloak>無料見積り</span>
                         </a>
                     </div>
                 </div>
@@ -388,21 +473,39 @@
                 <div
                     class="inline-flex items-center gap-2 px-3 py-1 border border-accent-green/30 rounded-full text-xs font-mono text-accent-green mb-6 bg-accent-green/5 backdrop-blur-sm">
                     <span class="w-2 h-2 rounded-full bg-accent-green animate-pulse"></span>
-                    2026 全新报价单 · 拒绝隐形消费
+                    <span x-show="lang==='zh'">2026 全新报价单 · 拒绝隐形消费</span>
+                    <span x-show="lang==='en'" x-cloak>2026 New Price List · No Hidden Fees</span>
+                    <span x-show="lang==='ja'" x-cloak>2026 最新料金表 · 追加費用なし</span>
                 </div>
 
                 <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 font-heading tracking-tight leading-tight">
-                    全源码交付的
+                    <span x-show="lang==='zh'">全源码交付的</span>
+                    <span x-show="lang==='en'" x-cloak>Full Source Code</span>
+                    <span x-show="lang==='ja'" x-cloak>ソースコード完全納品の</span>
                     <span
                         class="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-accent-green via-teal-200 to-accent-blue">
-                        极致性价比
+                        <span x-show="lang==='zh'">极致性价比</span>
+                        <span x-show="lang==='en'" x-cloak>Best Value</span>
+                        <span x-show="lang==='ja'" x-cloak>圧倒的コスパ</span>
                     </span>
                 </h1>
 
                 <p class="text-slate-400 max-w-xl mx-auto text-sm md:text-lg font-light leading-relaxed">
-                    无论是初创公司的 MVP，还是大型企业的 ERP。<br>
-                    ZenCode 提供：<br class="md:hidden">日本市场 <span class="text-white font-bold border-b border-accent-green">1/3 的价格</span>，交付 <span
-                        class="text-white font-bold border-b border-accent-green">3 倍的质量</span>。
+                    <span x-show="lang==='zh'">
+                        无论是初创公司的 MVP，还是大型企业的 ERP。<br>
+                        ZenCode 提供：<br class="md:hidden">日本市场 <span class="text-white font-bold border-b border-accent-green">1/3 的价格</span>，交付 <span
+                            class="text-white font-bold border-b border-accent-green">3 倍的质量</span>。
+                    </span>
+                    <span x-show="lang==='en'" x-cloak>
+                        From startup MVPs to enterprise ERPs.<br>
+                        ZenCode delivers: <br class="md:hidden"><span class="text-white font-bold border-b border-accent-green">1/3 the price</span> of Japan market, <span
+                            class="text-white font-bold border-b border-accent-green">3x the quality</span>.
+                    </span>
+                    <span x-show="lang==='ja'" x-cloak>
+                        スタートアップのMVPから大企業のERPまで。<br>
+                        ZenCodeは：<br class="md:hidden">日本市場の<span class="text-white font-bold border-b border-accent-green">1/3の価格</span>で、<span
+                            class="text-white font-bold border-b border-accent-green">3倍の品質</span>を提供。
+                    </span>
                 </p>
             </div>
         </header>
@@ -413,20 +516,19 @@
                 class="flex flex-wrap justify-center gap-2 mb-12 sticky top-24 z-40 py-4 bg-brand-green/50 backdrop-blur-sm rounded-2xl border border-white/5 lg:w-fit lg:mx-auto lg:px-8">
                 <button @click="filter = 'all'"
                     :class="filter === 'all' ? 'bg-white text-black' : 'text-slate-400 hover:text-white bg-white/5'"
-                    class="px-5 py-2 rounded-full text-sm font-bold transition-all">全部</button>
+                    class="px-5 py-2 rounded-full text-sm font-bold transition-all"><span x-show="lang==='zh'">全部</span><span x-show="lang==='en'" x-cloak>All</span><span x-show="lang==='ja'" x-cloak>すべて</span></button>
                 <button @click="filter = 'app'"
                     :class="filter === 'app' ? 'bg-white text-black' : 'text-slate-400 hover:text-white bg-white/5'"
-                    class="px-5 py-2 rounded-full text-sm font-bold transition-all">行业系统</button>
+                    class="px-5 py-2 rounded-full text-sm font-bold transition-all"><span x-show="lang==='zh'">行业系统</span><span x-show="lang==='en'" x-cloak>Industry</span><span x-show="lang==='ja'" x-cloak>業界システム</span></button>
                 <button @click="filter = 'platform'"
                     :class="filter === 'platform' ? 'bg-white text-black' : 'text-slate-400 hover:text-white bg-white/5'"
-                    class="px-5 py-2 rounded-full text-sm font-bold transition-all">大型平台</button>
+                    class="px-5 py-2 rounded-full text-sm font-bold transition-all"><span x-show="lang==='zh'">大型平台</span><span x-show="lang==='en'" x-cloak>Platform</span><span x-show="lang==='ja'" x-cloak>大型プラットフォーム</span></button>
                 <button @click="filter = 'ai'"
                     :class="filter === 'ai' ? 'bg-white text-black' : 'text-slate-400 hover:text-white bg-white/5'"
-                    class="px-5 py-2 rounded-full text-sm font-bold transition-all flex items-center gap-1"><span
-                        class="text-xs">✨</span> AI & 效率</button>
+                    class="px-5 py-2 rounded-full text-sm font-bold transition-all flex items-center gap-1"><span class="text-xs"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z"/></svg></span> <span x-show="lang==='zh'">AI & 效率</span><span x-show="lang==='en'" x-cloak>AI & Tools</span><span x-show="lang==='ja'" x-cloak>AI＆効率化</span></button>
                 <button @click="filter = 'web'"
                     :class="filter === 'web' ? 'bg-white text-black' : 'text-slate-400 hover:text-white bg-white/5'"
-                    class="px-5 py-2 rounded-full text-sm font-bold transition-all">官网建设</button>
+                    class="px-5 py-2 rounded-full text-sm font-bold transition-all"><span x-show="lang==='zh'">官网建设</span><span x-show="lang==='en'" x-cloak>Website</span><span x-show="lang==='ja'" x-cloak>Web制作</span></button>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -447,7 +549,7 @@
                         <div class="flex justify-between items-start mb-5">
                             <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl bg-white/5 border border-white/5 transition duration-300 group-hover:scale-110"
                                 :class="item.color">
-                                <span x-text="item.icon"></span>
+                                <span x-html="item.icon"></span>
                             </div>
                             <div class="text-right">
                                 <div class="font-heading font-bold text-3xl text-white tracking-tight">
@@ -458,8 +560,8 @@
                             </div>
                         </div>
 
-                        <h3 class="text-xl font-bold text-white mb-2" x-text="item.title"></h3>
-                        <p class="text-slate-400 text-sm mb-6 leading-relaxed line-clamp-3" x-text="item.desc"></p>
+                        <h3 class="text-xl font-bold text-white mb-2" x-text="item.title[lang]"></h3>
+                        <p class="text-slate-400 text-sm mb-6 leading-relaxed line-clamp-3" x-text="item.desc[lang]"></p>
 
                         <div class="mt-auto space-y-3 pt-6 border-t border-dashed border-white/10">
                             <template x-for="feature in item.features">
@@ -469,7 +571,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M5 13l4 4L19 7"></path>
                                     </svg>
-                                    <span x-text="feature"></span>
+                                    <span x-text="feature[lang]"></span>
                                 </div>
                             </template>
                         </div>
@@ -477,13 +579,13 @@
                         <template x-if="item.link">
                             <a :href="item.link"
                                 class="mt-6 w-full py-2.5 rounded-lg border border-white/10 text-sm font-bold text-slate-300 hover:bg-white hover:text-black transition duration-300 block text-center">
-                                查看案例
+                                <span x-show="lang==='zh'">查看案例</span><span x-show="lang==='en'" x-cloak>View Case</span><span x-show="lang==='ja'" x-cloak>事例を見る</span>
                             </a>
                         </template>
                         <template x-if="!item.link">
                             <a href="contact.html"
                                 class="mt-6 w-full py-2.5 rounded-lg border border-white/10 text-sm font-bold text-slate-300 hover:bg-white hover:text-black transition duration-300 block text-center">
-                                咨询定制
+                                <span x-show="lang==='zh'">咨询定制</span><span x-show="lang==='en'" x-cloak>Get Quote</span><span x-show="lang==='ja'" x-cloak>お見積り</span>
                             </a>
                         </template>
                     </div>
@@ -494,47 +596,89 @@
 
         <section class="border-t border-white/5 bg-white/[0.02] py-20">
             <div class="max-w-5xl mx-auto px-4">
-                <h2 class="text-3xl font-bold text-white text-center mb-12">服务等级对比</h2>
+                <h2 class="text-3xl font-bold text-white text-center mb-12">
+                    <span x-show="lang==='zh'">服务等级对比</span><span x-show="lang==='en'" x-cloak>Service Tier Comparison</span><span x-show="lang==='ja'" x-cloak>サービスレベル比較</span>
+                </h2>
                 <div class="overflow-x-auto rounded-xl border border-white/10">
                     <table class="w-full text-left text-sm text-slate-400">
                         <thead class="bg-white/5 text-white uppercase font-bold text-xs">
                             <tr>
-                                <th class="px-6 py-4">功能项目</th>
-                                <th class="px-6 py-4 text-center text-slate-300">基础官网 (Web)</th>
-                                <th class="px-6 py-4 text-center text-accent-green">行业应用 (App)</th>
-                                <th class="px-6 py-4 text-center text-accent-purple">定制平台 (Platform)</th>
+                                <th class="px-6 py-4">
+                                    <span x-show="lang==='zh'">功能项目</span><span x-show="lang==='en'" x-cloak>Feature</span><span x-show="lang==='ja'" x-cloak>機能項目</span>
+                                </th>
+                                <th class="px-6 py-4 text-center text-slate-300">
+                                    <span x-show="lang==='zh'">基础官网 (Web)</span><span x-show="lang==='en'" x-cloak>Basic Website (Web)</span><span x-show="lang==='ja'" x-cloak>基本サイト (Web)</span>
+                                </th>
+                                <th class="px-6 py-4 text-center text-accent-green">
+                                    <span x-show="lang==='zh'">行业应用 (App)</span><span x-show="lang==='en'" x-cloak>Industry App (App)</span><span x-show="lang==='ja'" x-cloak>業界アプリ (App)</span>
+                                </th>
+                                <th class="px-6 py-4 text-center text-accent-purple">
+                                    <span x-show="lang==='zh'">定制平台 (Platform)</span><span x-show="lang==='en'" x-cloak>Custom Platform</span><span x-show="lang==='ja'" x-cloak>カスタムプラットフォーム</span>
+                                </th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-white/5">
                             <tr class="hover:bg-white/[0.02]">
-                                <td class="px-6 py-4 font-medium text-white">源码交付</td>
+                                <td class="px-6 py-4 font-medium text-white">
+                                    <span x-show="lang==='zh'">源码交付</span><span x-show="lang==='en'" x-cloak>Source Code Delivery</span><span x-show="lang==='ja'" x-cloak>ソースコード納品</span>
+                                </td>
                                 <td class="px-6 py-4 text-center">✅ 100%</td>
                                 <td class="px-6 py-4 text-center">✅ 100%</td>
                                 <td class="px-6 py-4 text-center">✅ 100%</td>
                             </tr>
                             <tr class="hover:bg-white/[0.02]">
-                                <td class="px-6 py-4 font-medium text-white">开发周期</td>
-                                <td class="px-6 py-4 text-center">1-2 周</td>
-                                <td class="px-6 py-4 text-center">1-1.5 个月</td>
-                                <td class="px-6 py-4 text-center">2-4 个月</td>
+                                <td class="px-6 py-4 font-medium text-white">
+                                    <span x-show="lang==='zh'">开发周期</span><span x-show="lang==='en'" x-cloak>Timeline</span><span x-show="lang==='ja'" x-cloak>開発期間</span>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <span x-show="lang==='zh'">1-2 周</span><span x-show="lang==='en'" x-cloak>1-2 weeks</span><span x-show="lang==='ja'" x-cloak>1-2 週間</span>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <span x-show="lang==='zh'">1-1.5 个月</span><span x-show="lang==='en'" x-cloak>1-1.5 months</span><span x-show="lang==='ja'" x-cloak>1-1.5 ヶ月</span>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <span x-show="lang==='zh'">2-4 个月</span><span x-show="lang==='en'" x-cloak>2-4 months</span><span x-show="lang==='ja'" x-cloak>2-4 ヶ月</span>
+                                </td>
                             </tr>
                             <tr class="hover:bg-white/[0.02]">
-                                <td class="px-6 py-4 font-medium text-white">售后质保</td>
-                                <td class="px-6 py-4 text-center">1 个月</td>
-                                <td class="px-6 py-4 text-center">3 个月</td>
-                                <td class="px-6 py-4 text-center">6 个月</td>
+                                <td class="px-6 py-4 font-medium text-white">
+                                    <span x-show="lang==='zh'">售后质保</span><span x-show="lang==='en'" x-cloak>Warranty</span><span x-show="lang==='ja'" x-cloak>アフター保証</span>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <span x-show="lang==='zh'">1 个月</span><span x-show="lang==='en'" x-cloak>1 month</span><span x-show="lang==='ja'" x-cloak>1 ヶ月</span>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <span x-show="lang==='zh'">3 个月</span><span x-show="lang==='en'" x-cloak>3 months</span><span x-show="lang==='ja'" x-cloak>3 ヶ月</span>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <span x-show="lang==='zh'">6 个月</span><span x-show="lang==='en'" x-cloak>6 months</span><span x-show="lang==='ja'" x-cloak>6 ヶ月</span>
+                                </td>
                             </tr>
                             <tr class="hover:bg-white/[0.02]">
-                                <td class="px-6 py-4 font-medium text-white">管理后台 (CMS)</td>
-                                <td class="px-6 py-4 text-center">基础内容编辑</td>
-                                <td class="px-6 py-4 text-center">全功能业务后台</td>
-                                <td class="px-6 py-4 text-center">SaaS级多租户后台</td>
+                                <td class="px-6 py-4 font-medium text-white">
+                                    <span x-show="lang==='zh'">管理后台 (CMS)</span><span x-show="lang==='en'" x-cloak>Admin Panel (CMS)</span><span x-show="lang==='ja'" x-cloak>管理画面 (CMS)</span>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <span x-show="lang==='zh'">基础内容编辑</span><span x-show="lang==='en'" x-cloak>Basic content editing</span><span x-show="lang==='ja'" x-cloak>基本コンテンツ編集</span>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <span x-show="lang==='zh'">全功能业务后台</span><span x-show="lang==='en'" x-cloak>Full business dashboard</span><span x-show="lang==='ja'" x-cloak>フル機能業務管理画面</span>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <span x-show="lang==='zh'">SaaS级多租户后台</span><span x-show="lang==='en'" x-cloak>SaaS multi-tenant dashboard</span><span x-show="lang==='ja'" x-cloak>SaaS級マルチテナント管理画面</span>
+                                </td>
                             </tr>
                             <tr class="hover:bg-white/[0.02]">
-                                <td class="px-6 py-4 font-medium text-white">API 对接</td>
+                                <td class="px-6 py-4 font-medium text-white">
+                                    <span x-show="lang==='zh'">API 对接</span><span x-show="lang==='en'" x-cloak>API Integration</span><span x-show="lang==='ja'" x-cloak>API連携</span>
+                                </td>
                                 <td class="px-6 py-4 text-center">-</td>
-                                <td class="px-6 py-4 text-center">支付/地图/短信</td>
-                                <td class="px-6 py-4 text-center">无限 (ERP/银行/AI)</td>
+                                <td class="px-6 py-4 text-center">
+                                    <span x-show="lang==='zh'">支付/地图/短信</span><span x-show="lang==='en'" x-cloak>Payment/Maps/SMS</span><span x-show="lang==='ja'" x-cloak>決済/地図/SMS</span>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <span x-show="lang==='zh'">无限 (ERP/银行/AI)</span><span x-show="lang==='en'" x-cloak>Unlimited (ERP/Bank/AI)</span><span x-show="lang==='ja'" x-cloak>無制限 (ERP/銀行/AI)</span>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -545,11 +689,17 @@
         <footer class="py-20 text-center relative overflow-hidden" id="contact">
             <div class="absolute inset-0 bg-gradient-to-t from-accent-green/10 to-transparent pointer-events-none"></div>
             <div class="relative z-10 px-4">
-                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">准备好开始了吗？</h2>
-                <p class="text-slate-400 mb-8 text-lg">现在咨询，获取您的免费技术评估报告和报价方案。</p>
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
+                    <span x-show="lang==='zh'">准备好开始了吗？</span><span x-show="lang==='en'" x-cloak>Ready to Start?</span><span x-show="lang==='ja'" x-cloak>始める準備はできましたか？</span>
+                </h2>
+                <p class="text-slate-400 mb-8 text-lg">
+                    <span x-show="lang==='zh'">现在咨询，获取您的免费技术评估报告和报价方案。</span>
+                    <span x-show="lang==='en'" x-cloak>Contact us now for a free technical assessment and quote.</span>
+                    <span x-show="lang==='ja'" x-cloak>今すぐお問い合わせ、無料技術評価レポートとお見積りを取得。</span>
+                </p>
                 <a href="contact.html"
                     class="bg-accent-green text-black text-lg px-10 py-4 rounded-full font-bold hover:scale-105 hover:shadow-[0_0_30px_rgba(0,255,163,0.5)] transition duration-300">
-                    立即联系我们
+                    <span x-show="lang==='zh'">立即联系我们</span><span x-show="lang==='en'" x-cloak>Contact Us Now</span><span x-show="lang==='ja'" x-cloak>今すぐお問い合わせ</span>
                 </a>
                 <p class="mt-8 text-slate-600 text-xs">&copy; 2026 ZenCode.jp. All Rights Reserved.</p>
             </div>
