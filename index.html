@@ -51,12 +51,12 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
-        /* Particles background for non-hero sections */
-        #particles-bg {
+        /* Particles background - same as techstack/pricing pages */
+        #particles-js {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;
             background: linear-gradient(135deg, #0a1f1a 0%, #0d2922 50%, #061510 100%);
         }
-        body > *:not(#particles-bg) { position: relative; z-index: 1; }
+        body > *:not(#particles-js) { position: relative; z-index: 1; }
 
         /* ===== NAV ===== */
         .site-nav {
@@ -186,10 +186,9 @@
 
         /* ===== HERO ===== */
         .hero {
-            min-height: 100svh; background: #0a1f1a;
+            min-height: 100svh; background: transparent;
             display: flex; align-items: center; position: relative; overflow: hidden;
         }
-        #vanta-hero { position: absolute; inset: 0; z-index: 0; }
         .hero::after {
             content: ''; position: absolute; bottom: 0; left: 0; right: 0;
             height: 1px; background: linear-gradient(90deg, transparent, rgba(0,122,72,0.4), transparent);
@@ -571,8 +570,8 @@
       x-effect="applyTranslations(lang)"
       @scroll.window="scrolled = (window.pageYOffset > 50)">
 
-    <!-- Particles Background (non-hero sections) -->
-    <div id="particles-bg"></div>
+    <!-- Particles.js Background -->
+    <div id="particles-js"></div>
 
     <!-- NAV -->
     <nav class="site-nav" :class="{ scrolled }">
@@ -626,7 +625,6 @@
 
     <!-- HERO -->
     <section class="hero">
-        <div id="vanta-hero"></div>
         <div class="hero-inner">
             <div class="hero-badge">
                 <span x-show="lang==='zh'">企业技术解决方案</span>
@@ -1076,32 +1074,10 @@
         </div>
     </div>
 
-    <!-- Vanta.js for Hero (THREE.js + NET effect) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
-    <script>
-        VANTA.NET({
-            el: "#vanta-hero",
-            mouseControls: true,
-            touchControls: true,
-            gyroControls: false,
-            minHeight: 200.00,
-            minWidth: 200.00,
-            scale: 1.00,
-            scaleMobile: 1.00,
-            color: 0x007A48,
-            backgroundColor: 0x0a1f1a,
-            points: 10.00,
-            maxDistance: 22.00,
-            spacing: 18.00,
-            showDots: true
-        });
-    </script>
-
-    <!-- Particles.js for other sections -->
+    <!-- Particles.js - same config as techstack & pricing pages -->
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script>
-        particlesJS('particles-bg', {
+        particlesJS('particles-js', {
             "particles": {
                 "number": { "value": 50, "density": { "enable": true, "value_area": 1000 } },
                 "color": { "value": ["#00FFA3", "#00C2FF", "#007A48"] },
