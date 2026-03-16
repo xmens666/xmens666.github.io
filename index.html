@@ -553,6 +553,22 @@
         }
         .wechat-copy-btn:hover { background: var(--rolex-green-light); }
 
+        /* ===== TRUST STRIP ===== */
+        .trust-strip {
+            padding: 56px 32px; background: rgba(255,255,255,0.02);
+            border-top: 1px solid rgba(255,255,255,0.06);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .trust-grid {
+            max-width: 1000px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px 24px;
+            text-align: center;
+        }
+        @media (max-width: 768px) {
+            .trust-strip { padding: 48px 20px; }
+            .trust-grid { grid-template-columns: repeat(2, 1fr); gap: 32px 16px; }
+        }
+
         /* ===== PARTICLES ===== */
         #particles-js {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -935,8 +951,8 @@
     </section>
 
     <!-- TRUST STRIP -->
-    <section style="padding:56px 32px;background:rgba(255,255,255,0.02);border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06);">
-        <div style="max-width:1000px;margin:0 auto;display:flex;justify-content:space-around;align-items:center;flex-wrap:wrap;gap:40px 24px;">
+    <section class="trust-strip">
+        <div class="trust-grid">
             <div style="text-align:center;">
                 <div style="font-family:'DM Serif Display',serif;font-size:2.4rem;color:var(--rolex-green-light);line-height:1;">10+</div>
                 <div style="font-size:0.78rem;color:var(--text-secondary);margin-top:8px;letter-spacing:0.05em;">
