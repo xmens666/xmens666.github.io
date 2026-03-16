@@ -46,26 +46,11 @@
 
         body {
             font-family: 'DM Sans', -apple-system, sans-serif;
-            background-color: #0a1210;
+            background: #0c1117;
             color: #e6edf3;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
-        /* Green gradient overlay */
-        body::before {
-            content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
-            background: radial-gradient(ellipse at 15% 0%, rgba(0,96,57,0.25) 0%, transparent 55%),
-                        radial-gradient(ellipse at 85% 80%, rgba(0,80,45,0.18) 0%, transparent 50%),
-                        radial-gradient(ellipse at 50% 50%, rgba(0,60,35,0.08) 0%, transparent 70%);
-        }
-        /* Grain noise texture */
-        body::after {
-            content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
-            background: url('img/noise.png') repeat;
-            background-size: 150px 150px;
-            opacity: 0.12;
-        }
-        body > * { position: relative; z-index: 1; }
 
         /* ===== NAV ===== */
         .site-nav {
@@ -144,28 +129,48 @@
         .mobile-menu-btn path { stroke: #fff; transition: stroke 0.3s; }
         .scrolled .mobile-menu-btn path { stroke: #fff; }
 
-        .mobile-menu {
-            position: fixed; top: 0; right: 0; bottom: 0; width: 100%; max-width: 360px;
-            background: #0c1614; z-index: 200;
-            padding: 80px 32px calc(32px + var(--safe-bottom)) 32px;
-            border-left: 1px solid rgba(0,122,72,0.3);
-            overflow-y: auto; -webkit-overflow-scrolling: touch;
-            box-shadow: -10px 0 40px rgba(0,0,0,0.5);
+        .mobile-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 199;
         }
-        .mobile-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 199; backdrop-filter: blur(4px); }
+        .mobile-menu {
+            position: fixed; top: 0; right: 0; bottom: 0; width: 85%; max-width: 340px;
+            background: #0e1a16; z-index: 200;
+            padding: 80px 28px calc(32px + var(--safe-bottom)) 28px;
+            border-left: 1px solid rgba(0,122,72,0.25);
+            overflow-y: auto; -webkit-overflow-scrolling: touch;
+            box-shadow: -8px 0 30px rgba(0,0,0,0.6);
+        }
+        .menu-enter, .menu-leave { transition: transform 0.3s ease; }
+        .menu-enter-start, .menu-leave-end { transform: translateX(100%); }
+        .menu-enter-end, .menu-leave-start { transform: translateX(0); }
         .mobile-menu a {
-            display: flex; align-items: center; color: rgba(255,255,255,0.7); text-decoration: none;
-            padding: 16px 0; min-height: 56px; font-size: 0.95rem; font-weight: 600;
-            letter-spacing: 0.04em; text-transform: uppercase;
+            display: flex; align-items: center; color: rgba(255,255,255,0.75); text-decoration: none;
+            padding: 16px 0; min-height: 52px; font-size: 0.92rem; font-weight: 600;
+            letter-spacing: 0.03em; text-transform: uppercase;
             border-bottom: 1px solid rgba(255,255,255,0.06);
         }
-        .mobile-menu a:hover, .mobile-menu a:active { color: var(--rolex-green-light); }
+        .mobile-menu a:active { color: var(--rolex-green-light); }
+        .mobile-menu-cta {
+            color: #fff !important; margin-top: 16px; border: none !important;
+            background: var(--rolex-green); padding: 16px 24px;
+            min-height: 52px; display: flex; align-items: center; justify-content: center;
+            font-size: 0.9rem; border-radius: 10px;
+        }
+        .mobile-lang-group { display: flex; gap: 8px; margin-top: 24px; }
+        .mobile-lang-btn {
+            flex: 1; padding: 12px 16px; min-height: 44px;
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px; color: rgba(255,255,255,0.5);
+            cursor: pointer; font-size: 0.85rem; font-weight: 600;
+        }
+        .mobile-lang-btn.active { color: var(--rolex-green-light); border-color: var(--rolex-green); background: rgba(0,96,57,0.1); }
         .mobile-close {
             position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1); border-radius: 50%;
-            color: rgba(255,255,255,0.6); cursor: pointer; font-size: 1.5rem;
+            color: rgba(255,255,255,0.6); cursor: pointer; font-size: 1.4rem;
             width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
         }
+        .mobile-close:active { background: rgba(255,255,255,0.1); }
 
         @media (max-width: 768px) {
             .nav-links, .nav-cta { display: none; }
@@ -469,44 +474,55 @@
 
         /* ===== FOOTER ===== */
         .site-footer {
-            background: rgba(0,0,0,0.3); padding: 72px 32px 32px;
-            border-top: 1px solid rgba(0,122,72,0.2);
+            background: rgba(0,0,0,0.25); padding: 72px 32px 32px;
+            border-top: 1px solid rgba(255,255,255,0.06);
         }
         .footer-inner {
-            max-width: 1200px; margin: 0 auto; display: flex;
-            justify-content: space-between; align-items: flex-start;
-            flex-wrap: wrap; gap: 48px;
+            max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
         }
-        .footer-brand .footer-logo {
+        .footer-col {}
+        .footer-logo {
             font-family: 'DM Serif Display', serif;
             font-size: 1.4rem; font-weight: 400; color: #fff; margin-bottom: 16px;
         }
-        .footer-brand .footer-logo .dot-jp {
+        .footer-logo .dot-jp {
             font-family: 'JetBrains Mono', monospace;
             color: var(--gold); font-size: 0.55em; font-weight: 600;
         }
-        .footer-brand p {
-            font-size: 0.82rem; color: rgba(255,255,255,0.35); line-height: 1.7; max-width: 300px;
+        .footer-desc {
+            font-size: 0.82rem; color: rgba(255,255,255,0.35); line-height: 1.7; margin-bottom: 28px;
         }
+        .footer-contact-list { display: flex; flex-direction: column; gap: 16px; }
+        .footer-contact-item {
+            display: flex; align-items: center; gap: 14px;
+            padding: 14px 18px; background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06); border-radius: 10px;
+        }
+        .footer-contact-icon { font-size: 1.2rem; }
+        .footer-contact-label { font-size: 0.7rem; color: rgba(255,255,255,0.35); margin-bottom: 2px; }
+        .footer-contact-value { font-size: 0.88rem; color: #fff; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+        .footer-right-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
         .footer-links h4 {
-            font-size: 0.7rem; font-weight: 700; color: var(--gold);
-            letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 20px;
+            font-size: 0.7rem; font-weight: 700; color: var(--rolex-green-light);
+            letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 20px;
             font-family: 'JetBrains Mono', monospace;
         }
         .footer-links a {
-            display: flex; align-items: center; color: rgba(255,255,255,0.45); text-decoration: none;
-            font-size: 0.85rem; padding: 5px 0; min-height: 44px; transition: color 0.2s;
+            display: block; color: rgba(255,255,255,0.45); text-decoration: none;
+            font-size: 0.82rem; padding: 6px 0; transition: color 0.2s;
         }
-        .footer-links a:hover { color: var(--gold); }
+        .footer-links a:hover { color: var(--rolex-green-light); }
         .footer-bottom {
-            max-width: 1200px; margin: 56px auto 0; padding-top: 24px;
-            border-top: 2px solid rgba(255,255,255,0.06);
+            max-width: 1200px; margin: 48px auto 0; padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.06);
             display: flex; justify-content: space-between; align-items: center;
             font-size: 0.75rem; color: rgba(255,255,255,0.2);
         }
 
         @media (max-width: 768px) {
-            .footer-inner { flex-direction: column; gap: 32px; }
+            .footer-inner { grid-template-columns: 1fr; gap: 40px; }
+            .footer-right-grid { grid-template-columns: 1fr 1fr; }
             .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
             .site-footer { padding: 48px 20px calc(24px + var(--safe-bottom)); }
         }
@@ -579,26 +595,23 @@
         </div>
     </nav>
 
+    <!-- Mobile Overlay -->
+    <div class="mobile-overlay" x-show="mobileMenuOpen" x-transition.opacity @click="mobileMenuOpen = false" x-cloak></div>
     <!-- Mobile Menu -->
-    <template x-if="mobileMenuOpen">
-        <div>
-            <div class="mobile-overlay" @click="mobileMenuOpen = false"></div>
-            <div class="mobile-menu">
-                <button class="mobile-close" @click="mobileMenuOpen = false" aria-label="Close menu">&times;</button>
-                <a href="solutions.html" @click="mobileMenuOpen = false" x-text="t('nav_solutions')">Solutions</a>
-                <a href="pricing.html" @click="mobileMenuOpen = false" x-text="t('nav_pricing')">Pricing</a>
-                <a href="techstack.html" @click="mobileMenuOpen = false" x-text="t('nav_tech')">Tech</a>
-                <a href="cases.html" @click="mobileMenuOpen = false" x-text="t('nav_cases')">Cases</a>
-                <a href="about.html" @click="mobileMenuOpen = false" x-text="t('nav_about')">About</a>
-                <a href="contact.html" @click="mobileMenuOpen = false" style="color:#fff;margin-top:16px;border:none;background:var(--rolex-green);padding:16px 24px;min-height:52px;display:flex;align-items:center;justify-content:center;font-size:0.9rem;border-radius:10px;" x-text="t('nav_cta')">Consultation</a>
-                <div style="display:flex;gap:8px;margin-top:24px;">
-                    <button @click="lang='zh';mobileMenuOpen=false" style="flex:1;padding:12px 16px;min-height:44px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:rgba(255,255,255,0.6);cursor:pointer;font-size:0.85rem;font-weight:600;" :style="lang==='zh'?'color:var(--rolex-green-light);border-color:var(--rolex-green)':''">中文</button>
-                    <button @click="lang='en';mobileMenuOpen=false" style="flex:1;padding:12px 16px;min-height:44px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:rgba(255,255,255,0.6);cursor:pointer;font-size:0.85rem;font-weight:600;" :style="lang==='en'?'color:var(--rolex-green-light);border-color:var(--rolex-green)':''">EN</button>
-                    <button @click="lang='ja';mobileMenuOpen=false" style="flex:1;padding:12px 16px;min-height:44px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:rgba(255,255,255,0.6);cursor:pointer;font-size:0.85rem;font-weight:600;" :style="lang==='ja'?'color:var(--rolex-green-light);border-color:var(--rolex-green)':''">日本語</button>
-                </div>
-            </div>
+    <div class="mobile-menu" x-show="mobileMenuOpen" x-transition:enter="menu-enter" x-transition:enter-start="menu-enter-start" x-transition:enter-end="menu-enter-end" x-transition:leave="menu-leave" x-transition:leave-start="menu-leave-start" x-transition:leave-end="menu-leave-end" x-cloak>
+        <button class="mobile-close" @click="mobileMenuOpen = false" aria-label="Close menu">&times;</button>
+        <a href="solutions.html" @click="mobileMenuOpen = false" x-text="t('nav_solutions')">Solutions</a>
+        <a href="pricing.html" @click="mobileMenuOpen = false" x-text="t('nav_pricing')">Pricing</a>
+        <a href="techstack.html" @click="mobileMenuOpen = false" x-text="t('nav_tech')">Tech</a>
+        <a href="cases.html" @click="mobileMenuOpen = false" x-text="t('nav_cases')">Cases</a>
+        <a href="about.html" @click="mobileMenuOpen = false" x-text="t('nav_about')">About</a>
+        <a href="contact.html" @click="mobileMenuOpen = false" class="mobile-menu-cta" x-text="t('nav_cta')">Consultation</a>
+        <div class="mobile-lang-group">
+            <button @click="lang='zh';mobileMenuOpen=false" class="mobile-lang-btn" :class="lang==='zh' && 'active'">中文</button>
+            <button @click="lang='en';mobileMenuOpen=false" class="mobile-lang-btn" :class="lang==='en' && 'active'">EN</button>
+            <button @click="lang='ja';mobileMenuOpen=false" class="mobile-lang-btn" :class="lang==='ja' && 'active'">日本語</button>
         </div>
-    </template>
+    </div>
 
     <!-- HERO -->
     <section class="hero">
@@ -972,37 +985,59 @@
     <!-- FOOTER -->
     <footer class="site-footer">
         <div class="footer-inner">
-            <div class="footer-brand">
+            <!-- Left column: brand + contact -->
+            <div class="footer-col">
                 <div class="footer-logo">ZenCode<span class="dot-jp">.jp</span></div>
-                <p>
+                <p class="footer-desc">
                     <span x-show="lang==='zh'">企业技术解决方案。网站、APP、小程序、预约系统、支付集成，帮您的生意与互联网接轨。</span>
                     <span x-show="lang==='en'" x-cloak>Enterprise tech solutions. Websites, apps, booking & payment systems — we bring your business online.</span>
                     <span x-show="lang==='ja'" x-cloak>企業向け技術ソリューション。Webサイト、アプリ、予約・決済システムでオンライン化を支援。</span>
                 </p>
+                <div class="footer-contact-list">
+                    <div class="footer-contact-item">
+                        <span class="footer-contact-icon">💬</span>
+                        <div>
+                            <div class="footer-contact-label">WeChat</div>
+                            <div class="footer-contact-value">xiaobo-japan</div>
+                        </div>
+                    </div>
+                    <div class="footer-contact-item">
+                        <span class="footer-contact-icon">✉</span>
+                        <div>
+                            <div class="footer-contact-label">Email</div>
+                            <div class="footer-contact-value">hello@zencode.jp</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="footer-links">
-                <h4>
-                    <span x-show="lang==='zh'">导航</span>
-                    <span x-show="lang==='en'" x-cloak>NAVIGATION</span>
-                    <span x-show="lang==='ja'" x-cloak>ナビ</span>
-                </h4>
-                <a href="solutions.html" x-text="t('nav_solutions')">Solutions</a>
-                <a href="pricing.html" x-text="t('nav_pricing')">Pricing</a>
-                <a href="cases.html" x-text="t('nav_cases')">Cases</a>
-                <a href="about.html" x-text="t('nav_about')">About</a>
-                <a href="contact.html" x-text="t('nav_cta')">Contact</a>
-            </div>
-            <div class="footer-links">
-                <h4>
-                    <span x-show="lang==='zh'">技术栈</span>
-                    <span x-show="lang==='en'" x-cloak>STACK</span>
-                    <span x-show="lang==='ja'" x-cloak>技術</span>
-                </h4>
-                <a href="techstack.html">Next.js / React</a>
-                <a href="techstack.html">React Native / Expo</a>
-                <a href="techstack.html">Supabase / PostgreSQL</a>
-                <a href="techstack.html">TypeScript</a>
-                <a href="techstack.html">Vercel</a>
+            <!-- Right column: nav + tech -->
+            <div class="footer-col">
+                <div class="footer-right-grid">
+                    <div class="footer-links">
+                        <h4>
+                            <span x-show="lang==='zh'">导航</span>
+                            <span x-show="lang==='en'" x-cloak>NAVIGATION</span>
+                            <span x-show="lang==='ja'" x-cloak>ナビ</span>
+                        </h4>
+                        <a href="solutions.html" x-text="t('nav_solutions')">Solutions</a>
+                        <a href="pricing.html" x-text="t('nav_pricing')">Pricing</a>
+                        <a href="cases.html" x-text="t('nav_cases')">Cases</a>
+                        <a href="about.html" x-text="t('nav_about')">About</a>
+                        <a href="contact.html" x-text="t('nav_cta')">Contact</a>
+                    </div>
+                    <div class="footer-links">
+                        <h4>
+                            <span x-show="lang==='zh'">技术栈</span>
+                            <span x-show="lang==='en'" x-cloak>STACK</span>
+                            <span x-show="lang==='ja'" x-cloak>技術</span>
+                        </h4>
+                        <a href="techstack.html">Next.js / React</a>
+                        <a href="techstack.html">React Native / Expo</a>
+                        <a href="techstack.html">Supabase / PostgreSQL</a>
+                        <a href="techstack.html">TypeScript</a>
+                        <a href="techstack.html">Vercel</a>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="footer-bottom">
