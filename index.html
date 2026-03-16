@@ -603,13 +603,13 @@
                 <li><a href="about.html" x-text="t('nav_about')">About</a></li>
             </ul>
             <div class="nav-right">
-                <div style="position:relative">
-                    <button class="lang-btn" @click="langOpen = !langOpen" @click.away="langOpen = false"
+                <div style="position:relative" @click.away="langOpen = false">
+                    <button class="lang-btn" @click="langOpen = !langOpen"
                             x-text="lang === 'zh' ? '中文' : lang === 'en' ? 'EN' : '日本語'"></button>
                     <div class="lang-dropdown" x-show="langOpen" x-transition x-cloak>
-                        <button @click="lang = 'zh'; langOpen = false" :class="lang === 'zh' ? 'active' : ''">中文</button>
-                        <button @click="lang = 'en'; langOpen = false" :class="lang === 'en' ? 'active' : ''">English</button>
-                        <button @click="lang = 'ja'; langOpen = false" :class="lang === 'ja' ? 'active' : ''">日本語</button>
+                        <button @click="lang = 'zh'; langOpen = false; applyTranslations('zh')" :class="lang === 'zh' ? 'active' : ''">中文</button>
+                        <button @click="lang = 'en'; langOpen = false; applyTranslations('en')" :class="lang === 'en' ? 'active' : ''">English</button>
+                        <button @click="lang = 'ja'; langOpen = false; applyTranslations('ja')" :class="lang === 'ja' ? 'active' : ''">日本語</button>
                     </div>
                 </div>
                 <a href="contact.html" class="nav-cta" x-text="t('nav_cta')">Free Consultation</a>
