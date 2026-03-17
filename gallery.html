@@ -10,6 +10,28 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/i18n.js"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Nunito', 'Yuanti SC', 'YouYuan', 'Noto Sans SC', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        'brand-black': '#0B0C10',
+                        'brand-dark': '#1F2833',
+                        'brand-gray': '#C5C6C7',
+                        'brand-cyan': '#66FCF1',
+                        'brand-teal': '#45A29E',
+                    },
+                }
+            }
+        }
+    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
 
@@ -25,34 +47,40 @@
             padding: 0;
         }
 
-        /* Back Button Style */
-        .back-btn {
-            position: fixed;
-            top: 30px;
-            left: 30px;
-            z-index: 50;
-            color: rgba(255, 255, 255, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 10px 24px;
-            border-radius: 99px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            background: rgba(0, 0, 0, 0.2);
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        /* Hide Alpine.js elements before init */
+        [x-cloak] { display: none !important; }
+
+        /* Mobile menu styles */
+        .mobile-menu-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            z-index: 99998;
+        }
+        .mobile-menu-panel {
+            position: fixed; top: 0; right: 0; bottom: 0;
+            width: 75%; max-width: 320px;
+            background: rgba(20,20,30,0.05);
+            backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border-left: 1px solid rgba(255,255,255,0.15);
+            box-shadow: -10px 0 40px rgba(0,0,0,0.3);
+            z-index: 99999; padding: 80px 24px 40px; overflow-y: auto;
         }
 
-        .back-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            border-color: rgba(255, 255, 255, 0.4);
-            transform: translateX(5px);
+        /* Glass Nav Buttons */
+        .glass-nav-btn {
+            padding: 0.5em 1em; font-size: 15px; font-weight: 500;
+            border-radius: 8px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            transition: all 0.3s ease; text-decoration: none; display: inline-block;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(0,194,255,0.1); color: #00C2FF;
         }
+        .glass-nav-green:hover { background: rgba(0,255,163,0.25); box-shadow: 0 0 20px rgba(0,255,163,0.3); border-color: rgba(0,255,163,0.4); color: #00FFA3; }
+        .glass-nav-blue:hover { background: rgba(0,194,255,0.25); box-shadow: 0 0 20px rgba(0,194,255,0.3); border-color: rgba(0,194,255,0.4); color: #00C2FF; }
+        .glass-nav-purple:hover { background: rgba(189,0,255,0.25); box-shadow: 0 0 20px rgba(189,0,255,0.3); border-color: rgba(189,0,255,0.4); color: #BD00FF; }
+        .glass-nav-orange:hover { background: rgba(255,107,0,0.25); box-shadow: 0 0 20px rgba(255,107,0,0.3); border-color: rgba(255,107,0,0.4); color: #FF6B00; }
+        .glass-nav-pink:hover { background: rgba(255,0,128,0.25); box-shadow: 0 0 20px rgba(255,0,128,0.3); border-color: rgba(255,0,128,0.4); color: #FF0080; }
+        .glass-nav-active { background: rgba(255,107,0,0.2) !important; border-color: rgba(255,107,0,0.5) !important; color: #FF6B00 !important; }
 
         #wrapper {
             position: fixed;
@@ -109,23 +137,94 @@
     </style>
 </head>
 
-<body>
+<body x-data="{ lang: (localStorage.getItem('zencode_lang') || 'zh'), mobileMenuOpen: false, setLang(l) { this.lang = l; localStorage.setItem('zencode_lang', l); if(typeof applyTranslations==='function') applyTranslations(l); } }">
 
-    <a href="index.html" class="back-btn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <path d="M19 12H5" />
-            <path d="M12 19l-7-7 7-7" />
-        </svg>
-        Back to Home
-    </a>
+    <!-- Sticky Nav -->
+    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-xl border-b border-white/5" style="font-family:'Nunito',sans-serif;">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <a href="index.html" class="flex items-center gap-2 font-bold text-xl text-white tracking-tighter group">
+                    <span class="text-brand-cyan group-hover:text-white transition">&lt;</span>ZenCode<span class="text-white/30 group-hover:text-brand-cyan transition">/&gt;</span>
+                </a>
+
+                <div class="hidden md:flex items-center gap-2 ml-auto mr-6">
+                    <a href="index.html" class="glass-nav-btn glass-nav-blue"><span x-show="lang==='zh'" x-cloak>首页</span><span x-show="lang==='en'" x-cloak>Home</span><span x-show="lang==='ja'" x-cloak>ホーム</span></a>
+                    <a href="solutions.html" class="glass-nav-btn glass-nav-blue"><span x-show="lang==='zh'" x-cloak>解决方案</span><span x-show="lang==='en'" x-cloak>Solutions</span><span x-show="lang==='ja'" x-cloak>ソリューション</span></a>
+                    <a href="pricing.html" class="glass-nav-btn glass-nav-green"><span x-show="lang==='zh'" x-cloak>服务定价</span><span x-show="lang==='en'" x-cloak>Pricing</span><span x-show="lang==='ja'" x-cloak>料金プラン</span></a>
+                    <a href="techstack.html" class="glass-nav-btn glass-nav-blue"><span x-show="lang==='zh'" x-cloak>技术栈</span><span x-show="lang==='en'" x-cloak>Tech Stack</span><span x-show="lang==='ja'" x-cloak>技術スタック</span></a>
+                    <a href="cases.html" class="glass-nav-btn glass-nav-purple"><span x-show="lang==='zh'" x-cloak>成功案例</span><span x-show="lang==='en'" x-cloak>Cases</span><span x-show="lang==='ja'" x-cloak>実績</span></a>
+                    <a href="experience/experience.html" class="glass-nav-btn glass-nav-orange"><span x-show="lang==='zh'" x-cloak>小程序演示</span><span x-show="lang==='en'" x-cloak>Mini App Demo</span><span x-show="lang==='ja'" x-cloak>ミニアプリ</span></a>
+                    <a href="gallery.html" class="glass-nav-btn glass-nav-orange glass-nav-active">Visual Lab</a>
+                    <a href="about.html" class="glass-nav-btn glass-nav-pink"><span x-show="lang==='zh'" x-cloak>关于我们</span><span x-show="lang==='en'" x-cloak>About Us</span><span x-show="lang==='ja'" x-cloak>会社概要</span></a>
+                    <button class="glass-nav-btn glass-nav-blue" @click="setLang(lang === 'zh' ? 'en' : lang === 'en' ? 'ja' : 'zh')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        <span x-text="lang === 'zh' ? '中文' : lang === 'en' ? 'EN' : '日本語'" style="margin-left:4px"></span>
+                    </button>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <a href="contact.html" class="hidden md:inline-block px-5 py-2 border border-brand-cyan text-brand-cyan rounded hover:bg-brand-cyan hover:text-black transition duration-300">
+                        <span x-show="lang==='zh'" x-cloak>联系我们</span><span x-show="lang==='en'" x-cloak>Contact</span><span x-show="lang==='ja'" x-cloak>お問い合わせ</span>
+                    </a>
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 text-white flex items-center justify-center hover:bg-white/20 transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Slide-in Menu -->
+    <template x-if="mobileMenuOpen">
+        <div class="md:hidden">
+            <div class="mobile-menu-overlay" @click="mobileMenuOpen = false"
+                x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"></div>
+            <div class="mobile-menu-panel"
+                x-transition:enter="transition ease-out duration-300" x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0"
+                x-transition:leave="transition ease-in duration-200" x-transition:leave-start="translate-x-0" x-transition:leave-end="translate-x-full">
+                <button @click="mobileMenuOpen = false" class="absolute top-5 right-5 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <nav class="flex flex-col gap-1">
+                    <a href="index.html" @click="mobileMenuOpen = false" class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
+                        <span x-show="lang==='zh'" x-cloak>首页</span><span x-show="lang==='en'" x-cloak>Home</span><span x-show="lang==='ja'" x-cloak>ホーム</span></a>
+                    <a href="solutions.html" @click="mobileMenuOpen = false" class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
+                        <span x-show="lang==='zh'" x-cloak>解决方案</span><span x-show="lang==='en'" x-cloak>Solutions</span><span x-show="lang==='ja'" x-cloak>ソリューション</span></a>
+                    <a href="pricing.html" @click="mobileMenuOpen = false" class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
+                        <span x-show="lang==='zh'" x-cloak>服务定价</span><span x-show="lang==='en'" x-cloak>Pricing</span><span x-show="lang==='ja'" x-cloak>料金プラン</span></a>
+                    <a href="techstack.html" @click="mobileMenuOpen = false" class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
+                        <span x-show="lang==='zh'" x-cloak>技术栈</span><span x-show="lang==='en'" x-cloak>Tech Stack</span><span x-show="lang==='ja'" x-cloak>技術スタック</span></a>
+                    <a href="cases.html" @click="mobileMenuOpen = false" class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
+                        <span x-show="lang==='zh'" x-cloak>成功案例</span><span x-show="lang==='en'" x-cloak>Cases</span><span x-show="lang==='ja'" x-cloak>実績</span></a>
+                    <a href="experience/experience.html" @click="mobileMenuOpen = false" class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
+                        <span x-show="lang==='zh'" x-cloak>小程序演示</span><span x-show="lang==='en'" x-cloak>Mini App Demo</span><span x-show="lang==='ja'" x-cloak>ミニアプリ</span></a>
+                    <a href="gallery.html" @click="mobileMenuOpen = false" class="text-base font-bold text-brand-cyan bg-brand-cyan/10 py-3 px-4 rounded-lg">
+                        Visual Lab</a>
+                    <a href="about.html" @click="mobileMenuOpen = false" class="text-base font-medium text-white/70 hover:text-white hover:bg-white/5 transition-colors py-3 px-4 rounded-lg">
+                        <span x-show="lang==='zh'" x-cloak>关于我们</span><span x-show="lang==='en'" x-cloak>About Us</span><span x-show="lang==='ja'" x-cloak>会社概要</span></a>
+                </nav>
+                <div class="flex gap-2 px-4 mt-4">
+                    <button @click="setLang('zh');mobileMenuOpen=false" class="flex-1 py-2 rounded-lg text-sm font-bold transition" :class="lang==='zh' ? 'bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/50' : 'bg-white/5 text-white/50 border border-white/10'">中文</button>
+                    <button @click="setLang('en');mobileMenuOpen=false" class="flex-1 py-2 rounded-lg text-sm font-bold transition" :class="lang==='en' ? 'bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/50' : 'bg-white/5 text-white/50 border border-white/10'">EN</button>
+                    <button @click="setLang('ja');mobileMenuOpen=false" class="flex-1 py-2 rounded-lg text-sm font-bold transition" :class="lang==='ja' ? 'bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/50' : 'bg-white/5 text-white/50 border border-white/10'">日本語</button>
+                </div>
+                <div class="mt-8 px-4">
+                    <a href="contact.html" @click="mobileMenuOpen = false" class="block w-full text-center py-3 rounded-full bg-gradient-to-r from-brand-cyan to-blue-500 text-black font-bold text-sm shadow-lg shadow-brand-cyan/30">
+                        <span x-show="lang==='zh'" x-cloak>免费咨询方案</span><span x-show="lang==='en'" x-cloak>Get Free Quote</span><span x-show="lang==='ja'" x-cloak>無料見積り</span></a>
+                </div>
+            </div>
+        </div>
+    </template>
 
     <div id="wrapper">
         <canvas id="canvas"></canvas>
         <canvas id="canvasbg"></canvas>
     </div>
 
-    <div class="content-layer min-h-screen flex flex-col items-center justify-center p-8 py-24">
+    <div class="content-layer min-h-screen flex flex-col items-center justify-center p-8 pt-28 pb-24">
         <div class="max-w-7xl w-full">
             <div class="mb-20 text-center">
                 <div
