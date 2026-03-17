@@ -384,16 +384,16 @@
         <div class="relative w-full flex flex-col gap-8 opacity-60 hover:opacity-100 transition-opacity duration-700 py-8">
             <div class="marquee-container w-full overflow-x-clip overflow-y-visible">
                 <div class="marquee-content">
-                    <template x-for="i in Math.min(totalImages, 10)">
+                    <template x-for="item in items.slice(0, 10)" :key="'m1-'+item.file">
                         <div
                             class="w-40 md:w-56 flex-shrink-0 transform transition-transform hover:scale-105 duration-300 py-4">
-                            <img :src="imgFolder + i + '.png'" class="w-full h-auto object-contain drop-shadow-2xl"
+                            <img :src="imgFolder + item.file + '.png'" class="w-full h-auto object-contain drop-shadow-2xl"
                                 alt="App Case" loading="lazy">
                         </div>
                     </template>
-                    <template x-for="i in Math.min(totalImages, 10)">
+                    <template x-for="item in items.slice(0, 10)" :key="'m2-'+item.file">
                         <div class="w-40 md:w-56 flex-shrink-0 py-4">
-                            <img :src="imgFolder + i + '.png'" class="w-full h-auto object-contain drop-shadow-2xl"
+                            <img :src="imgFolder + item.file + '.png'" class="w-full h-auto object-contain drop-shadow-2xl"
                                 alt="App Case" loading="lazy">
                         </div>
                     </template>
