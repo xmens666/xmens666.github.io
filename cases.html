@@ -196,24 +196,30 @@
 
 <body x-data="{
     mobileMenuOpen: false,
-    imageList: [7,8,9,10,11,12,13,14,15,16,17,18,19,20],
+    items: [
+        { file: 7,  zh: '大型综合SaaS', en: 'Enterprise SaaS', ja: '総合SaaSプラットフォーム', cat: 'service' },
+        { file: 8,  zh: '收入统计报表', en: 'Revenue Analytics', ja: '収益レポート', cat: 'service' },
+        { file: 9,  zh: '预约包车服务', en: 'Charter Booking', ja: 'チャーター予約', cat: 'service' },
+        { file: 10, zh: '租房平台', en: 'Rental Platform', ja: '賃貸プラットフォーム', cat: 'service' },
+        { file: 11, zh: '车辆销售', en: 'Auto Sales', ja: '車両販売', cat: 'shop' },
+        { file: 12, zh: '手机电脑维修', en: 'Device Repair', ja: 'デバイス修理', cat: 'service' },
+        { file: 13, zh: '便利店', en: 'Convenience Store', ja: 'コンビニ', cat: 'shop' },
+        { file: 14, zh: '料理店', en: 'Restaurant', ja: 'レストラン', cat: 'shop' },
+        { file: 15, zh: '搬家服务', en: 'Moving Service', ja: '引越しサービス', cat: 'service' },
+        { file: 16, zh: '二手闲置', en: 'Second-hand Market', ja: 'フリマ', cat: 'shop' },
+        { file: 17, zh: '微信小程序', en: 'WeChat Mini App', ja: 'WeChatミニアプリ', cat: 'shop' },
+        { file: 18, zh: '零食贩卖', en: 'Snack Shop', ja: 'スナックショップ', cat: 'shop' },
+        { file: 19, zh: '网页模板', en: 'Web Template', ja: 'Webテンプレート', cat: 'web' },
+        { file: 20, zh: '网页模板', en: 'Web Template', ja: 'Webテンプレート', cat: 'web' }
+    ],
     activeFilter: 'all',
     imgFolder: 'img/cases/app-',
     lang: (localStorage.getItem('zencode_lang') || 'zh'),
     setLang(l) { this.lang = l; applyTranslations(l); },
     t(key) { const e = I18N[key]; return e ? (e[this.lang] || e.zh || key) : key; },
 
-    getCategory(i) {
-        if (i <= 7) return 'app';
-        if (i <= 14) return 'miniapp';
-        return 'web';
-    },
-
-    getTitle(i) {
-        if (this.lang === 'en') return 'Showcase #' + i;
-        if (this.lang === 'ja') return 'デザイン事例 #' + i;
-        return '作品展示 #' + i;
-    }
+    getCategory(item) { return item.cat; },
+    getTitle(item) { return item[this.lang] || item.zh; }
 }">
 
     <!-- Canvas 背景动画 -->
@@ -406,54 +412,54 @@
                     :class="activeFilter === 'all' ? 'bg-white text-black' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'"
                     class="filter-btn px-6 py-2 rounded-full text-sm font-bold transition-all border border-white/10 backdrop-blur-sm"><span x-show="lang==='zh'">全部案例</span><span x-show="lang==='en'" x-cloak>All Cases</span><span x-show="lang==='ja'" x-cloak>すべて</span></button>
 
-                <button @click="activeFilter = 'app'"
-                    :class="activeFilter === 'app' ? 'bg-blue-600 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'"
-                    class="filter-btn px-6 py-2 rounded-full text-sm font-bold transition-all border border-white/10 backdrop-blur-sm inline-flex items-center gap-1"><svg class="w-4 h-4 inline-block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg> APP</button>
+                <button @click="activeFilter = 'service'"
+                    :class="activeFilter === 'service' ? 'bg-blue-600 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'"
+                    class="filter-btn px-6 py-2 rounded-full text-sm font-bold transition-all border border-white/10 backdrop-blur-sm inline-flex items-center gap-1"><svg class="w-4 h-4 inline-block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> <span x-show="lang==='zh'">服务类</span><span x-show="lang==='en'" x-cloak>Service</span><span x-show="lang==='ja'" x-cloak>サービス</span></button>
 
-                <button @click="activeFilter = 'miniapp'"
-                    :class="activeFilter === 'miniapp' ? 'bg-emerald-600 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'"
-                    class="filter-btn px-6 py-2 rounded-full text-sm font-bold transition-all border border-white/10 backdrop-blur-sm inline-flex items-center gap-1"><svg class="w-4 h-4 inline-block" viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="12" cy="12" r="6"/></svg> <span x-show="lang==='zh'">小程序</span><span x-show="lang==='en'" x-cloak>Mini App</span><span x-show="lang==='ja'" x-cloak>ミニアプリ</span></button>
+                <button @click="activeFilter = 'shop'"
+                    :class="activeFilter === 'shop' ? 'bg-emerald-600 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'"
+                    class="filter-btn px-6 py-2 rounded-full text-sm font-bold transition-all border border-white/10 backdrop-blur-sm inline-flex items-center gap-1"><svg class="w-4 h-4 inline-block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg> <span x-show="lang==='zh'">网店类</span><span x-show="lang==='en'" x-cloak>E-Shop</span><span x-show="lang==='ja'" x-cloak>ネットショップ</span></button>
 
                 <button @click="activeFilter = 'web'"
                     :class="activeFilter === 'web' ? 'bg-purple-600 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'"
-                    class="filter-btn px-6 py-2 rounded-full text-sm font-bold transition-all border border-white/10 backdrop-blur-sm inline-flex items-center gap-1"><svg class="w-4 h-4 inline-block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> <span x-show="lang==='zh'">网页</span><span x-show="lang==='en'" x-cloak>Website</span><span x-show="lang==='ja'" x-cloak>ウェブ</span></button>
+                    class="filter-btn px-6 py-2 rounded-full text-sm font-bold transition-all border border-white/10 backdrop-blur-sm inline-flex items-center gap-1"><svg class="w-4 h-4 inline-block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> <span x-show="lang==='zh'">网页类</span><span x-show="lang==='en'" x-cloak>Website</span><span x-show="lang==='ja'" x-cloak>ウェブ</span></button>
             </div>
 
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
 
-                <template x-for="i in imageList" :key="i">
-                    <div x-show="activeFilter === 'all' || activeFilter === getCategory(i)"
+                <template x-for="(item, idx) in items" :key="item.file">
+                    <div x-show="activeFilter === 'all' || activeFilter === item.cat"
                         class="case-card-perspective group overflow-visible" x-transition:enter="transition ease-out duration-500"
                         x-transition:enter-start="opacity-0 transform scale-90"
                         x-transition:enter-end="opacity-100 transform scale-100">
 
                         <div class="case-card-inner relative bg-white/5 border border-white/10 rounded-3xl p-8 pb-12 flex flex-col items-center overflow-hidden"
                             :class="{
-                                'hover:border-blue-500/50': getCategory(i) === 'app',
-                                'hover:border-emerald-500/50': getCategory(i) === 'miniapp',
-                                'hover:border-purple-500/50': getCategory(i) === 'web'
+                                'hover:border-blue-500/50': item.cat === 'service',
+                                'hover:border-emerald-500/50': item.cat === 'shop',
+                                'hover:border-purple-500/50': item.cat === 'web'
                              }">
 
                             <div class="phone-glow" :class="{
-                                    'bg-blue-500/30': getCategory(i) === 'app',
-                                    'bg-emerald-500/30': getCategory(i) === 'miniapp',
-                                    'bg-purple-500/30': getCategory(i) === 'web'
+                                    'bg-blue-500/30': item.cat === 'service',
+                                    'bg-emerald-500/30': item.cat === 'shop',
+                                    'bg-purple-500/30': item.cat === 'web'
                                  }"></div>
 
                             <div class="w-full mb-8 text-left z-10">
                                 <div class="text-xs font-mono mb-2 uppercase tracking-wider" :class="{
-                                        'text-blue-400': getCategory(i) === 'app',
-                                        'text-emerald-400': getCategory(i) === 'miniapp',
-                                        'text-purple-400': getCategory(i) === 'web'
-                                     }" x-text="getCategory(i) === 'app' ? 'APP' : (getCategory(i) === 'miniapp' ? (lang === 'en' ? 'Mini App' : lang === 'ja' ? 'ミニアプリ' : '小程序') : (lang === 'en' ? 'Website' : lang === 'ja' ? 'ウェブ' : '网页'))"></div>
+                                        'text-blue-400': item.cat === 'service',
+                                        'text-emerald-400': item.cat === 'shop',
+                                        'text-purple-400': item.cat === 'web'
+                                     }" x-text="item.cat === 'service' ? (lang === 'en' ? 'Service' : lang === 'ja' ? 'サービス' : '服务类') : (item.cat === 'shop' ? (lang === 'en' ? 'E-Shop' : lang === 'ja' ? 'ネットショップ' : '网店类') : (lang === 'en' ? 'Website' : lang === 'ja' ? 'ウェブ' : '网页类'))"></div>
 
-                                <h3 class="text-2xl font-bold text-white mb-1" x-text="getTitle(i)"></h3>
-                                <p class="text-slate-400 text-sm">ZenCode Native App Solution</p>
+                                <h3 class="text-2xl font-bold text-white mb-1" x-text="getTitle(item)"></h3>
+                                <p class="text-slate-400 text-sm" x-text="'#' + (idx + 1) + ' ZenCode Solution'"></p>
                             </div>
 
                             <div class="relative w-full max-w-[240px] aspect-[9/19.5]">
-                                <img :src="imgFolder + i + '.png'" alt="Case Screenshot"
+                                <img :src="imgFolder + item.file + '.png'" alt="Case Screenshot"
                                     class="w-full h-full object-contain drop-shadow-2xl transition-transform duration-500 group-hover:scale-[1.03]"
                                     loading="lazy"
                                     onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'text-xs text-red-500\'>Image Not Found</div>'">
