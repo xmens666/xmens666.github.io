@@ -7,16 +7,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const triggerStart = isMobile ? 'top bottom' : 'top 88%';
     const mobileY = isMobile ? 20 : undefined; // smaller offset on mobile
 
-    // ========== CHARACTER SPLIT for hero h1 ==========
+    // ========== WORD SPLIT for hero h1 ==========
     const heroH1 = document.querySelector('.hero h1');
     if (heroH1) {
         const spans = heroH1.querySelectorAll('span[x-show]');
         spans.forEach(span => {
             const inner = span.innerHTML;
-            // Wrap each visible character, skip HTML tags
-            const wrapped = inner.replace(/(<[^>]+>)|([^<\s])/g, (match, tag, char) => {
+            // Wrap each word (non-whitespace sequence), skip HTML tags
+            const wrapped = inner.replace(/(<[^>]+>)|([^<\s]+)/g, (match, tag, word) => {
                 if (tag) return tag;
-                return `<span class="char-reveal">${char}</span>`;
+                return `<span class="char-reveal">${word}</span>`;
             });
             span.innerHTML = wrapped;
         });
@@ -50,42 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
         playHeroEntrance();
     }
 
-    // ========== HERO ENTRANCE (cinematic timeline) ==========
-    function playHeroEntrance() {
-        const d = isMobile ? 0.6 : 1; // duration multiplier for mobile
-        const heroTl = gsap.timeline({ defaults: { ease: 'power4.out' } });
-
-        heroTl
-            .from('.hero-badge', {
-                scale: 0, opacity: 0, duration: 0.4 * d,
-                ease: 'back.out(2)'
-            })
-            .from('.char-reveal', {
-                y: isMobile ? 30 : 80, opacity: 0,
-                rotateX: isMobile ? 0 : -90,
-                duration: 0.5 * d, stagger: isMobile ? 0.01 : 0.02,
-                ease: 'power4.out'
-            }, '-=0.1')
-            .from('.hero-desc', {
-                y: isMobile ? 15 : 40, opacity: 0,
-                duration: 0.5 * d,
-                filter: isMobile ? 'none' : 'blur(10px)'
-            }, '-=0.2')
-            .from('.hero-actions .btn-primary', {
-                x: isMobile ? 0 : -30, y: isMobile ? 15 : 0,
-                opacity: 0, duration: 0.4 * d
-            }, '-=0.2')
-            .from('.hero-actions .btn-secondary', {
-                x: isMobile ? 0 : 30, y: isMobile ? 15 : 0,
-                opacity: 0, duration: 0.4 * d
-            }, '-=0.3')
-            .from('.hero-stack-item', {
-                y: isMobile ? 15 : 60, opacity: 0,
-                duration: 0.3 * d,
-                stagger: { each: isMobile ? 0.05 : 0.1, from: 'start' }
-            }, '-=0.2');
-    }
-
     // ========== SCROLL-LINKED THREE.JS BACKGROUND ==========
     ScrollTrigger.create({
         trigger: document.body,
@@ -99,18 +63,51 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ========== HERO SCROLL PARALLAX (desktop only) ==========
-    if (!isMobile) {
-        gsap.to('.hero-inner', {
-            scrollTrigger: {
-                trigger: '.hero',
-                start: 'top top',
-                end: '80% top',
-                scrub: 1
-            },
-            y: -120, opacity: 0, scale: 0.95
-        });
+    // ========== HERO ENTRANCE (cinematic timeline) ==========
+    function playHeroEntrance() {
+        const d = isMobile ? 0.6 : 1; // duration multiplier for mobile
+        const heroTl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+
+        heroTl
+            .from('.hero-badge', {
+                scale: 0, opacity: 0, duration: 0.4 * d,
+                ease: 'back.out(2)'
+            })
+            .from('.char-reveal', {
+                y: isMobile ? 30 : 80, opacity: 0,
+                rotateX: isMobile ? 0 : -90,
+                duration: 0.5 * d, stagger: isMobile ? 0.05 : 0.08,
+                ease: 'power4.out'
+            }, '-=0.1')
+            .from('.hero-desc', {
+                y: isMobile ? 15 : 40, opacity: 0,
+                duration: 0.5 * d,
+                filter: isMobile ? 'none' : 'blur(10px)'
+            }, '-=0.2')
+            .from('.hero-stack-item', {
+                y: isMobile ? 15 : 60, opacity: 0,
+                duration: 0.3 * d,
+                stagger: { each: isMobile ? 0.05 : 0.1, from: 'start' }
+            }, '-=0.2');
+
+        // Create hero scroll parallax AFTER loading screen is gone
+        if (!isMobile) {
+            gsap.to('.hero-inner', {
+                scrollTrigger: {
+                    trigger: '.hero',
+                    start: 'top top',
+                    end: '80% top',
+                    scrub: 1
+                },
+                y: -120, opacity: 0, scale: 0.95
+            });
+        }
+
     }
+
+
+    // ========== HERO SCROLL PARALLAX (desktop only, deferred) ==========
+    // Created after loading screen dismissal to avoid layout-shift miscalc
 
     // ========== NAV ENTRANCE ==========
     gsap.from('.nav-logo', {
@@ -156,14 +153,19 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.from('.service-card', {
         scrollTrigger: { trigger: '.services-grid', start: triggerStart },
         y: isMobile ? 30 : 80, opacity: 0, rotateY: isMobile ? 0 : 15,
-        duration: isMobile ? 0.5 : 0.9, stagger: isMobile ? 0.08 : 0.12, ease: 'power3.out'
+        duration: isMobile ? 0.5 : 0.9, stagger: isMobile ? 0.08 : 0.12, ease: 'power3.out',
+        clearProps: 'all'
     });
 
-    // ========== WORK CARDS - stagger scale up ==========
+    // ========== WORK CARDS - fade in sequentially ==========
     gsap.from('.work-card', {
         scrollTrigger: { trigger: '.work-grid', start: triggerStart },
-        y: isMobile ? 30 : 100, opacity: 0, scale: isMobile ? 0.95 : 0.9,
-        duration: isMobile ? 0.6 : 1, stagger: isMobile ? 0.1 : 0.15, ease: 'power3.out'
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: 'power2.out',
+        clearProps: 'all'
     });
 
     // ========== PROCESS STEPS - bounce in ==========
@@ -231,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
             y: isMobile ? 15 : 30, opacity: 0, duration: 0.5
         }, '-=0.3')
         .from('.cta-section .btn-primary', {
-            y: 15, opacity: 0, scale: 0.95,
+            y: 15, scale: 0.95,
             duration: 0.4, ease: 'back.out(2)'
         }, '-=0.2');
 
@@ -301,13 +303,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // ========== GLITCH EFFECT on hero title hover (desktop) ==========
     if (!isMobile) {
         const heroTitle = document.querySelector('.hero h1');
+        let glitchRunning = false;
+        const glitchColors = ['#00FFA3', '#00BFFF', '#FF4D6A', '#BF5FFF', '#FFD600'];
         if (heroTitle) {
             heroTitle.addEventListener('mouseenter', () => {
-                gsap.to('.char-reveal', {
-                    color: 'var(--rolex-green)',
-                    duration: 0.05,
-                    stagger: { each: 0.01, from: 'random' },
-                    yoyo: true, repeat: 1
+                if (glitchRunning) return;
+                glitchRunning = true;
+                const words = document.querySelectorAll('.char-reveal');
+                words.forEach((word, i) => {
+                    const color = glitchColors[i % glitchColors.length];
+                    gsap.to(word, {
+                        color: color,
+                        duration: 0.15,
+                        delay: i * 0.06,
+                        yoyo: true, repeat: 1,
+                        onComplete: i === words.length - 1 ? () => { glitchRunning = false; } : undefined
+                    });
                 });
             });
         }

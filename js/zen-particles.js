@@ -1,8 +1,6 @@
-// Zen Meditation Figure - 3D Particle Point Cloud
+// Zen Meditation Figure - 2D Particle Overlay (Disabled in favor of fully upgraded 3D Three.js version)
 (function () {
-    const hero = document.querySelector('.hero');
-    if (!hero) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    return;
 
     const canvas = document.createElement('canvas');
     canvas.id = 'zen-canvas';

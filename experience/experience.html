@@ -6,6 +6,123 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SaaS 终极演示 - ZenCode</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/i18n.js"></script>
+    <script>
+const EXP_T = {
+  back_home: { zh: '返回首页', en: 'Home', ja: 'ホームへ' },
+  customer_view: { zh: '🛒 顾客视角', en: '🛒 Customer', ja: '🛒 顧客' },
+  manager_view: { zh: '💼 店长后台', en: '💼 Manager', ja: '💼 店長' },
+  customer_short: { zh: '顾客', en: 'Customer', ja: '顧客' },
+  manager_short: { zh: '店长', en: 'Manager', ja: '店長' },
+  store_name: { zh: '未来便利店', en: 'Future Mart', ja: 'フューチャーマート' },
+  open_status: { zh: '营业中', en: 'Open', ja: '営業中' },
+  flash_sale: { zh: '⚡️ 限时秒杀', en: '⚡️ Flash Sale', ja: '⚡️ タイムセール' },
+  special_latte: { zh: '店长特调 · 厚乳拿铁', en: "Manager's Special Latte", ja: '店長スペシャルラテ' },
+  buy_now: { zh: '马上抢', en: 'Buy Now', ja: '今すぐ購入' },
+  contact_manager: { zh: '💬 联系店长', en: '💬 Contact', ja: '💬 店長に連絡' },
+  enter_chat: { zh: '点击进入全屏聊天 >', en: 'Open full chat >', ja: 'チャットを開く >' },
+  chat_placeholder_customer: { zh: '👋 有什么可以帮您的吗？点击这里咨询...', en: '👋 How can I help? Tap here to chat...', ja: '👋 ご質問はこちらへ...' },
+  hot_picks: { zh: '🔥 热销推荐', en: '🔥 Hot Picks', ja: '🔥 おすすめ' },
+  coconut_latte: { zh: '生椰拿铁', en: 'Coconut Latte', ja: 'ココナッツラテ' },
+  cheesecake: { zh: '半熟芝士', en: 'Cheesecake', ja: 'チーズケーキ' },
+  croissant: { zh: '可颂面包', en: 'Croissant', ja: 'クロワッサン' },
+  americano: { zh: '美式咖啡', en: 'Americano', ja: 'アメリカーノ' },
+  special_thick: { zh: '⚡️特调厚乳', en: '⚡️Special Latte', ja: '⚡️スペシャルラテ' },
+  my_cart: { zh: '我的购物车', en: 'My Cart', ja: 'カート' },
+  contact_page: { zh: '联系店长', en: 'Contact Manager', ja: '店長に連絡' },
+  online: { zh: '在线', en: 'Online', ja: 'オンライン' },
+  input_msg: { zh: '输入消息...', en: 'Type a message...', ja: 'メッセージを入力...' },
+  order_history: { zh: '历史账单', en: 'Order History', ja: '注文履歴' },
+  no_orders: { zh: '暂无历史订单', en: 'No orders yet', ja: '注文履歴なし' },
+  vip_member: { zh: 'VIP 会员', en: 'VIP Member', ja: 'VIP会員' },
+  standard_level: { zh: '普通等级', en: 'Standard', ja: '一般' },
+  current_points: { zh: '当前积分', en: 'Points', ja: 'ポイント' },
+  checkin: { zh: '📅 签到 +10', en: '📅 Check-in +10', ja: '📅 チェックイン +10' },
+  my_coupons: { zh: '我的优惠券', en: 'My Coupons', ja: 'クーポン' },
+  view_orders: { zh: '查看订单', en: 'View Orders', ja: '注文を見る' },
+  general_settings: { zh: '通用设置', en: 'Settings', ja: '設定' },
+  cashier: { zh: '收银台', en: 'Checkout', ja: 'レジ' },
+  amount_due: { zh: '需支付', en: 'Amount Due', ja: 'お支払い金額' },
+  wechat_pay: { zh: '微信支付', en: 'WeChat Pay', ja: 'WeChat Pay' },
+  safe_pay: { zh: '安全支付', en: 'Pay Securely', ja: '安全に支払う' },
+  est_total: { zh: '预估金额', en: 'Est. Total', ja: '見積金額' },
+  go_checkout: { zh: '去结算 >', en: 'Checkout >', ja: '決済へ >' },
+  total_amount: { zh: '合计金额', en: 'Total', ja: '合計' },
+  pay_now: { zh: '立即结算 >', en: 'Pay Now >', ja: '今すぐ決済 >' },
+  confirm_pay: { zh: '确认支付', en: 'Confirm Payment', ja: '支払い確認' },
+  paying: { zh: '正在安全支付...', en: 'Processing payment...', ja: '決済処理中...' },
+  nav_home: { zh: '首页', en: 'Home', ja: 'ホーム' },
+  nav_chat: { zh: '消息', en: 'Chat', ja: 'メッセージ' },
+  nav_bills: { zh: '账单', en: 'Bills', ja: '請求' },
+  nav_me: { zh: '我的', en: 'Me', ja: 'マイ' },
+  manager_msg: { zh: '店长消息', en: 'Manager', ja: '店長' },
+  new_msg: { zh: '您有新消息', en: 'New message', ja: '新着メッセージ' },
+  view: { zh: '查看', en: 'View', ja: '見る' },
+  today_revenue: { zh: '今日总营收', en: "Today's Revenue", ja: '本日の売上' },
+  today_orders: { zh: '今日订单', en: "Today's Orders", ja: '本日の注文' },
+  visitors: { zh: '进店客流', en: 'Visitors', ja: '来店客数' },
+  latest_activity: { zh: '最新动态', en: 'Latest', ja: '最新情報' },
+  reply_msg: { zh: '回复消息', en: 'Reply', ja: '返信' },
+  reply_placeholder: { zh: '回复顾客...', en: 'Reply to customer...', ja: '顧客に返信...' },
+  send: { zh: '发送', en: 'Send', ja: '送信' },
+  new_order: { zh: '您有新的订单', en: 'New Order!', ja: '新規注文があります' },
+  added_queue: { zh: '已加入待处理列表', en: 'Added to pending list', ja: '処理待ちリストに追加' },
+  got_it: { zh: '知道了', en: 'Got it', ja: '了解' },
+  new_msg_received: { zh: '收到新消息', en: 'New Message', ja: '新着メッセージ' },
+  added_cart: { zh: '🛍️ 已加入购物车', en: '🛍️ Added to cart', ja: '🛍️ カートに追加' },
+  cart_empty: { zh: '⚠️ 购物车为空', en: '⚠️ Cart is empty', ja: '⚠️ カートが空です' },
+  cart_empty_icon: { zh: '🛒 购物车空空如也', en: '🛒 Cart is empty', ja: '🛒 カートは空です' },
+  no_coupons: { zh: '🎟️ 暂无可用优惠券', en: '🎟️ No coupons available', ja: '🎟️ クーポンなし' },
+  settings_ok: { zh: '⚙️ 设置已是最新', en: '⚙️ Settings up to date', ja: '⚙️ 設定は最新です' },
+  pay_success: { zh: '✅ 支付成功！', en: '✅ Payment successful!', ja: '✅ 支払い完了！' },
+  checkin_done: { zh: '✅ 签到成功！积分 +10', en: '✅ Checked in! +10 points', ja: '✅ チェックイン完了！+10ポイント' },
+  already_checkin: { zh: '📅 今日已签到', en: '📅 Already checked in today', ja: '📅 本日チェックイン済み' },
+  demo_notice: { zh: '本页面为演示Demo，数据仅在本地存储。', en: 'This is a demo. Data is stored locally only.', ja: 'これはデモページです。データはローカルのみ。' },
+  chat_welcome: { zh: '👋 您好，我是店长，有什么可以帮您？', en: '👋 Hi, how can I help you?', ja: '👋 こんにちは、何かお手伝いできますか？' },
+  order_prefix: { zh: '订单', en: 'Order', ja: '注文' },
+  paid: { zh: '已支付', en: 'Paid', ja: '支払済' },
+  items_suffix: { zh: '件商品', en: ' items', ja: '点' },
+  delete: { zh: '删除', en: 'Delete', ja: '削除' },
+  new_order_log: { zh: '🛒 新订单', en: '🛒 New Order', ja: '🛒 新規注文' },
+  customer_msg_log: { zh: '💬 顾客消息', en: '💬 Customer Msg', ja: '💬 顧客メッセージ' },
+  process: { zh: '处理', en: 'Process', ja: '処理' },
+  processed: { zh: '✓ 已处理', en: '✓ Done', ja: '✓ 処理済' },
+  title_text: { zh: 'SaaS 终极演示 - ZenCode', en: 'SaaS Ultimate Demo - ZenCode', ja: 'SaaS デモ - ZenCode' },
+  lang_label: { zh: '中文', en: 'EN', ja: '日本語' },
+};
+
+function et(key) {
+  const e = EXP_T[key];
+  if (!e) return key;
+  return e[_currentLang] || e.zh || key;
+}
+
+function applyExpI18n() {
+  document.querySelectorAll('[data-t]').forEach(el => {
+    const key = el.getAttribute('data-t');
+    const val = et(key);
+    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+      el.placeholder = val;
+    } else {
+      el.textContent = val;
+    }
+  });
+  document.title = et('title_text');
+}
+
+function cycleLang() {
+  const order = ['zh', 'en', 'ja'];
+  const idx = order.indexOf(_currentLang);
+  _currentLang = order[(idx + 1) % 3];
+  try { localStorage.setItem('zencode_lang', _currentLang); } catch(e) {}
+  applyExpI18n();
+  // Re-render dynamic content
+  if (typeof renderCustomerChat === 'function') renderCustomerChat();
+  if (typeof renderCartPage === 'function') renderCartPage();
+  if (typeof renderBills === 'function') renderBills();
+  if (typeof renderManagerReplyChat === 'function') renderManagerReplyChat();
+}
+    </script>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
         rel="stylesheet">
@@ -196,8 +313,11 @@
                 class="group flex items-center gap-3 px-5 py-3 rounded-full bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/15 text-white/90 hover:text-white transition-all shadow-xl">
                 <span
                     class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:scale-110 transition-transform">←</span>
-                <span class="font-semibold">返回首页</span>
+                <span class="font-semibold" data-t="back_home">返回首页</span>
             </a>
+            <button onclick="cycleLang()" class="mt-3 flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/15 text-white/90 hover:text-white transition-all shadow-xl text-sm font-medium">
+                🌐 <span data-t="lang_label">中文</span>
+            </button>
         </div>
 
         <div class="absolute right-[15%] top-1/2 -translate-y-1/2 pointer-events-auto">
@@ -208,14 +328,14 @@
                 </div>
                 <button onclick="switchMasterRole('customer')"
                     class="w-full relative z-10 py-3 text-sm font-bold text-white transition-colors duration-300"
-                    id="btn-customer">🛒 顾客视角
+                    id="btn-customer"><span data-t="customer_view">🛒 顾客视角</span>
                     <span id="customer-badge"
                         class="absolute top-2.5 right-4 w-2.5 h-2.5 bg-emerald-500 rounded-full hidden animate-pulse shadow-[0_0_8px_#10b981]"></span>
                 </button>
                 <button onclick="switchMasterRole('manager')"
                     class="w-full relative z-10 py-3 text-sm font-bold text-gray-400 transition-colors duration-300 relative"
                     id="btn-manager">
-                    💼 店长后台
+                    <span data-t="manager_view">💼 店长后台</span>
                     <span id="manager-badge"
                         class="absolute top-2.5 right-4 w-2.5 h-2.5 bg-red-500 rounded-full hidden animate-pulse shadow-[0_0_8px_#ef4444]"></span>
                 </button>
@@ -232,15 +352,17 @@
                 class="absolute left-1 w-[48%] h-[80%] top-[10%] bg-white/20 rounded-full transition-all duration-300">
             </div>
             <button onclick="switchMasterRole('customer')"
-                class="flex-1 relative z-10 text-[10px] py-1 font-bold text-white">顾客
+                class="flex-1 relative z-10 text-[10px] py-1 font-bold text-white"><span data-t="customer_short">顾客</span>
                 <span id="mobile-customer-badge" class="absolute top-0 right-1 w-2 h-2 bg-emerald-500 rounded-full hidden animate-pulse shadow-[0_0_6px_#10b981]"></span>
             </button>
             <button onclick="switchMasterRole('manager')"
-                class="flex-1 relative z-10 text-[10px] py-1 font-bold text-gray-300">店长
+                class="flex-1 relative z-10 text-[10px] py-1 font-bold text-gray-300"><span data-t="manager_short">店长</span>
                 <span id="mobile-manager-badge" class="absolute top-0 right-1 w-2 h-2 bg-red-500 rounded-full hidden animate-pulse shadow-[0_0_6px_#ef4444]"></span>
             </button>
         </div>
-        <button onclick="alert('本页面为演示Demo，数据仅在本地存储。')"
+        <button onclick="cycleLang()"
+            class="w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center text-[10px] font-bold" data-t="lang_label">中文</button>
+        <button onclick="alert(et('demo_notice'))"
             class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs">?</button>
     </div>
 
@@ -274,10 +396,10 @@
                             class="w-10 h-10 rounded-full bg-gradient-to-tr from-emerald-400 to-teal-600 shadow-md flex items-center justify-center text-white font-bold text-sm tracking-tighter">
                             GO</div>
                         <div>
-                            <div class="font-bold text-gray-900 text-lg leading-tight">未来便利店</div>
+                            <div class="font-bold text-gray-900 text-lg leading-tight" data-t="store_name">未来便利店</div>
                             <div
                                 class="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-1.5 py-0.5 rounded flex items-center gap-1 w-fit mt-0.5">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> 营业中
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> <span data-t="open_status">营业中</span>
                             </div>
                         </div>
                     </div>
@@ -288,47 +410,47 @@
 
                 <div class="p-5 pb-24 space-y-6">
                     <div class="bg-gradient-to-r from-red-500 to-pink-600 rounded-2xl p-4 text-white shadow-lg relative overflow-hidden group cursor-pointer hover:shadow-xl transition-all"
-                        onclick="addToCart('⚡️特调厚乳', 9.9)">
+                        onclick="addToCart('special_thick', 9.9)">
                         <div class="absolute right-0 top-0 w-24 h-24 bg-white/10 rounded-full blur-2xl -mr-10 -mt-10">
                         </div>
                         <div class="flex justify-between items-end relative z-10">
                             <div>
                                 <div class="flex items-center gap-2 mb-1">
-                                    <span class="font-bold text-lg italic">⚡️ 限时秒杀</span>
+                                    <span class="font-bold text-lg italic" data-t="flash_sale">⚡️ 限时秒杀</span>
                                     <div class="text-xs bg-black/20 px-2 py-0.5 rounded-md font-mono"
                                         id="countdown-timer">00:59:59</div>
                                 </div>
-                                <div class="text-sm opacity-90 mb-3">店长特调 · 厚乳拿铁</div>
+                                <div class="text-sm opacity-90 mb-3" data-t="special_latte">店长特调 · 厚乳拿铁</div>
                                 <div class="flex items-end gap-2">
                                     <span class="text-2xl font-bold font-mono">¥9.9</span>
                                     <span class="text-xs line-through opacity-60 mb-1">¥28.0</span>
                                 </div>
                             </div>
                             <button
-                                class="bg-white text-red-600 font-bold px-4 py-2 rounded-full shadow-md active:scale-95 transition-transform text-sm">马上抢</button>
+                                class="bg-white text-red-600 font-bold px-4 py-2 rounded-full shadow-md active:scale-95 transition-transform text-sm" data-t="buy_now">马上抢</button>
                         </div>
                     </div>
 
                     <div class="bg-white p-5 rounded-3xl shadow-sm border border-gray-100 relative overflow-hidden"
                         onclick="navTo('page-c-chat')">
                         <h3 class="font-bold text-sm mb-3 flex items-center text-gray-700">
-                            💬 联系店长
-                            <span class="ml-auto text-[10px] text-gray-400">点击进入全屏聊天 ></span>
+                            <span data-t="contact_manager">💬 联系店长</span>
+                            <span class="ml-auto text-[10px] text-gray-400" data-t="enter_chat">点击进入全屏聊天 ></span>
                         </h3>
-                        <div class="bg-gray-50 rounded-xl p-3 text-xs text-gray-500 truncate border border-gray-100">
+                        <div class="bg-gray-50 rounded-xl p-3 text-xs text-gray-500 truncate border border-gray-100" data-t="chat_placeholder_customer">
                             👋 有什么可以帮您的吗？点击这里咨询...
                         </div>
                     </div>
 
                     <div>
-                        <h3 class="font-bold text-xl mb-4 ml-1 text-gray-800 flex items-center gap-2">🔥 热销推荐</h3>
+                        <h3 class="font-bold text-xl mb-4 ml-1 text-gray-800 flex items-center gap-2" data-t="hot_picks">🔥 热销推荐</h3>
                         <div class="grid grid-cols-2 gap-4">
                             <div class="group bg-white p-3 rounded-[1.2rem] shadow-sm border border-gray-100 hover:shadow-md transition-all cursor-pointer"
-                                onclick="addToCart('生椰拿铁', 18.9)">
+                                onclick="addToCart('coconut_latte', 18.9)">
                                 <div
                                     class="h-28 bg-[#F8F9FA] rounded-2xl mb-3 flex items-center justify-center text-5xl group-hover:scale-105 transition-transform">
                                     ☕️</div>
-                                <div class="font-bold text-gray-800 text-[14px]">生椰拿铁</div>
+                                <div class="font-bold text-gray-800 text-[14px]" data-t="coconut_latte">生椰拿铁</div>
                                 <div class="flex justify-between items-center mt-2">
                                     <span class="text-gray-900 font-extrabold text-sm">¥18.9</span>
                                     <div
@@ -337,11 +459,11 @@
                                 </div>
                             </div>
                             <div class="group bg-white p-3 rounded-[1.2rem] shadow-sm border border-gray-100 hover:shadow-md transition-all cursor-pointer"
-                                onclick="addToCart('半熟芝士', 12.0)">
+                                onclick="addToCart('cheesecake', 12.0)">
                                 <div
                                     class="h-28 bg-[#F8F9FA] rounded-2xl mb-3 flex items-center justify-center text-5xl group-hover:scale-105 transition-transform">
                                     🍰</div>
-                                <div class="font-bold text-gray-800 text-[14px]">半熟芝士</div>
+                                <div class="font-bold text-gray-800 text-[14px]" data-t="cheesecake">半熟芝士</div>
                                 <div class="flex justify-between items-center mt-2">
                                     <span class="text-gray-900 font-extrabold text-sm">¥12.0</span>
                                     <div
@@ -350,11 +472,11 @@
                                 </div>
                             </div>
                             <div class="group bg-white p-3 rounded-[1.2rem] shadow-sm border border-gray-100 hover:shadow-md transition-all cursor-pointer"
-                                onclick="addToCart('可颂面包', 16.0)">
+                                onclick="addToCart('croissant', 16.0)">
                                 <div
                                     class="h-28 bg-[#F8F9FA] rounded-2xl mb-3 flex items-center justify-center text-5xl group-hover:scale-105 transition-transform">
                                     🥐</div>
-                                <div class="font-bold text-gray-800 text-[14px]">可颂面包</div>
+                                <div class="font-bold text-gray-800 text-[14px]" data-t="croissant">可颂面包</div>
                                 <div class="flex justify-between items-center mt-2">
                                     <span class="text-gray-900 font-extrabold text-sm">¥16.0</span>
                                     <div
@@ -363,11 +485,11 @@
                                 </div>
                             </div>
                             <div class="group bg-white p-3 rounded-[1.2rem] shadow-sm border border-gray-100 hover:shadow-md transition-all cursor-pointer"
-                                onclick="addToCart('美式咖啡', 15.0)">
+                                onclick="addToCart('americano', 15.0)">
                                 <div
                                     class="h-28 bg-[#F8F9FA] rounded-2xl mb-3 flex items-center justify-center text-5xl group-hover:scale-105 transition-transform">
                                     ☕</div>
-                                <div class="font-bold text-gray-800 text-[14px]">美式咖啡</div>
+                                <div class="font-bold text-gray-800 text-[14px]" data-t="americano">美式咖啡</div>
                                 <div class="flex justify-between items-center mt-2">
                                     <span class="text-gray-900 font-extrabold text-sm">¥15.0</span>
                                     <div
@@ -384,22 +506,22 @@
                 <div class="pt-14 pb-4 px-4 bg-white/90 backdrop-blur-xl shadow-sm flex items-center relative z-20">
                     <button onclick="navTo('page-c-home')"
                         class="absolute left-4 w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors">←</button>
-                    <div class="w-full text-center font-bold text-lg">我的购物车</div>
+                    <div class="w-full text-center font-bold text-lg" data-t="my_cart">我的购物车</div>
                 </div>
                 <div id="cart-items-container" class="flex-1 p-5 overflow-y-auto no-scrollbar space-y-3 pb-32"></div>
             </div>
 
             <div id="page-c-chat" class="c-page h-full flex flex-col absolute inset-0 bg-[#F5F7FA] z-20 hidden">
                 <div class="pt-14 pb-4 px-4 bg-white/90 backdrop-blur-xl shadow-sm flex items-center relative z-20">
-                    <div class="w-full text-center font-bold text-lg">联系店长</div>
+                    <div class="w-full text-center font-bold text-lg" data-t="contact_page">联系店长</div>
                     <span
-                        class="absolute right-4 text-xs text-emerald-500 font-bold bg-emerald-50 px-2 py-1 rounded-full">在线</span>
+                        class="absolute right-4 text-xs text-emerald-500 font-bold bg-emerald-50 px-2 py-1 rounded-full" data-t="online">在线</span>
                 </div>
                 <div id="customer-chat-history" class="flex-1 p-4 overflow-y-auto space-y-4 no-scrollbar pb-40">
                 </div>
                 <div
                     class="absolute bottom-[5.5rem] left-0 right-0 p-4 bg-white border-t border-gray-100 flex gap-2 items-center">
-                    <input type="text" id="customer-chat-input" placeholder="输入消息..."
+                    <input type="text" id="customer-chat-input" placeholder="输入消息..." data-t="input_msg"
                         class="flex-1 bg-gray-100 rounded-full px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-emerald-400/30">
                     <button onclick="sendCustomerMessage()"
                         class="bg-emerald-500 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-md active:scale-95 transition-transform">↑</button>
@@ -408,10 +530,10 @@
 
             <div id="page-c-bills" class="c-page h-full flex flex-col absolute inset-0 bg-[#F5F7FA] z-30 hidden">
                 <div class="pt-14 pb-4 px-4 bg-white/90 backdrop-blur-xl shadow-sm flex items-center relative z-20">
-                    <div class="w-full text-center font-bold text-lg">历史账单</div>
+                    <div class="w-full text-center font-bold text-lg" data-t="order_history">历史账单</div>
                 </div>
                 <div id="bills-container" class="flex-1 p-5 overflow-y-auto no-scrollbar space-y-4 pb-24">
-                    <div class="text-center text-gray-400 mt-20 text-sm hidden" id="empty-bills">暂无历史订单</div>
+                    <div class="text-center text-gray-400 mt-20 text-sm hidden" id="empty-bills" data-t="no_orders">暂无历史订单</div>
                 </div>
             </div>
 
@@ -423,8 +545,8 @@
                             class="w-16 h-16 rounded-full bg-white/20 border-2 border-white/50 flex items-center justify-center text-3xl">
                             😎</div>
                         <div class="text-white">
-                            <div class="font-bold text-xl">VIP 会员</div>
-                            <div class="text-xs opacity-80 bg-black/20 px-2 py-0.5 rounded-full w-fit mt-1">普通等级</div>
+                            <div class="font-bold text-xl" data-t="vip_member">VIP 会员</div>
+                            <div class="text-xs opacity-80 bg-black/20 px-2 py-0.5 rounded-full w-fit mt-1" data-t="standard_level">普通等级</div>
                         </div>
                     </div>
                 </div>
@@ -433,22 +555,22 @@
                     <div
                         class="bg-white rounded-2xl shadow-lg p-5 flex justify-between items-center border border-gray-100">
                         <div>
-                            <div class="text-xs text-gray-400 mb-1">当前积分</div>
+                            <div class="text-xs text-gray-400 mb-1" data-t="current_points">当前积分</div>
                             <div class="text-3xl font-bold font-mono text-gray-800" id="user-points">100</div>
                         </div>
                         <button onclick="dailyCheckIn()" id="btn-checkin"
                             class="bg-emerald-50 text-emerald-600 font-bold px-4 py-2 rounded-full text-sm border border-emerald-100 active:scale-95 transition-transform shadow-sm">
-                            📅 签到 +10
+                            <span data-t="checkin">📅 签到 +10</span>
                         </button>
                     </div>
                 </div>
 
                 <div class="p-5 space-y-3">
                     <div class="bg-white p-4 rounded-xl flex items-center justify-between shadow-sm cursor-pointer hover:bg-gray-50 transition-colors"
-                        onclick="showToast('🎟️ 暂无可用优惠券', 'info')">
+                        onclick="showToast(et('no_coupons'), 'info')">
                         <div class="flex items-center gap-3">
                             <span class="text-xl">🎟️</span>
-                            <span class="font-bold text-gray-700 text-sm">我的优惠券</span>
+                            <span class="font-bold text-gray-700 text-sm" data-t="my_coupons">我的优惠券</span>
                         </div>
                         <span class="text-gray-300">></span>
                     </div>
@@ -456,15 +578,15 @@
                         onclick="navTo('page-c-bills')">
                         <div class="flex items-center gap-3">
                             <span class="text-xl">📜</span>
-                            <span class="font-bold text-gray-700 text-sm">查看订单</span>
+                            <span class="font-bold text-gray-700 text-sm" data-t="view_orders">查看订单</span>
                         </div>
                         <span class="text-gray-300">></span>
                     </div>
                     <div class="bg-white p-4 rounded-xl flex items-center justify-between shadow-sm cursor-pointer hover:bg-gray-50 transition-colors"
-                        onclick="showToast('⚙️ 设置已是最新', 'info')">
+                        onclick="showToast(et('settings_ok'), 'info')">
                         <div class="flex items-center gap-3">
                             <span class="text-xl">⚙️</span>
-                            <span class="font-bold text-gray-700 text-sm">通用设置</span>
+                            <span class="font-bold text-gray-700 text-sm" data-t="general_settings">通用设置</span>
                         </div>
                         <span class="text-gray-300">></span>
                     </div>
@@ -475,17 +597,17 @@
                 <div class="pt-14 pb-4 px-4 bg-white flex items-center relative">
                     <button onclick="navTo('page-c-cart')"
                         class="absolute left-4 w-9 h-9 rounded-full bg-gray-50 hover:bg-gray-100 flex items-center justify-center transition-colors">←</button>
-                    <div class="w-full text-center font-bold text-lg">收银台</div>
+                    <div class="w-full text-center font-bold text-lg" data-t="cashier">收银台</div>
                 </div>
                 <div class="flex-1 p-6 space-y-6 overflow-y-auto no-scrollbar">
                     <div class="flex flex-col items-center py-6">
-                        <div class="text-gray-400 text-sm mb-2">需支付</div>
+                        <div class="text-gray-400 text-sm mb-2" data-t="amount_due">需支付</div>
                         <div class="text-5xl font-bold text-gray-900 font-mono tracking-tighter" id="checkout-total">
                             ¥0.00</div>
                     </div>
                     <div class="bg-gray-50 rounded-3xl p-1 border border-gray-100">
                         <div class="bg-white rounded-[1.2rem] p-4 flex justify-between items-center shadow-sm mb-1">
-                            <div class="flex items-center gap-3"><span class="font-bold text-gray-800">微信支付</span></div>
+                            <div class="flex items-center gap-3"><span class="font-bold text-gray-800" data-t="wechat_pay">微信支付</span></div>
                             <div
                                 class="w-6 h-6 rounded-full bg-[#09bb07] flex items-center justify-center text-white text-xs">
                                 ✓</div>
@@ -494,7 +616,7 @@
                 </div>
                 <div class="p-6 pb-10">
                     <button onclick="startPaymentSim()"
-                        class="w-full bg-[#09bb07] text-white font-bold h-14 rounded-full text-xl shadow-lg shadow-green-200 active:scale-[0.98] transition-transform flex items-center justify-center gap-2">安全支付</button>
+                        class="w-full bg-[#09bb07] text-white font-bold h-14 rounded-full text-xl shadow-lg shadow-green-200 active:scale-[0.98] transition-transform flex items-center justify-center gap-2" data-t="safe_pay">安全支付</button>
                 </div>
             </div>
 
@@ -507,23 +629,23 @@
                             class="absolute -top-1.5 -right-2.5 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border-2 border-[#1a1a1a]">0</span>
                     </div>
                     <div class="flex flex-col">
-                        <span class="text-[10px] text-gray-400">预估金额</span>
+                        <span class="text-[10px] text-gray-400" data-t="est_total">预估金额</span>
                         <span class="text-lg font-bold font-mono leading-none" id="cart-total-bar">¥0.00</span>
                     </div>
                 </div>
-                <div class="bg-emerald-500 text-black text-sm font-bold px-5 py-3 rounded-full">去结算 ></div>
+                <div class="bg-emerald-500 text-black text-sm font-bold px-5 py-3 rounded-full" data-t="go_checkout">去结算 ></div>
             </div>
 
             <div id="cart-checkout-bar"
                 class="absolute bottom-6 left-4 right-4 bg-black/85 backdrop-blur-xl text-white rounded-full p-2 pr-2 shadow-2xl flex justify-between items-center z-[45] cursor-pointer hidden">
                 <div class="flex items-center gap-4 ml-4">
                     <div class="flex flex-col">
-                        <span class="text-[10px] text-gray-400">合计金额</span>
+                        <span class="text-[10px] text-gray-400" data-t="total_amount">合计金额</span>
                         <span class="text-lg font-bold font-mono leading-none" id="cart-page-total">¥0.00</span>
                     </div>
                 </div>
                 <button onclick="navTo('page-c-checkout')"
-                    class="bg-emerald-500 text-black text-sm font-bold px-5 py-3 rounded-full">立即结算 ></button>
+                    class="bg-emerald-500 text-black text-sm font-bold px-5 py-3 rounded-full" data-t="pay_now">立即结算 ></button>
             </div>
 
             <div id="bottom-nav-bar"
@@ -532,7 +654,7 @@
                     <button class="flex flex-col items-center gap-1 w-full py-2 group nav-btn" data-target="page-c-home"
                         onclick="navTo('page-c-home')">
                         <span class="text-2xl transition-transform group-active:scale-90">🏠</span>
-                        <span class="text-[10px] font-medium text-gray-500 group-[.active]:text-emerald-600">首页</span>
+                        <span class="text-[10px] font-medium text-gray-500 group-[.active]:text-emerald-600" data-t="nav_home">首页</span>
                     </button>
                     <button class="flex flex-col items-center gap-1 w-full py-2 group nav-btn" data-target="page-c-chat"
                         onclick="navTo('page-c-chat')">
@@ -541,17 +663,17 @@
                             <span id="nav-chat-badge"
                                 class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full hidden"></span>
                         </span>
-                        <span class="text-[10px] font-medium text-gray-500 group-[.active]:text-emerald-600">消息</span>
+                        <span class="text-[10px] font-medium text-gray-500 group-[.active]:text-emerald-600" data-t="nav_chat">消息</span>
                     </button>
                     <button class="flex flex-col items-center gap-1 w-full py-2 group nav-btn"
                         data-target="page-c-bills" onclick="navTo('page-c-bills')">
                         <span class="text-2xl transition-transform group-active:scale-90">📋</span>
-                        <span class="text-[10px] font-medium text-gray-500 group-[.active]:text-emerald-600">账单</span>
+                        <span class="text-[10px] font-medium text-gray-500 group-[.active]:text-emerald-600" data-t="nav_bills">账单</span>
                     </button>
                     <button class="flex flex-col items-center gap-1 w-full py-2 group nav-btn"
                         data-target="page-c-profile" onclick="navTo('page-c-profile')">
                         <span class="text-2xl transition-transform group-active:scale-90">👤</span>
-                        <span class="text-[10px] font-medium text-gray-500 group-[.active]:text-emerald-600">我的</span>
+                        <span class="text-[10px] font-medium text-gray-500 group-[.active]:text-emerald-600" data-t="nav_me">我的</span>
                     </button>
                 </div>
             </div>
@@ -562,10 +684,10 @@
                 onclick="navTo('page-c-chat'); hideCustomerMsgPopup()">
                 <div class="w-10 h-10 flex-shrink-0 rounded-full bg-white/20 flex items-center justify-center text-xl">💬</div>
                 <div class="flex-1 min-w-0 overflow-hidden">
-                    <div class="text-sm font-bold text-white">店长消息</div>
-                    <div class="text-xs text-white/80 truncate" id="customer-popup-text">您有新消息</div>
+                    <div class="text-sm font-bold text-white" data-t="manager_msg">店长消息</div>
+                    <div class="text-xs text-white/80 truncate" id="customer-popup-text" data-t="new_msg">您有新消息</div>
                 </div>
-                <div class="text-xs text-white font-bold px-2 py-1 bg-white/20 rounded-lg flex-shrink-0">查看</div>
+                <div class="text-xs text-white font-bold px-2 py-1 bg-white/20 rounded-lg flex-shrink-0" data-t="view">查看</div>
             </div>
 
             <div id="payment-overlay"
@@ -574,7 +696,7 @@
                     <div class="text-center text-5xl font-bold mb-10 text-gray-900 font-mono tracking-tighter"
                         id="pay-overlay-total">¥0.00</div>
                     <button onclick="finalizePayment()"
-                        class="w-full bg-[#09bb07] text-white font-bold h-14 rounded-2xl text-lg shadow-xl shadow-green-100 active:scale-[0.98] transition-all">确认支付</button>
+                        class="w-full bg-[#09bb07] text-white font-bold h-14 rounded-2xl text-lg shadow-xl shadow-green-100 active:scale-[0.98] transition-all" data-t="confirm_pay">确认支付</button>
                 </div>
             </div>
 
@@ -586,7 +708,7 @@
                 <div id="success-tick"
                     class="hidden w-24 h-24 bg-[#09bb07] rounded-full items-center justify-center text-white text-5xl mb-6 animate-[popIn_0.5s] shadow-2xl shadow-green-200">
                     ✓</div>
-                <div class="text-gray-900 font-bold text-xl tracking-wide" id="payment-status-text">正在安全支付...</div>
+                <div class="text-gray-900 font-bold text-xl tracking-wide" id="payment-status-text" data-t="paying">正在安全支付...</div>
             </div>
         </div>
 
@@ -604,10 +726,10 @@
                 class="absolute top-14 left-4 right-4 z-[90] bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-3 flex items-center gap-3 shadow-2xl cursor-pointer transform -translate-y-[200%] opacity-0 transition-all duration-500 pointer-events-none">
                 <div class="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-xl">💬</div>
                 <div class="flex-1">
-                    <div class="text-sm font-bold text-white">收到新消息</div>
+                    <div class="text-sm font-bold text-white" data-t="new_msg_received">收到新消息</div>
                     <div class="text-xs text-gray-300 truncate" id="manager-popup-text">顾客：在吗？</div>
                 </div>
-                <div class="text-xs text-emerald-400 font-bold px-2 py-1 bg-emerald-500/20 rounded-lg">查看</div>
+                <div class="text-xs text-emerald-400 font-bold px-2 py-1 bg-emerald-500/20 rounded-lg" data-t="view">查看</div>
             </div>
 
             <div id="page-m-dashboard"
@@ -627,7 +749,7 @@
                     </div>
 
                     <div class="glass-modern p-6 rounded-3xl relative mb-4">
-                        <div class="text-xs text-emerald-200/70 mb-1">今日总营收</div>
+                        <div class="text-xs text-emerald-200/70 mb-1" data-t="today_revenue">今日总营收</div>
                         <div class="text-4xl font-bold text-white tracking-tight flex items-baseline gap-1">
                             <span class="text-2xl opacity-60">¥</span><span id="mgr-revenue">2,450</span>
                         </div>
@@ -643,7 +765,7 @@
                                 📦</div>
                             <div>
                                 <div class="text-2xl font-bold text-white" id="mgr-orders">32</div>
-                                <div class="text-[10px] text-gray-400">今日订单</div>
+                                <div class="text-[10px] text-gray-400" data-t="today_orders">今日订单</div>
                             </div>
                         </div>
                         <div class="glass-modern p-4 rounded-2xl h-24 flex flex-col justify-between">
@@ -652,13 +774,13 @@
                                 👥</div>
                             <div>
                                 <div class="text-2xl font-bold text-white">108</div>
-                                <div class="text-[10px] text-gray-400">进店客流</div>
+                                <div class="text-[10px] text-gray-400" data-t="visitors">进店客流</div>
                             </div>
                         </div>
                     </div>
 
                     <div class="flex items-center justify-between mb-4">
-                        <div class="text-sm font-bold text-white">最新动态</div>
+                        <div class="text-sm font-bold text-white" data-t="latest_activity">最新动态</div>
                         <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
                     </div>
 
@@ -671,15 +793,15 @@
                 <div class="pt-14 pb-4 px-4 border-b border-white/10 flex items-center relative bg-black/20">
                     <button onclick="closeManagerReply()"
                         class="absolute left-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20">✕</button>
-                    <div class="w-full text-center font-bold text-white">回复消息</div>
+                    <div class="w-full text-center font-bold text-white" data-t="reply_msg">回复消息</div>
                 </div>
                 <div id="manager-reply-history" class="flex-1 p-5 overflow-y-auto space-y-6 no-scrollbar pb-4"></div>
                 <div class="p-4 bg-black/40 border-t border-white/10 flex gap-3 pb-10">
                     <input type="text" id="manager-reply-input"
                         class="flex-1 bg-white/10 rounded-full px-5 py-3 text-white placeholder-gray-500 outline-none focus:bg-white/15 text-sm border border-white/5"
-                        placeholder="回复顾客...">
+                        placeholder="回复顾客..." data-t="reply_placeholder">
                     <button onclick="sendManagerReply()"
-                        class="bg-emerald-500 text-white font-bold px-6 rounded-full shadow-lg text-sm">发送</button>
+                        class="bg-emerald-500 text-white font-bold px-6 rounded-full shadow-lg text-sm" data-t="send">发送</button>
                 </div>
             </div>
 
@@ -689,10 +811,10 @@
                     class="glass-modern !bg-[#1a1a1a] p-6 w-full max-w-[300px] text-center rounded-3xl animate-[popIn_0.3s]">
                     <div class="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                         <span class="text-4xl">🔔</span></div>
-                    <h3 class="text-xl font-bold text-white mb-2">您有新的订单</h3>
-                    <p class="text-gray-400 text-sm mb-6">已加入待处理列表</p>
+                    <h3 class="text-xl font-bold text-white mb-2" data-t="new_order">您有新的订单</h3>
+                    <p class="text-gray-400 text-sm mb-6" data-t="added_queue">已加入待处理列表</p>
                     <button onclick="closeNewOrderModal()"
-                        class="w-full bg-emerald-500 hover:bg-emerald-400 text-white font-bold py-3 rounded-2xl transition-colors">知道了</button>
+                        class="w-full bg-emerald-500 hover:bg-emerald-400 text-white font-bold py-3 rounded-2xl transition-colors" data-t="got_it">知道了</button>
                 </div>
             </div>
 
@@ -724,7 +846,7 @@
             isCheckedIn: false,
             // 聊天记录初始化
             chatHistory: [
-                { id: 1, sender: 'manager', text: '👋 您好，我是店长，有什么可以帮您？', time: '10:00' }
+                { id: 1, sender: 'manager', textKey: 'chat_welcome', time: '10:00' }
             ],
             // 历史账单初始化
             bills: [],
@@ -846,10 +968,10 @@
         }
 
         // ================= 交易系统 =================
-        function addToCart(name, price) {
-            state.cart.push({ name, price, id: Date.now() });
+        function addToCart(nameKey, price) {
+            state.cart.push({ nameKey, name: et(nameKey), price, id: Date.now() });
             updateCartUI();
-            showToast('🛍️ 已加入购物车', 'success');
+            showToast(et('added_cart'), 'success');
         }
 
         function getCartTotal() { return state.cart.reduce((sum, item) => sum + item.price, 0); }
@@ -870,16 +992,17 @@
             const container = document.getElementById('cart-items-container');
             container.innerHTML = '';
             if (state.cart.length === 0) {
-                container.innerHTML = '<div class="text-center text-gray-400 mt-24">🛒 购物车空空如也</div>';
+                container.innerHTML = '<div class="text-center text-gray-400 mt-24">' + et('cart_empty_icon') + '</div>';
                 document.getElementById('cart-page-total').innerText = '¥0.00';
                 return;
             }
             state.cart.forEach((item) => {
+                const displayName = item.nameKey ? et(item.nameKey) : item.name;
                 container.innerHTML += `
                     <div class="flex justify-between items-center bg-white p-4 rounded-2xl shadow-sm border border-gray-100 mb-3 animate-[popIn_0.3s]">
                         <div class="flex items-center gap-4">
                             <div class="w-10 h-10 bg-gray-50 rounded-xl flex items-center justify-center text-xl">☕️</div>
-                            <div><div class="font-bold text-gray-800 text-sm">${item.name}</div><div class="text-gray-900 font-bold mt-1">¥${item.price}</div></div>
+                            <div><div class="font-bold text-gray-800 text-sm">${displayName}</div><div class="text-gray-900 font-bold mt-1">¥${item.price}</div></div>
                         </div>
                         <button onclick="removeFromCart(${item.id})" class="text-red-500 bg-red-50 w-8 h-8 rounded-full">×</button>
                     </div>`;
@@ -901,11 +1024,11 @@
         function finalizePayment() {
             // 先保存购物车数据（防止异步过程中被清空）
             const paidAmount = getCartTotal();
-            const itemNames = state.cart.map(i => i.name).join(', ');
+            const itemNames = state.cart.map(i => i.nameKey ? et(i.nameKey) : i.name).join(', ');
 
             // 如果购物车为空，不执行支付
             if (state.cart.length === 0 || paidAmount === 0) {
-                showToast('⚠️ 购物车为空', 'info');
+                showToast(et('cart_empty'), 'info');
                 return;
             }
 
@@ -916,14 +1039,14 @@
             document.getElementById('loading-spinner').classList.remove('hidden');
             document.getElementById('success-tick').classList.add('hidden');
             document.getElementById('success-tick').classList.remove('flex');
-            document.getElementById('payment-status-text').innerText = "正在安全支付...";
+            document.getElementById('payment-status-text').innerText = et('paying');
 
             setTimeout(() => {
                 // 支付成功逻辑
                 document.getElementById('loading-spinner').classList.add('hidden');
                 document.getElementById('success-tick').classList.remove('hidden');
                 document.getElementById('success-tick').classList.add('flex');
-                document.getElementById('payment-status-text').innerText = "支付成功!";
+                document.getElementById('payment-status-text').innerText = et('pay_success');
 
                 // 1. 更新店长数据
                 state.revenue += paidAmount;
@@ -1055,10 +1178,11 @@
             container.innerHTML = '';
             state.chatHistory.forEach(msg => {
                 const isMe = msg.sender === 'customer';
+                const txt = msg.textKey ? et(msg.textKey) : msg.text;
                 container.innerHTML += `
                     <div class="flex ${isMe ? 'justify-end' : 'justify-start'} mb-3 page-enter">
                         <div class="${isMe ? 'bg-emerald-500 text-white shadow-md' : 'bg-white text-gray-700 border border-gray-100 shadow-sm'} px-4 py-2.5 rounded-2xl ${isMe ? 'rounded-tr-none' : 'rounded-tl-none'} max-w-[85%] text-sm leading-relaxed">
-                            ${msg.text}
+                            ${txt}
                         </div>
                     </div>`;
             });
@@ -1070,12 +1194,13 @@
             container.innerHTML = '';
             state.chatHistory.forEach(msg => {
                 const isManager = msg.sender === 'manager';
+                const txt = msg.textKey ? et(msg.textKey) : msg.text;
                 container.innerHTML += `
                     <div class="flex ${isManager ? 'justify-end' : 'justify-start'} mb-4">
                          <div class="flex flex-col ${isManager ? 'items-end' : 'items-start'} max-w-[85%]">
                             <span class="text-[10px] text-gray-500 mb-1 ml-1">${isManager ? '我' : '顾客'}</span>
                             <div class="${isManager ? 'bg-emerald-600 text-white rounded-tr-none' : 'bg-white/10 text-gray-200 border border-white/10 rounded-tl-none'} px-4 py-3 rounded-2xl text-sm">
-                                ${msg.text}
+                                ${txt}
                             </div>
                          </div>
                     </div>`;
@@ -1189,7 +1314,7 @@
         // ================= 辅助功能 =================
         function dailyCheckIn() {
             if (state.isCheckedIn) {
-                showToast('📅 今天已经签到过了哦', 'info');
+                showToast(et('already_checkin'), 'info');
                 return;
             }
             state.points += 10;
@@ -1199,7 +1324,7 @@
             const btn = document.getElementById('btn-checkin');
             btn.innerText = '✓ 已签到';
             btn.className = 'bg-gray-100 text-gray-400 font-bold px-4 py-2 rounded-full text-sm border border-gray-200 cursor-not-allowed';
-            showToast('🎉 签到成功！积分 +10', 'success');
+            showToast(et('checkin_done'), 'success');
         }
 
         function showToast(msg, type) {
@@ -1358,6 +1483,7 @@
         }
 
         // 初始化
+        applyExpI18n();
         navTo('page-c-home');
         renderCustomerChat();
     </script>

@@ -5,13 +5,13 @@
 const I18N = {
   // Nav
   nav_home:        { zh: '首页',     en: 'Home',       ja: 'ホーム' },
-  nav_solutions:   { zh: '解决方案', en: 'Solutions',   ja: 'ソリューション' },
-  nav_pricing:     { zh: '服务定价', en: 'Pricing',     ja: '料金プラン' },
-  nav_tech:        { zh: '技术栈',   en: 'Tech Stack',  ja: '技術スタック' },
-  nav_cases:       { zh: '成功案例', en: 'Case Studies', ja: '実績' },
-  nav_demo:        { zh: '小程序演示', en: 'Mini-app Demo', ja: 'ミニアプリ' },
-  nav_gallery:     { zh: 'Visual Lab', en: 'Visual Lab', ja: 'Visual Lab' },
-  nav_about:       { zh: '关于我们', en: 'About Us',    ja: '私たちについて' },
+  nav_solutions:   { zh: '解决方案', en: 'Solutions',  ja: 'サービス' },
+  nav_pricing:     { zh: '服务定价', en: 'Pricing',    ja: '料金' },
+  nav_tech:        { zh: '技术栈',   en: 'Tech',       ja: '技術' },
+  nav_cases:       { zh: '成功案例', en: 'Cases',      ja: '実績' },
+  nav_demo:        { zh: '小程序演示', en: 'Demo',     ja: 'デモ' },
+  nav_gallery:     { zh: 'Visual Lab', en: 'Lab',      ja: 'Lab' },
+  nav_about:       { zh: '关于我们', en: 'About',      ja: '会社概要' },
   nav_cta:         { zh: '免费咨询方案', en: 'Free Consultation', ja: '無料相談' },
   nav_lang_switch: { zh: 'Switch to English', en: '日本語に切替', ja: '切换到中文' },
 
@@ -131,8 +131,17 @@ const I18N = {
   duck_cta:        { zh: '访问网站', en: 'Visit Website', ja: 'サイトを見る' },
 };
 
-// Current language state (restore from localStorage)
-let _currentLang = (typeof localStorage !== 'undefined' && localStorage.getItem('zencode_lang')) || 'zh';
+// Detect browser language → zh / en / ja
+function detectLang() {
+  var lang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+  if (lang.startsWith('zh')) return 'zh';
+  if (lang.startsWith('ja')) return 'ja';
+  return 'en';
+}
+
+// Current language state: saved preference > browser detection
+let _currentLang = (typeof localStorage !== 'undefined' && localStorage.getItem('zencode_lang')) || detectLang();
+document.documentElement.setAttribute('data-lang', _currentLang);
 
 // Get translation by key
 function t(key) {
@@ -145,6 +154,7 @@ function t(key) {
 function applyTranslations(lang) {
   _currentLang = lang || 'zh';
   try { localStorage.setItem('zencode_lang', _currentLang); } catch(e) {}
+  document.documentElement.setAttribute('data-lang', _currentLang);
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     const val = t(key);

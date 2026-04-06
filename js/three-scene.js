@@ -23,13 +23,14 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
   const CONNECTION_DISTANCE = isMobile ? 100 : 120;
   const CONNECTION_MAX = isMobile ? 200 : 450;
   const COLORS = {
-    green: 0x00ffa3,
-    darkGreen: 0x007a48,
-    gold: 0xb8976a,
-    white: 0xffffff,
+    cyan: 0x00e5ff,
+    deepBlue: 0x0a192f,
+    starlight: 0xffffff,
+    purple: 0xb388ff,
+    warmStar: 0xffaa00
   };
-  const COLOR_ARRAY = [COLORS.green, COLORS.darkGreen, COLORS.gold, COLORS.white];
-  const COLOR_WEIGHTS = [0.4, 0.25, 0.2, 0.15];
+  const COLOR_ARRAY = [COLORS.cyan, COLORS.starlight, COLORS.purple, COLORS.warmStar];
+  const COLOR_WEIGHTS = [0.5, 0.3, 0.15, 0.05];
 
   // --- State ---
   let scrollProgress = 0;
@@ -41,7 +42,6 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
   let bgParticleSystem, bgPositions, bgVelocities;
   let connectionGeometry, connectionMesh;
   let zenFigure, zenOriginal, zenPointTypes;
-  let icosahedron;
 
   function pickColor() {
     const r = Math.random();
@@ -73,15 +73,14 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
   }
 
   // =========================================================
-  // Phase 1: Load reference image and sample pixels
+  // 1. SILHOUETTE MASKING (from image)
   // =========================================================
   function loadImageAndSample() {
     return new Promise((resolve) => {
       const img = new Image();
       img.crossOrigin = 'anonymous';
       img.onload = function () {
-        // Draw to canvas at controlled resolution
-        const maxW = isMobile ? 200 : 320;
+        const maxW = isMobile ? 180 : 250;
         const scale = maxW / img.width;
         const W = Math.floor(img.width * scale);
         const H = Math.floor(img.height * scale);
@@ -95,73 +94,74 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
         const data = imgData.data;
         const points = [];
 
-        // Center of image
         const cx = W / 2;
-        const cy = H * 0.42; // figure is slightly above center
-
-        // Sampling step — smaller = more particles
-        const step = isMobile ? 3 : 2;
-
-        // Brightness threshold — only sample luminous pixels
-        const threshold = 25;
+        const cy = H / 2; // Figure is centered
+        const step = isMobile ? 5 : 4; // Dramatically reduced particle count
 
         for (let y = 0; y < H; y += step) {
           for (let x = 0; x < W; x += step) {
             const idx = (y * W + x) * 4;
-            const r = data[idx], g = data[idx + 1], b = data[idx + 2];
+            const r = data[idx], g = data[idx + 1], b = data[idx + 2], a = data[idx + 3];
+            
             const brightness = r * 0.299 + g * 0.587 + b * 0.114;
 
-            if (brightness < threshold) continue;
+            // MASK: Skip the black background of the JPG or transparent pixels
+            if (a < 128 || brightness < 15) continue;
 
-            // Normalize brightness 0-1
-            const bNorm = brightness / 255;
-
-            // Map canvas coords to Three.js centered coords
-            const mapScale = isMobile ? 0.55 : 0.45;
+            const mapScale = isMobile ? 0.7 : 1.1;
             const px = (x - cx) * mapScale;
-            const py = -(y - cy) * mapScale;
+            const py = -(y - cy) * mapScale; // WebGL Y grows UP
 
-            // Z depth: brighter center = thinner, dim outer = more depth spread
-            const distFromCenter = Math.sqrt((x - cx) * (x - cx) + (y - cy) * (y - cy));
-            const normalizedDist = distFromCenter / Math.max(W, H);
-            const noiseZ = Math.sin(x * 0.08) * Math.cos(y * 0.06) +
-                           Math.sin(x * 0.15 + y * 0.1) * 0.5;
-            const pz = bNorm > 0.7
-              ? noiseZ * 5 + (Math.random() - 0.5) * 4   // bright core: thin
-              : noiseZ * 14 + (Math.random() - 0.5) * 12; // dim edges: more depth
+            // --- Construct a Faux-3D Volume out of the 2D Image ---
+            // 1. Normalized horizontal distance from center [0 = center, 1 = edge]
+            const nx = Math.min(Math.abs(x - cx) / (W * 0.45), 1.0); 
+            // 2. Normalized vertical distance from center [-1 = top head, +1 = bottom legs]
+            const ny = Math.max(-1.0, Math.min((y - cy) / (H * 0.45), 1.0));
 
-            // Classify particle type
-            let type;
-            if (bNorm > 0.65) type = 0;      // core body (bright)
-            else if (bNorm > 0.3) type = 1;   // mid glow
-            else type = 2;                     // faint outer
+            // 3. Base thickness: thick in the middle, tapers smoothly to the edges using a Cosine curve
+            let thickness = Math.cos(nx * Math.PI * 0.5) * 45.0; // Base torso thickness
+            let zOffset = 0;
 
-            points.push({ x: px, y: py, z: pz, r, g, b, brightness: bNorm, type });
+            if (ny > 0.3) {
+              // Bottom half (crossed legs): heavily protruding forward + thicker bounds
+              const legFactor = (ny - 0.3) / 0.7; // 0 to 1
+              thickness += legFactor * 35.0;
+              zOffset = legFactor * 40.0; // Push knees physically forward
+            } else if (ny < -0.4) {
+              // Top area (head): cleanly spherical
+              thickness = Math.cos(nx * Math.PI * 0.5) * 35.0;
+            }
+
+            // Scatter Z randomly within the calculated volumetric thickness range
+            const pz = ((Math.random() - 0.5) * thickness + zOffset) * mapScale;
+
+            points.push({ x: px, y: py, z: pz, brightness: brightness / 255.0 });
           }
         }
-
         resolve(points);
       };
       img.onerror = function () {
-        console.warn('Failed to load zen reference image, using fallback');
+        console.error("Failed to load image");
         resolve(null);
       };
-      img.src = 'img/zen-ref.jpg';
+      img.src = 'img/zen-monk2.jpg';
     });
   }
 
   // =========================================================
-  // Phase 2: Build particle system from sampled image data
+  // 2. CREATE ZEN FIGURE (Points Geometry)
   // =========================================================
   function createZenFigure(samplePoints) {
+    if (!samplePoints || samplePoints.length === 0) return;
+
     const bodyCount = samplePoints.length;
 
-    // Extra particles for atmosphere
-    const auraCount = isMobile ? 200 : 450;
-    const trailCount = isMobile ? 120 : 300;
-    const totalCount = bodyCount + auraCount + trailCount;
+    // Extra particles for atmosphere (fine dust for rings)
+    const ringCount = isMobile ? 800 : 1800;
+    const totalCount = bodyCount + ringCount;
 
     const positions = new Float32Array(totalCount * 3);
+    const alphas = new Float32Array(totalCount);
     const original = new Float32Array(totalCount * 3);
     const colors = new Float32Array(totalCount * 3);
     const sizes = new Float32Array(totalCount);
@@ -169,96 +169,84 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 
     const color = new THREE.Color();
 
-    // --- Body particles from image pixel sampling ---
+    // Fill body (the glowing silhouette mapped from image array)
     for (let i = 0; i < bodyCount; i++) {
       const p = samplePoints[i];
       const i3 = i * 3;
+
       positions[i3] = p.x;
-      positions[i3 + 1] = p.y;
+      positions[i3 + 1] = p.y + 10; // Slightly nudge up
       positions[i3 + 2] = p.z;
-      original[i3] = p.x;
-      original[i3 + 1] = p.y;
-      original[i3 + 2] = p.z;
-      pointTypes[i] = p.type;
+      
+      original[i3] = positions[i3];
+      original[i3 + 1] = positions[i3 + 1];
+      original[i3 + 2] = positions[i3 + 2];
+      
+      alphas[i] = 0.8 + Math.random() * 0.2;
 
-      // Use ACTUAL image colors — the reference has warm gold/white tones
-      // Shift toward green/gold to match site palette while keeping the image's natural gradients
-      const rr = p.r / 255, gg = p.g / 255, bb = p.b / 255;
-
-      if (p.type === 0) {
-        // Bright core — keep original warm color, slight green tint
-        color.setRGB(
-          rr * 0.5 + 0.1,
-          Math.max(gg, rr * 0.8) * 0.9 + 0.2,
-          bb * 0.4 + 0.15
-        );
-        sizes[i] = isMobile ? 2.0 + p.brightness * 2.5 : 1.6 + p.brightness * 3.0;
-      } else if (p.type === 1) {
-        // Mid glow — blend original color with site green
-        color.setRGB(
-          rr * 0.3,
-          gg * 0.5 + 0.35,
-          bb * 0.3 + 0.2
-        );
-        sizes[i] = isMobile ? 2.8 + p.brightness * 3.0 : 2.2 + p.brightness * 4.0;
+      // Magical cosmic colors linked to original image brightness!
+      const rand = Math.random();
+      
+      // Extremely bright spots in the photo become pure starlight
+      if (p.brightness > 0.8 || rand < 0.02) {
+        color.setHex(COLORS.starlight);
+        sizes[i] = isMobile ? 3.0 : 3.5;
+        alphas[i] = 1.0;
+      } else if (rand < 0.12) {
+        color.setHex(Math.random() > 0.5 ? COLORS.warmStar : COLORS.cyan);
+        sizes[i] = isMobile ? 2.5 : 3.0;
+        alphas[i] = 0.9;
+      } else if (p.brightness > 0.4 || rand < 0.75) {
+        // Mid-tones map to our core cyan vibe
+        color.setHex(COLORS.cyan);
+        color.lerp(new THREE.Color(COLORS.deepBlue), Math.random() * 0.3);
+        sizes[i] = isMobile ? 2.2 : 2.5;
       } else {
-        // Faint outer — mostly site green with original color influence
-        color.setRGB(
-          rr * 0.15,
-          0.3 + gg * 0.25,
-          0.2 + bb * 0.1
-        );
-        sizes[i] = isMobile ? 3.5 + Math.random() * 3.5 : 3.0 + Math.random() * 5.0;
+        // Darker folds and edges become deep blue/purple shadow lines
+        color.setHex(COLORS.purple);
+        color.lerp(new THREE.Color(COLORS.deepBlue), Math.random() * 0.3);
+        sizes[i] = isMobile ? 1.8 : 2.2;
       }
 
       colors[i3] = color.r;
       colors[i3 + 1] = color.g;
       colors[i3 + 2] = color.b;
+      pointTypes[i] = 0;
     }
 
-    // --- Aura ring particles ---
+    // --- Swirling Galaxy Rings ---
     let idx = bodyCount;
-    for (let i = 0; i < auraCount; i++, idx++) {
-      const angle = Math.random() * Math.PI * 2;
-      const elevation = Math.random() * Math.PI - Math.PI * 0.3;
-      const dist = 50 + Math.random() * 50;
-      const i3 = idx * 3;
-      positions[i3] = Math.cos(angle) * Math.cos(elevation) * dist;
-      positions[i3 + 1] = Math.sin(elevation) * dist;
-      positions[i3 + 2] = Math.sin(angle) * Math.cos(elevation) * dist * 0.6;
-      original[i3] = positions[i3];
-      original[i3 + 1] = positions[i3 + 1];
-      original[i3 + 2] = positions[i3 + 2];
-      pointTypes[idx] = 3;
-      const rnd = Math.random();
-      if (rnd < 0.4) color.setHex(COLORS.green);
-      else if (rnd < 0.7) color.setHex(0x00cc80);
-      else if (rnd < 0.85) color.setHex(COLORS.gold);
-      else color.setHex(0xffeedd);
-      colors[i3] = color.r; colors[i3 + 1] = color.g; colors[i3 + 2] = color.b;
-      sizes[idx] = isMobile ? 3.5 + rnd * 4.0 : 3.0 + rnd * 5.5;
-    }
+    for (let i = 0; i < ringCount; i++, idx++) {
+      // 3 spiral arms
+      const armIndex = i % 3;
+      const t = Math.random(); // position along the arm
+      
+      const angle = t * Math.PI * 10 + (armIndex * Math.PI * 2 / 3); 
+      const radius = 25 + t * 300 + (Math.random() - 0.5) * 40;
+      
+      // Slant the ring using Math.sin
+      const elevation = Math.sin(angle * 1.5) * 40 + (Math.random() - 0.5) * 30;
 
-    // --- Energy trail (upward from crown) ---
-    for (let i = 0; i < trailCount; i++, idx++) {
-      const t = Math.random();
-      const spread = t * 30;
       const i3 = idx * 3;
-      positions[i3] = (Math.random() - 0.5) * spread;
-      positions[i3 + 1] = 50 + t * 100;
-      positions[i3 + 2] = (Math.random() - 0.5) * spread * 0.5;
+      positions[i3] = Math.cos(angle) * radius;
+      positions[i3 + 1] = elevation - 50; 
+      positions[i3 + 2] = Math.sin(angle) * radius * 0.6; // slightly elliptical
+      
       original[i3] = positions[i3];
       original[i3 + 1] = positions[i3 + 1];
       original[i3 + 2] = positions[i3 + 2];
-      pointTypes[idx] = 4;
+      
+      alphas[idx] = 0.4 + Math.random() * 0.3; // Ensure background rings are visible
+      pointTypes[idx] = armIndex === 0 ? 3 : 4; 
+      
       const rnd = Math.random();
-      if (rnd < 0.3) color.setHex(0xffffff);
-      else if (rnd < 0.55) color.setHex(COLORS.green);
-      else if (rnd < 0.75) color.setHex(0x80ffd0);
-      else if (rnd < 0.9) color.setHex(COLORS.gold);
-      else color.setHex(0xffeedd);
+      if (rnd < 0.15) color.setHex(COLORS.starlight);
+      else if (rnd < 0.6) color.setHex(COLORS.cyan);
+      else if (rnd < 0.85) color.setHex(COLORS.purple);
+      else color.setHex(COLORS.deepBlue);
+      
       colors[i3] = color.r; colors[i3 + 1] = color.g; colors[i3 + 2] = color.b;
-      sizes[idx] = isMobile ? 1.5 + rnd * 2.5 : 1.2 + rnd * 3.5;
+      sizes[idx] = Math.random() * (isMobile ? 2.0 : 2.5) + 0.5; // Fine cosmic dust for rings
     }
 
     // --- Geometry ---
@@ -266,6 +254,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
     geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+    geometry.setAttribute('alpha', new THREE.BufferAttribute(alphas, 1));
 
     // --- GLSL Shader Material ---
     const glowTexture = createGlowTexture();
@@ -278,6 +267,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
       },
       vertexShader: /* glsl */ `
         attribute float size;
+        attribute float alpha;
         varying vec3 vColor;
         varying float vAlpha;
         uniform float uPixelRatio;
@@ -299,13 +289,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 
           vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
           float dist = length(mvPosition.xyz);
-          vAlpha = clamp(1.0 - dist / 1400.0, 0.3, 1.0);
-
-          // Organic floating displacement
-          float n = hash(position + uTime * 0.07);
-          mvPosition.x += sin(uTime * 0.4 + n * 6.28) * 0.45;
-          mvPosition.y += cos(uTime * 0.35 + n * 4.71) * 0.4;
-          mvPosition.z += sin(uTime * 0.3 + n * 3.14) * 0.35;
+          vAlpha = alpha * clamp(1.0 - dist / 1400.0, 0.3, 1.0);
 
           gl_PointSize = size * uPixelRatio * (400.0 / -mvPosition.z);
           gl_PointSize = clamp(gl_PointSize, 0.5, 55.0);
@@ -318,9 +302,10 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
         varying float vAlpha;
         void main() {
           vec4 texColor = texture2D(uTexture, gl_PointCoord);
-          float a = texColor.a * vAlpha * ${isMobile ? '1.0' : '0.92'};
+          float a = texColor.a * vAlpha;
           if (a < 0.01) discard;
-          gl_FragColor = vec4(vColor * (0.7 + texColor.r * 0.55), a);
+          // Restore beautiful blooming brightness
+          gl_FragColor = vec4(vColor * (1.1 + texColor.r * 1.5), a);
         }
       `,
       transparent: true,
@@ -410,68 +395,11 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
     scene.add(bgParticleSystem);
   }
 
-  // --- Connections ---
-  function createConnections() {
-    const maxVerts = CONNECTION_MAX * 2;
-    const pos = new Float32Array(maxVerts * 3);
-    const col = new Float32Array(maxVerts * 3);
-    connectionGeometry = new THREE.BufferGeometry();
-    connectionGeometry.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-    connectionGeometry.setAttribute('color', new THREE.BufferAttribute(col, 3));
-    connectionGeometry.setDrawRange(0, 0);
-    const mat = new THREE.LineBasicMaterial({
-      vertexColors: true, transparent: true,
-      opacity: isMobile ? 0.5 : 0.35,
-      blending: THREE.AdditiveBlending, depthWrite: false,
-    });
-    connectionMesh = new THREE.LineSegments(connectionGeometry, mat);
-    scene.add(connectionMesh);
-  }
 
-  function updateConnections() {
-    const pos = connectionGeometry.attributes.position.array;
-    const col = connectionGeometry.attributes.color.array;
-    const pp = bgPositions;
-    let vc = 0;
-    const dSq = CONNECTION_DISTANCE * CONNECTION_DISTANCE;
-    const step = isMobile ? 5 : 3;
 
-    for (let i = 0; i < BG_PARTICLE_COUNT && vc < CONNECTION_MAX * 2; i += step) {
-      const ix = pp[i * 3], iy = pp[i * 3 + 1], iz = pp[i * 3 + 2];
-      for (let j = i + step; j < BG_PARTICLE_COUNT && vc < CONNECTION_MAX * 2; j += step) {
-        const dx = ix - pp[j * 3], dy = iy - pp[j * 3 + 1], dz = iz - pp[j * 3 + 2];
-        const d2 = dx * dx + dy * dy + dz * dz;
-        if (d2 < dSq) {
-          const a = 1 - Math.sqrt(d2) / CONNECTION_DISTANCE;
-          pos[vc * 3] = ix; pos[vc * 3 + 1] = iy; pos[vc * 3 + 2] = iz;
-          col[vc * 3] = 0; col[vc * 3 + 1] = a * 0.6 + 0.4; col[vc * 3 + 2] = a * 0.1;
-          vc++;
-          pos[vc * 3] = pp[j * 3]; pos[vc * 3 + 1] = pp[j * 3 + 1]; pos[vc * 3 + 2] = pp[j * 3 + 2];
-          col[vc * 3] = 0; col[vc * 3 + 1] = a * 0.4 + 0.2; col[vc * 3 + 2] = a * 0.1;
-          vc++;
-        }
-      }
-    }
-    connectionGeometry.setDrawRange(0, vc);
-    connectionGeometry.attributes.position.needsUpdate = true;
-    connectionGeometry.attributes.color.needsUpdate = true;
-  }
-
-  // --- Icosahedron ---
-  function createIcosahedron() {
-    const geo = new THREE.IcosahedronGeometry(40, 1);
-    const mat = new THREE.MeshBasicMaterial({
-      color: COLORS.gold, wireframe: true, transparent: true,
-      opacity: isMobile ? 0.35 : 0.22,
-      blending: THREE.AdditiveBlending,
-    });
-    icosahedron = new THREE.Mesh(geo, mat);
-    icosahedron.position.set(200, 0, -100);
-    scene.add(icosahedron);
-  }
 
   // --- Init ---
-  async function init() {
+  function init() {
     const canvas = document.createElement('canvas');
     canvas.id = 'three-canvas';
     canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;';
@@ -483,24 +411,12 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
     });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setClearColor(0x0a1f1a, 1);
+    renderer.setClearColor(0x000000, 1);
     renderer.toneMapping = THREE.ReinhardToneMapping;
-    renderer.toneMappingExposure = 1.5;
+    renderer.toneMappingExposure = 2.0;
 
     scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x061510, 0.0008);
-
-    // Background gradient
-    const bgC = document.createElement('canvas');
-    bgC.width = 2; bgC.height = 512;
-    const bgCtx = bgC.getContext('2d');
-    const bgG = bgCtx.createLinearGradient(0, 0, 0, 512);
-    bgG.addColorStop(0, '#0a1f1a');
-    bgG.addColorStop(0.5, '#081a15');
-    bgG.addColorStop(1, '#061510');
-    bgCtx.fillStyle = bgG;
-    bgCtx.fillRect(0, 0, 2, 512);
-    scene.background = new THREE.CanvasTexture(bgC);
+    scene.fog = new THREE.FogExp2(0x000000, 0.0006);
 
     camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 3000);
     camera.position.set(0, 0, 500);
@@ -510,22 +426,18 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
     composer.addPass(new RenderPass(scene, camera));
     bloomPass = new UnrealBloomPass(
       new THREE.Vector2(window.innerWidth, window.innerHeight),
-      isMobile ? 1.1 : 1.4,   // strength — higher for more glow
-      0.6,                     // radius
-      0.2                      // threshold (lower = more glow)
+      isMobile ? 1.2 : 1.4,   // Softer strength to prevent shape fusion
+      0.4,                     // Crisper radius
+      0.1                      // Lower threshold to ensure body blooms softly
     );
     composer.addPass(bloomPass);
 
     // Build scene elements
     createBgParticles();
-    createIcosahedron();
-    createConnections();
-
-    // Load reference image → sample pixels → create zen figure
-    const samplePoints = await loadImageAndSample();
-    if (samplePoints && samplePoints.length > 0) {
-      createZenFigure(samplePoints);
-    }
+    // Load Image and mask out particles
+    loadImageAndSample().then((pointsArray) => {
+      createZenFigure(pointsArray);
+    });
 
     window.addEventListener('mousemove', onMouseMove, false);
     window.addEventListener('resize', onResize, false);
@@ -573,7 +485,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 
     // Dynamic bloom intensity on scroll
     if (bloomPass) {
-      bloomPass.strength = (isMobile ? 0.7 : 0.9) + scrollProgress * 0.5;
+      bloomPass.strength = (isMobile ? 1.0 : 1.2) + scrollProgress * 0.4;
     }
 
     // --- Background particles ---
@@ -611,7 +523,9 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
     if (zenFigure) {
       const positions = zenFigure.geometry.attributes.position.array;
       const totalCount = zenFigure.userData.totalCount;
-      const breathe = Math.sin(time * 0.5) * 0.009;
+      
+      // Deep meditative breathing: ~6 seconds per breath cycle
+      const breathe = Math.sin(time * 1.0) * 0.015;
 
       zenFigure.material.uniforms.uTime.value = time;
       zenFigure.material.uniforms.uExpansion.value = scrollProgress;
@@ -623,44 +537,38 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
         const phase = i * 0.23;
 
         if (type <= 1) {
-          // Body/mid from image: breathing + subtle float
+          // Body/mid from image: gently breathe only, NO jitter/shaking
           const b = breathe * (1 + oy * 0.003);
-          positions[i3] = ox * (1 + b) + Math.sin(time * 0.3 + phase) * 0.2;
-          positions[i3 + 1] = oy * (1 + b * 0.5) + Math.cos(time * 0.25 + phase) * 0.16;
-          positions[i3 + 2] = oz * (1 + b) + Math.sin(time * 0.2 + phase) * 0.2;
+          positions[i3] = ox * (1 + b);
+          positions[i3 + 1] = oy * (1 + b * 0.5);
+          positions[i3 + 2] = oz * (1 + b);
         } else if (type === 2) {
-          // Faint outer: more drift
-          positions[i3] = ox + Math.sin(time * 0.2 + phase) * 1.8;
-          positions[i3 + 1] = oy + Math.sin(time * 0.3 + phase) * 1.4;
-          positions[i3 + 2] = oz + Math.cos(time * 0.15 + phase) * 1.8;
-        } else if (type === 3) {
-          // Aura ring: gentle orbit
-          positions[i3] = ox + Math.sin(time * 0.2 + phase) * 2.8;
-          positions[i3 + 1] = oy + Math.sin(time * 0.35 + phase) * 1.8;
-          positions[i3 + 2] = oz + Math.cos(time * 0.15 + phase) * 2.2;
-        } else {
-          // Trail: rising energy
-          const speed = 5 + (i % 5) * 2;
-          const cycle = ((time * speed + phase * 40) % 180) / 180;
-          positions[i3] = ox + Math.sin(time * 0.2 + phase) * (2 + cycle * 15);
-          positions[i3 + 1] = oy + cycle * 60;
-          positions[i3 + 2] = oz + Math.cos(time * 0.25 + phase) * (1.5 + cycle * 10);
+          // Faint outer: no jitter
+          positions[i3] = ox;
+          positions[i3 + 1] = oy;
+          positions[i3 + 2] = oz;
+        } else if (type === 3 || type === 4) {
+          // Spiral Arms: Rotate them over time!
+          const rSpeed = (type === 3 ? 0.25 : 0.15);
+          const angleOffset = time * rSpeed;
+          
+          // Original XY flat rotation
+          const cosA = Math.cos(angleOffset);
+          const sinA = Math.sin(angleOffset);
+          
+          // Breathe / floating
+          const floatY = Math.sin(time * 0.5 + phase) * 2.0;
+
+          // Note: ox, oz are the original flat plane coords, oy is elevation
+          positions[i3] = ox * cosA - oz * sinA;
+          positions[i3 + 1] = oy + floatY;
+          positions[i3 + 2] = ox * sinA + oz * cosA;
         }
       }
       zenFigure.geometry.attributes.position.needsUpdate = true;
-      zenFigure.rotation.y = time * 0.06;
+      // Fixed orientation: No rotation, just calm breathing
+      zenFigure.rotation.y = 0; 
     }
-
-    // --- Icosahedron orbit ---
-    const orbitR = 250;
-    icosahedron.position.x = Math.cos(time * 0.3) * orbitR;
-    icosahedron.position.y = Math.sin(time * 0.2) * 80;
-    icosahedron.position.z = Math.sin(time * 0.3) * orbitR - 100;
-    icosahedron.rotation.x = time * 0.4;
-    icosahedron.rotation.y = time * 0.6;
-
-    // Connections (throttled)
-    if (frameCount % 3 === 0) updateConnections();
 
     // Render with bloom
     composer.render();
