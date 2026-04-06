@@ -116,18 +116,18 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 
       const rnd = Math.random();
       if (types[i] === 1) {
-        // Surface: bright
+        // Surface: bright, defines silhouette
         if (rnd < 0.5) color.setHex(COLORS.green);
         else if (rnd < 0.75) color.setHex(0xffffff);
         else if (rnd < 0.9) color.setHex(0x80ffd0);
         else color.setHex(COLORS.gold);
-        sizes[i] = isMobile ? 1.5 + rnd * 1.2 : 1.2 + rnd * 1.8;
+        sizes[i] = isMobile ? 2.5 + rnd * 2.0 : 2.0 + rnd * 2.5;
       } else {
-        // Volume: dimmer
-        if (rnd < 0.4) color.setHex(0x00aa6e);
-        else if (rnd < 0.7) color.setHex(COLORS.darkGreen);
-        else color.setHex(0x00cc80);
-        sizes[i] = isMobile ? 0.8 + rnd * 0.6 : 0.6 + rnd * 1.0;
+        // Volume: fills body
+        if (rnd < 0.4) color.setHex(0x00cc80);
+        else if (rnd < 0.7) color.setHex(COLORS.green);
+        else color.setHex(0x00dd90);
+        sizes[i] = isMobile ? 1.5 + rnd * 1.2 : 1.2 + rnd * 1.5;
       }
       colors[i3] = color.r;
       colors[i3 + 1] = color.g;
@@ -152,7 +152,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
       else if (rnd < 0.8) color.setHex(0x00cc80);
       else color.setHex(COLORS.gold);
       colors[i3] = color.r; colors[i3 + 1] = color.g; colors[i3 + 2] = color.b;
-      sizes[idx] = isMobile ? 3 + rnd * 3.5 : 2.5 + rnd * 4.5;
+      sizes[idx] = isMobile ? 4 + rnd * 4 : 3.5 + rnd * 5.5;
     }
 
     // Energy trail (upward from top)
@@ -172,7 +172,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
       else if (rnd < 0.85) color.setHex(0x80ffd0);
       else color.setHex(COLORS.gold);
       colors[i3] = color.r; colors[i3 + 1] = color.g; colors[i3 + 2] = color.b;
-      sizes[idx] = isMobile ? 1 + rnd * 2 : 0.8 + rnd * 3;
+      sizes[idx] = isMobile ? 1.5 + rnd * 2.5 : 1.2 + rnd * 3.5;
     }
 
     // Ground glow
@@ -222,7 +222,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
           vColor = color;
           vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
           float dist = length(mvPosition.xyz);
-          vAlpha = clamp(1.0 - dist / 900.0, 0.25, 1.0);
+          vAlpha = clamp(1.0 - dist / 1200.0, 0.4, 1.0);
 
           // Noise-based subtle displacement
           float n = hash(position + uTime * 0.1);
@@ -240,7 +240,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
         varying float vAlpha;
         void main() {
           vec4 texColor = texture2D(uTexture, gl_PointCoord);
-          float a = texColor.a * vAlpha * 0.92;
+          float a = texColor.a * vAlpha * 0.98;
           if (a < 0.01) discard;
           gl_FragColor = vec4(vColor * (0.8 + texColor.r * 0.4), a);
         }
@@ -433,9 +433,9 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
     composer.addPass(new RenderPass(scene, camera));
     bloomPass = new UnrealBloomPass(
       new THREE.Vector2(window.innerWidth, window.innerHeight),
-      isMobile ? 0.6 : 0.8,  // strength
-      0.4,                     // radius
-      0.85                     // threshold
+      isMobile ? 1.0 : 1.2,   // strength
+      0.5,                     // radius
+      0.3                      // threshold (lower = more glow)
     );
     composer.addPass(bloomPass);
 
