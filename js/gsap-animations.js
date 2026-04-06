@@ -160,10 +160,10 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.from('.work-card', {
         scrollTrigger: { trigger: '.work-grid', start: triggerStart, once: true },
         opacity: 0,
-        y: 30,
-        duration: 0.8,
-        stagger: 0.2,
-        ease: 'power2.out',
+        y: 10,
+        duration: 1.4,
+        stagger: 0.15,
+        ease: 'power1.out',
     });
 
     // ========== PROCESS STEPS - bounce in ==========
