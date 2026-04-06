@@ -52,31 +52,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ========== HERO ENTRANCE (cinematic timeline) ==========
     function playHeroEntrance() {
+        const d = isMobile ? 0.6 : 1; // duration multiplier for mobile
         const heroTl = gsap.timeline({ defaults: { ease: 'power4.out' } });
 
         heroTl
             .from('.hero-badge', {
-                scale: 0, opacity: 0, duration: 0.6,
+                scale: 0, opacity: 0, duration: 0.4 * d,
                 ease: 'back.out(2)'
             })
             .from('.char-reveal', {
-                y: 80, opacity: 0, rotateX: -90,
-                duration: 0.8, stagger: 0.02,
+                y: isMobile ? 30 : 80, opacity: 0,
+                rotateX: isMobile ? 0 : -90,
+                duration: 0.5 * d, stagger: isMobile ? 0.01 : 0.02,
                 ease: 'power4.out'
-            }, '-=0.2')
+            }, '-=0.1')
             .from('.hero-desc', {
-                y: 40, opacity: 0, duration: 0.8,
-                filter: 'blur(10px)'
-            }, '-=0.3')
+                y: isMobile ? 15 : 40, opacity: 0,
+                duration: 0.5 * d,
+                filter: isMobile ? 'none' : 'blur(10px)'
+            }, '-=0.2')
             .from('.hero-actions .btn-primary', {
-                x: -30, opacity: 0, duration: 0.6
-            }, '-=0.3')
+                x: isMobile ? 0 : -30, y: isMobile ? 15 : 0,
+                opacity: 0, duration: 0.4 * d
+            }, '-=0.2')
             .from('.hero-actions .btn-secondary', {
-                x: 30, opacity: 0, duration: 0.6
-            }, '-=0.5')
+                x: isMobile ? 0 : 30, y: isMobile ? 15 : 0,
+                opacity: 0, duration: 0.4 * d
+            }, '-=0.3')
             .from('.hero-stack-item', {
-                y: 60, opacity: 0, duration: 0.5,
-                stagger: { each: 0.1, from: 'start' }
+                y: isMobile ? 15 : 60, opacity: 0,
+                duration: 0.3 * d,
+                stagger: { each: isMobile ? 0.05 : 0.1, from: 'start' }
             }, '-=0.2');
     }
 
