@@ -1,30 +1,16 @@
-// GSAP ScrollTrigger animations for ZenCode.jp
+// Cinematic GSAP Animation System for ZenCode.jp
 gsap.registerPlugin(ScrollTrigger);
 
 document.addEventListener('DOMContentLoaded', () => {
     const isMobile = window.innerWidth <= 768;
 
-    // ========== CURSOR GLOW (desktop only) ==========
-    if (!isMobile) {
-        const glow = document.createElement('div');
-        glow.className = 'cursor-glow';
-        document.body.appendChild(glow);
-        document.addEventListener('mousemove', e => {
-            gsap.to(glow, {
-                x: e.clientX, y: e.clientY,
-                duration: 0.6, ease: 'power2.out'
-            });
-        });
-    }
-
-    // ========== HERO - Cinematic entrance ==========
-    // Split hero title text into characters for per-char animation
+    // ========== CHARACTER SPLIT for hero h1 ==========
     const heroH1 = document.querySelector('.hero h1');
     if (heroH1) {
         const spans = heroH1.querySelectorAll('span[x-show]');
         spans.forEach(span => {
             const inner = span.innerHTML;
-            // Wrap each char (skip HTML tags)
+            // Wrap each visible character, skip HTML tags
             const wrapped = inner.replace(/(<[^>]+>)|([^<\s])/g, (match, tag, char) => {
                 if (tag) return tag;
                 return `<span class="char-reveal">${char}</span>`;
@@ -33,100 +19,149 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const heroTl = gsap.timeline({ defaults: { ease: 'power4.out' } });
-    heroTl
-        .from('.hero-badge', {
-            scale: 0, opacity: 0, duration: 0.6,
-            ease: 'back.out(2)'
-        })
-        .from('.char-reveal', {
-            y: 80, opacity: 0, rotateX: -90,
-            duration: 0.8, stagger: 0.02,
-            ease: 'power4.out'
-        }, '-=0.2')
-        .from('.hero-desc', {
-            y: 40, opacity: 0, duration: 0.8,
-            filter: 'blur(10px)'
-        }, '-=0.3')
-        .from('.hero-actions .btn-primary', {
-            x: -30, opacity: 0, duration: 0.6
-        }, '-=0.3')
-        .from('.hero-actions .btn-secondary', {
-            x: 30, opacity: 0, duration: 0.6
-        }, '-=0.5')
-        .from('.hero-stack-item', {
-            y: 60, opacity: 0, duration: 0.5,
-            stagger: { each: 0.1, from: 'start' }
-        }, '-=0.2');
+    // ========== LOADING SCREEN ==========
+    const loadingScreen = document.querySelector('.loading-screen');
+    if (loadingScreen) {
+        window.addEventListener('load', () => {
+            gsap.to(loadingScreen, {
+                opacity: 0, y: '-100vh',
+                duration: 0.8, ease: 'power3.inOut',
+                delay: 1.5,
+                onComplete: () => {
+                    loadingScreen.style.display = 'none';
+                    playHeroEntrance();
+                }
+            });
+        });
+    } else {
+        // No loading screen, play hero immediately
+        playHeroEntrance();
+    }
 
-    // Hero parallax fade on scroll
+    // ========== HERO ENTRANCE (cinematic timeline) ==========
+    function playHeroEntrance() {
+        const heroTl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+
+        heroTl
+            .from('.hero-badge', {
+                scale: 0, opacity: 0, duration: 0.6,
+                ease: 'back.out(2)'
+            })
+            .from('.char-reveal', {
+                y: 80, opacity: 0, rotateX: -90,
+                duration: 0.8, stagger: 0.02,
+                ease: 'power4.out'
+            }, '-=0.2')
+            .from('.hero-desc', {
+                y: 40, opacity: 0, duration: 0.8,
+                filter: 'blur(10px)'
+            }, '-=0.3')
+            .from('.hero-actions .btn-primary', {
+                x: -30, opacity: 0, duration: 0.6
+            }, '-=0.3')
+            .from('.hero-actions .btn-secondary', {
+                x: 30, opacity: 0, duration: 0.6
+            }, '-=0.5')
+            .from('.hero-stack-item', {
+                y: 60, opacity: 0, duration: 0.5,
+                stagger: { each: 0.1, from: 'start' }
+            }, '-=0.2');
+    }
+
+    // ========== SCROLL-LINKED THREE.JS BACKGROUND ==========
+    ScrollTrigger.create({
+        trigger: document.body,
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 0.5,
+        onUpdate: (self) => {
+            if (window.zenScene && window.zenScene.setScrollProgress) {
+                window.zenScene.setScrollProgress(self.progress);
+            }
+        }
+    });
+
+    // ========== HERO SCROLL PARALLAX (desktop only) ==========
     if (!isMobile) {
         gsap.to('.hero-inner', {
             scrollTrigger: {
-                trigger: '.hero', start: 'top top',
-                end: '80% top', scrub: 1
+                trigger: '.hero',
+                start: 'top top',
+                end: '80% top',
+                scrub: 1
             },
             y: -120, opacity: 0, scale: 0.95
         });
     }
 
-    // ========== NAV entrance ==========
-    gsap.from('.nav-logo', { x: -30, opacity: 0, duration: 0.8, delay: 0.3, ease: 'power3.out' });
-    gsap.from('.nav-links a', { y: -15, opacity: 0, duration: 0.4, stagger: 0.06, delay: 0.5, ease: 'power2.out' });
-    gsap.from('.nav-cta', { scale: 0.8, opacity: 0, duration: 0.5, delay: 0.9, ease: 'back.out(2)' });
+    // ========== NAV ENTRANCE ==========
+    gsap.from('.nav-logo', {
+        x: -30, opacity: 0, duration: 0.8,
+        delay: 0.3, ease: 'power3.out'
+    });
+    gsap.from('.nav-links a', {
+        y: -15, opacity: 0, duration: 0.4,
+        stagger: 0.06, delay: 0.5, ease: 'power2.out'
+    });
+    gsap.from('.nav-cta', {
+        scale: 0.8, opacity: 0, duration: 0.5,
+        delay: 0.9, ease: 'back.out(2)'
+    });
 
     // ========== SECTION TITLES - clip path reveal ==========
     document.querySelectorAll('.section-title').forEach(title => {
         gsap.from(title, {
-            scrollTrigger: { trigger: title, start: 'top 90%' },
+            scrollTrigger: { trigger: title, start: 'top 88%' },
             clipPath: 'inset(0 100% 0 0)',
             opacity: 0, duration: 1.2, ease: 'power4.inOut'
         });
     });
 
+    // ========== SECTION LABELS - slide from left ==========
     document.querySelectorAll('.section-label').forEach(label => {
         gsap.from(label, {
-            scrollTrigger: { trigger: label, start: 'top 90%' },
+            scrollTrigger: { trigger: label, start: 'top 88%' },
             x: -30, opacity: 0, duration: 0.6
         });
     });
 
+    // ========== SECTION DESCRIPTIONS - fade up ==========
     document.querySelectorAll('.section-desc').forEach(desc => {
         gsap.from(desc, {
-            scrollTrigger: { trigger: desc, start: 'top 90%' },
+            scrollTrigger: { trigger: desc, start: 'top 88%' },
             y: 20, opacity: 0, duration: 0.7, delay: 0.2
         });
     });
 
-    // ========== SERVICE CARDS - 3D flip in ==========
+    // ========== SERVICE CARDS - stagger with 3D rotateY ==========
     gsap.from('.service-card', {
-        scrollTrigger: { trigger: '.services-grid', start: 'top 85%' },
+        scrollTrigger: { trigger: '.services-grid', start: 'top 88%' },
         y: 80, opacity: 0, rotateY: isMobile ? 0 : 15,
         duration: 0.9, stagger: 0.12, ease: 'power3.out'
     });
 
-    // ========== WORK CARDS - staggered scale ==========
+    // ========== WORK CARDS - stagger scale up ==========
     gsap.from('.work-card', {
-        scrollTrigger: { trigger: '.work-grid', start: 'top 85%' },
+        scrollTrigger: { trigger: '.work-grid', start: 'top 88%' },
         y: 100, opacity: 0, scale: 0.9,
         duration: 1, stagger: 0.15, ease: 'power3.out'
     });
 
     // ========== PROCESS STEPS - bounce in ==========
     gsap.from('.process-step', {
-        scrollTrigger: { trigger: '.process-steps', start: 'top 85%' },
+        scrollTrigger: { trigger: '.process-steps', start: 'top 88%' },
         y: 60, opacity: 0, scale: 0.8,
         duration: 0.8, stagger: 0.12, ease: 'back.out(1.7)'
     });
 
     // Step numbers spin in
     gsap.from('.step-num', {
-        scrollTrigger: { trigger: '.process-steps', start: 'top 85%' },
+        scrollTrigger: { trigger: '.process-steps', start: 'top 88%' },
         rotation: 360, scale: 0, duration: 0.8,
         stagger: 0.12, ease: 'back.out(2)', delay: 0.2
     });
 
-    // ========== TECH STRIP - wave entrance ==========
+    // ========== TECH ITEMS - wave stagger with scale bounce ==========
     gsap.from('.tech-item', {
         scrollTrigger: { trigger: '.tech-strip', start: 'top 88%' },
         y: 40, opacity: 0, scale: 0.8,
@@ -162,30 +197,31 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ========== CTA - dramatic entrance ==========
+    // ========== CTA SECTION - dramatic entrance ==========
     const ctaTl = gsap.timeline({
-        scrollTrigger: { trigger: '.cta-section', start: 'top 85%' }
+        scrollTrigger: { trigger: '.cta-section', start: 'top 88%' }
     });
     ctaTl
         .from('.cta-section h2', {
-            y: 60, opacity: 0, scale: 0.9, duration: 0.8, ease: 'power3.out'
+            y: 60, opacity: 0, scale: 0.9,
+            duration: 0.8, ease: 'power3.out'
         })
         .from('.cta-section p', {
             y: 30, opacity: 0, duration: 0.6
         }, '-=0.3')
         .from('.cta-section .btn-primary', {
-            y: 20, opacity: 0, scale: 0.9, duration: 0.5,
-            ease: 'back.out(2)'
+            y: 20, opacity: 0, scale: 0.9,
+            duration: 0.5, ease: 'back.out(2)'
         }, '-=0.2');
 
-    // ========== FOOTER ==========
+    // ========== FOOTER - fade up columns ==========
     gsap.from('.footer-col', {
         scrollTrigger: { trigger: '.site-footer', start: 'top 92%' },
         y: 40, opacity: 0, duration: 0.8,
         stagger: 0.15, ease: 'power3.out'
     });
 
-    // ========== 3D TILT on hover (desktop) ==========
+    // ========== 3D TILT ON HOVER (desktop only) ==========
     if (!isMobile) {
         document.querySelectorAll('.service-card, .work-card').forEach(card => {
             card.style.transformStyle = 'preserve-3d';
@@ -228,14 +264,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ========== GLITCH TEXT on hero hover (desktop) ==========
+    // ========== CURSOR GLOW (desktop only) ==========
+    if (!isMobile) {
+        const glow = document.createElement('div');
+        glow.className = 'cursor-glow';
+        document.body.appendChild(glow);
+        document.addEventListener('mousemove', e => {
+            gsap.to(glow, {
+                x: e.clientX, y: e.clientY,
+                duration: 0.6, ease: 'power2.out'
+            });
+        });
+    }
+
+    // ========== GLITCH EFFECT on hero title hover (desktop) ==========
     if (!isMobile) {
         const heroTitle = document.querySelector('.hero h1');
         if (heroTitle) {
             heroTitle.addEventListener('mouseenter', () => {
                 gsap.to('.char-reveal', {
                     color: 'var(--rolex-green)',
-                    duration: 0.05, stagger: { each: 0.01, from: 'random' },
+                    duration: 0.05,
+                    stagger: { each: 0.01, from: 'random' },
                     yoyo: true, repeat: 1
                 });
             });

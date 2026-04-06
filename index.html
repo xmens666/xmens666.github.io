@@ -51,12 +51,59 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
-        /* Particles background - same as techstack/pricing pages */
-        #particles-js {
+        /* Three.js canvas background */
+        #three-canvas {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;
-            background: linear-gradient(135deg, #0a1f1a 0%, #0d2922 50%, #061510 100%);
         }
-        body > *:not(#particles-js):not(.mobile-overlay):not(.mobile-menu):not(.wechat-float):not(.site-nav) { position: relative; z-index: 1; }
+        body > *:not(#three-canvas):not(.mobile-overlay):not(.mobile-menu):not(.wechat-float):not(.site-nav):not(.loading-screen) { position: relative; z-index: 1; }
+
+        /* Loading screen */
+        .loading-screen {
+            position: fixed; inset: 0; z-index: 9999;
+            background: #050f0c;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            overflow: hidden;
+        }
+        .loading-logo {
+            font-family: 'Nunito', sans-serif;
+            font-size: 2.5rem; font-weight: 300; color: #fff;
+            letter-spacing: 0.05em; margin-bottom: 32px;
+            opacity: 0; animation: loadFadeIn 1s 0.3s forwards;
+        }
+        .loading-logo .dot-jp {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--gold); font-size: 0.5em; font-weight: 600;
+        }
+        .loading-bar-container {
+            width: 200px; height: 2px;
+            background: rgba(255,255,255,0.08); border-radius: 2px;
+            overflow: hidden; opacity: 0;
+            animation: loadFadeIn 0.6s 0.6s forwards;
+        }
+        .loading-bar {
+            width: 0%; height: 100%;
+            background: linear-gradient(90deg, var(--rolex-green), var(--gold));
+            border-radius: 2px;
+            animation: loadProgress 1.5s 0.8s ease-out forwards;
+        }
+        .loading-code {
+            position: absolute; inset: 0; overflow: hidden;
+            opacity: 0.08; pointer-events: none;
+        }
+        .loading-code-col {
+            position: absolute; top: -100%; width: 14px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px; line-height: 1.4; color: var(--rolex-green);
+            animation: codeRain linear infinite;
+            writing-mode: vertical-lr;
+        }
+        @keyframes loadFadeIn { to { opacity: 1; } }
+        @keyframes loadProgress { to { width: 100%; } }
+        @keyframes codeRain {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(200%); }
+        }
 
         /* ===== NAV ===== */
         .site-nav {
@@ -568,14 +615,6 @@
             .trust-grid { grid-template-columns: repeat(2, 1fr); gap: 32px 16px; }
         }
 
-        /* ===== PARTICLES ===== */
-        #particles-js {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0;
-            background: linear-gradient(135deg, #0a1f1a 0%, #0d2922 50%, #061510 100%);
-        }
-        body > *:not(#particles-js):not(.mobile-overlay):not(.mobile-menu):not(.wechat-float):not(.site-nav) { position: relative; z-index: 1; }
-
         [x-cloak] { display: none !important; }
 
         /* GSAP Cursor Glow */
@@ -611,8 +650,12 @@
       x-effect="applyTranslations(lang)"
       @scroll.window="scrolled = (window.pageYOffset > 50)">
 
-    <!-- Particles.js Background -->
-    <div id="particles-js"></div>
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <div class="loading-code" id="loading-code"></div>
+        <div class="loading-logo">ZenCode<span class="dot-jp">.jp</span></div>
+        <div class="loading-bar-container"><div class="loading-bar"></div></div>
+    </div>
 
     <!-- NAV -->
     <nav class="site-nav" :class="{ scrolled }">
@@ -1114,50 +1157,36 @@
         </div>
     </div>
 
-    <!-- Particles.js - same config as techstack & pricing pages -->
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <!-- Loading screen code rain generator -->
     <script>
-        particlesJS('particles-js', {
-            "particles": {
-                "number": { "value": 50, "density": { "enable": true, "value_area": 1000 } },
-                "color": { "value": ["#00FFA3", "#007A48", "#B8976A"] },
-                "shape": { "type": "circle" },
-                "opacity": {
-                    "value": 0.2, "random": true,
-                    "anim": { "enable": true, "speed": 0.8, "opacity_min": 0.05, "sync": false }
-                },
-                "size": {
-                    "value": 2.5, "random": true,
-                    "anim": { "enable": true, "speed": 1.5, "size_min": 0.3, "sync": false }
-                },
-                "line_linked": {
-                    "enable": true, "distance": 160, "color": "#00FFA3", "opacity": 0.08, "width": 1
-                },
-                "move": {
-                    "enable": true, "speed": 1, "direction": "none", "random": true,
-                    "straight": false, "out_mode": "out", "bounce": false
-                }
-            },
-            "interactivity": {
-                "detect_on": "canvas",
-                "events": {
-                    "onhover": { "enable": true, "mode": "grab" },
-                    "onclick": { "enable": true, "mode": "push" },
-                    "resize": true
-                },
-                "modes": {
-                    "grab": { "distance": 140, "line_linked": { "opacity": 0.4 } },
-                    "push": { "particles_nb": 3 }
-                }
-            },
-            "retina_detect": true
-        });
+        (function(){
+            const container = document.getElementById('loading-code');
+            if (!container) return;
+            const chars = '01アイウエオカキクケコ{}[]()<>=/+*&|;:,.zencode.jp';
+            const cols = Math.floor(window.innerWidth / 18);
+            for (let i = 0; i < cols; i++) {
+                const col = document.createElement('div');
+                col.className = 'loading-code-col';
+                col.style.left = (i * 18) + 'px';
+                col.style.animationDuration = (3 + Math.random() * 5) + 's';
+                col.style.animationDelay = (Math.random() * -8) + 's';
+                let text = '';
+                for (let j = 0; j < 60; j++) text += chars[Math.floor(Math.random() * chars.length)] + '\n';
+                col.textContent = text;
+                container.appendChild(col);
+            }
+        })();
     </script>
-    <script src="js/img-loader.js"></script>
+
+    <!-- Three.js -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.170/build/three.min.js"></script>
+    <script src="js/three-scene.js"></script>
+
     <!-- GSAP + ScrollTrigger -->
     <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
     <script src="js/gsap-animations.js"></script>
     <script src="js/zen-particles.js"></script>
+    <script src="js/img-loader.js"></script>
 </body>
 </html>
