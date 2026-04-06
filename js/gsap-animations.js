@@ -125,69 +125,80 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ========== SECTION TITLES - clip path reveal ==========
     document.querySelectorAll('.section-title').forEach(title => {
+        if (isMobile) return; // No scroll animations on mobile
         gsap.from(title, {
             scrollTrigger: { trigger: title, start: triggerStart, once: true },
-            clipPath: isMobile ? 'none' : 'inset(0 100% 0 0)',
-            opacity: 0, y: mobileY || 0, duration: isMobile ? 0.6 : 1.2,
-            ease: isMobile ? 'power3.out' : 'power4.inOut'
+            clipPath: 'inset(0 100% 0 0)',
+            opacity: 0, duration: 1.2,
+            ease: 'power4.inOut'
         });
     });
 
     // ========== SECTION LABELS - slide from left ==========
     document.querySelectorAll('.section-label').forEach(label => {
+        if (isMobile) return;
         gsap.from(label, {
             scrollTrigger: { trigger: label, start: triggerStart, once: true },
-            x: isMobile ? -15 : -30, opacity: 0, duration: 0.5
+            x: -30, opacity: 0, duration: 0.5
         });
     });
 
     // ========== SECTION DESCRIPTIONS - fade up ==========
     document.querySelectorAll('.section-desc').forEach(desc => {
+        if (isMobile) return;
         gsap.from(desc, {
             scrollTrigger: { trigger: desc, start: triggerStart, once: true },
-            y: mobileY || 20, opacity: 0, duration: 0.6, delay: 0.1
+            y: 20, opacity: 0, duration: 0.6, delay: 0.1
         });
     });
 
     // ========== SERVICE CARDS - stagger with 3D rotateY ==========
-    gsap.from('.service-card', {
-        scrollTrigger: { trigger: '.services-grid', start: triggerStart, once: true },
-        y: isMobile ? 30 : 80, opacity: 0, rotateY: isMobile ? 0 : 15,
-        duration: isMobile ? 0.5 : 0.9, stagger: isMobile ? 0.08 : 0.12, ease: 'power3.out',
-    });
+    if (!isMobile) {
+        gsap.from('.service-card', {
+            scrollTrigger: { trigger: '.services-grid', start: triggerStart, once: true },
+            y: 80, opacity: 0, rotateY: 15,
+            duration: 0.9, stagger: 0.12, ease: 'power3.out',
+        });
+    }
 
     // ========== WORK CARDS - fade in sequentially ==========
-    gsap.from('.work-card', {
-        scrollTrigger: { trigger: '.work-grid', start: triggerStart, once: true },
-        opacity: 0,
-        y: 10,
-        duration: 1.4,
-        stagger: 0.15,
-        ease: 'power1.out',
-    });
+    if (!isMobile) {
+        gsap.from('.work-card', {
+            scrollTrigger: { trigger: '.work-grid', start: triggerStart, once: true },
+            opacity: 0,
+            y: 10,
+            duration: 1.4,
+            stagger: 0.15,
+            ease: 'power1.out',
+        });
+    }
 
     // ========== PROCESS STEPS - bounce in ==========
-    gsap.from('.process-step', {
-        scrollTrigger: { trigger: '.process-steps', start: triggerStart, once: true },
-        y: isMobile ? 25 : 60, opacity: 0, scale: isMobile ? 0.9 : 0.8,
-        duration: isMobile ? 0.5 : 0.8, stagger: isMobile ? 0.08 : 0.12,
-        ease: 'back.out(1.7)'
-    });
+    if (!isMobile) {
+        gsap.from('.process-step', {
+            scrollTrigger: { trigger: '.process-steps', start: triggerStart, once: true },
+            y: 60, opacity: 0, scale: 0.8,
+            duration: 0.8, stagger: 0.12,
+            ease: 'back.out(1.7)'
+        });
 
-    // Step numbers spin in
-    gsap.from('.step-num', {
-        scrollTrigger: { trigger: '.process-steps', start: triggerStart, once: true },
-        rotation: isMobile ? 180 : 360, scale: 0,
-        duration: isMobile ? 0.5 : 0.8, stagger: isMobile ? 0.08 : 0.12,
-        ease: 'back.out(2)', delay: 0.1
-    });
+        // Step numbers spin in
+        gsap.from('.step-num', {
+            scrollTrigger: { trigger: '.process-steps', start: triggerStart, once: true },
+            rotation: 360, scale: 0,
+            duration: 0.8, stagger: 0.12,
+            ease: 'back.out(2)', delay: 0.1
+        });
+    }
 
     // ========== TECH ITEMS - wave stagger with scale bounce ==========
-    gsap.from('.tech-item', {
-        scrollTrigger: { trigger: '.tech-strip', start: triggerStart, once: true },
-        y: isMobile ? 20 : 40, opacity: 0, scale: isMobile ? 0.9 : 0.8,
-        duration: 0.4, stagger: 0.04, ease: 'back.out(1.5)'
-    });
+    if (!isMobile) {
+        gsap.from('.tech-item', {
+            scrollTrigger: { trigger: '.tech-strip', start: triggerStart, once: true },
+            y: 40, opacity: 0, scale: 0.8,
+            duration: 0.4, stagger: 0.04, ease: 'back.out(1.5)'
+        });
+    }
 
     // ========== TRUST STRIP - counter animation ==========
     const trustItems = document.querySelectorAll('.trust-grid > div');
@@ -197,50 +208,72 @@ document.addEventListener('DOMContentLoaded', () => {
         const finalText = numEl.textContent.trim();
         const numMatch = finalText.match(/(\d+)/);
 
-        gsap.from(item, {
-            scrollTrigger: { trigger: '.trust-strip', start: triggerStart, once: true },
-            y: isMobile ? 20 : 50, opacity: 0, duration: 0.5,
-            delay: i * 0.08, ease: 'power3.out',
-            onStart: () => {
-                if (numMatch) {
-                    const target = parseInt(numMatch[0]);
-                    const suffix = finalText.replace(numMatch[0], '');
-                    const obj = { val: 0 };
-                    gsap.to(obj, {
-                        val: target, duration: 1.2,
-                        ease: 'power2.out',
-                        onUpdate: () => {
-                            numEl.textContent = Math.round(obj.val) + suffix;
-                        }
-                    });
-                }
+        if (isMobile) {
+            // Mobile: just run the counter, no scroll animation
+            if (numMatch) {
+                const target = parseInt(numMatch[0]);
+                const suffix = finalText.replace(numMatch[0], '');
+                const obj = { val: 0 };
+                ScrollTrigger.create({
+                    trigger: '.trust-strip', start: 'top bottom', once: true,
+                    onEnter: () => {
+                        gsap.to(obj, {
+                            val: target, duration: 1.2, ease: 'power2.out',
+                            onUpdate: () => { numEl.textContent = Math.round(obj.val) + suffix; }
+                        });
+                    }
+                });
             }
-        });
+        } else {
+            gsap.from(item, {
+                scrollTrigger: { trigger: '.trust-strip', start: triggerStart, once: true },
+                y: 50, opacity: 0, duration: 0.5,
+                delay: i * 0.08, ease: 'power3.out',
+                onStart: () => {
+                    if (numMatch) {
+                        const target = parseInt(numMatch[0]);
+                        const suffix = finalText.replace(numMatch[0], '');
+                        const obj = { val: 0 };
+                        gsap.to(obj, {
+                            val: target, duration: 1.2,
+                            ease: 'power2.out',
+                            onUpdate: () => {
+                                numEl.textContent = Math.round(obj.val) + suffix;
+                            }
+                        });
+                    }
+                }
+            });
+        }
     });
 
     // ========== CTA SECTION - dramatic entrance ==========
-    const ctaTl = gsap.timeline({
-        scrollTrigger: { trigger: '.cta-section', start: triggerStart, once: true }
-    });
-    ctaTl
-        .from('.cta-section h2', {
-            y: isMobile ? 20 : 60, opacity: 0, scale: isMobile ? 1 : 0.9,
-            duration: isMobile ? 0.5 : 0.8, ease: 'power3.out'
-        })
-        .from('.cta-section p', {
-            y: isMobile ? 15 : 30, opacity: 0, duration: 0.5
-        }, '-=0.3')
-        .from('.cta-section .btn-primary', {
-            y: 15, scale: 0.95,
-            duration: 0.4, ease: 'back.out(2)'
-        }, '-=0.2');
+    if (!isMobile) {
+        const ctaTl = gsap.timeline({
+            scrollTrigger: { trigger: '.cta-section', start: triggerStart, once: true }
+        });
+        ctaTl
+            .from('.cta-section h2', {
+                y: 60, opacity: 0, scale: 0.9,
+                duration: 0.8, ease: 'power3.out'
+            })
+            .from('.cta-section p', {
+                y: 30, opacity: 0, duration: 0.5
+            }, '-=0.3')
+            .from('.cta-section .btn-primary', {
+                y: 15, scale: 0.95,
+                duration: 0.4, ease: 'back.out(2)'
+            }, '-=0.2');
+    }
 
     // ========== FOOTER - fade up columns ==========
-    gsap.from('.footer-col', {
-        scrollTrigger: { trigger: '.site-footer', start: isMobile ? 'top bottom' : 'top 92%', once: true },
-        y: isMobile ? 20 : 40, opacity: 0, duration: 0.6,
-        stagger: 0.1, ease: 'power3.out'
-    });
+    if (!isMobile) {
+        gsap.from('.footer-col', {
+            scrollTrigger: { trigger: '.site-footer', start: 'top 92%', once: true },
+            y: 40, opacity: 0, duration: 0.6,
+            stagger: 0.1, ease: 'power3.out'
+        });
+    }
 
     // ========== 3D TILT ON HOVER (desktop only) ==========
     if (!isMobile) {
