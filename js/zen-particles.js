@@ -12,9 +12,9 @@
     const ctx = canvas.getContext('2d');
     const isMobile = window.innerWidth <= 768;
     if (isMobile) {
-        canvas.style.width = '100%';
-        canvas.style.left = '0';
-        canvas.style.opacity = '0.25';
+        // Skip zen particles on mobile — saves CPU, barely visible at 0.25 opacity
+        canvas.remove();
+        return;
     }
 
     let W, H, particles = [], disperseAmount = 0;
