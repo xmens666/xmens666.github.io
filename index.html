@@ -683,6 +683,10 @@
       x-effect="applyTranslations(lang)"
       @scroll.window="scrolled = (window.pageYOffset > 50)">
 
+    <!-- Mobile Particles.js Background (only on mobile) -->
+    <div id="particles-js" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background:linear-gradient(135deg,#0a1f1a 0%,#0d2922 50%,#061510 100%);"></div>
+    <script>if(window.innerWidth<=768)document.getElementById('particles-js').style.display='block';</script>
+
     <!-- Loading Screen -->
     <div class="loading-screen">
         <canvas id="loading-canvas"></canvas>
@@ -1312,13 +1316,41 @@
       }
     }
     </script>
-    <script type="module" src="js/three-scene.js?v=8"></script>
+    <script type="module" src="js/three-scene.js?v=9"></script>
 
     <!-- GSAP + ScrollTrigger -->
     <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
     <script src="js/gsap-animations.js"></script>
     <script src="js/zen-particles.js"></script>
+
+    <!-- Mobile: particles.js (same as pricing page) -->
+    <script>
+    if (window.innerWidth <= 768) {
+      var s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js';
+      s.onload = function() {
+        particlesJS('particles-js', {
+          "particles": {
+            "number": { "value": 60, "density": { "enable": true, "value_area": 900 } },
+            "color": { "value": ["#00FFA3", "#00C2FF", "#BD00FF"] },
+            "shape": { "type": "circle" },
+            "opacity": { "value": 0.4, "random": true, "anim": { "enable": true, "speed": 1, "opacity_min": 0.1, "sync": false } },
+            "size": { "value": 3, "random": true, "anim": { "enable": true, "speed": 2, "size_min": 0.5, "sync": false } },
+            "line_linked": { "enable": true, "distance": 150, "color": "#00FFA3", "opacity": 0.2, "width": 1 },
+            "move": { "enable": true, "speed": 1.5, "direction": "none", "random": true, "straight": false, "out_mode": "out", "bounce": false }
+          },
+          "interactivity": {
+            "detect_on": "canvas",
+            "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true },
+            "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.5 } }, "push": { "particles_nb": 3 } }
+          },
+          "retina_detect": true
+        });
+      };
+      document.body.appendChild(s);
+    }
+    </script>
     <script src="js/img-loader.js"></script>
 </body>
 </html>

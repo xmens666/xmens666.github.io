@@ -18,6 +18,12 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 
   const isMobile = window.innerWidth <= 768;
 
+  // Mobile uses particles.js instead (lighter, cleaner)
+  if (isMobile) {
+    window.zenScene = { setScrollProgress: function () {} };
+    return;
+  }
+
   // --- Config ---
   const BG_PARTICLE_COUNT = isMobile ? 400 : 900;
   const CONNECTION_DISTANCE = isMobile ? 100 : 120;
