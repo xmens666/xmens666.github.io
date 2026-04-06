@@ -2,125 +2,242 @@
 gsap.registerPlugin(ScrollTrigger);
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Hero section - staggered entrance
-    const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-    heroTl
-        .from('.hero-badge', { y: 30, opacity: 0, duration: 0.8 })
-        .from('.hero h1', { y: 50, opacity: 0, duration: 1 }, '-=0.4')
-        .from('.hero-desc', { y: 30, opacity: 0, duration: 0.8 }, '-=0.5')
-        .from('.hero-actions', { y: 30, opacity: 0, duration: 0.8 }, '-=0.4')
-        .from('.hero-stack-item', {
-            y: 40, opacity: 0, duration: 0.6,
-            stagger: 0.12
-        }, '-=0.3');
+    const isMobile = window.innerWidth <= 768;
 
-    // Services section
-    gsap.from('.section-label', {
-        scrollTrigger: { trigger: '.section-label', start: 'top 85%' },
-        y: 20, opacity: 0, duration: 0.6
+    // ========== CURSOR GLOW (desktop only) ==========
+    if (!isMobile) {
+        const glow = document.createElement('div');
+        glow.className = 'cursor-glow';
+        document.body.appendChild(glow);
+        document.addEventListener('mousemove', e => {
+            gsap.to(glow, {
+                x: e.clientX, y: e.clientY,
+                duration: 0.6, ease: 'power2.out'
+            });
+        });
+    }
+
+    // ========== HERO - Cinematic entrance ==========
+    // Split hero title text into characters for per-char animation
+    const heroH1 = document.querySelector('.hero h1');
+    if (heroH1) {
+        const spans = heroH1.querySelectorAll('span[x-show]');
+        spans.forEach(span => {
+            const inner = span.innerHTML;
+            // Wrap each char (skip HTML tags)
+            const wrapped = inner.replace(/(<[^>]+>)|([^<\s])/g, (match, tag, char) => {
+                if (tag) return tag;
+                return `<span class="char-reveal">${char}</span>`;
+            });
+            span.innerHTML = wrapped;
+        });
+    }
+
+    const heroTl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+    heroTl
+        .from('.hero-badge', {
+            scale: 0, opacity: 0, duration: 0.6,
+            ease: 'back.out(2)'
+        })
+        .from('.char-reveal', {
+            y: 80, opacity: 0, rotateX: -90,
+            duration: 0.8, stagger: 0.02,
+            ease: 'power4.out'
+        }, '-=0.2')
+        .from('.hero-desc', {
+            y: 40, opacity: 0, duration: 0.8,
+            filter: 'blur(10px)'
+        }, '-=0.3')
+        .from('.hero-actions .btn-primary', {
+            x: -30, opacity: 0, duration: 0.6
+        }, '-=0.3')
+        .from('.hero-actions .btn-secondary', {
+            x: 30, opacity: 0, duration: 0.6
+        }, '-=0.5')
+        .from('.hero-stack-item', {
+            y: 60, opacity: 0, duration: 0.5,
+            stagger: { each: 0.1, from: 'start' }
+        }, '-=0.2');
+
+    // Hero parallax fade on scroll
+    if (!isMobile) {
+        gsap.to('.hero-inner', {
+            scrollTrigger: {
+                trigger: '.hero', start: 'top top',
+                end: '80% top', scrub: 1
+            },
+            y: -120, opacity: 0, scale: 0.95
+        });
+    }
+
+    // ========== NAV entrance ==========
+    gsap.from('.nav-logo', { x: -30, opacity: 0, duration: 0.8, delay: 0.3, ease: 'power3.out' });
+    gsap.from('.nav-links a', { y: -15, opacity: 0, duration: 0.4, stagger: 0.06, delay: 0.5, ease: 'power2.out' });
+    gsap.from('.nav-cta', { scale: 0.8, opacity: 0, duration: 0.5, delay: 0.9, ease: 'back.out(2)' });
+
+    // ========== SECTION TITLES - clip path reveal ==========
+    document.querySelectorAll('.section-title').forEach(title => {
+        gsap.from(title, {
+            scrollTrigger: { trigger: title, start: 'top 90%' },
+            clipPath: 'inset(0 100% 0 0)',
+            opacity: 0, duration: 1.2, ease: 'power4.inOut'
+        });
     });
 
+    document.querySelectorAll('.section-label').forEach(label => {
+        gsap.from(label, {
+            scrollTrigger: { trigger: label, start: 'top 90%' },
+            x: -30, opacity: 0, duration: 0.6
+        });
+    });
+
+    document.querySelectorAll('.section-desc').forEach(desc => {
+        gsap.from(desc, {
+            scrollTrigger: { trigger: desc, start: 'top 90%' },
+            y: 20, opacity: 0, duration: 0.7, delay: 0.2
+        });
+    });
+
+    // ========== SERVICE CARDS - 3D flip in ==========
     gsap.from('.service-card', {
-        scrollTrigger: { trigger: '.services-grid', start: 'top 80%' },
-        y: 60, opacity: 0, duration: 0.8,
+        scrollTrigger: { trigger: '.services-grid', start: 'top 85%' },
+        y: 80, opacity: 0, rotateY: isMobile ? 0 : 15,
+        duration: 0.9, stagger: 0.12, ease: 'power3.out'
+    });
+
+    // ========== WORK CARDS - staggered scale ==========
+    gsap.from('.work-card', {
+        scrollTrigger: { trigger: '.work-grid', start: 'top 85%' },
+        y: 100, opacity: 0, scale: 0.9,
+        duration: 1, stagger: 0.15, ease: 'power3.out'
+    });
+
+    // ========== PROCESS STEPS - bounce in ==========
+    gsap.from('.process-step', {
+        scrollTrigger: { trigger: '.process-steps', start: 'top 85%' },
+        y: 60, opacity: 0, scale: 0.8,
+        duration: 0.8, stagger: 0.12, ease: 'back.out(1.7)'
+    });
+
+    // Step numbers spin in
+    gsap.from('.step-num', {
+        scrollTrigger: { trigger: '.process-steps', start: 'top 85%' },
+        rotation: 360, scale: 0, duration: 0.8,
+        stagger: 0.12, ease: 'back.out(2)', delay: 0.2
+    });
+
+    // ========== TECH STRIP - wave entrance ==========
+    gsap.from('.tech-item', {
+        scrollTrigger: { trigger: '.tech-strip', start: 'top 88%' },
+        y: 40, opacity: 0, scale: 0.8,
+        duration: 0.5, stagger: 0.06, ease: 'back.out(1.5)'
+    });
+
+    // ========== TRUST STRIP - counter animation ==========
+    const trustItems = document.querySelectorAll('.trust-grid > div');
+    trustItems.forEach((item, i) => {
+        const numEl = item.querySelector('div[style*="font-size:2.4rem"]');
+        if (!numEl) return;
+        const finalText = numEl.textContent.trim();
+        const numMatch = finalText.match(/(\d+)/);
+
+        gsap.from(item, {
+            scrollTrigger: { trigger: '.trust-strip', start: 'top 88%' },
+            y: 50, opacity: 0, duration: 0.6,
+            delay: i * 0.1, ease: 'power3.out',
+            onStart: () => {
+                if (numMatch) {
+                    const target = parseInt(numMatch[0]);
+                    const suffix = finalText.replace(numMatch[0], '');
+                    gsap.from({ val: 0 }, {
+                        val: target, duration: 1.5, delay: 0.2,
+                        ease: 'power2.out',
+                        onUpdate: function () {
+                            numEl.textContent = Math.round(this.targets()[0].val) + suffix;
+                        }
+                    });
+                }
+            }
+        });
+    });
+
+    // ========== CTA - dramatic entrance ==========
+    const ctaTl = gsap.timeline({
+        scrollTrigger: { trigger: '.cta-section', start: 'top 85%' }
+    });
+    ctaTl
+        .from('.cta-section h2', {
+            y: 60, opacity: 0, scale: 0.9, duration: 0.8, ease: 'power3.out'
+        })
+        .from('.cta-section p', {
+            y: 30, opacity: 0, duration: 0.6
+        }, '-=0.3')
+        .from('.cta-section .btn-primary', {
+            y: 20, opacity: 0, scale: 0.9, duration: 0.5,
+            ease: 'back.out(2)'
+        }, '-=0.2');
+
+    // ========== FOOTER ==========
+    gsap.from('.footer-col', {
+        scrollTrigger: { trigger: '.site-footer', start: 'top 92%' },
+        y: 40, opacity: 0, duration: 0.8,
         stagger: 0.15, ease: 'power3.out'
     });
 
-    // Cases / Work section
-    gsap.from('.work-card', {
-        scrollTrigger: { trigger: '.work-grid', start: 'top 80%' },
-        y: 80, opacity: 0, duration: 0.9,
-        stagger: 0.2, ease: 'power3.out'
-    });
+    // ========== 3D TILT on hover (desktop) ==========
+    if (!isMobile) {
+        document.querySelectorAll('.service-card, .work-card').forEach(card => {
+            card.style.transformStyle = 'preserve-3d';
+            card.style.perspective = '800px';
 
-    // Process steps
-    gsap.from('.process-step', {
-        scrollTrigger: { trigger: '.process-steps', start: 'top 80%' },
-        y: 50, opacity: 0, scale: 0.95, duration: 0.7,
-        stagger: 0.15, ease: 'back.out(1.4)'
-    });
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = (e.clientY - rect.top) / rect.height - 0.5;
+                gsap.to(card, {
+                    rotateY: x * 10, rotateX: -y * 10,
+                    scale: 1.03, duration: 0.4, ease: 'power2.out',
+                    boxShadow: `${x * 20}px ${y * 20}px 40px rgba(0,255,163,0.15)`
+                });
+            });
 
-    // Process connecting line - animate via CSS custom property
-    // (pseudo-elements can't be targeted directly by GSAP)
-
-    // Tech strip logos
-    gsap.from('.tech-item', {
-        scrollTrigger: { trigger: '.tech-strip', start: 'top 85%' },
-        y: 30, opacity: 0, duration: 0.5,
-        stagger: 0.08, ease: 'power2.out'
-    });
-
-    // Trust strip counters with number animation
-    const trustNumbers = document.querySelectorAll('.trust-grid > div');
-    trustNumbers.forEach(item => {
-        gsap.from(item, {
-            scrollTrigger: { trigger: '.trust-strip', start: 'top 85%' },
-            y: 40, opacity: 0, duration: 0.7,
-            stagger: 0.1, ease: 'power3.out'
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card, {
+                    rotateY: 0, rotateX: 0, scale: 1,
+                    duration: 0.6, ease: 'elastic.out(1, 0.5)',
+                    boxShadow: '0 4px 30px rgba(0,0,0,0.3)'
+                });
+            });
         });
-    });
 
-    // CTA section
-    gsap.from('.cta-section h2', {
-        scrollTrigger: { trigger: '.cta-section', start: 'top 85%' },
-        y: 40, opacity: 0, duration: 0.8, ease: 'power3.out'
-    });
-    gsap.from('.cta-section p', {
-        scrollTrigger: { trigger: '.cta-section', start: 'top 85%' },
-        y: 30, opacity: 0, duration: 0.8, delay: 0.2, ease: 'power3.out'
-    });
-    gsap.from('.cta-section .btn-primary', {
-        scrollTrigger: { trigger: '.cta-section', start: 'top 85%' },
-        y: 20, opacity: 0, duration: 0.6, delay: 0.4, ease: 'power3.out'
-    });
-
-    // Footer
-    gsap.from('.footer-col', {
-        scrollTrigger: { trigger: '.site-footer', start: 'top 90%' },
-        y: 40, opacity: 0, duration: 0.8,
-        stagger: 0.2, ease: 'power3.out'
-    });
-
-    // Nav logo subtle entrance
-    gsap.from('.nav-logo', { x: -20, opacity: 0, duration: 0.8, delay: 0.2, ease: 'power2.out' });
-    gsap.from('.nav-links a', { y: -10, opacity: 0, duration: 0.5, stagger: 0.08, delay: 0.4, ease: 'power2.out' });
-    gsap.from('.nav-cta', { scale: 0.9, opacity: 0, duration: 0.5, delay: 0.8, ease: 'back.out(1.7)' });
-
-    // Magnetic hover effect on service cards
-    document.querySelectorAll('.service-card, .work-card, .process-step').forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            gsap.to(card, { scale: 1.02, duration: 0.3, ease: 'power2.out' });
+        // Magnetic hover for process steps
+        document.querySelectorAll('.process-step').forEach(step => {
+            step.addEventListener('mouseenter', () => {
+                gsap.to(step, { scale: 1.05, y: -8, duration: 0.3, ease: 'power2.out' });
+                gsap.to(step.querySelector('.step-num'), {
+                    scale: 1.2, rotation: 10, duration: 0.3
+                });
+            });
+            step.addEventListener('mouseleave', () => {
+                gsap.to(step, { scale: 1, y: 0, duration: 0.4, ease: 'elastic.out(1, 0.5)' });
+                gsap.to(step.querySelector('.step-num'), {
+                    scale: 1, rotation: 0, duration: 0.4
+                });
+            });
         });
-        card.addEventListener('mouseleave', () => {
-            gsap.to(card, { scale: 1, duration: 0.3, ease: 'power2.out' });
-        });
-    });
+    }
 
-    // Section titles - reveal with clip path
-    document.querySelectorAll('.section-title').forEach(title => {
-        gsap.from(title, {
-            scrollTrigger: { trigger: title, start: 'top 85%' },
-            clipPath: 'inset(0 100% 0 0)',
-            opacity: 0, duration: 1, ease: 'power4.out'
-        });
-    });
-
-    // Section descriptions
-    document.querySelectorAll('.section-desc').forEach(desc => {
-        gsap.from(desc, {
-            scrollTrigger: { trigger: desc, start: 'top 85%' },
-            y: 20, opacity: 0, duration: 0.7, delay: 0.3, ease: 'power3.out'
-        });
-    });
-
-    // Smooth fade out hero on scroll
-    gsap.to('.hero-inner', {
-        scrollTrigger: {
-            trigger: '.hero',
-            start: 'top top',
-            end: '60% top',
-            scrub: 1
-        },
-        y: -80, opacity: 0.3
-    });
+    // ========== GLITCH TEXT on hero hover (desktop) ==========
+    if (!isMobile) {
+        const heroTitle = document.querySelector('.hero h1');
+        if (heroTitle) {
+            heroTitle.addEventListener('mouseenter', () => {
+                gsap.to('.char-reveal', {
+                    color: 'var(--rolex-green)',
+                    duration: 0.05, stagger: { each: 0.01, from: 'random' },
+                    yoyo: true, repeat: 1
+                });
+            });
+        }
+    }
 });

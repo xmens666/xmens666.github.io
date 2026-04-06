@@ -577,6 +577,33 @@
         body > *:not(#particles-js):not(.mobile-overlay):not(.mobile-menu):not(.wechat-float):not(.site-nav) { position: relative; z-index: 1; }
 
         [x-cloak] { display: none !important; }
+
+        /* GSAP Cursor Glow */
+        .cursor-glow {
+            position: fixed; width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(0,255,163,0.08) 0%, transparent 70%);
+            border-radius: 50%; pointer-events: none; z-index: 1;
+            transform: translate(-50%, -50%); will-change: transform;
+        }
+
+        /* Character reveal for hero title */
+        .char-reveal {
+            display: inline-block;
+            will-change: transform, opacity;
+        }
+
+        /* Mobile spacing overrides */
+        @media (max-width: 768px) {
+            .hero { min-height: auto; }
+            .hero-inner { padding: calc(80px + var(--safe-top)) 20px 40px !important; }
+            .hero-stack { margin-top: 36px !important; }
+            .section { padding: 40px 20px !important; }
+            .section-desc { margin-bottom: 32px !important; }
+            .tech-strip { padding: 40px 20px !important; }
+            .trust-strip { padding: 36px 20px !important; }
+            .cta-section { padding: 40px 20px !important; }
+            .site-footer { padding: 36px 20px calc(20px + var(--safe-bottom)) !important; }
+        }
     </style>
 </head>
 
