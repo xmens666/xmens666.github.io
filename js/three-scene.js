@@ -34,7 +34,7 @@
   let scene, camera, renderer;
   let particleSystem, particlePositions, particleVelocities, particleSizes;
   let connectionGeometry, connectionMaterial, connectionMesh;
-  let torusKnot, icosahedron;
+  let zenFigure, icosahedron, zenFigurePositions, zenFigureOriginal;
 
   // --- Glow texture (procedural) ---
   function createGlowTexture() {
@@ -197,20 +197,145 @@
     scene.add(particleSystem);
   }
 
+  // --- Zen meditation figure (3D particle cloud) ---
+  function createZenFigure() {
+    // Draw silhouette on offscreen canvas, sample points
+    const W = 256, H = 256;
+    const oc = document.createElement('canvas');
+    oc.width = W; oc.height = H;
+    const o = oc.getContext('2d');
+    o.fillStyle = '#fff';
+
+    const cx = W / 2, cy = H * 0.45, s = 1.6;
+
+    // Head
+    o.beginPath(); o.arc(cx, cy - 80 * s, 18 * s, 0, Math.PI * 2); o.fill();
+    // Neck
+    o.beginPath();
+    o.moveTo(cx - 5*s, cy - 63*s); o.lineTo(cx + 5*s, cy - 63*s);
+    o.lineTo(cx + 7*s, cy - 52*s); o.lineTo(cx - 7*s, cy - 52*s);
+    o.closePath(); o.fill();
+    // Torso
+    o.beginPath();
+    o.moveTo(cx - 40*s, cy - 48*s);
+    o.quadraticCurveTo(cx - 44*s, cy - 20*s, cx - 35*s, cy + 5*s);
+    o.quadraticCurveTo(cx - 25*s, cy + 20*s, cx, cy + 25*s);
+    o.quadraticCurveTo(cx + 25*s, cy + 20*s, cx + 35*s, cy + 5*s);
+    o.quadraticCurveTo(cx + 44*s, cy - 20*s, cx + 40*s, cy - 48*s);
+    o.closePath(); o.fill();
+    // Left arm
+    o.beginPath();
+    o.moveTo(cx - 38*s, cy - 42*s);
+    o.quadraticCurveTo(cx - 55*s, cy - 15*s, cx - 48*s, cy + 15*s);
+    o.quadraticCurveTo(cx - 40*s, cy + 28*s, cx - 15*s, cy + 18*s);
+    o.lineTo(cx - 18*s, cy + 10*s);
+    o.quadraticCurveTo(cx - 38*s, cy + 18*s, cx - 40*s, cy + 8*s);
+    o.quadraticCurveTo(cx - 46*s, cy - 12*s, cx - 30*s, cy - 38*s);
+    o.closePath(); o.fill();
+    // Right arm
+    o.beginPath();
+    o.moveTo(cx + 38*s, cy - 42*s);
+    o.quadraticCurveTo(cx + 55*s, cy - 15*s, cx + 48*s, cy + 15*s);
+    o.quadraticCurveTo(cx + 40*s, cy + 28*s, cx + 15*s, cy + 18*s);
+    o.lineTo(cx + 18*s, cy + 10*s);
+    o.quadraticCurveTo(cx + 38*s, cy + 18*s, cx + 40*s, cy + 8*s);
+    o.quadraticCurveTo(cx + 46*s, cy - 12*s, cx + 30*s, cy - 38*s);
+    o.closePath(); o.fill();
+    // Hands (mudra)
+    o.beginPath(); o.ellipse(cx, cy + 15*s, 14*s, 8*s, 0, 0, Math.PI * 2); o.fill();
+    // Crossed legs
+    o.beginPath(); o.ellipse(cx - 12*s, cy + 42*s, 38*s, 14*s, -0.15, 0, Math.PI * 2); o.fill();
+    o.beginPath(); o.ellipse(cx + 12*s, cy + 42*s, 38*s, 14*s, 0.15, 0, Math.PI * 2); o.fill();
+    // Feet
+    o.beginPath(); o.ellipse(cx - 30*s, cy + 48*s, 12*s, 7*s, 0.3, 0, Math.PI * 2); o.fill();
+    o.beginPath(); o.ellipse(cx + 30*s, cy + 48*s, 12*s, 7*s, -0.3, 0, Math.PI * 2); o.fill();
+
+    // Sample points from silhouette
+    const imgData = o.getImageData(0, 0, W, H);
+    const step = isMobile ? 3.5 : 2.5;
+    const figScale = isMobile ? 1.0 : 1.2;
+    const points = [];
+    for (let y = 0; y < H; y += step) {
+      for (let x = 0; x < W; x += step) {
+        const idx = (Math.floor(y) * W + Math.floor(x)) * 4;
+        if (imgData.data[idx + 3] > 128) {
+          // Map 2D canvas to 3D space centered at origin, add Z depth
+          const px = (x - cx) * figScale;
+          const py = -(y - cy) * figScale; // flip Y
+          const pz = (Math.random() - 0.5) * 30 * figScale; // depth scatter
+          points.push(px, py, pz);
+        }
+      }
+    }
+
+    const count = points.length / 3;
+    const positions = new Float32Array(points);
+    const original = new Float32Array(points); // keep original for breathing
+    const colors = new Float32Array(count * 3);
+    const sizes = new Float32Array(count);
+    const color = new THREE.Color();
+
+    for (let i = 0; i < count; i++) {
+      const rnd = Math.random();
+      if (rnd < 0.5) color.setHex(COLORS.green);
+      else if (rnd < 0.8) color.setHex(0x00cc80); // mid green
+      else if (rnd < 0.92) color.setHex(COLORS.gold);
+      else color.setHex(COLORS.white);
+
+      colors[i * 3] = color.r;
+      colors[i * 3 + 1] = color.g;
+      colors[i * 3 + 2] = color.b;
+      sizes[i] = isMobile ? 2.5 + Math.random() * 2 : 2 + Math.random() * 2.5;
+    }
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+    const glowTexture = createGlowTexture();
+    const material = new THREE.ShaderMaterial({
+      uniforms: {
+        uTexture: { value: glowTexture },
+        uPixelRatio: { value: renderer.getPixelRatio() },
+      },
+      vertexShader: `
+        attribute float size;
+        varying vec3 vColor;
+        uniform float uPixelRatio;
+        void main() {
+          vColor = color;
+          vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+          gl_PointSize = size * uPixelRatio * (300.0 / -mvPosition.z);
+          gl_PointSize = clamp(gl_PointSize, 1.0, 30.0);
+          gl_Position = projectionMatrix * mvPosition;
+        }
+      `,
+      fragmentShader: `
+        uniform sampler2D uTexture;
+        varying vec3 vColor;
+        void main() {
+          vec4 texColor = texture2D(uTexture, gl_PointCoord);
+          gl_FragColor = vec4(vColor, texColor.a * 0.9);
+        }
+      `,
+      transparent: true,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      vertexColors: true,
+    });
+
+    zenFigure = new THREE.Points(geometry, material);
+    zenFigurePositions = positions;
+    zenFigureOriginal = original;
+    zenFigure.position.set(isMobile ? 0 : 200, 0, -50);
+    scene.add(zenFigure);
+  }
+
   // --- Wireframe shapes ---
   function createWireframes() {
-    // Torus Knot - large, central
-    const torusGeo = new THREE.TorusKnotGeometry(120, 30, 80, 12, 2, 3);
-    const torusMat = new THREE.MeshBasicMaterial({
-      color: COLORS.green,
-      wireframe: true,
-      transparent: true,
-      opacity: isMobile ? 0.25 : 0.15,
-      blending: THREE.AdditiveBlending,
-    });
-    torusKnot = new THREE.Mesh(torusGeo, torusMat);
-    torusKnot.position.set(0, 0, -200);
-    scene.add(torusKnot);
+    // Zen figure replaces torus knot
+    createZenFigure();
 
     // Icosahedron - orbiting
     const icoGeo = new THREE.IcosahedronGeometry(40, 1);
@@ -386,13 +511,22 @@
     particleSystem.rotation.y = time * 0.015;
     particleSystem.rotation.x = Math.sin(time * 0.01) * 0.03;
 
-    // Wireframe animations
-    torusKnot.rotation.x = time * 0.08;
-    torusKnot.rotation.y = time * 0.12;
-    torusKnot.rotation.z = time * 0.05;
-    // Subtle breathing scale
-    const breathe = 1 + Math.sin(time * 0.5) * 0.03;
-    torusKnot.scale.setScalar(breathe);
+    // Zen figure breathing animation
+    if (zenFigure && zenFigurePositions && zenFigureOriginal) {
+      const breathe = Math.sin(time * 0.8) * 0.015;
+      const count = zenFigurePositions.length / 3;
+      for (let i = 0; i < count; i++) {
+        const i3 = i * 3;
+        const ox = zenFigureOriginal[i3], oy = zenFigureOriginal[i3+1], oz = zenFigureOriginal[i3+2];
+        // Gentle float + breathing expand
+        zenFigurePositions[i3] = ox * (1 + breathe) + Math.sin(time * 0.5 + i * 0.1) * 0.4;
+        zenFigurePositions[i3+1] = oy * (1 + breathe) + Math.cos(time * 0.4 + i * 0.15) * 0.4;
+        zenFigurePositions[i3+2] = oz + Math.sin(time * 0.3 + i * 0.2) * 0.6;
+      }
+      zenFigure.geometry.attributes.position.needsUpdate = true;
+      // Slow gentle rotation
+      zenFigure.rotation.y = Math.sin(time * 0.15) * 0.15;
+    }
 
     // Icosahedron orbits
     const orbitRadius = 250;
