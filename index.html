@@ -109,7 +109,7 @@
         /* ===== NAV ===== */
         .site-nav {
             position: fixed; top: 0; left: 0; right: 0;
-            z-index: 100; transition: all 0.35s ease;
+            z-index: 100; transition: background 0.35s ease, border-color 0.35s ease, backdrop-filter 0.35s ease;
         }
         .site-nav.scrolled {
             background: rgba(10, 31, 26, 0.85);
@@ -343,7 +343,7 @@
             background: rgba(10, 31, 26, 0.6); padding: 44px 36px;
             border: 1px solid rgba(255,255,255,0.08);
             border-radius: 16px;
-            transition: all 0.35s;
+            transition: background 0.35s, border-color 0.35s, transform 0.35s, box-shadow 0.35s;
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
             box-shadow: 0 4px 30px rgba(0,0,0,0.3);
         }
@@ -389,7 +389,7 @@
             background: rgba(10, 31, 26, 0.6);
             border: 1px solid rgba(255,255,255,0.08);
             border-radius: 16px;
-            overflow: hidden; transition: all 0.35s;
+            overflow: hidden; transition: border-color 0.35s, background 0.35s, box-shadow 0.35s;
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
             box-shadow: 0 4px 30px rgba(0,0,0,0.3);
         }
@@ -430,7 +430,7 @@
         .process-step {
             padding: 36px 28px; background: rgba(10, 31, 26, 0.6);
             border: 1px solid rgba(255,255,255,0.08); border-radius: 16px;
-            position: relative; z-index: 1; transition: all 0.35s;
+            position: relative; z-index: 1; transition: background 0.35s, border-color 0.35s, transform 0.35s, box-shadow 0.35s;
             text-align: center; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
             box-shadow: 0 4px 30px rgba(0,0,0,0.3);
         }
