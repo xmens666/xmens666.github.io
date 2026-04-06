@@ -13,9 +13,9 @@
 
   // --- Config ---
   const isMobile = window.innerWidth <= 768;
-  const PARTICLE_COUNT = isMobile ? 600 : 1500;
-  const CONNECTION_DISTANCE = isMobile ? 80 : 120;
-  const CONNECTION_MAX = isMobile ? 300 : 800;
+  const PARTICLE_COUNT = isMobile ? 800 : 1500;
+  const CONNECTION_DISTANCE = isMobile ? 100 : 120;
+  const CONNECTION_MAX = isMobile ? 400 : 800;
   const COLORS = {
     green: 0x00ffa3,
     darkGreen: 0x007a48,
@@ -130,8 +130,8 @@
     const sizes = new Float32Array(PARTICLE_COUNT);
     const velocities = new Float32Array(PARTICLE_COUNT * 3);
 
-    const spread = 1200;
-    const depthSpread = 1500;
+    const spread = isMobile ? 800 : 1200;
+    const depthSpread = isMobile ? 1000 : 1500;
     const color = new THREE.Color();
 
     for (let i = 0; i < PARTICLE_COUNT; i++) {
@@ -149,7 +149,7 @@
       colors[i3 + 1] = color.g;
       colors[i3 + 2] = color.b;
 
-      sizes[i] = Math.random() * 4 + 1.5;
+      sizes[i] = isMobile ? Math.random() * 6 + 3 : Math.random() * 4 + 1.5;
     }
 
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -181,7 +181,7 @@
         varying vec3 vColor;
         void main() {
           vec4 texColor = texture2D(uTexture, gl_PointCoord);
-          gl_FragColor = vec4(vColor, texColor.a * 0.85);
+          gl_FragColor = vec4(vColor, texColor.a * ${isMobile ? '1.0' : '0.85'});
         }
       `,
       transparent: true,
@@ -205,7 +205,7 @@
       color: COLORS.green,
       wireframe: true,
       transparent: true,
-      opacity: 0.15,
+      opacity: isMobile ? 0.25 : 0.15,
       blending: THREE.AdditiveBlending,
     });
     torusKnot = new THREE.Mesh(torusGeo, torusMat);
@@ -218,7 +218,7 @@
       color: COLORS.gold,
       wireframe: true,
       transparent: true,
-      opacity: 0.22,
+      opacity: isMobile ? 0.35 : 0.22,
       blending: THREE.AdditiveBlending,
     });
     icosahedron = new THREE.Mesh(icoGeo, icoMat);
@@ -241,7 +241,7 @@
     connectionMaterial = new THREE.LineBasicMaterial({
       vertexColors: true,
       transparent: true,
-      opacity: 0.35,
+      opacity: isMobile ? 0.5 : 0.35,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     });
