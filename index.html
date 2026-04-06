@@ -388,7 +388,8 @@
             box-shadow: 0 4px 30px rgba(0,0,0,0.3);
             display: flex; flex-direction: column;
         }
-        .work-card:hover, .work-card:active { border-color: rgba(0,255,163,0.3); background: rgba(10, 31, 26, 0.8); box-shadow: 0 8px 30px rgba(0,255,163,0.1); }
+        .work-card { transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s; }
+        .work-card:hover, .work-card:active { border-color: rgba(0,255,163,0.3); background: rgba(10, 31, 26, 0.8); box-shadow: 0 8px 30px rgba(0,255,163,0.1); transform: translateY(-4px); }
         .work-card-img {
             width: 100%; height: 220px; object-fit: contain;
             display: block; background: #111; filter: grayscale(20%);
@@ -908,7 +909,7 @@
                 <span x-show="lang==='ja'" x-cloak>以下のプロジェクトは稼働中です。直接アクセスしてご覧ください。</span>
             </p>
             <div class="work-grid">
-                <a href="https://happygo.jp" target="_blank" rel="noopener" class="work-card" style="text-decoration:none;color:inherit;transition:transform 0.3s;cursor:pointer;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='none'">
+                <a href="https://happygo.jp" target="_blank" rel="noopener" class="work-card" style="text-decoration:none;color:inherit;cursor:pointer;">
                     <img src="img/web_1.png" alt="HappyGo" class="work-card-img" loading="lazy">
                     <div class="work-card-body">
                         <h3>HappyGo.jp</h3>
@@ -923,7 +924,7 @@
                         <div style="margin-top:12px;font-size:0.8rem;color:var(--gold);font-weight:600;">happygo.jp →</div>
                     </div>
                 </a>
-                <a href="https://dongyingyouxia.com" target="_blank" rel="noopener" class="work-card" style="text-decoration:none;color:inherit;transition:transform 0.3s;cursor:pointer;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='none'">
+                <a href="https://dongyingyouxia.com" target="_blank" rel="noopener" class="work-card" style="text-decoration:none;color:inherit;cursor:pointer;">
                     <img src="img/app_mockup_placeholder.png" alt="东瀛游侠" class="work-card-img" loading="lazy">
                     <div class="work-card-body">
                         <h3>
