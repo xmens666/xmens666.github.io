@@ -149,11 +149,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (numMatch) {
                     const target = parseInt(numMatch[0]);
                     const suffix = finalText.replace(numMatch[0], '');
-                    gsap.from({ val: 0 }, {
+                    const obj = { val: 0 };
+                    gsap.to(obj, {
                         val: target, duration: 1.5, delay: 0.2,
                         ease: 'power2.out',
-                        onUpdate: function () {
-                            numEl.textContent = Math.round(this.targets()[0].val) + suffix;
+                        onUpdate: () => {
+                            numEl.textContent = Math.round(obj.val) + suffix;
                         }
                     });
                 }
