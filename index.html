@@ -612,6 +612,15 @@
             display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px 24px;
             text-align: center;
         }
+        .trust-number {
+            font-family: 'Nunito', 'Noto Sans SC', sans-serif;
+            font-weight: 800; font-size: 2.4rem;
+            color: var(--rolex-green-light); line-height: 1;
+        }
+        .trust-label {
+            font-size: 0.78rem; color: var(--text-secondary);
+            margin-top: 8px; letter-spacing: 0.05em;
+        }
         @media (max-width: 768px) {
             .trust-strip { padding: 48px 20px; }
             .trust-grid { grid-template-columns: repeat(2, 1fr); gap: 32px 16px; }
@@ -1035,32 +1044,32 @@
     <section class="trust-strip">
         <div class="trust-grid">
             <div style="text-align:center;">
-                <div style="font-family:'Nunito','Noto Sans SC',sans-serif;font-weight:800;font-size:2.4rem;color:var(--rolex-green-light);line-height:1;">10+</div>
-                <div style="font-size:0.78rem;color:var(--text-secondary);margin-top:8px;letter-spacing:0.05em;">
+                <div class="trust-number">10+</div>
+                <div class="trust-label">
                     <span x-show="lang==='zh'">已交付项目</span>
                     <span x-show="lang==='en'" x-cloak>Projects Delivered</span>
                     <span x-show="lang==='ja'" x-cloak>納品プロジェクト</span>
                 </div>
             </div>
             <div style="text-align:center;">
-                <div style="font-family:'Nunito','Noto Sans SC',sans-serif;font-weight:800;font-size:2.4rem;color:var(--rolex-green-light);line-height:1;">100%</div>
-                <div style="font-size:0.78rem;color:var(--text-secondary);margin-top:8px;letter-spacing:0.05em;">
+                <div class="trust-number">100%</div>
+                <div class="trust-label">
                     <span x-show="lang==='zh'">按时交付率</span>
                     <span x-show="lang==='en'" x-cloak>On-Time Delivery</span>
                     <span x-show="lang==='ja'" x-cloak>納期遵守率</span>
                 </div>
             </div>
             <div style="text-align:center;">
-                <div style="font-family:'Nunito','Noto Sans SC',sans-serif;font-weight:800;font-size:2.4rem;color:var(--rolex-green-light);line-height:1;">0</div>
-                <div style="font-size:0.78rem;color:var(--text-secondary);margin-top:8px;letter-spacing:0.05em;">
+                <div class="trust-number">0</div>
+                <div class="trust-label">
                     <span x-show="lang==='zh'">外包转包</span>
                     <span x-show="lang==='en'" x-cloak>Outsourcing</span>
                     <span x-show="lang==='ja'" x-cloak>外注・下請け</span>
                 </div>
             </div>
             <div style="text-align:center;">
-                <div style="font-family:'Nunito','Noto Sans SC',sans-serif;font-weight:800;font-size:2.4rem;color:var(--rolex-green-light);line-height:1;">24h</div>
-                <div style="font-size:0.78rem;color:var(--text-secondary);margin-top:8px;letter-spacing:0.05em;">
+                <div class="trust-number">24h</div>
+                <div class="trust-label">
                     <span x-show="lang==='zh'">响应时效</span>
                     <span x-show="lang==='en'" x-cloak>Response Time</span>
                     <span x-show="lang==='ja'" x-cloak>レスポンス時間</span>

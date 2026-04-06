@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ========== TRUST STRIP - counter animation ==========
     const trustItems = document.querySelectorAll('.trust-grid > div');
     trustItems.forEach((item, i) => {
-        const numEl = item.querySelector('div[style*="font-size:2.4rem"]');
+        const numEl = item.querySelector('.trust-number');
         if (!numEl) return;
         const finalText = numEl.textContent.trim();
         const numMatch = finalText.match(/(\d+)/);
