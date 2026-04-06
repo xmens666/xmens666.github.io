@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ========== SECTION TITLES - clip path reveal ==========
     document.querySelectorAll('.section-title').forEach(title => {
         gsap.from(title, {
-            scrollTrigger: { trigger: title, start: triggerStart },
+            scrollTrigger: { trigger: title, start: triggerStart, once: true },
             clipPath: isMobile ? 'none' : 'inset(0 100% 0 0)',
             opacity: 0, y: mobileY || 0, duration: isMobile ? 0.6 : 1.2,
             ease: isMobile ? 'power3.out' : 'power4.inOut'
@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ========== SECTION LABELS - slide from left ==========
     document.querySelectorAll('.section-label').forEach(label => {
         gsap.from(label, {
-            scrollTrigger: { trigger: label, start: triggerStart },
+            scrollTrigger: { trigger: label, start: triggerStart, once: true },
             x: isMobile ? -15 : -30, opacity: 0, duration: 0.5
         });
     });
@@ -144,14 +144,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // ========== SECTION DESCRIPTIONS - fade up ==========
     document.querySelectorAll('.section-desc').forEach(desc => {
         gsap.from(desc, {
-            scrollTrigger: { trigger: desc, start: triggerStart },
+            scrollTrigger: { trigger: desc, start: triggerStart, once: true },
             y: mobileY || 20, opacity: 0, duration: 0.6, delay: 0.1
         });
     });
 
     // ========== SERVICE CARDS - stagger with 3D rotateY ==========
     gsap.from('.service-card', {
-        scrollTrigger: { trigger: '.services-grid', start: triggerStart },
+        scrollTrigger: { trigger: '.services-grid', start: triggerStart, once: true },
         y: isMobile ? 30 : 80, opacity: 0, rotateY: isMobile ? 0 : 15,
         duration: isMobile ? 0.5 : 0.9, stagger: isMobile ? 0.08 : 0.12, ease: 'power3.out',
         clearProps: 'all'
@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ========== WORK CARDS - fade in sequentially ==========
     gsap.from('.work-card', {
-        scrollTrigger: { trigger: '.work-grid', start: triggerStart },
+        scrollTrigger: { trigger: '.work-grid', start: triggerStart, once: true },
         opacity: 0,
         y: 30,
         duration: 0.8,
@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ========== PROCESS STEPS - bounce in ==========
     gsap.from('.process-step', {
-        scrollTrigger: { trigger: '.process-steps', start: triggerStart },
+        scrollTrigger: { trigger: '.process-steps', start: triggerStart, once: true },
         y: isMobile ? 25 : 60, opacity: 0, scale: isMobile ? 0.9 : 0.8,
         duration: isMobile ? 0.5 : 0.8, stagger: isMobile ? 0.08 : 0.12,
         ease: 'back.out(1.7)'
@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Step numbers spin in
     gsap.from('.step-num', {
-        scrollTrigger: { trigger: '.process-steps', start: triggerStart },
+        scrollTrigger: { trigger: '.process-steps', start: triggerStart, once: true },
         rotation: isMobile ? 180 : 360, scale: 0,
         duration: isMobile ? 0.5 : 0.8, stagger: isMobile ? 0.08 : 0.12,
         ease: 'back.out(2)', delay: 0.1
@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ========== TECH ITEMS - wave stagger with scale bounce ==========
     gsap.from('.tech-item', {
-        scrollTrigger: { trigger: '.tech-strip', start: triggerStart },
+        scrollTrigger: { trigger: '.tech-strip', start: triggerStart, once: true },
         y: isMobile ? 20 : 40, opacity: 0, scale: isMobile ? 0.9 : 0.8,
         duration: 0.4, stagger: 0.04, ease: 'back.out(1.5)'
     });
@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const numMatch = finalText.match(/(\d+)/);
 
         gsap.from(item, {
-            scrollTrigger: { trigger: '.trust-strip', start: triggerStart },
+            scrollTrigger: { trigger: '.trust-strip', start: triggerStart, once: true },
             y: isMobile ? 20 : 50, opacity: 0, duration: 0.5,
             delay: i * 0.08, ease: 'power3.out',
             onStart: () => {
@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ========== CTA SECTION - dramatic entrance ==========
     const ctaTl = gsap.timeline({
-        scrollTrigger: { trigger: '.cta-section', start: triggerStart }
+        scrollTrigger: { trigger: '.cta-section', start: triggerStart, once: true }
     });
     ctaTl
         .from('.cta-section h2', {
@@ -239,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ========== FOOTER - fade up columns ==========
     gsap.from('.footer-col', {
-        scrollTrigger: { trigger: '.site-footer', start: isMobile ? 'top bottom' : 'top 92%' },
+        scrollTrigger: { trigger: '.site-footer', start: isMobile ? 'top bottom' : 'top 92%', once: true },
         y: isMobile ? 20 : 40, opacity: 0, duration: 0.6,
         stagger: 0.1, ease: 'power3.out'
     });
