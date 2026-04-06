@@ -199,93 +199,213 @@
 
   // --- Zen meditation figure (3D particle cloud) ---
   function createZenFigure() {
-    // Draw silhouette on offscreen canvas, sample points
-    const W = 256, H = 256;
+    const W = 512, H = 512;
     const oc = document.createElement('canvas');
     oc.width = W; oc.height = H;
     const o = oc.getContext('2d');
+
+    const cx = W / 2, cy = H * 0.38, s = W / 160;
+
+    // --- Draw refined meditation silhouette ---
     o.fillStyle = '#fff';
 
-    const cx = W / 2, cy = H * 0.45, s = 1.6;
+    // Head — smooth oval with crown point
+    o.beginPath();
+    o.ellipse(cx, cy - 78*s, 15*s, 18*s, 0, 0, Math.PI * 2);
+    o.fill();
+    // Crown highlight bump
+    o.beginPath();
+    o.ellipse(cx, cy - 97*s, 5*s, 4*s, 0, 0, Math.PI * 2);
+    o.fill();
 
-    // Head
-    o.beginPath(); o.arc(cx, cy - 80 * s, 18 * s, 0, Math.PI * 2); o.fill();
     // Neck
     o.beginPath();
-    o.moveTo(cx - 5*s, cy - 63*s); o.lineTo(cx + 5*s, cy - 63*s);
-    o.lineTo(cx + 7*s, cy - 52*s); o.lineTo(cx - 7*s, cy - 52*s);
+    o.moveTo(cx - 6*s, cy - 61*s);
+    o.bezierCurveTo(cx - 7*s, cy - 55*s, cx - 8*s, cy - 50*s, cx - 10*s, cy - 46*s);
+    o.lineTo(cx + 10*s, cy - 46*s);
+    o.bezierCurveTo(cx + 8*s, cy - 50*s, cx + 7*s, cy - 55*s, cx + 6*s, cy - 61*s);
     o.closePath(); o.fill();
-    // Torso
-    o.beginPath();
-    o.moveTo(cx - 40*s, cy - 48*s);
-    o.quadraticCurveTo(cx - 44*s, cy - 20*s, cx - 35*s, cy + 5*s);
-    o.quadraticCurveTo(cx - 25*s, cy + 20*s, cx, cy + 25*s);
-    o.quadraticCurveTo(cx + 25*s, cy + 20*s, cx + 35*s, cy + 5*s);
-    o.quadraticCurveTo(cx + 44*s, cy - 20*s, cx + 40*s, cy - 48*s);
-    o.closePath(); o.fill();
-    // Left arm
-    o.beginPath();
-    o.moveTo(cx - 38*s, cy - 42*s);
-    o.quadraticCurveTo(cx - 55*s, cy - 15*s, cx - 48*s, cy + 15*s);
-    o.quadraticCurveTo(cx - 40*s, cy + 28*s, cx - 15*s, cy + 18*s);
-    o.lineTo(cx - 18*s, cy + 10*s);
-    o.quadraticCurveTo(cx - 38*s, cy + 18*s, cx - 40*s, cy + 8*s);
-    o.quadraticCurveTo(cx - 46*s, cy - 12*s, cx - 30*s, cy - 38*s);
-    o.closePath(); o.fill();
-    // Right arm
-    o.beginPath();
-    o.moveTo(cx + 38*s, cy - 42*s);
-    o.quadraticCurveTo(cx + 55*s, cy - 15*s, cx + 48*s, cy + 15*s);
-    o.quadraticCurveTo(cx + 40*s, cy + 28*s, cx + 15*s, cy + 18*s);
-    o.lineTo(cx + 18*s, cy + 10*s);
-    o.quadraticCurveTo(cx + 38*s, cy + 18*s, cx + 40*s, cy + 8*s);
-    o.quadraticCurveTo(cx + 46*s, cy - 12*s, cx + 30*s, cy - 38*s);
-    o.closePath(); o.fill();
-    // Hands (mudra)
-    o.beginPath(); o.ellipse(cx, cy + 15*s, 14*s, 8*s, 0, 0, Math.PI * 2); o.fill();
-    // Crossed legs
-    o.beginPath(); o.ellipse(cx - 12*s, cy + 42*s, 38*s, 14*s, -0.15, 0, Math.PI * 2); o.fill();
-    o.beginPath(); o.ellipse(cx + 12*s, cy + 42*s, 38*s, 14*s, 0.15, 0, Math.PI * 2); o.fill();
-    // Feet
-    o.beginPath(); o.ellipse(cx - 30*s, cy + 48*s, 12*s, 7*s, 0.3, 0, Math.PI * 2); o.fill();
-    o.beginPath(); o.ellipse(cx + 30*s, cy + 48*s, 12*s, 7*s, -0.3, 0, Math.PI * 2); o.fill();
 
-    // Sample points from silhouette
+    // Shoulders + upper torso
+    o.beginPath();
+    o.moveTo(cx - 10*s, cy - 46*s);
+    o.bezierCurveTo(cx - 25*s, cy - 44*s, cx - 42*s, cy - 40*s, cx - 46*s, cy - 35*s);
+    o.bezierCurveTo(cx - 50*s, cy - 28*s, cx - 48*s, cy - 15*s, cx - 42*s, cy - 5*s);
+    o.bezierCurveTo(cx - 36*s, cy + 5*s, cx - 20*s, cy + 15*s, cx, cy + 20*s);
+    o.bezierCurveTo(cx + 20*s, cy + 15*s, cx + 36*s, cy + 5*s, cx + 42*s, cy - 5*s);
+    o.bezierCurveTo(cx + 48*s, cy - 15*s, cx + 50*s, cy - 28*s, cx + 46*s, cy - 35*s);
+    o.bezierCurveTo(cx + 42*s, cy - 40*s, cx + 25*s, cy - 44*s, cx + 10*s, cy - 46*s);
+    o.closePath(); o.fill();
+
+    // Left arm (outer curve to hand in lap)
+    o.beginPath();
+    o.moveTo(cx - 44*s, cy - 35*s);
+    o.bezierCurveTo(cx - 56*s, cy - 25*s, cx - 62*s, cy - 8*s, cx - 55*s, cy + 10*s);
+    o.bezierCurveTo(cx - 48*s, cy + 25*s, cx - 35*s, cy + 30*s, cx - 18*s, cy + 22*s);
+    o.lineTo(cx - 22*s, cy + 14*s);
+    o.bezierCurveTo(cx - 34*s, cy + 20*s, cx - 42*s, cy + 16*s, cx - 46*s, cy + 5*s);
+    o.bezierCurveTo(cx - 52*s, cy - 8*s, cx - 48*s, cy - 22*s, cx - 38*s, cy - 30*s);
+    o.closePath(); o.fill();
+
+    // Right arm (mirror)
+    o.beginPath();
+    o.moveTo(cx + 44*s, cy - 35*s);
+    o.bezierCurveTo(cx + 56*s, cy - 25*s, cx + 62*s, cy - 8*s, cx + 55*s, cy + 10*s);
+    o.bezierCurveTo(cx + 48*s, cy + 25*s, cx + 35*s, cy + 30*s, cx + 18*s, cy + 22*s);
+    o.lineTo(cx + 22*s, cy + 14*s);
+    o.bezierCurveTo(cx + 34*s, cy + 20*s, cx + 42*s, cy + 16*s, cx + 46*s, cy + 5*s);
+    o.bezierCurveTo(cx + 52*s, cy - 8*s, cx + 48*s, cy - 22*s, cx + 38*s, cy - 30*s);
+    o.closePath(); o.fill();
+
+    // Hands in lap (mudra — two overlapping ovals)
+    o.beginPath(); o.ellipse(cx - 6*s, cy + 18*s, 12*s, 6*s, 0.15, 0, Math.PI * 2); o.fill();
+    o.beginPath(); o.ellipse(cx + 6*s, cy + 18*s, 12*s, 6*s, -0.15, 0, Math.PI * 2); o.fill();
+
+    // Crossed legs — lotus position
+    o.beginPath();
+    o.moveTo(cx - 55*s, cy + 38*s);
+    o.bezierCurveTo(cx - 50*s, cy + 28*s, cx - 30*s, cy + 22*s, cx, cy + 24*s);
+    o.bezierCurveTo(cx + 30*s, cy + 22*s, cx + 50*s, cy + 28*s, cx + 55*s, cy + 38*s);
+    o.bezierCurveTo(cx + 52*s, cy + 50*s, cx + 30*s, cy + 54*s, cx, cy + 50*s);
+    o.bezierCurveTo(cx - 30*s, cy + 54*s, cx - 52*s, cy + 50*s, cx - 55*s, cy + 38*s);
+    o.closePath(); o.fill();
+
+    // Left foot
+    o.beginPath(); o.ellipse(cx + 28*s, cy + 36*s, 15*s, 7*s, -0.2, 0, Math.PI * 2); o.fill();
+    // Right foot (tucked under)
+    o.beginPath(); o.ellipse(cx - 20*s, cy + 44*s, 14*s, 6*s, 0.25, 0, Math.PI * 2); o.fill();
+
+    // --- Sample with edge detection for sharper outline ---
     const imgData = o.getImageData(0, 0, W, H);
-    const step = isMobile ? 3.5 : 2.5;
-    const figScale = isMobile ? 1.0 : 1.2;
-    const points = [];
-    for (let y = 0; y < H; y += step) {
-      for (let x = 0; x < W; x += step) {
-        const idx = (Math.floor(y) * W + Math.floor(x)) * 4;
-        if (imgData.data[idx + 3] > 128) {
-          // Map 2D canvas to 3D space centered at origin, add Z depth
+    const alpha = imgData.data;
+    const figScale = isMobile ? 0.55 : 0.7;
+    const points = [], pointTypes = []; // types: 0=core, 1=edge, 2=aura, 3=trail
+
+    // Helper: check if pixel is at edge
+    function isEdge(x, y) {
+      if (x <= 0 || x >= W-1 || y <= 0 || y >= H-1) return false;
+      const c = alpha[(y * W + x) * 4 + 3];
+      if (c < 64) return false;
+      // Check neighbors
+      for (let dy = -1; dy <= 1; dy++) {
+        for (let dx = -1; dx <= 1; dx++) {
+          if (dx === 0 && dy === 0) continue;
+          const n = alpha[((y+dy) * W + (x+dx)) * 4 + 3];
+          if (n < 64) return true;
+        }
+      }
+      return false;
+    }
+
+    // Layer 1: Dense edge particles (outline definition)
+    const edgeStep = isMobile ? 1.5 : 1;
+    for (let y = 0; y < H; y += edgeStep) {
+      for (let x = 0; x < W; x += edgeStep) {
+        if (isEdge(Math.floor(x), Math.floor(y))) {
           const px = (x - cx) * figScale;
-          const py = -(y - cy) * figScale; // flip Y
-          const pz = (Math.random() - 0.5) * 30 * figScale; // depth scatter
+          const py = -(y - cy) * figScale;
+          const pz = (Math.random() - 0.5) * 15 * figScale;
           points.push(px, py, pz);
+          pointTypes.push(1);
         }
       }
     }
 
+    // Layer 2: Core body particles (sparser interior fill)
+    const coreStep = isMobile ? 5 : 3.5;
+    for (let y = 0; y < H; y += coreStep) {
+      for (let x = 0; x < W; x += coreStep) {
+        const idx = (Math.floor(y) * W + Math.floor(x)) * 4 + 3;
+        if (alpha[idx] > 128 && !isEdge(Math.floor(x), Math.floor(y))) {
+          const px = (x - cx) * figScale;
+          const py = -(y - cy) * figScale;
+          const pz = (Math.random() - 0.5) * 25 * figScale;
+          points.push(px, py, pz);
+          pointTypes.push(0);
+        }
+      }
+    }
+
+    // Layer 3: Aura particles (glow around the body)
+    const auraCount = isMobile ? 200 : 400;
+    for (let i = 0; i < auraCount; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const baseY = cy - 30*s + Math.random() * 80*s; // concentrated around torso
+      const baseX = cx;
+      // Find nearest body edge at this height
+      let edgeDist = 40*s;
+      for (let x = 0; x < W; x++) {
+        if (isEdge(x, Math.floor(baseY))) {
+          const d = Math.abs(x - baseX);
+          if (d > edgeDist - 10*s) edgeDist = d;
+        }
+      }
+      const dist = edgeDist + 5*s + Math.random() * 25*s;
+      const ax = baseX + Math.cos(angle) * dist;
+      const ay = baseY + (Math.random() - 0.5) * 15*s;
+      const px = (ax - cx) * figScale;
+      const py = -(ay - cy) * figScale;
+      const pz = (Math.random() - 0.5) * 50 * figScale;
+      points.push(px, py, pz);
+      pointTypes.push(2);
+    }
+
+    // Layer 4: Energy trail particles (upward streams from head/shoulders)
+    const trailCount = isMobile ? 120 : 250;
+    for (let i = 0; i < trailCount; i++) {
+      const t = Math.random();
+      // Start from head/shoulder area, drift upward and outward
+      const startX = cx + (Math.random() - 0.5) * 30*s;
+      const startY = cy - 80*s - t * 60*s; // float upward
+      const drift = (Math.random() - 0.5) * t * 40*s; // spread with distance
+      const px = (startX + drift - cx) * figScale;
+      const py = -(startY - cy) * figScale;
+      const pz = (Math.random() - 0.5) * 40 * figScale;
+      points.push(px, py, pz);
+      pointTypes.push(3);
+    }
+
+    // --- Build geometry ---
     const count = points.length / 3;
     const positions = new Float32Array(points);
-    const original = new Float32Array(points); // keep original for breathing
+    const original = new Float32Array(points);
     const colors = new Float32Array(count * 3);
     const sizes = new Float32Array(count);
     const color = new THREE.Color();
 
     for (let i = 0; i < count; i++) {
+      const type = pointTypes[i];
       const rnd = Math.random();
-      if (rnd < 0.5) color.setHex(COLORS.green);
-      else if (rnd < 0.8) color.setHex(0x00cc80); // mid green
-      else if (rnd < 0.92) color.setHex(COLORS.gold);
-      else color.setHex(COLORS.white);
+
+      if (type === 1) {
+        // Edge: bright green/white for sharp outline
+        if (rnd < 0.6) color.setHex(COLORS.green);
+        else if (rnd < 0.85) color.setHex(COLORS.white);
+        else color.setHex(COLORS.gold);
+        sizes[i] = isMobile ? 2.0 + rnd * 1.5 : 1.5 + rnd * 2;
+      } else if (type === 0) {
+        // Core: dimmer, smaller
+        if (rnd < 0.5) color.setHex(0x00cc80);
+        else if (rnd < 0.8) color.setHex(COLORS.darkGreen);
+        else color.setHex(COLORS.green);
+        sizes[i] = isMobile ? 1.2 + rnd : 1 + rnd * 1.5;
+      } else if (type === 2) {
+        // Aura: large, dim glow
+        if (rnd < 0.5) color.setHex(COLORS.green);
+        else if (rnd < 0.8) color.setHex(0x00cc80);
+        else color.setHex(COLORS.gold);
+        sizes[i] = isMobile ? 3 + rnd * 4 : 3 + rnd * 5;
+      } else {
+        // Trail: bright, varied size
+        if (rnd < 0.4) color.setHex(COLORS.white);
+        else if (rnd < 0.7) color.setHex(COLORS.green);
+        else color.setHex(COLORS.gold);
+        sizes[i] = isMobile ? 1.5 + rnd * 3 : 1.5 + rnd * 4;
+      }
 
       colors[i * 3] = color.r;
       colors[i * 3 + 1] = color.g;
       colors[i * 3 + 2] = color.b;
-      sizes[i] = isMobile ? 2.5 + Math.random() * 2 : 2 + Math.random() * 2.5;
     }
 
     const geometry = new THREE.BufferGeometry();
@@ -299,26 +419,26 @@
         uTexture: { value: glowTexture },
         uPixelRatio: { value: renderer.getPixelRatio() },
       },
-      vertexShader: `
-        attribute float size;
-        varying vec3 vColor;
-        uniform float uPixelRatio;
-        void main() {
-          vColor = color;
-          vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-          gl_PointSize = size * uPixelRatio * (300.0 / -mvPosition.z);
-          gl_PointSize = clamp(gl_PointSize, 1.0, 30.0);
-          gl_Position = projectionMatrix * mvPosition;
-        }
-      `,
-      fragmentShader: `
-        uniform sampler2D uTexture;
-        varying vec3 vColor;
-        void main() {
-          vec4 texColor = texture2D(uTexture, gl_PointCoord);
-          gl_FragColor = vec4(vColor, texColor.a * 0.9);
-        }
-      `,
+      vertexShader: [
+        'attribute float size;',
+        'varying vec3 vColor;',
+        'uniform float uPixelRatio;',
+        'void main() {',
+        '  vColor = color;',
+        '  vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);',
+        '  gl_PointSize = size * uPixelRatio * (300.0 / -mvPosition.z);',
+        '  gl_PointSize = clamp(gl_PointSize, 1.0, 40.0);',
+        '  gl_Position = projectionMatrix * mvPosition;',
+        '}'
+      ].join('\n'),
+      fragmentShader: [
+        'uniform sampler2D uTexture;',
+        'varying vec3 vColor;',
+        'void main() {',
+        '  vec4 texColor = texture2D(uTexture, gl_PointCoord);',
+        '  gl_FragColor = vec4(vColor, texColor.a * 0.92);',
+        '}'
+      ].join('\n'),
       transparent: true,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
@@ -328,6 +448,9 @@
     zenFigure = new THREE.Points(geometry, material);
     zenFigurePositions = positions;
     zenFigureOriginal = original;
+    // Store type info for animation
+    zenFigure.userData.pointTypes = pointTypes;
+    zenFigure.userData.pointCount = count;
     zenFigure.position.set(isMobile ? 0 : 200, 0, -50);
     scene.add(zenFigure);
   }
@@ -511,21 +634,41 @@
     particleSystem.rotation.y = time * 0.015;
     particleSystem.rotation.x = Math.sin(time * 0.01) * 0.03;
 
-    // Zen figure breathing animation
+    // Zen figure layered animation
     if (zenFigure && zenFigurePositions && zenFigureOriginal) {
-      const breathe = Math.sin(time * 0.8) * 0.015;
-      const count = zenFigurePositions.length / 3;
+      const breathe = Math.sin(time * 0.6) * 0.012;
+      const types = zenFigure.userData.pointTypes;
+      const count = zenFigure.userData.pointCount;
+
       for (let i = 0; i < count; i++) {
         const i3 = i * 3;
         const ox = zenFigureOriginal[i3], oy = zenFigureOriginal[i3+1], oz = zenFigureOriginal[i3+2];
-        // Gentle float + breathing expand
-        zenFigurePositions[i3] = ox * (1 + breathe) + Math.sin(time * 0.5 + i * 0.1) * 0.4;
-        zenFigurePositions[i3+1] = oy * (1 + breathe) + Math.cos(time * 0.4 + i * 0.15) * 0.4;
-        zenFigurePositions[i3+2] = oz + Math.sin(time * 0.3 + i * 0.2) * 0.6;
+        const type = types[i];
+        const phase = i * 0.37;
+
+        if (type <= 1) {
+          // Core + edge: gentle breathing + micro float
+          zenFigurePositions[i3] = ox * (1 + breathe) + Math.sin(time * 0.4 + phase) * 0.3;
+          zenFigurePositions[i3+1] = oy * (1 + breathe) + Math.cos(time * 0.35 + phase) * 0.3;
+          zenFigurePositions[i3+2] = oz + Math.sin(time * 0.25 + phase) * 0.4;
+        } else if (type === 2) {
+          // Aura: slow orbit around body
+          const drift = Math.sin(time * 0.3 + phase) * 3;
+          const pulse = Math.sin(time * 0.5 + phase) * 2;
+          zenFigurePositions[i3] = ox + drift;
+          zenFigurePositions[i3+1] = oy + pulse;
+          zenFigurePositions[i3+2] = oz + Math.cos(time * 0.2 + phase) * 3;
+        } else {
+          // Trail: continuous upward drift with reset
+          const speed = 8 + (i % 7) * 2;
+          const cycle = ((time * speed + phase * 50) % 200) / 200; // 0-1 repeating
+          zenFigurePositions[i3] = ox + Math.sin(time * 0.3 + phase) * (3 + cycle * 8);
+          zenFigurePositions[i3+1] = oy + cycle * 60; // drift upward
+          zenFigurePositions[i3+2] = oz + Math.cos(time * 0.4 + phase) * (2 + cycle * 5);
+        }
       }
       zenFigure.geometry.attributes.position.needsUpdate = true;
-      // Slow gentle rotation
-      zenFigure.rotation.y = Math.sin(time * 0.15) * 0.15;
+      zenFigure.rotation.y = Math.sin(time * 0.12) * 0.12;
     }
 
     // Icosahedron orbits
