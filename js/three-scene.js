@@ -5,6 +5,12 @@
 (function () {
   'use strict';
 
+  // Respect reduced motion preference
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    window.zenScene = { setScrollProgress: function() {} };
+    return;
+  }
+
   // --- Config ---
   const isMobile = window.innerWidth <= 768;
   const PARTICLE_COUNT = isMobile ? 600 : 1500;

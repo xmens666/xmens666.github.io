@@ -2,6 +2,7 @@
 (function () {
     const hero = document.querySelector('.hero');
     if (!hero) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const canvas = document.createElement('canvas');
     canvas.id = 'zen-canvas';
