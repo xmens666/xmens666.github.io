@@ -154,7 +154,6 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollTrigger: { trigger: '.services-grid', start: triggerStart, once: true },
         y: isMobile ? 30 : 80, opacity: 0, rotateY: isMobile ? 0 : 15,
         duration: isMobile ? 0.5 : 0.9, stagger: isMobile ? 0.08 : 0.12, ease: 'power3.out',
-        clearProps: 'all'
     });
 
     // ========== WORK CARDS - fade in sequentially ==========
@@ -165,7 +164,6 @@ document.addEventListener('DOMContentLoaded', () => {
         duration: 0.8,
         stagger: 0.2,
         ease: 'power2.out',
-        clearProps: 'all'
     });
 
     // ========== PROCESS STEPS - bounce in ==========
