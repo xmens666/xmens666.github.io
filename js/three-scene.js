@@ -1,6 +1,7 @@
 /**
  * Three.js 3D Zen Meditation Particle Cloud
- * ES Module with UnrealBloomPass post-processing
+ * Image-pixel-sampling approach: canvas silhouette → pixel extraction → 3D mapping
+ * With GLSL shaders, UnrealBloomPass, and GSAP scroll-linked camera zoom
  */
 import * as THREE from 'three';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
@@ -18,9 +19,10 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
   const isMobile = window.innerWidth <= 768;
 
   // --- Config ---
-  const BG_PARTICLE_COUNT = isMobile ? 600 : 1200;
+  const BG_PARTICLE_COUNT = isMobile ? 500 : 1000;
   const CONNECTION_DISTANCE = isMobile ? 100 : 120;
-  const CONNECTION_MAX = isMobile ? 300 : 600;
+  const CONNECTION_MAX = isMobile ? 250 : 500;
+  const SAMPLE_STEP = isMobile ? 4.5 : 2.8; // pixel sampling density
   const COLORS = {
     green: 0x00ffa3,
     darkGreen: 0x007a48,
@@ -71,71 +73,226 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
     return t;
   }
 
-  // --- Load point cloud JSON ---
-  async function loadZenPoints() {
-    const path = isMobile ? 'models/zen-points-mobile.json' : 'models/zen-points.json';
-    try {
-      const res = await fetch(path);
-      return await res.json();
-    } catch (e) {
-      console.warn('Failed to load zen points:', e);
-      return null;
+  // =========================================================
+  // Phase 1: Draw meditation figure on hidden canvas & sample
+  // =========================================================
+  function sampleMeditationPixels() {
+    const W = 400, H = 500;
+    const oc = document.createElement('canvas');
+    oc.width = W; oc.height = H;
+    const o = oc.getContext('2d');
+
+    const cx = W / 2;
+    const cy = H * 0.42;
+    const s = 2.2; // scale factor
+
+    // --- Draw multi-layer silhouette with gradient for color data ---
+
+    // Outer glow layer (soft, large)
+    const outerGlow = o.createRadialGradient(cx, cy, 0, cx, cy, 180 * s);
+    outerGlow.addColorStop(0, 'rgba(0, 200, 130, 0.25)');
+    outerGlow.addColorStop(0.5, 'rgba(0, 150, 100, 0.08)');
+    outerGlow.addColorStop(1, 'rgba(0, 100, 60, 0)');
+    o.fillStyle = outerGlow;
+    o.fillRect(0, 0, W, H);
+
+    // Inner aura glow
+    const innerGlow = o.createRadialGradient(cx, cy - 10 * s, 0, cx, cy - 10 * s, 80 * s);
+    innerGlow.addColorStop(0, 'rgba(0, 255, 163, 0.5)');
+    innerGlow.addColorStop(0.4, 'rgba(0, 200, 130, 0.2)');
+    innerGlow.addColorStop(1, 'rgba(0, 100, 60, 0)');
+    o.fillStyle = innerGlow;
+    o.fillRect(0, 0, W, H);
+
+    // Body fill — solid white silhouette for clean pixel sampling
+    o.fillStyle = 'rgba(255, 255, 255, 1.0)';
+
+    // Head
+    o.beginPath();
+    o.arc(cx, cy - 80 * s, 18 * s, 0, Math.PI * 2);
+    o.fill();
+
+    // Crown chakra light (top of head)
+    const crownGlow = o.createRadialGradient(cx, cy - 100 * s, 0, cx, cy - 100 * s, 30 * s);
+    crownGlow.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
+    crownGlow.addColorStop(0.5, 'rgba(0, 255, 163, 0.3)');
+    crownGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    o.fillStyle = crownGlow;
+    o.fillRect(0, 0, W, H);
+
+    // Neck
+    o.fillStyle = 'rgba(255, 255, 255, 1.0)';
+    o.beginPath();
+    o.moveTo(cx - 5 * s, cy - 63 * s);
+    o.lineTo(cx + 5 * s, cy - 63 * s);
+    o.lineTo(cx + 7 * s, cy - 52 * s);
+    o.lineTo(cx - 7 * s, cy - 52 * s);
+    o.closePath();
+    o.fill();
+
+    // Shoulders + torso
+    o.beginPath();
+    o.moveTo(cx - 42 * s, cy - 48 * s);
+    o.quadraticCurveTo(cx - 46 * s, cy - 20 * s, cx - 36 * s, cy + 5 * s);
+    o.quadraticCurveTo(cx - 25 * s, cy + 22 * s, cx, cy + 28 * s);
+    o.quadraticCurveTo(cx + 25 * s, cy + 22 * s, cx + 36 * s, cy + 5 * s);
+    o.quadraticCurveTo(cx + 46 * s, cy - 20 * s, cx + 42 * s, cy - 48 * s);
+    o.closePath();
+    o.fill();
+
+    // Left arm
+    o.beginPath();
+    o.moveTo(cx - 40 * s, cy - 42 * s);
+    o.quadraticCurveTo(cx - 58 * s, cy - 15 * s, cx - 50 * s, cy + 15 * s);
+    o.quadraticCurveTo(cx - 42 * s, cy + 30 * s, cx - 15 * s, cy + 20 * s);
+    o.lineTo(cx - 18 * s, cy + 12 * s);
+    o.quadraticCurveTo(cx - 40 * s, cy + 20 * s, cx - 42 * s, cy + 8 * s);
+    o.quadraticCurveTo(cx - 48 * s, cy - 12 * s, cx - 32 * s, cy - 38 * s);
+    o.closePath();
+    o.fill();
+
+    // Right arm
+    o.beginPath();
+    o.moveTo(cx + 40 * s, cy - 42 * s);
+    o.quadraticCurveTo(cx + 58 * s, cy - 15 * s, cx + 50 * s, cy + 15 * s);
+    o.quadraticCurveTo(cx + 42 * s, cy + 30 * s, cx + 15 * s, cy + 20 * s);
+    o.lineTo(cx + 18 * s, cy + 12 * s);
+    o.quadraticCurveTo(cx + 40 * s, cy + 20 * s, cx + 42 * s, cy + 8 * s);
+    o.quadraticCurveTo(cx + 48 * s, cy - 12 * s, cx + 32 * s, cy - 38 * s);
+    o.closePath();
+    o.fill();
+
+    // Hands in lap (mudra)
+    o.beginPath();
+    o.ellipse(cx, cy + 16 * s, 15 * s, 9 * s, 0, 0, Math.PI * 2);
+    o.fill();
+
+    // Crossed legs - left
+    o.beginPath();
+    o.ellipse(cx - 14 * s, cy + 44 * s, 40 * s, 15 * s, -0.15, 0, Math.PI * 2);
+    o.fill();
+
+    // Crossed legs - right
+    o.beginPath();
+    o.ellipse(cx + 14 * s, cy + 44 * s, 40 * s, 15 * s, 0.15, 0, Math.PI * 2);
+    o.fill();
+
+    // Feet
+    o.beginPath();
+    o.ellipse(cx - 32 * s, cy + 50 * s, 13 * s, 8 * s, 0.3, 0, Math.PI * 2);
+    o.fill();
+    o.beginPath();
+    o.ellipse(cx + 32 * s, cy + 50 * s, 13 * s, 8 * s, -0.3, 0, Math.PI * 2);
+    o.fill();
+
+    // Energy trail upward from crown
+    for (let i = 0; i < 6; i++) {
+      const ty = cy - (105 + i * 18) * s;
+      const spread = 4 + i * 5;
+      const alpha = 0.6 - i * 0.08;
+      o.fillStyle = `rgba(0, 255, 163, ${alpha})`;
+      o.beginPath();
+      o.ellipse(cx, ty, spread * s, 6 * s, 0, 0, Math.PI * 2);
+      o.fill();
     }
+
+    // --- Sample pixels ---
+    const imgData = o.getImageData(0, 0, W, H);
+    const data = imgData.data;
+    const points = [];
+
+    for (let y = 0; y < H; y += SAMPLE_STEP) {
+      for (let x = 0; x < W; x += SAMPLE_STEP) {
+        const ix = Math.floor(x);
+        const iy = Math.floor(y);
+        const idx = (iy * W + ix) * 4;
+        const alpha = data[idx + 3];
+        if (alpha < 10) continue;
+
+        const r = data[idx], g = data[idx + 1], b = data[idx + 2];
+        const brightness = (r + g + b) / (3 * 255);
+        const isSolidBody = alpha > 200 && brightness > 0.8;
+
+        // Map canvas (x,y) to centered Three.js coordinates
+        const px = (x - cx) * 0.5;   // scale down to Three.js units
+        const py = -(y - cy) * 0.5;  // flip Y
+
+        // Perlin-ish noise for Z depth — body particles get thin depth, aura gets more
+        const noiseVal = Math.sin(x * 0.05) * Math.cos(y * 0.04) + Math.sin(x * 0.12 + y * 0.08);
+        const pz = isSolidBody
+          ? noiseVal * 8 + (Math.random() - 0.5) * 6
+          : noiseVal * 18 + (Math.random() - 0.5) * 14;
+
+        points.push({
+          x: px, y: py, z: pz,
+          r, g, b, alpha,
+          type: isSolidBody ? 0 : (alpha > 60 ? 1 : 2), // 0=body, 1=aura, 2=faint
+          brightness
+        });
+      }
+    }
+
+    return points;
   }
 
-  // --- Build zen figure from loaded data ---
-  function createZenFigure(data) {
-    const count = data.count;
-    const rawPos = data.positions; // flat array [x,y,z,x,y,z,...]
-    const types = data.types;     // 0=volume, 1=surface
+  // =========================================================
+  // Phase 2: Build Three.js particle system from sampled data
+  // =========================================================
+  function createZenFigure(samplePoints) {
+    const bodyCount = samplePoints.length;
 
-    // Add aura and trail particles
-    const auraCount = isMobile ? 300 : 600;
-    const trailCount = isMobile ? 200 : 400;
-    const groundCount = isMobile ? 150 : 300;
-    const totalCount = count + auraCount + trailCount + groundCount;
+    // Add extra particles: aura ring + energy trail + ground glow
+    const auraCount = isMobile ? 250 : 500;
+    const trailCount = isMobile ? 150 : 350;
+    const groundCount = isMobile ? 120 : 250;
+    const totalCount = bodyCount + auraCount + trailCount + groundCount;
 
     const positions = new Float32Array(totalCount * 3);
     const original = new Float32Array(totalCount * 3);
     const colors = new Float32Array(totalCount * 3);
     const sizes = new Float32Array(totalCount);
-    const pointTypes = new Int8Array(totalCount); // 0=volume, 1=surface, 2=aura, 3=trail
+    const pointTypes = new Int8Array(totalCount);
 
     const color = new THREE.Color();
 
-    // Copy model points
-    for (let i = 0; i < count; i++) {
+    // --- Body particles from canvas sampling ---
+    for (let i = 0; i < bodyCount; i++) {
+      const p = samplePoints[i];
       const i3 = i * 3;
-      positions[i3] = rawPos[i3];
-      positions[i3 + 1] = rawPos[i3 + 1];
-      positions[i3 + 2] = rawPos[i3 + 2];
-      original[i3] = rawPos[i3];
-      original[i3 + 1] = rawPos[i3 + 1];
-      original[i3 + 2] = rawPos[i3 + 2];
-      pointTypes[i] = types[i];
+      positions[i3] = p.x;
+      positions[i3 + 1] = p.y;
+      positions[i3 + 2] = p.z;
+      original[i3] = p.x;
+      original[i3 + 1] = p.y;
+      original[i3 + 2] = p.z;
+      pointTypes[i] = p.type;
 
-      const rnd = Math.random();
-      if (types[i] === 1) {
-        // Surface: bright, defines silhouette
-        if (rnd < 0.5) color.setHex(COLORS.green);
-        else if (rnd < 0.75) color.setHex(0xffffff);
-        else if (rnd < 0.9) color.setHex(0x80ffd0);
-        else color.setHex(COLORS.gold);
-        sizes[i] = isMobile ? 2.5 + rnd * 2.0 : 2.0 + rnd * 2.5;
+      // Use source image color with green tint bias
+      const rr = p.r / 255, gg = p.g / 255, bb = p.b / 255;
+      if (p.type === 0) {
+        // Solid body — bright green/white mix
+        const rnd = Math.random();
+        if (rnd < 0.45) color.setRGB(rr * 0.2, Math.max(gg, 0.8), bb * 0.6);
+        else if (rnd < 0.75) color.setHex(COLORS.green);
+        else if (rnd < 0.9) color.setRGB(0.5, 1.0, 0.82);
+        else color.setHex(0xffffff);
+        sizes[i] = isMobile ? 2.2 + Math.random() * 2.0 : 1.8 + Math.random() * 2.5;
+      } else if (p.type === 1) {
+        // Inner aura — softer
+        color.setRGB(0, 0.6 + gg * 0.4, 0.4 + bb * 0.2);
+        sizes[i] = isMobile ? 3.0 + Math.random() * 3.0 : 2.5 + Math.random() * 4.0;
       } else {
-        // Volume: fills body
-        if (rnd < 0.4) color.setHex(0x00cc80);
-        else if (rnd < 0.7) color.setHex(COLORS.green);
-        else color.setHex(0x00dd90);
-        sizes[i] = isMobile ? 1.5 + rnd * 1.2 : 1.2 + rnd * 1.5;
+        // Faint outer
+        color.setRGB(0, 0.4 + Math.random() * 0.3, 0.3);
+        sizes[i] = isMobile ? 3.5 + Math.random() * 3.5 : 3.0 + Math.random() * 5.0;
       }
       colors[i3] = color.r;
       colors[i3 + 1] = color.g;
       colors[i3 + 2] = color.b;
     }
 
-    // Aura particles (orbiting around figure)
-    let idx = count;
+    // --- Aura particles (orbiting shell) ---
+    let idx = bodyCount;
     for (let i = 0; i < auraCount; i++, idx++) {
       const angle = Math.random() * Math.PI * 2;
       const elevation = Math.random() * Math.PI - Math.PI * 0.3;
@@ -146,72 +303,76 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
       const i3 = idx * 3;
       positions[i3] = ax; positions[i3 + 1] = ay; positions[i3 + 2] = az;
       original[i3] = ax; original[i3 + 1] = ay; original[i3 + 2] = az;
-      pointTypes[idx] = 2;
+      pointTypes[idx] = 3; // aura
       const rnd = Math.random();
       if (rnd < 0.5) color.setHex(COLORS.green);
       else if (rnd < 0.8) color.setHex(0x00cc80);
       else color.setHex(COLORS.gold);
       colors[i3] = color.r; colors[i3 + 1] = color.g; colors[i3 + 2] = color.b;
-      sizes[idx] = isMobile ? 4 + rnd * 4 : 3.5 + rnd * 5.5;
+      sizes[idx] = isMobile ? 3.5 + rnd * 4.0 : 3.0 + rnd * 5.0;
     }
 
-    // Energy trail (upward from top)
+    // --- Energy trail (upward from crown) ---
     for (let i = 0; i < trailCount; i++, idx++) {
       const t = Math.random();
-      const spread = t * 25;
+      const spread = t * 28;
       const tx = (Math.random() - 0.5) * spread;
-      const ty = 85 + t * 80;
+      const ty = 55 + t * 90; // above head
       const tz = (Math.random() - 0.5) * spread * 0.5;
       const i3 = idx * 3;
       positions[i3] = tx; positions[i3 + 1] = ty; positions[i3 + 2] = tz;
       original[i3] = tx; original[i3 + 1] = ty; original[i3 + 2] = tz;
-      pointTypes[idx] = 3;
+      pointTypes[idx] = 4; // trail
       const rnd = Math.random();
-      if (rnd < 0.35) color.setHex(0xffffff);
-      else if (rnd < 0.65) color.setHex(COLORS.green);
+      if (rnd < 0.3) color.setHex(0xffffff);
+      else if (rnd < 0.6) color.setHex(COLORS.green);
       else if (rnd < 0.85) color.setHex(0x80ffd0);
       else color.setHex(COLORS.gold);
       colors[i3] = color.r; colors[i3 + 1] = color.g; colors[i3 + 2] = color.b;
       sizes[idx] = isMobile ? 1.5 + rnd * 2.5 : 1.2 + rnd * 3.5;
     }
 
-    // Ground glow
+    // --- Ground glow (lotus pad effect) ---
     for (let i = 0; i < groundCount; i++, idx++) {
       const angle = Math.random() * Math.PI * 2;
-      const dist = Math.random() * 60;
+      const dist = Math.random() * 65;
       const gx = Math.cos(angle) * dist;
-      const gy = -90 + (Math.random() - 0.5) * 4;
+      const gy = -58 + (Math.random() - 0.5) * 5;
       const gz = Math.sin(angle) * dist * 0.5;
       const i3 = idx * 3;
       positions[i3] = gx; positions[i3 + 1] = gy; positions[i3 + 2] = gz;
       original[i3] = gx; original[i3 + 1] = gy; original[i3 + 2] = gz;
-      pointTypes[idx] = 2;
+      pointTypes[idx] = 3; // same as aura
       const rnd = Math.random();
       color.setHex(rnd < 0.6 ? COLORS.green : 0x00cc80);
       colors[i3] = color.r; colors[i3 + 1] = color.g; colors[i3 + 2] = color.b;
-      sizes[idx] = isMobile ? 3 + rnd * 3 : 2.5 + rnd * 4;
+      sizes[idx] = isMobile ? 3.0 + rnd * 3.5 : 2.5 + rnd * 4.5;
     }
 
+    // --- Geometry ---
     const geometry = new THREE.BufferGeometry();
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
     geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
+    // --- GLSL Shader Material ---
     const glowTexture = createGlowTexture();
     const material = new THREE.ShaderMaterial({
       uniforms: {
         uTexture: { value: glowTexture },
         uPixelRatio: { value: renderer.getPixelRatio() },
         uTime: { value: 0 },
+        uExpansion: { value: 0.0 },
       },
-      vertexShader: `
+      vertexShader: /* glsl */ `
         attribute float size;
         varying vec3 vColor;
         varying float vAlpha;
         uniform float uPixelRatio;
         uniform float uTime;
+        uniform float uExpansion;
 
-        // Simple noise
+        // Hash-based noise
         float hash(vec3 p) {
           p = fract(p * vec3(443.8975, 397.2973, 491.1871));
           p += dot(p, p.yzx + 19.19);
@@ -220,29 +381,38 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 
         void main() {
           vColor = color;
-          vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+          vec3 pos = position;
+
+          // Expansion on scroll
+          pos *= 1.0 + uExpansion * 0.15;
+
+          vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
           float dist = length(mvPosition.xyz);
-          vAlpha = clamp(1.0 - dist / 1200.0, 0.4, 1.0);
+          vAlpha = clamp(1.0 - dist / 1400.0, 0.35, 1.0);
 
-          // Noise-based subtle displacement
-          float n = hash(position + uTime * 0.1);
-          float displacement = sin(uTime * 0.5 + n * 6.28) * 0.3;
-          mvPosition.x += displacement;
+          // Noise-based floating displacement
+          float n = hash(position + uTime * 0.08);
+          float floatX = sin(uTime * 0.4 + n * 6.28) * 0.4;
+          float floatY = cos(uTime * 0.35 + n * 4.71) * 0.35;
+          float floatZ = sin(uTime * 0.3 + n * 3.14) * 0.3;
+          mvPosition.x += floatX;
+          mvPosition.y += floatY;
+          mvPosition.z += floatZ;
 
-          gl_PointSize = size * uPixelRatio * (380.0 / -mvPosition.z);
-          gl_PointSize = clamp(gl_PointSize, 0.5, 50.0);
+          gl_PointSize = size * uPixelRatio * (400.0 / -mvPosition.z);
+          gl_PointSize = clamp(gl_PointSize, 0.5, 55.0);
           gl_Position = projectionMatrix * mvPosition;
         }
       `,
-      fragmentShader: `
+      fragmentShader: /* glsl */ `
         uniform sampler2D uTexture;
         varying vec3 vColor;
         varying float vAlpha;
         void main() {
           vec4 texColor = texture2D(uTexture, gl_PointCoord);
-          float a = texColor.a * vAlpha * 0.98;
+          float a = texColor.a * vAlpha * ${isMobile ? '1.0' : '0.92'};
           if (a < 0.01) discard;
-          gl_FragColor = vec4(vColor * (0.8 + texColor.r * 0.4), a);
+          gl_FragColor = vec4(vColor * (0.75 + texColor.r * 0.5), a);
         }
       `,
       transparent: true,
@@ -255,12 +425,12 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
     zenOriginal = original;
     zenPointTypes = pointTypes;
     zenFigure.userData.totalCount = totalCount;
-    zenFigure.userData.modelCount = count;
+    zenFigure.userData.bodyCount = bodyCount;
 
-    // Position
+    // Position the figure
     zenFigure.position.set(
       isMobile ? 0 : 180,
-      isMobile ? -20 : -30,
+      isMobile ? -15 : -25,
       isMobile ? 80 : -30
     );
 
@@ -394,7 +564,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
   }
 
   // --- Init ---
-  async function init() {
+  function init() {
     const canvas = document.createElement('canvas');
     canvas.id = 'three-canvas';
     canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;';
@@ -433,9 +603,9 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
     composer.addPass(new RenderPass(scene, camera));
     bloomPass = new UnrealBloomPass(
       new THREE.Vector2(window.innerWidth, window.innerHeight),
-      isMobile ? 1.0 : 1.2,   // strength
+      isMobile ? 1.0 : 1.3,   // strength
       0.5,                     // radius
-      0.3                      // threshold (lower = more glow)
+      0.25                     // threshold (lower = more glow)
     );
     composer.addPass(bloomPass);
 
@@ -444,11 +614,9 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
     createIcosahedron();
     createConnections();
 
-    // Load and create zen figure
-    const zenData = await loadZenPoints();
-    if (zenData) {
-      createZenFigure(zenData);
-    }
+    // Sample pixels from canvas silhouette and create zen figure
+    const samplePoints = sampleMeditationPixels();
+    createZenFigure(samplePoints);
 
     window.addEventListener('mousemove', onMouseMove, false);
     window.addEventListener('resize', onResize, false);
@@ -489,14 +657,14 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
     mouseY += (targetMouseY - mouseY) * 0.05;
     scrollProgress += (targetScrollProgress - scrollProgress) * 0.08;
 
-    // Camera
+    // Camera — scroll zooms into the figure
     camera.rotation.y = mouseX * 0.05;
     camera.rotation.x = mouseY * 0.03;
     camera.position.z = 500 - scrollProgress * 800;
 
-    // Dynamic bloom: increases as user scrolls into scene
+    // Dynamic bloom: intensifies as user scrolls deeper
     if (bloomPass) {
-      bloomPass.strength = (isMobile ? 0.6 : 0.8) + scrollProgress * 0.4;
+      bloomPass.strength = (isMobile ? 0.6 : 0.8) + scrollProgress * 0.5;
     }
 
     // --- Background particles ---
@@ -537,6 +705,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
       const breathe = Math.sin(time * 0.5) * 0.008;
 
       zenFigure.material.uniforms.uTime.value = time;
+      zenFigure.material.uniforms.uExpansion.value = scrollProgress;
 
       for (let i = 0; i < totalCount; i++) {
         const i3 = i * 3;
@@ -545,12 +714,17 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
         const phase = i * 0.23;
 
         if (type <= 1) {
-          // Body/surface: breathing + subtle float
+          // Body/aura from image: breathing + subtle float
           const b = breathe * (1 + oy * 0.003);
-          positions[i3] = ox * (1 + b) + Math.sin(time * 0.3 + phase) * 0.15;
-          positions[i3 + 1] = oy * (1 + b * 0.5) + Math.cos(time * 0.25 + phase) * 0.12;
-          positions[i3 + 2] = oz * (1 + b) + Math.sin(time * 0.2 + phase) * 0.15;
+          positions[i3] = ox * (1 + b) + Math.sin(time * 0.3 + phase) * 0.18;
+          positions[i3 + 1] = oy * (1 + b * 0.5) + Math.cos(time * 0.25 + phase) * 0.15;
+          positions[i3 + 2] = oz * (1 + b) + Math.sin(time * 0.2 + phase) * 0.18;
         } else if (type === 2) {
+          // Faint outer glow: more movement
+          positions[i3] = ox + Math.sin(time * 0.2 + phase) * 1.5;
+          positions[i3 + 1] = oy + Math.sin(time * 0.3 + phase) * 1.2;
+          positions[i3 + 2] = oz + Math.cos(time * 0.15 + phase) * 1.5;
+        } else if (type === 3) {
           // Aura/ground: gentle orbit
           positions[i3] = ox + Math.sin(time * 0.2 + phase) * 2.5;
           positions[i3 + 1] = oy + Math.sin(time * 0.35 + phase) * 1.5;
@@ -559,9 +733,9 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
           // Trail: rising energy
           const speed = 5 + (i % 5) * 2;
           const cycle = ((time * speed + phase * 40) % 180) / 180;
-          positions[i3] = ox + Math.sin(time * 0.2 + phase) * (2 + cycle * 12);
-          positions[i3 + 1] = oy + cycle * 50;
-          positions[i3 + 2] = oz + Math.cos(time * 0.25 + phase) * (1.5 + cycle * 8);
+          positions[i3] = ox + Math.sin(time * 0.2 + phase) * (2 + cycle * 14);
+          positions[i3 + 1] = oy + cycle * 55;
+          positions[i3 + 2] = oz + Math.cos(time * 0.25 + phase) * (1.5 + cycle * 10);
         }
       }
       zenFigure.geometry.attributes.position.needsUpdate = true;
