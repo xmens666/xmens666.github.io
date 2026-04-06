@@ -21,20 +21,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ========== LOADING SCREEN ==========
     const loadingScreen = document.querySelector('.loading-screen');
-    if (loadingScreen) {
-        window.addEventListener('load', () => {
+    let loadingDismissed = false;
+
+    function dismissLoading() {
+        if (loadingDismissed) return;
+        loadingDismissed = true;
+        if (loadingScreen) {
             gsap.to(loadingScreen, {
-                opacity: 0, y: '-100vh',
-                duration: 0.8, ease: 'power3.inOut',
-                delay: 1.5,
+                opacity: 0, duration: 0.6, ease: 'power2.inOut',
                 onComplete: () => {
                     loadingScreen.style.display = 'none';
                     playHeroEntrance();
                 }
             });
-        });
+        } else {
+            playHeroEntrance();
+        }
+    }
+
+    if (loadingScreen) {
+        // Dismiss on window load + short delay, OR force after 3s max
+        window.addEventListener('load', () => setTimeout(dismissLoading, 800));
+        setTimeout(dismissLoading, 3000); // failsafe
     } else {
-        // No loading screen, play hero immediately
         playHeroEntrance();
     }
 
