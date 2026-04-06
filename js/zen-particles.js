@@ -1,140 +1,179 @@
-// Zen Meditation Figure - Code Particle Dispersion
+// Zen Meditation Figure - 3D Particle Point Cloud
 (function () {
-    const canvas = document.createElement('canvas');
-    canvas.id = 'zen-canvas';
-    canvas.style.cssText = `
-        position: absolute; top: 0; right: 0; width: 50%; height: 100%;
-        z-index: 2; pointer-events: none;
-    `;
     const hero = document.querySelector('.hero');
     if (!hero) return;
+
+    const canvas = document.createElement('canvas');
+    canvas.id = 'zen-canvas';
+    canvas.style.cssText = 'position:absolute;top:0;right:0;width:50%;height:100%;z-index:2;pointer-events:none;';
     hero.style.position = 'relative';
     hero.appendChild(canvas);
 
     const ctx = canvas.getContext('2d');
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const codeChars = '01{}()<>[];:=/\\+-*&|!?#@$%^~_.,"\'`abcdefABCDEF0123456789function()return{const}if(true)while(i++)for(let)=>import'.split('');
-
-    let W, H, particles = [], disperseAmount = 0, mouseX = 0.5, mouseY = 0.5;
     const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+        canvas.style.width = '100%';
+        canvas.style.left = '0';
+        canvas.style.opacity = '0.25';
+    }
+
+    let W, H, particles = [], disperseAmount = 0;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    // Create glow texture
+    const glowCanvas = document.createElement('canvas');
+    glowCanvas.width = 32;
+    glowCanvas.height = 32;
+    const gc = glowCanvas.getContext('2d');
+    const grad = gc.createRadialGradient(16, 16, 0, 16, 16, 16);
+    grad.addColorStop(0, 'rgba(255,255,255,1)');
+    grad.addColorStop(0.3, 'rgba(255,255,255,0.6)');
+    grad.addColorStop(0.6, 'rgba(255,255,255,0.15)');
+    grad.addColorStop(1, 'rgba(255,255,255,0)');
+    gc.fillStyle = grad;
+    gc.fillRect(0, 0, 32, 32);
 
     function resize() {
-        const rect = canvas.parentElement.getBoundingClientRect();
+        const rect = hero.getBoundingClientRect();
         W = rect.width * (isMobile ? 1 : 0.5);
         H = rect.height;
         canvas.width = W * dpr;
         canvas.height = H * dpr;
-        canvas.style.width = (isMobile ? '100%' : '50%');
-        canvas.style.height = '100%';
-        if (isMobile) {
-            canvas.style.left = '0';
-            canvas.style.opacity = '0.3';
-        }
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        buildParticles();
+        buildFigure();
     }
 
-    // Draw meditation silhouette on offscreen canvas, then sample points
-    function buildParticles() {
+    function buildFigure() {
         particles = [];
-        const offscreen = document.createElement('canvas');
-        const oc = offscreen.getContext('2d');
-        const size = Math.min(W, H) * 0.7;
-        offscreen.width = W;
-        offscreen.height = H;
 
         const cx = W / 2;
-        const cy = H / 2;
-        const s = size / 200; // scale factor
+        const cy = H * 0.45;
+        const scale = Math.min(W, H) * 0.0032;
+        const step = isMobile ? 4 : 2.5;
 
-        oc.fillStyle = '#fff';
-        oc.beginPath();
+        // Draw refined meditation silhouette on offscreen canvas
+        const oc = document.createElement('canvas');
+        oc.width = W;
+        oc.height = H;
+        const o = oc.getContext('2d');
+        o.fillStyle = '#fff';
 
-        // Head
-        oc.arc(cx, cy - 72 * s, 22 * s, 0, Math.PI * 2);
-        oc.fill();
+        const s = scale;
+
+        // Head - perfect circle
+        o.beginPath();
+        o.arc(cx, cy - 80 * s, 18 * s, 0, Math.PI * 2);
+        o.fill();
 
         // Neck
-        oc.fillRect(cx - 6 * s, cy - 52 * s, 12 * s, 12 * s);
+        o.beginPath();
+        o.moveTo(cx - 5 * s, cy - 63 * s);
+        o.lineTo(cx + 5 * s, cy - 63 * s);
+        o.lineTo(cx + 7 * s, cy - 52 * s);
+        o.lineTo(cx - 7 * s, cy - 52 * s);
+        o.closePath();
+        o.fill();
 
-        // Body / torso
-        oc.beginPath();
-        oc.moveTo(cx - 45 * s, cy - 40 * s);
-        oc.quadraticCurveTo(cx - 50 * s, cy + 10 * s, cx - 30 * s, cy + 30 * s);
-        oc.lineTo(cx + 30 * s, cy + 30 * s);
-        oc.quadraticCurveTo(cx + 50 * s, cy + 10 * s, cx + 45 * s, cy - 40 * s);
-        oc.closePath();
-        oc.fill();
+        // Shoulders + torso (smooth trapezoid)
+        o.beginPath();
+        o.moveTo(cx - 40 * s, cy - 48 * s);
+        o.quadraticCurveTo(cx - 44 * s, cy - 20 * s, cx - 35 * s, cy + 5 * s);
+        o.quadraticCurveTo(cx - 25 * s, cy + 20 * s, cx, cy + 25 * s);
+        o.quadraticCurveTo(cx + 25 * s, cy + 20 * s, cx + 35 * s, cy + 5 * s);
+        o.quadraticCurveTo(cx + 44 * s, cy - 20 * s, cx + 40 * s, cy - 48 * s);
+        o.closePath();
+        o.fill();
 
-        // Crossed legs
-        oc.beginPath();
-        oc.ellipse(cx, cy + 45 * s, 55 * s, 20 * s, 0, 0, Math.PI * 2);
-        oc.fill();
-
-        oc.beginPath();
-        oc.ellipse(cx - 15 * s, cy + 55 * s, 40 * s, 15 * s, -0.2, 0, Math.PI * 2);
-        oc.fill();
-
-        oc.beginPath();
-        oc.ellipse(cx + 15 * s, cy + 55 * s, 40 * s, 15 * s, 0.2, 0, Math.PI * 2);
-        oc.fill();
-
-        // Arms resting on knees
         // Left arm
-        oc.beginPath();
-        oc.moveTo(cx - 42 * s, cy - 30 * s);
-        oc.quadraticCurveTo(cx - 60 * s, cy + 5 * s, cx - 45 * s, cy + 35 * s);
-        oc.lineTo(cx - 35 * s, cy + 35 * s);
-        oc.quadraticCurveTo(cx - 48 * s, cy + 5 * s, cx - 32 * s, cy - 25 * s);
-        oc.closePath();
-        oc.fill();
+        o.beginPath();
+        o.moveTo(cx - 38 * s, cy - 42 * s);
+        o.quadraticCurveTo(cx - 55 * s, cy - 15 * s, cx - 48 * s, cy + 15 * s);
+        o.quadraticCurveTo(cx - 40 * s, cy + 28 * s, cx - 15 * s, cy + 18 * s);
+        o.lineTo(cx - 18 * s, cy + 10 * s);
+        o.quadraticCurveTo(cx - 38 * s, cy + 18 * s, cx - 40 * s, cy + 8 * s);
+        o.quadraticCurveTo(cx - 46 * s, cy - 12 * s, cx - 30 * s, cy - 38 * s);
+        o.closePath();
+        o.fill();
 
         // Right arm
-        oc.beginPath();
-        oc.moveTo(cx + 42 * s, cy - 30 * s);
-        oc.quadraticCurveTo(cx + 60 * s, cy + 5 * s, cx + 45 * s, cy + 35 * s);
-        oc.lineTo(cx + 35 * s, cy + 35 * s);
-        oc.quadraticCurveTo(cx + 48 * s, cy + 5 * s, cx + 32 * s, cy - 25 * s);
-        oc.closePath();
-        oc.fill();
+        o.beginPath();
+        o.moveTo(cx + 38 * s, cy - 42 * s);
+        o.quadraticCurveTo(cx + 55 * s, cy - 15 * s, cx + 48 * s, cy + 15 * s);
+        o.quadraticCurveTo(cx + 40 * s, cy + 28 * s, cx + 15 * s, cy + 18 * s);
+        o.lineTo(cx + 18 * s, cy + 10 * s);
+        o.quadraticCurveTo(cx + 38 * s, cy + 18 * s, cx + 40 * s, cy + 8 * s);
+        o.quadraticCurveTo(cx + 46 * s, cy - 12 * s, cx + 30 * s, cy - 38 * s);
+        o.closePath();
+        o.fill();
 
         // Hands in lap (mudra)
-        oc.beginPath();
-        oc.ellipse(cx, cy + 20 * s, 18 * s, 10 * s, 0, 0, Math.PI * 2);
-        oc.fill();
+        o.beginPath();
+        o.ellipse(cx, cy + 15 * s, 14 * s, 8 * s, 0, 0, Math.PI * 2);
+        o.fill();
 
-        // Sample points from silhouette
-        const imageData = oc.getImageData(0, 0, W, H);
-        const step = isMobile ? 8 : 5;
-        const fontSize = isMobile ? 8 : 10;
+        // Crossed legs - left
+        o.beginPath();
+        o.ellipse(cx - 12 * s, cy + 42 * s, 38 * s, 14 * s, -0.15, 0, Math.PI * 2);
+        o.fill();
 
+        // Crossed legs - right
+        o.beginPath();
+        o.ellipse(cx + 12 * s, cy + 42 * s, 38 * s, 14 * s, 0.15, 0, Math.PI * 2);
+        o.fill();
+
+        // Feet
+        o.beginPath();
+        o.ellipse(cx - 30 * s, cy + 48 * s, 12 * s, 7 * s, 0.3, 0, Math.PI * 2);
+        o.fill();
+        o.beginPath();
+        o.ellipse(cx + 30 * s, cy + 48 * s, 12 * s, 7 * s, -0.3, 0, Math.PI * 2);
+        o.fill();
+
+        // Sample points
+        const imgData = o.getImageData(0, 0, W, H);
         for (let y = 0; y < H; y += step) {
             for (let x = 0; x < W; x += step) {
-                const idx = (y * W + x) * 4;
-                if (imageData.data[idx + 3] > 128) {
+                const idx = (Math.floor(y) * W + Math.floor(x)) * 4;
+                if (imgData.data[idx + 3] > 128) {
                     const dx = x - cx;
                     const dy = y - cy;
                     const dist = Math.sqrt(dx * dx + dy * dy);
-                    const angle = Math.atan2(dy, dx) + (Math.random() - 0.5) * 0.5;
-                    const speed = 150 + Math.random() * 300;
+                    const angle = Math.atan2(dy, dx) + (Math.random() - 0.5) * 0.8;
+                    const speed = 120 + Math.random() * 350;
+
+                    // Simulate Z depth for 3D feel
+                    const z = (Math.random() - 0.5) * 40;
+                    const depthScale = 1 + z * 0.008;
+
+                    // Color: mostly green, some brighter, some gold
+                    const rnd = Math.random();
+                    let r, g, b;
+                    if (rnd < 0.6) {
+                        // Green
+                        r = 0; g = 180 + Math.random() * 75; b = 100 + Math.random() * 63;
+                    } else if (rnd < 0.85) {
+                        // Bright green
+                        r = 0; g = 255; b = 163;
+                    } else if (rnd < 0.95) {
+                        // Gold
+                        r = 184; g = 151; b = 106;
+                    } else {
+                        // White
+                        r = 200; g = 220; b = 210;
+                    }
 
                     particles.push({
-                        x: x, y: y,
-                        ox: x, oy: y,         // original position
-                        dx: Math.cos(angle) * speed,  // disperse direction
+                        ox: x, oy: y,
+                        x: x, y: y, z: z,
+                        dx: Math.cos(angle) * speed,
                         dy: Math.sin(angle) * speed,
-                        char: codeChars[Math.floor(Math.random() * codeChars.length)],
-                        size: fontSize + Math.random() * 3,
-                        alpha: 0.4 + Math.random() * 0.6,
-                        // Color: green spectrum with some gold
-                        color: Math.random() > 0.85
-                            ? `rgba(184, 151, 106, VAL)`  // gold
-                            : `rgba(0, ${155 + Math.floor(Math.random() * 100)}, ${80 + Math.floor(Math.random() * 80)}, VAL)`,
-                        phase: Math.random() * Math.PI * 2,  // for subtle float
-                        floatSpeed: 0.5 + Math.random() * 1.5,
-                        rotSpeed: (Math.random() - 0.5) * 0.02,
-                        rot: 0,
-                        delay: dist / (size * 2),  // dispersion delay based on distance from center
+                        dz: (Math.random() - 0.5) * 200,
+                        r: r, g: g, b: b,
+                        size: (1.2 + Math.random() * 1.8) * depthScale,
+                        alpha: (0.5 + Math.random() * 0.5) * depthScale,
+                        phase: Math.random() * Math.PI * 2,
+                        floatSpeed: 0.3 + Math.random() * 1.2,
+                        delay: dist / (Math.min(W, H) * 0.8),
                     });
                 }
             }
@@ -146,100 +185,109 @@
         time += 0.016;
         ctx.clearRect(0, 0, W, H);
 
-        // Glow behind figure when assembled
-        if (disperseAmount < 0.3) {
-            const glowAlpha = (1 - disperseAmount / 0.3) * 0.15;
-            const cx = W / 2, cy = H / 2;
-            const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.min(W, H) * 0.4);
-            grad.addColorStop(0, `rgba(0, 255, 163, ${glowAlpha})`);
-            grad.addColorStop(1, 'transparent');
-            ctx.fillStyle = grad;
+        const cx = W / 2, cy = H * 0.45;
+
+        // Aura glow when assembled
+        if (disperseAmount < 0.4) {
+            const glowA = (1 - disperseAmount / 0.4) * 0.12;
+            const rg = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.min(W, H) * 0.35);
+            rg.addColorStop(0, `rgba(0, 255, 163, ${glowA * 0.8})`);
+            rg.addColorStop(0.5, `rgba(0, 255, 163, ${glowA * 0.3})`);
+            rg.addColorStop(1, 'transparent');
+            ctx.fillStyle = rg;
+            ctx.fillRect(0, 0, W, H);
+
+            // Inner bright core
+            const rg2 = ctx.createRadialGradient(cx, cy - 20, 0, cx, cy - 20, Math.min(W, H) * 0.12);
+            rg2.addColorStop(0, `rgba(0, 255, 163, ${glowA * 0.5})`);
+            rg2.addColorStop(1, 'transparent');
+            ctx.fillStyle = rg2;
             ctx.fillRect(0, 0, W, H);
         }
 
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
+        // Draw particles as glowing dots
+        ctx.globalCompositeOperation = 'lighter';
 
         for (let i = 0; i < particles.length; i++) {
             const p = particles[i];
 
-            // Calculate effective dispersion for this particle (with delay)
-            const effectiveDisperse = Math.max(0, Math.min(1,
-                (disperseAmount - p.delay * 0.3) / (1 - p.delay * 0.3)
+            const ed = Math.max(0, Math.min(1,
+                (disperseAmount - p.delay * 0.25) / Math.max(0.01, 1 - p.delay * 0.25)
             ));
 
-            // Floating animation when assembled
-            const floatX = Math.sin(time * p.floatSpeed + p.phase) * 2 * (1 - effectiveDisperse);
-            const floatY = Math.cos(time * p.floatSpeed * 0.7 + p.phase) * 2 * (1 - effectiveDisperse);
+            // Floating when assembled
+            const fx = Math.sin(time * p.floatSpeed + p.phase) * 1.5 * (1 - ed);
+            const fy = Math.cos(time * p.floatSpeed * 0.8 + p.phase) * 1.5 * (1 - ed);
 
-            // Position: lerp between original and dispersed
-            p.x = p.ox + floatX + p.dx * effectiveDisperse;
-            p.y = p.oy + floatY + p.dy * effectiveDisperse;
+            p.x = p.ox + fx + p.dx * ed * ed; // quadratic easing
+            p.y = p.oy + fy + p.dy * ed * ed;
+            const zOffset = p.dz * ed;
+            const zScale = 1 + (p.z + zOffset) * 0.005;
 
-            // Rotation increases with dispersion
-            p.rot += p.rotSpeed * effectiveDisperse;
+            const alpha = p.alpha * (1 - ed * 0.85);
+            if (alpha < 0.02) continue;
 
-            // Alpha: fade out as dispersing
-            const alpha = p.alpha * (1 - effectiveDisperse * 0.7);
-            if (alpha < 0.01) continue;
+            const size = p.size * Math.max(0.3, zScale);
 
-            ctx.save();
-            ctx.translate(p.x, p.y);
-            ctx.rotate(p.rot * effectiveDisperse * 5);
+            // Draw glowing dot
+            ctx.globalAlpha = alpha;
+            ctx.drawImage(glowCanvas, p.x - size * 2, p.y - size * 2, size * 4, size * 4);
 
-            const colorStr = p.color.replace('VAL', alpha.toFixed(2));
-            ctx.fillStyle = colorStr;
-            ctx.font = `${p.size}px 'JetBrains Mono', monospace`;
-            ctx.fillText(p.char, 0, 0);
-            ctx.restore();
+            // Bright center point
+            ctx.fillStyle = `rgb(${p.r},${p.g},${p.b})`;
+            ctx.globalAlpha = alpha * 0.9;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, size * 0.5, 0, Math.PI * 2);
+            ctx.fill();
         }
 
-        // Scan line effect (subtle)
-        if (disperseAmount < 0.5) {
-            const scanY = (time * 60) % H;
-            ctx.strokeStyle = `rgba(0, 255, 163, ${0.06 * (1 - disperseAmount * 2)})`;
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(0, scanY);
-            ctx.lineTo(W, scanY);
-            ctx.stroke();
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.globalAlpha = 1;
+
+        // Energy lines connecting nearby particles (when assembled)
+        if (disperseAmount < 0.3 && !isMobile) {
+            const lineAlpha = (1 - disperseAmount / 0.3) * 0.06;
+            ctx.strokeStyle = `rgba(0, 255, 163, ${lineAlpha})`;
+            ctx.lineWidth = 0.5;
+            const sampleStep = 8;
+            for (let i = 0; i < particles.length; i += sampleStep) {
+                const a = particles[i];
+                for (let j = i + sampleStep; j < particles.length; j += sampleStep) {
+                    const b = particles[j];
+                    const dx = a.x - b.x, dy = a.y - b.y;
+                    const d2 = dx * dx + dy * dy;
+                    if (d2 < 900) {
+                        ctx.beginPath();
+                        ctx.moveTo(a.x, a.y);
+                        ctx.lineTo(b.x, b.y);
+                        ctx.stroke();
+                    }
+                }
+            }
         }
 
         requestAnimationFrame(render);
     }
 
-    // ScrollTrigger: control disperseAmount from 0 to 1
     function initScroll() {
         if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
             setTimeout(initScroll, 100);
             return;
         }
-
-        gsap.to({ val: 0 }, {
-            val: 1, ease: 'none',
+        gsap.to({ v: 0 }, {
+            v: 1, ease: 'none',
             scrollTrigger: {
                 trigger: '.hero',
                 start: 'top top',
                 end: 'bottom top',
                 scrub: 0.5,
-                onUpdate: function (self) {
-                    disperseAmount = self.progress;
-                }
+                onUpdate: self => { disperseAmount = self.progress; }
             }
-        });
-    }
-
-    // Mouse interaction: subtle particle attraction on hero
-    if (!isMobile) {
-        hero.addEventListener('mousemove', e => {
-            const rect = hero.getBoundingClientRect();
-            mouseX = (e.clientX - rect.left) / rect.width;
-            mouseY = (e.clientY - rect.top) / rect.height;
         });
     }
 
     resize();
     render();
     initScroll();
-    window.addEventListener('resize', () => { resize(); });
+    window.addEventListener('resize', resize);
 })();
