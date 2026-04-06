@@ -34,7 +34,7 @@
             --charcoal-light: #0d2922;
             --charcoal-mid: #112e26;
             --slate: #6b8a80;
-            --text-secondary: rgba(255,255,255,0.5);
+            --text-secondary: rgba(255,255,255,0.7);
             --border-subtle: rgba(255,255,255,0.08);
             --safe-top: env(safe-area-inset-top, 0px);
             --safe-bottom: env(safe-area-inset-bottom, 0px);
@@ -253,7 +253,7 @@
             color: var(--rolex-green);
         }
         .hero-desc {
-            font-size: 1.05rem; color: rgba(255,255,255,0.5); line-height: 1.8;
+            font-size: 1.05rem; color: rgba(255,255,255,0.75); line-height: 1.8;
             max-width: 540px; margin-bottom: 56px;
         }
         .hero-desc strong { color: rgba(255,255,255,0.85); font-weight: 600; }
@@ -292,7 +292,7 @@
             line-height: 1; margin-bottom: 10px; letter-spacing: -0.02em;
         }
         .hero-stack-item .label {
-            font-size: 0.78rem; color: rgba(255,255,255,0.4); font-weight: 500;
+            font-size: 0.78rem; color: rgba(255,255,255,0.6); font-weight: 500;
         }
 
         @media (max-width: 768px) {
@@ -300,9 +300,9 @@
             .hero-stack { grid-template-columns: repeat(2, 1fr); gap: 28px 0; margin-top: 60px; }
             .hero-stack-item:nth-child(2) { border-right: none; }
             .hero-desc { font-size: 0.95rem; margin-bottom: 36px; }
-            .hero-actions { flex-direction: column; }
+            .hero-actions { flex-direction: row; flex-wrap: nowrap; gap: 10px; }
             .hero-actions .btn-primary,
-            .hero-actions .btn-secondary { width: 100%; justify-content: center; min-height: 52px; }
+            .hero-actions .btn-secondary { flex: 1; justify-content: center; min-height: 44px; font-size: 0.82rem; padding: 0 12px; }
             .hero-badge { margin-bottom: 28px; }
             .hero h1 { margin-bottom: 20px; }
         }
@@ -325,7 +325,7 @@
             color: #fff; line-height: 1.15; margin-bottom: 20px;
         }
         .section-desc {
-            font-size: 0.95rem; color: rgba(255,255,255,0.45); line-height: 1.75;
+            font-size: 0.95rem; color: rgba(255,255,255,0.7); line-height: 1.75;
             max-width: 560px; margin-bottom: 64px;
         }
 
@@ -356,7 +356,7 @@
             font-family: 'Nunito', 'Yuanti SC', 'YouYuan', 'Noto Sans SC', sans-serif;
             font-size: 1.25rem; font-weight: 400; color: #fff; margin-bottom: 14px;
         }
-        .service-card p { font-size: 0.88rem; color: rgba(255,255,255,0.5); line-height: 1.7; }
+        .service-card p { font-size: 0.88rem; color: rgba(255,255,255,0.7); line-height: 1.7; }
         .service-tag {
             display: inline-block; margin-top: 20px; padding: 5px 12px;
             background: rgba(0,255,163,0.08); color: var(--rolex-green-light);
@@ -375,7 +375,7 @@
         .bg-dark { background: rgba(0,0,0,0.15); }
         .bg-dark .section-label { color: var(--gold); }
         .bg-dark .section-title { color: #fff; }
-        .bg-dark .section-desc { color: rgba(255,255,255,0.4); }
+        .bg-dark .section-desc { color: rgba(255,255,255,0.7); }
 
         .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: stretch; }
         .work-card {
@@ -400,7 +400,7 @@
             font-family: 'Nunito', 'Yuanti SC', 'YouYuan', 'Noto Sans SC', sans-serif;
             font-size: 1.1rem; font-weight: 400; color: #fff; margin-bottom: 10px;
         }
-        .work-card-body p { font-size: 0.82rem; color: rgba(255,255,255,0.45); line-height: 1.65; flex: 1; }
+        .work-card-body p { font-size: 0.82rem; color: rgba(255,255,255,0.7); line-height: 1.65; flex: 1; }
         a.work-card, a.work-card * { text-decoration: none !important; }
         .work-card-tags { display: flex; gap: 6px; margin-top: auto; padding-top: 20px; flex-wrap: wrap; }
         .work-card-tags > span {
@@ -448,7 +448,7 @@
             font-family: 'Nunito', 'Yuanti SC', 'YouYuan', 'Noto Sans SC', sans-serif;
             font-size: 1.1rem; font-weight: 400; color: #fff; margin-bottom: 12px;
         }
-        .process-step p { font-size: 0.82rem; color: rgba(255,255,255,0.45); line-height: 1.65; }
+        .process-step p { font-size: 0.82rem; color: rgba(255,255,255,0.7); line-height: 1.65; }
 
         @media (max-width: 768px) {
             .process-steps { grid-template-columns: repeat(2, 1fr); }
@@ -508,7 +508,7 @@
             font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 400;
             color: #fff; margin-bottom: 20px;
         }
-        .cta-section p { font-size: 0.95rem; color: rgba(255,255,255,0.45); margin-bottom: 48px; }
+        .cta-section p { font-size: 0.95rem; color: rgba(255,255,255,0.7); margin-bottom: 48px; }
         @media (max-width: 768px) {
             .cta-section { padding: 56px 20px; }
             .cta-section .btn-primary { width: 100%; max-width: 320px; justify-content: center; min-height: 52px; }
